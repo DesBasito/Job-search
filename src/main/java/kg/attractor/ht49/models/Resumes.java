@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 @Data
 public class Resumes {
+
     private Long id;
     private Long applicantId;
     private String name;
