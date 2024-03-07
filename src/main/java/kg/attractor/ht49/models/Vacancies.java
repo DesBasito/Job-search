@@ -9,7 +9,7 @@ public class Vacancies {
     private Long id;
     private String description;
     private Long categoryId;
-    private Long salary;
+    private Double salary;
     private Integer expFrom;
     private Integer expTo;
     private Boolean isActive;

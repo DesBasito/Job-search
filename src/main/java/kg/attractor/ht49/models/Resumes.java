@@ -11,7 +11,7 @@ public class Resumes {
     private Long applicantId;
     private String name;
     private Long categoryId;
-    private Long salary;
+    private Double salary;
     private Boolean isActive;
     private LocalDateTime createdDate;
     private LocalDateTime updateTime;

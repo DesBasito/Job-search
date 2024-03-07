@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class ContactTypes {
-
     private Long id;
     private String type;
 }
