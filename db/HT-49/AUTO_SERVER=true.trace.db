@@ -1,0 +1,44 @@
+2024-03-09 14:44:52.385352+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "USERS" not found (this database is empty); SQL statement:
+select * from users;
+ [42104-224]
+2024-03-09 14:51:33.567332+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
+2024-03-09 14:57:28.880390+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
+2024-03-09 14:58:36.879447+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
+2024-03-09 15:00:26.006072+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
+2024-03-09 15:00:44.864031+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
+2024-03-09 15:04:17.239253+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
+2024-03-09 15:08:05.280683+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
+2024-03-09 15:09:05.857190+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
+2024-03-09 15:09:21.933421+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
+2024-03-09 15:09:59.170564+06:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "USERS" уже существует
+Table "USERS" already exists; SQL statement:
+create table users( id int auto_increment primary key, name varchar(45) not null, surname varchar(45) not null, age int null, email varchar(55) not null, password varchar(45) not null , phone_number varchar(55) null , avatar varchar(45) null, account_type varchar(45) null ) [42101-224]
