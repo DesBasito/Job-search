@@ -13,23 +13,22 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-    private final UserDao dao;
+    private final UserDao userDao;
 
     @Override
     public List<UserDto> getUsers() {
-        List<User> users = dao.getAllUsers();
+        List<User> users = userDao.getAllUsers();
         List<UserDto> dtos = new ArrayList<>();
-        users.forEach(e -> UserDto.builder()
+        users.forEach(e -> dtos.add(UserDto.builder()
                 .id(e.getId())
                 .name(e.getName())
                 .surname(e.getSurname())
                 .age(e.getAge())
                 .email(e.getEmail())
-                .password(e.getPassword())
-                .phonenumber(e.getPhonenumber())
+                .phoneNumber(e.getPhoneNumber())
                 .avatar(e.getAvatar())
-                .acctype(e.getAcctype())
-                .build());
+                .accType(e.getAccType())
+                .build()));
         return dtos;
     }
 }

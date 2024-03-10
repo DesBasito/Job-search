@@ -8,13 +8,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
 @Component
 @RequiredArgsConstructor
 public class UserDao {
-    private final JdbcTemplate template;
+  private final JdbcTemplate template;
 
-    public List<User> getAllUsers() {
-        String sql = "SELECT * FROM USERS";
-        return template.query(sql, new BeanPropertyRowMapper<>(User.class));
-    }
+  public List<User> getAllUsers(){
+      String sql = "SELECT * FROM USERS";
+      return template.query(sql, new BeanPropertyRowMapper<>(User.class));
+  }
 }

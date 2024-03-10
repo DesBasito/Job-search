@@ -1,10 +1,9 @@
 package kg.attractor.ht49.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Getter
-@Setter
+
+@Data
 public class User {
     private Long id;
     private String name;
@@ -12,7 +11,7 @@ public class User {
     private Byte age;
     private String email;
     private String password;
-    private String phonenumber;
+    private String phoneNumber;
     private String avatar;
-    private String acctype;
+    private String accType;
 }
