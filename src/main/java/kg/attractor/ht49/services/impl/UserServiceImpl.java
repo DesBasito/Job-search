@@ -49,4 +49,9 @@ public class UserServiceImpl implements UserService {
                 .accType(user.getAccType())
                 .build();
     }
+
+    @Override
+    public void createUser(User user) {
+        userDao.createUser(user);
+    }
 }

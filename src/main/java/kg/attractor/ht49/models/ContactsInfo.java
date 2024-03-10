@@ -7,5 +7,5 @@ public class ContactsInfo {
     private Long id;
     private Long typeId;
     private Long resumeId;
-    private String value;
+    private String infoValue;
 }
