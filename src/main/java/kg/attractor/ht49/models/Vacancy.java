@@ -5,13 +5,13 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Data
-public class Resumes {
-
+public class Vacancy {
     private Long id;
-    private Long applicantId;
-    private String name;
+    private String description;
     private Long categoryId;
     private Double salary;
+    private Integer expFrom;
+    private Integer expTo;
     private Boolean isActive;
     private LocalDateTime createdDate;
     private LocalDateTime updateTime;

@@ -1,0 +1,3 @@
+-- insert into users(name, surname, age, email, avatar, account_type)
+-- values ( 'John','Doe',25 ,'johndoe@icloud.com',null,'employer'),
+--        ('Jane','Smith',29,'janesmith@gmail.com',null,'employee');
