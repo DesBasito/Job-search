@@ -1,11 +1,12 @@
-package kg.attractor.ht49.models;
+package kg.attractor.ht49.dto;
 
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
-public class User {
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class UserDto {
     private Long id;
     private String name;
     private String surname;
