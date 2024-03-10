@@ -5,6 +5,7 @@ create table if not exists users
     surname      varchar(45)        not null,
     age          int                not null,
     email        varchar(55)        not null,
+    password     varchar(45)        not null,
     avatar       varchar(255),
-    account_type varchar(45)        not null
+    accType varchar(45)        not null
 );

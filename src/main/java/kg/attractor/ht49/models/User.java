@@ -12,7 +12,7 @@ public class User {
     private Byte age;
     private String email;
     private String password;
-    private String phoneNumber;
-    private String avtar;
-    private String accType;
+    private String phonenumber;
+    private String avatar;
+    private String acctype;
 }

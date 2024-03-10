@@ -26,9 +26,9 @@ public class UserServiceImpl implements UserService {
                 .age(e.getAge())
                 .email(e.getEmail())
                 .password(e.getPassword())
-                .phoneNumber(e.getPhoneNumber())
-                .avtar(e.getAvtar())
-                .accType(e.getAccType())
+                .phonenumber(e.getPhonenumber())
+                .avatar(e.getAvatar())
+                .acctype(e.getAcctype())
                 .build());
         return dtos;
     }

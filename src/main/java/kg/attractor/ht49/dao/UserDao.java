@@ -14,7 +14,7 @@ public class UserDao {
     private final JdbcTemplate template;
 
     public List<User> getAllUsers() {
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM USERS";
         return template.query(sql, new BeanPropertyRowMapper<>(User.class));
     }
 }
