@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dao;
 
+import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.User;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -77,11 +79,20 @@ public class UserDao {
         );
     }
 
-    public List<Resume> getResumesByCategory(String category){
+    public Optional<User> getUserId(String user) {
+        String[] parts = user.split(" ");
+
+        String name = parts[0];
+        String surname = parts[1];
+
         String sql = """
-              select * from users
-              where name = ?
-              """;
-        return template.query(sql,new BeanPropertyRowMapper<>(Resume.class),category);
+                select * from users
+                where name = ? and surname = ?
+                """;
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql,new BeanPropertyRowMapper<>(User.class),name,surname)
+                )
+        );
     }
 }

@@ -13,18 +13,26 @@ import java.util.List;
 public class ResumeDao {
     private final JdbcTemplate template;
 
-    public List<Resume> getAllResumesByCategoryId(Long id){
+    public List<Resume> getAllResumesByCategoryId(Long id) {
         String sql = """
                 select * from RESUMES
                 where CATEGORY_ID = ?
                 """;
-        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class),id);
+        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), id);
     }
 
-    public List<Resume> getAllResumes(){
+    public List<Resume> getAllResumes() {
         String sql = """
                 select * from RESUMES
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(Resume.class));
+    }
+
+    public List<Resume> getAllResumesByUserId(Long id) {
+        String sql = """
+                select * from RESUMES
+                where APPLICANT_ID = ?
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), id);
     }
 }

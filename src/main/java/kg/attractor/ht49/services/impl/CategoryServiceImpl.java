@@ -13,7 +13,7 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryDao dao;
     @Override
     public Long getCategoryId(String category) throws CategoryNotFoundException {
-        Category category1 =  dao.getCategoryID(category).orElseThrow(() -> new CategoryNotFoundException("category: " + category+" does not exists"));
+        Category category1 =  dao.getCategory(category).orElseThrow(() -> new CategoryNotFoundException("category: " + category+" does not exists"));
         return category1.getId();
     }
 }

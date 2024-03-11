@@ -2,7 +2,9 @@ package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dto.UserDto;
+import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
+import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -47,6 +49,12 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByPhone(String phone) throws UserNotFoundException {
         User user = userDao.getUserByPhone(phone).orElseThrow(() -> new UserNotFoundException("cannot find user with phone number: " + phone));
         return getUserDto(user);
+    }
+
+    @Override
+    public Long getUserId(String user) throws UserNotFoundException {
+        User user1 =  userDao.getUserId(user).orElseThrow(() -> new UserNotFoundException("user: " + user + " does not exists"));
+        return user1.getId();
     }
 
     private UserDto getUserDto(User user) {
