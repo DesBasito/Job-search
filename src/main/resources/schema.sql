@@ -13,8 +13,8 @@ create table if not exists users
 
 create table if not exists contact_types
 (
-    id   int auto_increment not null primary key,
-    type text               not null
+    id   integer auto_increment not null primary key,
+    type text                   not null
 );
 
 create table if not exists categories
@@ -89,7 +89,8 @@ create table if not exists education_info
     end_date    date                   not null,
     degree      text                   not null,
     PRIMARY KEY (id),
-    FOREIGN KEY (resume_id) references resumes (id) on update cascade);
+    FOREIGN KEY (resume_id) references resumes (id) on update cascade
+);
 
 create table if not exists work_experience_info
 (
