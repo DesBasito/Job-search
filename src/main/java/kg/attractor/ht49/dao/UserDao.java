@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -24,14 +25,14 @@ public class UserDao {
       return template.query(sql, new BeanPropertyRowMapper<>(User.class));
   }
 
-  public Optional<User> getUserById(int id){
+  public Optional<User> getUserByEmail(String email){
       String sql = """
               select * from users
-              where id =?
+              where email =?
               """;
       return Optional.ofNullable(
               DataAccessUtils.singleResult(
-                      template.query(sql,new BeanPropertyRowMapper<>(User.class),id)
+                      template.query(sql,new BeanPropertyRowMapper<>(User.class),email)
               )
       );
 
@@ -53,5 +54,25 @@ public class UserDao {
                 .addValue("accType",user.getAccType())
         );
 
+    }
+
+    public List<User> getUserByName(String name) {
+        String sql = """
+              select * from users
+              where name = ?
+              """;
+        return template.query(sql,new BeanPropertyRowMapper<>(User.class),name);
+    }
+
+    public Optional<User> getUserByPhone(String phone) {
+        String sql = """
+              select * from users
+              where PHONE_NUMBER = ?
+              """;
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql,new BeanPropertyRowMapper<>(User.class),phone)
+                )
+        );
     }
 }

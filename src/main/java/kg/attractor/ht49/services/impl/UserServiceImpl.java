@@ -6,12 +6,10 @@ import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,22 +20,36 @@ public class UserServiceImpl implements UserService {
     public List<UserDto> getUsers() {
         List<User> users = userDao.getAllUsers();
         List<UserDto> dtos = new ArrayList<>();
-        users.forEach(e -> dtos.add(UserDto.builder()
-                .id(e.getId())
-                .name(e.getName())
-                .surname(e.getSurname())
-                .age(e.getAge())
-                .email(e.getEmail())
-                .phoneNumber(e.getPhoneNumber())
-                .avatar(e.getAvatar())
-                .accType(e.getAccType())
-                .build()));
+        users.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;
     }
 
     @Override
-    public UserDto getUserById(int id) throws UserNotFoundException {
-        User user = userDao.getUserById(id).orElseThrow(() -> new UserNotFoundException("cannot find user with this ID: "+id));
+    public UserDto getUserByEmail(String email) throws UserNotFoundException {
+        User user = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("cannot find user with email: "+email));
+        return getUserDto(user);
+    }
+
+    @Override
+    public void createUser(User user) {
+        userDao.createUser(user);
+    }
+
+    @Override
+    public List<UserDto> getUserByName(String name){
+        List<User> users = userDao.getUserByName(name);
+        List<UserDto> dtos = new ArrayList<>();
+        users.forEach(e->dtos.add(getUserDto(e)));
+        return dtos;
+    }
+
+    @Override
+    public UserDto getUserByPhone(String phone) throws UserNotFoundException {
+        User user = userDao.getUserByPhone(phone).orElseThrow(() -> new UserNotFoundException("cannot find user with phone number: "+phone));
+        return getUserDto(user);
+    }
+
+    private UserDto getUserDto(User user) {
         return UserDto.builder()
                 .id(user.getId())
                 .name(user.getName())
@@ -48,10 +60,5 @@ public class UserServiceImpl implements UserService {
                 .avatar(user.getAvatar())
                 .accType(user.getAccType())
                 .build();
-    }
-
-    @Override
-    public void createUser(User user) {
-        userDao.createUser(user);
     }
 }
