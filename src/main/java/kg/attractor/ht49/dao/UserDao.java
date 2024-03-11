@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dao;
 
+import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -74,5 +75,13 @@ public class UserDao {
                         template.query(sql,new BeanPropertyRowMapper<>(User.class),phone)
                 )
         );
+    }
+
+    public List<Resume> getResumesByCategory(String category){
+        String sql = """
+              select * from users
+              where name = ?
+              """;
+        return template.query(sql,new BeanPropertyRowMapper<>(Resume.class),category);
     }
 }

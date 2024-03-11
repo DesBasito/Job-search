@@ -3,8 +3,8 @@ VALUES ('John', 'Doe', 30, 'john.doe@example.com', 'password123', '1234567890', 
        ('Jane', 'Smith', 25, 'jane.smith@example.com', 'password456', '1987654321', 'avatar.png', 'premium'),
        ('Michael', 'Johnson', 35, 'michael.johnson@example.com', 'password789', '1122334455', NULL, 'regular');
 
-INSERT INTO  USERS(name, surname, age, email, password, phone_number, avatar, acc_type)
-values ( 'John', 'Jakobson', 30, 'johny@example.com', 'qwerty', '763547234', 'avatar4.jpg', 'premium' );
+INSERT INTO USERS(name, surname, age, email, password, phone_number, avatar, acc_type)
+values ('John', 'Jakobson', 30, 'johny@example.com', 'qwerty', '763547234', 'avatar4.jpg', 'premium');
 
 INSERT INTO contact_types (type)
 VALUES ('Email'),
@@ -16,13 +16,16 @@ VALUES ('Software Development'),
        ('Marketing'),
        ('Finance');
 
-INSERT INTO vacancies (name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date, update_date)
+INSERT INTO vacancies (name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date,
+                       update_date)
 VALUES ('Software Engineer', 'Description for software engineer vacancy', 1, 70000, 3, 5, 1, 1, NOW(), NOW()),
        ('Marketing Manager', 'Description for marketing manager vacancy', 2, 60000, 5, 7, 1, 2, NOW(), NOW()),
        ('Financial Analyst', 'Description for financial analyst vacancy', 3, 80000, 3, 6, 1, 1, NOW(), NOW());
 
-insert into VACANCIES (NAME, DESCRIPTION, CATEGORY_ID, SALARY, EXP_FROM, EXP_TO, IS_ACTIVE, AUTHOR_ID, CREATED_DATE, UPDATE_DATE)
-values ( 'Data base architecture','Description for architecture vacancy',1,67000,2,4,1,2,'2023-12-01 17:45:18', '2024-02-12 14:27:46');
+insert into VACANCIES (NAME, DESCRIPTION, CATEGORY_ID, SALARY, EXP_FROM, EXP_TO, IS_ACTIVE, AUTHOR_ID, CREATED_DATE,
+                       UPDATE_DATE)
+values ('Data base architecture', 'Description for architecture vacancy', 1, 67000, 2, 4, 1, 2, '2023-12-01 17:45:18',
+        '2024-02-12 14:27:46');
 
 INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created_date, update_date)
 VALUES ('John Doe Resume', 1, 1, 70000, 1, NOW(), NOW()),

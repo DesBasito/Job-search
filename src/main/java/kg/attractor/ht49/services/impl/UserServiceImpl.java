@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) throws UserNotFoundException {
-        User user = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("cannot find user with email: "+email));
+        User user = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email+" does not exists"));
         return getUserDto(user);
     }
 
@@ -36,16 +36,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getUserByName(String name){
+    public List<UserDto> getUserByName(String name) {
         List<User> users = userDao.getUserByName(name);
         List<UserDto> dtos = new ArrayList<>();
-        users.forEach(e->dtos.add(getUserDto(e)));
+        users.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;
     }
 
     @Override
     public UserDto getUserByPhone(String phone) throws UserNotFoundException {
-        User user = userDao.getUserByPhone(phone).orElseThrow(() -> new UserNotFoundException("cannot find user with phone number: "+phone));
+        User user = userDao.getUserByPhone(phone).orElseThrow(() -> new UserNotFoundException("cannot find user with phone number: " + phone));
         return getUserDto(user);
     }
 
