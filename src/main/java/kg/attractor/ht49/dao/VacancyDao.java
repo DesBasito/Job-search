@@ -33,6 +33,15 @@ public class VacancyDao {
                         template.query(sql,new BeanPropertyRowMapper<>(Vacancy.class),name)
                 )
         );
+    }
 
+    public List<Vacancy> getVacanciesByRespondedApplicantsId(Long id) {
+        String sql = """
+                SELECT v.*
+                FROM vacancies v
+                INNER JOIN responded_applicants ra ON v.id = ra.resume_id
+                WHERE ra.vacancy_id = ?
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), id);
     }
 }

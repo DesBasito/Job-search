@@ -68,6 +68,16 @@ INSERT INTO responded_applicants (vacancy_id, resume_id, confirmation)
 VALUES ((SELECT id FROM vacancies WHERE name = 'Data base architecture'),
         (SELECT id FROM resumes WHERE name = 'John Doe Resume of php dev-op'), 1);
 
+INSERT INTO responded_applicants (vacancy_id, resume_id, confirmation)
+VALUES ((SELECT id FROM vacancies WHERE name = 'Software Engineer'),
+        (SELECT id FROM resumes WHERE name = 'John Doe Resume of php dev-op'), 1);
+
+INSERT INTO responded_applicants (vacancy_id, resume_id, confirmation)
+VALUES ((SELECT id FROM vacancies WHERE name = 'Data base architecture'),
+        (SELECT id FROM resumes WHERE name = 'John Doe Resume of php dev-op'), 1);
+
+
+
 INSERT INTO education_info (institution, program, resume_id, start_date, end_date, degree)
 VALUES ('University of Example', 'Computer Science', (SELECT id FROM resumes WHERE name = 'John Doe Resume'),
         '2010-09-01', '2014-06-01', 'Bachelor'),
