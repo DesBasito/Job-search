@@ -4,6 +4,7 @@ import kg.attractor.ht49.dao.ResumeDao;
 import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dto.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
+import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.services.CategoryService;
@@ -36,7 +37,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<ResumeDto> getResumeByuser(String user) throws UserNotFoundException {
+    public List<ResumeDto> getResumeByUser(String user) throws UserNotFoundException, ResumeNotFoundException {
         Long id = userService.getUserId(user);
         List<Resume> resumes = dao.getAllResumesByUserId(id);
         return getResumeDtos(resumes);

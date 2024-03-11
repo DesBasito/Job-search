@@ -1,18 +1,13 @@
 package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.ResumeDto;
-import kg.attractor.ht49.dto.UserDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
+import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.models.Resume;
-import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.ResumeService;
-import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,13 +34,13 @@ public class ResumeController {
     }
 
     @GetMapping("resumes/user")
-    public ResponseEntity<?> getResumesByUser(@RequestParam(name = "user", defaultValue = "") String user) {
+    public ResponseEntity<?> getResumesByUser(@RequestParam(name = "name", defaultValue = "") String user) {
         try {
             String name = user.strip();
-            List<ResumeDto> resumes = service.getResumeByuser(name);
+            List<ResumeDto> resumes = service.getResumeByUser(name);
             return ResponseEntity.ok(resumes);
-        } catch (UserNotFoundException e) {
-            throw new RuntimeException(e);
+        } catch (UserNotFoundException | ResumeNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 }
