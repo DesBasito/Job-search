@@ -23,13 +23,13 @@ public class UserController {
 
     @GetMapping("users/{name}")
     public ResponseEntity<List<UserDto>> getUserByName(@PathVariable String name) {
-        return ResponseEntity.ok(service.getUserByName(name));
+        return ResponseEntity.ok(service.getUserByName(name.strip()));
     }
 
     @GetMapping("users/phone")
     public ResponseEntity<?> getUserByPhoneNum(@RequestParam(name = "phone", defaultValue = "0") String phone) {
         try {
-            UserDto user = service.getUserByPhone(phone);
+            UserDto user = service.getUserByPhone(phone.strip());
             return ResponseEntity.ok(user);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -39,7 +39,7 @@ public class UserController {
     @GetMapping("users/email")
     public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email", defaultValue = "John") String email) {
         try {
-            return ResponseEntity.ok(service.getUserByEmail(email));
+            return ResponseEntity.ok(service.getUserByEmail(email.strip()));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

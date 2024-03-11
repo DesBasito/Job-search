@@ -27,8 +27,7 @@ public class VacancyController {
     @GetMapping("vacancies/{name}")
     public ResponseEntity<?> getRespondedApplicantsToVacancy(@PathVariable String name){
         try {
-            String vacancy = name.strip();
-            return ResponseEntity.ok(service.getUsers(vacancy));
+            return ResponseEntity.ok(service.getUsers(name.strip()));
         }catch (VacancyNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -37,8 +36,7 @@ public class VacancyController {
     @GetMapping("vacancies/vacancy")
     public ResponseEntity<?> getVacanciesOfRespondedApplicants(@RequestParam(name = "name",defaultValue = "Jane Smith") String name){
         try {
-            String user = name.strip();
-            return ResponseEntity.ok(service.getVacanciesOfRespondedApplicant(user));
+            return ResponseEntity.ok(service.getVacanciesOfRespondedApplicant(name.strip()));
         }catch (UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

@@ -26,7 +26,7 @@ public class ResumeController {
     @GetMapping("resumes/{name}")
     public ResponseEntity<?> getResumesByCategory(@PathVariable String name) {
         try {
-            List<ResumeDto> resumes = service.getResumeByCategory(name);
+            List<ResumeDto> resumes = service.getResumeByCategory(name.strip());
             return ResponseEntity.ok(resumes);
         } catch (CategoryNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
@@ -36,8 +36,7 @@ public class ResumeController {
     @GetMapping("resumes/user")
     public ResponseEntity<?> getResumesByUser(@RequestParam(name = "name", defaultValue = "") String user) {
         try {
-            String name = user.strip();
-            List<ResumeDto> resumes = service.getResumeByUser(name);
+            List<ResumeDto> resumes = service.getResumeByUser(user.strip());
             return ResponseEntity.ok(resumes);
         } catch (UserNotFoundException | ResumeNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
