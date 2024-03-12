@@ -14,16 +14,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("resumes")
 public class ResumeController {
     private final ResumeService service;
 
-    @GetMapping("resumes")
+    @GetMapping()
     public ResponseEntity<List<ResumeDto>> getResumes() {
         var resumes = service.getResumes();
         return ResponseEntity.ok(resumes);
     }
 
-    @GetMapping("resumes/{category}")
+    @GetMapping("/{category}")
     public ResponseEntity<?> getResumesByCategory(@PathVariable String category) {
         try {
             List<ResumeDto> resumes = service.getResumeByCategory(category.strip());
@@ -33,7 +34,7 @@ public class ResumeController {
         }
     }
 
-    @GetMapping("resumes/userEmail")
+    @GetMapping("/userEmail")
     public ResponseEntity<?> getResumesByUser(@RequestParam(name = "email", defaultValue = "") String email) {
         try {
             List<ResumeDto> resumes = service.getResumeByUserEmail(email.strip());
