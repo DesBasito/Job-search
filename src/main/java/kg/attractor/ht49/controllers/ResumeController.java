@@ -34,8 +34,8 @@ public class ResumeController {
         }
     }
 
-    @GetMapping("/userEmail")
-    public ResponseEntity<?> getResumesByUser(@RequestParam(name = "email", defaultValue = "") String email) {
+    @GetMapping("/user/{email}")
+    public ResponseEntity<?> getResumesByUser(@PathVariable String email) {
         try {
             List<ResumeDto> resumes = service.getResumeByUserEmail(email.strip());
             return ResponseEntity.ok(resumes);
