@@ -23,14 +23,14 @@ public class VacancyDao {
         return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class));
     }
 
-    public Optional<Vacancy> getVacancyByName(String name){
+    public Optional<Vacancy> getVacancyById(Long id){
         String sql = """
               select * from VACANCIES
-              where NAME =?
+              where ID =?
               """;
         return Optional.ofNullable(
                 DataAccessUtils.singleResult(
-                        template.query(sql,new BeanPropertyRowMapper<>(Vacancy.class),name)
+                        template.query(sql,new BeanPropertyRowMapper<>(Vacancy.class),id)
                 )
         );
     }
@@ -41,6 +41,14 @@ public class VacancyDao {
                 FROM vacancies v
                 INNER JOIN responded_applicants ra ON v.id = ra.resume_id
                 WHERE ra.vacancy_id = ?
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), id);
+    }
+
+    public List<Vacancy> getVacancyByCategory(Long id) {
+        String sql = """
+                SELECT * FROM vacancies\s
+                WHERE CATEGORY_ID = ?
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), id);
     }

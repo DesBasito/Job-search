@@ -1,6 +1,7 @@
 package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.VacancyDto;
+import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.services.VacancyService;
@@ -24,10 +25,10 @@ public class VacancyController {
         return ResponseEntity.ok(service.getAllVacancies());
     }
 
-    @GetMapping("vacancies/{name}")
-    public ResponseEntity<?> getRespondedApplicantsToVacancy(@PathVariable String name){
+    @GetMapping("vacancies/{id}")
+    public ResponseEntity<?> getRespondedApplicantsToVacancy(@PathVariable Long id){
         try {
-            return ResponseEntity.ok(service.getUsers(name.strip()));
+            return ResponseEntity.ok(service.getUsers(id));
         }catch (VacancyNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
@@ -42,4 +43,12 @@ public class VacancyController {
         }
     }
 
+    @GetMapping("vacancies/category")
+    public ResponseEntity<?> getVacanciesOfCategory(@RequestParam(name = "category",defaultValue = "Marketing") String category){
+        try {
+            return ResponseEntity.ok(service.getVacanciesOfCategory(category.strip()));
+        }catch (CategoryNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
 }

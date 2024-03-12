@@ -55,6 +55,16 @@ public class UserServiceImpl implements UserService {
         return user1.getId();
     }
 
+    @Override
+    public Boolean checkIfUserExists(String email) throws UserNotFoundException {
+       UserDto user = getUserByEmail(email);
+       if (!user.getEmail().contains(email)){
+           throw new UserNotFoundException("User not found!");
+       }else{
+           return true;
+       }
+    }
+
     private UserDto getUserDto(User user) {
         return UserDto.builder()
                 .id(user.getId())

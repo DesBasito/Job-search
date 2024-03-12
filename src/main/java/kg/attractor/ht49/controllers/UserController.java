@@ -7,6 +7,7 @@ import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,6 +45,16 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @GetMapping("users/confirm")
+    public ResponseEntity<?> checkUserByEmail(@RequestParam(name = "email",defaultValue = "johny@example.com")String email){
+        try {
+            return ResponseEntity.ok(service.checkIfUserExists(email.strip()));
+        }catch (UserNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
 
     @PostMapping("users")
     public HttpStatus createUser(User user) {

@@ -1,11 +1,14 @@
 package kg.attractor.ht49.services.impl;
 
+import kg.attractor.ht49.dao.CategoryDao;
 import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dao.VacancyDao;
 import kg.attractor.ht49.dto.UserDto;
 import kg.attractor.ht49.dto.VacancyDto;
+import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
+import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.services.VacancyService;
@@ -20,6 +23,7 @@ import java.util.List;
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyDao dao;
     private final UserDao userDao;
+    private final CategoryDao categoryDao;
     @Override
     public List<VacancyDto> getAllVacancies() {
         List<Vacancy> vacancies = dao.getAllVacancies();
@@ -27,10 +31,9 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<UserDto> getUsers(String name) throws VacancyNotFoundException {
-        Vacancy vacancy = dao.getVacancyByName(name).orElseThrow(() ->new VacancyNotFoundException("Vacancy: "+ name+" does not exists" ));
-        Long id = vacancy.getId();
-        List<User> users = userDao.getAllUsersByVacancyId(id);
+    public List<UserDto> getUsers(Long id) throws VacancyNotFoundException {
+        Vacancy vacancy = dao.getVacancyById(id).orElseThrow(() ->new VacancyNotFoundException("Vacancy with id: "+ id+" does not exists" ));
+        List<User> users = userDao.getAllUsersByVacancyId(vacancy.getId());
         List<UserDto> dtos = new ArrayList<>();
         users.forEach(e ->dtos.add(UserDto.builder()
                 .id(e.getId())
@@ -50,6 +53,14 @@ public class VacancyServiceImpl implements VacancyService {
         User applicant = userDao.getUserId(user).orElseThrow(()->new UserNotFoundException("applicant: "+ user+" does not exists"));
         Long id = applicant.getId();
         List<Vacancy> vacancies = dao.getVacanciesByRespondedApplicantsId(id);
+        return getVacancyDtos(vacancies);
+    }
+
+    @Override
+    public List<VacancyDto> getVacanciesOfCategory(String strip) throws CategoryNotFoundException {
+        Category category = categoryDao.getCategory(strip).orElseThrow(()->new CategoryNotFoundException("category: "+ strip +" does not exists"));
+        Long id = category.getId();
+        List<Vacancy> vacancies = dao.getVacancyByCategory(id);
         return getVacancyDtos(vacancies);
     }
 
