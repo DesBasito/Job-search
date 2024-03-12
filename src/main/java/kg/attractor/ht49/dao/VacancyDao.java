@@ -1,6 +1,5 @@
 package kg.attractor.ht49.dao;
 
-import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.models.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;

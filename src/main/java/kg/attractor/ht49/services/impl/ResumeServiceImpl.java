@@ -1,7 +1,6 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.ResumeDao;
-import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dto.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;

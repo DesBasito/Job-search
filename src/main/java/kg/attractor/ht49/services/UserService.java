@@ -1,7 +1,6 @@
 package kg.attractor.ht49.services;
 
 import kg.attractor.ht49.dto.UserDto;
-import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
 
