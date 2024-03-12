@@ -23,20 +23,20 @@ public class ResumeController {
         return ResponseEntity.ok(resumes);
     }
 
-    @GetMapping("resumes/{name}")
-    public ResponseEntity<?> getResumesByCategory(@PathVariable String name) {
+    @GetMapping("resumes/{category}")
+    public ResponseEntity<?> getResumesByCategory(@PathVariable String category) {
         try {
-            List<ResumeDto> resumes = service.getResumeByCategory(name.strip());
+            List<ResumeDto> resumes = service.getResumeByCategory(category.strip());
             return ResponseEntity.ok(resumes);
         } catch (CategoryNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-    @GetMapping("resumes/user")
-    public ResponseEntity<?> getResumesByUser(@RequestParam(name = "name", defaultValue = "") String user) {
+    @GetMapping("resumes/userEmail")
+    public ResponseEntity<?> getResumesByUser(@RequestParam(name = "email", defaultValue = "") String email) {
         try {
-            List<ResumeDto> resumes = service.getResumeByUser(user.strip());
+            List<ResumeDto> resumes = service.getResumeByUserEmail(email.strip());
             return ResponseEntity.ok(resumes);
         } catch (UserNotFoundException | ResumeNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());

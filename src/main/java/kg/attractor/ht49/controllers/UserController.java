@@ -7,7 +7,6 @@ import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("users/{name}")
-    public ResponseEntity<List<UserDto>> getUserByName(@PathVariable String name) {
+    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable String name) {
         return ResponseEntity.ok(service.getUserByName(name.strip()));
     }
 
@@ -38,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping("users/email")
-    public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email", defaultValue = "John") String email) {
+    public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email", defaultValue = "example@example.com") String email) {
         try {
             return ResponseEntity.ok(service.getUserByEmail(email.strip()));
         } catch (UserNotFoundException e) {
@@ -47,12 +46,9 @@ public class UserController {
     }
 
     @GetMapping("users/confirm")
-    public ResponseEntity<?> checkUserByEmail(@RequestParam(name = "email",defaultValue = "johny@example.com")String email){
-        try {
-            return ResponseEntity.ok(service.checkIfUserExists(email.strip()));
-        }catch (UserNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<?> checkUserByEmail(@RequestParam(name = "userEmail",defaultValue = "")String email){
+        String userEmail = email.strip();
+            return ResponseEntity.ok(service.checkIfUserExists(userEmail));
     }
 
 

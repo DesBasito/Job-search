@@ -1,7 +1,6 @@
 package kg.attractor.ht49.dao;
 
 import kg.attractor.ht49.models.Category;
-import kg.attractor.ht49.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;

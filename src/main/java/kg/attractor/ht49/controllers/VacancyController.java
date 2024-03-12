@@ -8,45 +8,44 @@ import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("vacancies")
 public class VacancyController {
     private final VacancyService service;
 
-    @GetMapping("vacancies")
+    @GetMapping()
     public ResponseEntity<List<VacancyDto>> getVacancies() {
         return ResponseEntity.ok(service.getAllVacancies());
     }
 
-    @GetMapping("vacancies/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> getRespondedApplicantsToVacancy(@PathVariable Long id){
         try {
-            return ResponseEntity.ok(service.getUsers(id));
+            return ResponseEntity.ok(service.getRespondedApplicants(id));
         }catch (VacancyNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-    @GetMapping("vacancies/vacancy")
-    public ResponseEntity<?> getVacanciesOfRespondedApplicants(@RequestParam(name = "name",defaultValue = "Jane Smith") String name){
+    @GetMapping("/vacancy")
+    public ResponseEntity<?> getVacanciesOfRespondedApplicantEmail(@RequestParam(name = "email",defaultValue = "") String email){
         try {
-            return ResponseEntity.ok(service.getVacanciesOfRespondedApplicant(name.strip()));
+            return ResponseEntity.ok(service.getVacanciesOfRespondedApplicant(email.strip()));
         }catch (UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
-    @GetMapping("vacancies/category")
-    public ResponseEntity<?> getVacanciesOfCategory(@RequestParam(name = "category",defaultValue = "Marketing") String category){
+    @GetMapping("/category")
+    public ResponseEntity<?> getVacanciesOfCategory(@RequestParam(name = "category",defaultValue = "") String category){
         try {
-            return ResponseEntity.ok(service.getVacanciesOfCategory(category.strip()));
+            String categoryStriped = category.strip();
+            return ResponseEntity.ok(service.getVacanciesOfCategory(categoryStriped));
         }catch (CategoryNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

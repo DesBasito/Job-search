@@ -37,8 +37,8 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<ResumeDto> getResumeByUser(String user) throws UserNotFoundException, ResumeNotFoundException {
-        Long id = userService.getUserId(user);
+    public List<ResumeDto> getResumeByUserEmail(String email) throws UserNotFoundException, ResumeNotFoundException {
+        Long id = userService.getUserId(email);
         List<Resume> resumes = dao.getAllResumesByUserId(id);
         return getResumeDtos(resumes);
     }

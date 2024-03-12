@@ -14,5 +14,7 @@ public interface UserService {
     List<UserDto> getUserByName(String name);
     UserDto getUserByPhone(String phone) throws UserNotFoundException;
     Long getUserId(String user) throws UserNotFoundException;
-    Boolean checkIfUserExists(String email) throws UserNotFoundException;
+    Boolean checkIfUserExists(String email);
+
+    List<UserDto> getAllUsersByVacancyId(Long id);
 }

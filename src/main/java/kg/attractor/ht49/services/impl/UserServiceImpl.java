@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) throws UserNotFoundException {
-        User user = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email+" does not exists"));
+        User user = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists"));
         return getUserDto(user);
     }
 
@@ -50,19 +50,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long getUserId(String user) throws UserNotFoundException {
-        User user1 =  userDao.getUserId(user).orElseThrow(() -> new UserNotFoundException("user: " + user + " does not exists"));
+    public Long getUserId(String email) throws UserNotFoundException {
+        User user1 = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists"));
         return user1.getId();
     }
 
     @Override
-    public Boolean checkIfUserExists(String email) throws UserNotFoundException {
-       UserDto user = getUserByEmail(email);
-       if (!user.getEmail().contains(email)){
-           throw new UserNotFoundException("User not found!");
-       }else{
-           return true;
-       }
+    public Boolean checkIfUserExists(String email) {
+        return userDao.getUserByEmail(email).isPresent();
+    }
+
+    @Override
+    public List<UserDto> getAllUsersByVacancyId(Long id) {
+        List<User> userList = userDao.getAllUsersByVacancyId(id);
+        List<UserDto> dtos = new ArrayList<>();
+        userList.forEach(e -> dtos.add(getUserDto(e)));
+        return dtos;
     }
 
     private UserDto getUserDto(User user) {

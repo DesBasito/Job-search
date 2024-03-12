@@ -1,16 +1,14 @@
 package kg.attractor.ht49.services.impl;
 
-import kg.attractor.ht49.dao.CategoryDao;
-import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dao.VacancyDao;
 import kg.attractor.ht49.dto.UserDto;
 import kg.attractor.ht49.dto.VacancyDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
-import kg.attractor.ht49.models.Category;
-import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.models.Vacancy;
+import kg.attractor.ht49.services.CategoryService;
+import kg.attractor.ht49.services.UserService;
 import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,8 +20,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyDao dao;
-    private final UserDao userDao;
-    private final CategoryDao categoryDao;
+    private final CategoryService categoryService;
+    private final UserService userService;
     @Override
     public List<VacancyDto> getAllVacancies() {
         List<Vacancy> vacancies = dao.getAllVacancies();
@@ -31,26 +29,14 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<UserDto> getUsers(Long id) throws VacancyNotFoundException {
+    public List<UserDto> getRespondedApplicants(Long id) throws VacancyNotFoundException {
         Vacancy vacancy = dao.getVacancyById(id).orElseThrow(() ->new VacancyNotFoundException("Vacancy with id: "+ id+" does not exists" ));
-        List<User> users = userDao.getAllUsersByVacancyId(vacancy.getId());
-        List<UserDto> dtos = new ArrayList<>();
-        users.forEach(e ->dtos.add(UserDto.builder()
-                .id(e.getId())
-                .name(e.getName())
-                .surname(e.getSurname())
-                .age(e.getAge())
-                .email(e.getEmail())
-                .phoneNumber(e.getPhoneNumber())
-                .avatar(e.getAvatar())
-                .accType(e.getAccType())
-                .build()));
-        return dtos;
+        return userService.getAllUsersByVacancyId(vacancy.getId());
     }
 
     @Override
-    public List<VacancyDto> getVacanciesOfRespondedApplicant(String user) throws UserNotFoundException {
-        User applicant = userDao.getUserId(user).orElseThrow(()->new UserNotFoundException("applicant: "+ user+" does not exists"));
+    public List<VacancyDto> getVacanciesOfRespondedApplicant(String userEmail) throws UserNotFoundException {
+        UserDto applicant = userService.getUserByEmail(userEmail);
         Long id = applicant.getId();
         List<Vacancy> vacancies = dao.getVacanciesByRespondedApplicantsId(id);
         return getVacancyDtos(vacancies);
@@ -58,8 +44,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getVacanciesOfCategory(String strip) throws CategoryNotFoundException {
-        Category category = categoryDao.getCategory(strip).orElseThrow(()->new CategoryNotFoundException("category: "+ strip +" does not exists"));
-        Long id = category.getId();
+        Long id = categoryService.getCategoryId(strip);
         List<Vacancy> vacancies = dao.getVacancyByCategory(id);
         return getVacancyDtos(vacancies);
     }

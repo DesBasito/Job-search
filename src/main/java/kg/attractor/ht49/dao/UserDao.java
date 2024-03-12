@@ -1,7 +1,6 @@
 package kg.attractor.ht49.dao;
 
 
-import kg.attractor.ht49.dto.UserDto;
 import kg.attractor.ht49.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -76,30 +75,12 @@ public class UserDao {
         );
     }
 
-    public Optional<User> getUserId(String user) {
-        String[] parts = user.split(" ");
-
-        String name = parts[0];
-        String surname = parts[1];
-
-        String sql = """
-                select * from users
-                where name = ? and surname = ?
-                """;
-        return Optional.ofNullable(
-                DataAccessUtils.singleResult(
-                        template.query(sql, new BeanPropertyRowMapper<>(User.class), name, surname)
-                )
-        );
-
-    }
-
     public List<User> getAllUsersByVacancyId(Long id) {
         String sql = """
                 SELECT u.*
                 FROM users u
-                INNER JOIN responded_applicants ra ON u.id = ra.resume_id
-                WHERE ra.vacancy_id = ?
+                INNER JOIN responded_applicants r ON u.id = r.resume_id
+                WHERE r.vacancy_id = ?
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(User.class), id);
     }
