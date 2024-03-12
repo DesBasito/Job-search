@@ -46,9 +46,10 @@ public class UserController {
         }
     }
 
-    @GetMapping("/confirm")
-    public ResponseEntity<?> checkUserByEmail(@RequestParam(name = "userEmail",defaultValue = "")String email){
-            return ResponseEntity.ok(service.checkIfUserExists(email.strip()));
+    @GetMapping("/confirm/{email}")
+    public ResponseEntity<?> checkUserByEmail(@PathVariable String email){
+       String userEmail = email.strip();
+            return ResponseEntity.ok(service.checkIfUserExists(userEmail));
     }
 
 
