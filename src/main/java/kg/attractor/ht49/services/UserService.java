@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface UserService {
     List<UserDto> getUsers();
-    UserDto getUserByEmail(String email) throws UserNotFoundException;
+    UserDto getUserByEmail(String email) ;
+    UserDto getUserById(Long id);
     void createUser(User user);
     List<UserDto> getUserByName(String name);
     UserDto getUserByPhone(String phone) throws UserNotFoundException;

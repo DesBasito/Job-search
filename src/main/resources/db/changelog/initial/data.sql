@@ -32,7 +32,7 @@ INSERT INTO vacancies (name, description, category_id, salary, exp_from, exp_to,
                        update_date)
 VALUES ('Data base architecture', 'Description for architecture vacancy',
         (SELECT id FROM categories WHERE name = 'Software Development'), 67000, 2, 4, 1,
-        (SELECT id FROM users WHERE name = 'Jane' AND surname = 'Jakobson'), '2023-12-01 17:45:18',
+        (SELECT id FROM users WHERE name = 'Michael' AND surname = 'Johnson'), '2023-12-01 17:45:18',
         '2024-02-12 14:27:46');
 
 INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created_date, update_date)

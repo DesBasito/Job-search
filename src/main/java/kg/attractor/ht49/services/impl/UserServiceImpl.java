@@ -6,12 +6,14 @@ import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
@@ -25,9 +27,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserByEmail(String email) throws UserNotFoundException {
-        User user = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists"));
-        return getUserDto(user);
+    public UserDto getUserByEmail(String email) {
+        try {
+            User user = userDao.getUserByEmail(email).orElseThrow(UserNotFoundException::new);
+            return getUserDto(user);
+        }catch (UserNotFoundException e){
+            log.error("user with email: {} does not exists",email);
+        }
+       return null;
+    }
+
+
+    @Override
+    public UserDto getUserById(Long id) {
+        try {
+            User user = userDao.getUserById(id).orElseThrow(UserNotFoundException::new);
+            return getUserDto(user);
+        } catch (UserNotFoundException e) {
+            log.error("User with {} not found", id);
+        }
+        return null;
     }
 
     @Override

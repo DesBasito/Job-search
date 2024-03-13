@@ -11,4 +11,9 @@ spring:
     change-log: classpath:db/changelog/master.yml
   h2:
     console:
-      enabled: true
+      enabled: false
+logging:
+  level:
+    root: info
+  file:
+    name: logs/spring.log

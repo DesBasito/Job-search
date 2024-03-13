@@ -6,6 +6,7 @@ import kg.attractor.ht49.dto.VacancyDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
+import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.services.CategoryService;
 import kg.attractor.ht49.services.UserService;
@@ -44,8 +45,8 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getVacanciesOfCategory(String strip) throws CategoryNotFoundException {
-        Long id = categoryService.getCategoryId(strip);
-        List<Vacancy> vacancies = dao.getVacancyByCategory(id);
+        Category category = categoryService.getCategoryIdByName(strip);
+        List<Vacancy> vacancies = dao.getVacancyByCategory(category.getId());
         return getVacancyDtos(vacancies);
     }
 
@@ -54,7 +55,7 @@ public class VacancyServiceImpl implements VacancyService {
         List<VacancyDto> dtos = new ArrayList<>();
         vacancies.forEach(e -> dtos.add(VacancyDto.builder()
                 .id(e.getId())
-                .categoryId(e.getCategoryId())
+                .category(categoryService.getCategoryById(e.getCategoryId()))
                 .createdDate(e.getCreatedDate())
                 .expTo(e.getExpTo())
                 .description(e.getDescription())
@@ -63,7 +64,7 @@ public class VacancyServiceImpl implements VacancyService {
                 .salary(e.getSalary())
                 .updateTime(e.getUpdateTime())
                 .name(e.getName())
-                .authorId(e.getAuthorId())
+                .author(userService.getUserById(e.getAuthorId()))
                 .build()));
         return dtos;
     }

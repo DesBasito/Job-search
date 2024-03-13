@@ -5,17 +5,20 @@ import kg.attractor.ht49.dto.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
+import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.services.CategoryService;
 import kg.attractor.ht49.services.ResumeService;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
     private final CategoryService category;
@@ -24,8 +27,8 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<ResumeDto> getResumeByCategory(String categoryName) throws CategoryNotFoundException {
-        Long id = category.getCategoryId(categoryName);
-        List<Resume> resumes = dao.getAllResumesByCategoryId(id);
+        Category categoryId = category.getCategoryIdByName(categoryName);
+        List<Resume> resumes = dao.getAllResumesByCategoryId(categoryId.getId());
         return getResumeDtos(resumes);
     }
 
@@ -47,8 +50,8 @@ public class ResumeServiceImpl implements ResumeService {
         resumes.forEach(r -> dtos.add(ResumeDto.builder()
                 .id(r.getId())
                 .name(r.getName())
-                .categoryId(r.getCategoryId())
-                .applicantId(r.getApplicantId())
+                .category(category.getCategoryById(r.getCategoryId()))
+                .user(userService.getUserById(r.getApplicantId()))
                 .salary(r.getSalary())
                 .isActive(r.getIsActive())
                 .createdDate(r.getCreatedDate())

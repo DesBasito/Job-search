@@ -80,6 +80,7 @@ databaseChangeLog:
                   name: author_id
                   type: integer
                   constraints:
+                    nullable: false
                     foreignKeyName: fk_vacancies_author_id
                     references: users(id)
               - column:

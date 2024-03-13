@@ -84,4 +84,16 @@ public class UserDao {
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(User.class), id);
     }
+
+    public Optional<User> getUserById(Long id) {
+        String sql = """
+                select * from users
+                where ID = ?
+                """;
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql, new BeanPropertyRowMapper<>(User.class), id)
+                )
+        );
+    }
 }

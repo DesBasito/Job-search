@@ -38,11 +38,8 @@ public class UserController {
 
     @GetMapping("users/email")
     public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email", defaultValue = "example@example.com") String email) {
-        try {
-            return ResponseEntity.ok(service.getUserByEmail(email.strip()));
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        UserDto user = service.getUserByEmail(email);
+        return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + email + " not found") : ResponseEntity.ok(service.getUserByEmail(email.strip()));
     }
 
     @GetMapping("users/confirm")
