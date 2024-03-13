@@ -17,7 +17,7 @@ public class CategoryDao {
     public Optional<Category> getCategory(String name){
         String sql = """
                 select * from CATEGORIES
-                where name = ?
+                where name ilike ?
                 """;
         return Optional.ofNullable(
                 DataAccessUtils.singleResult(

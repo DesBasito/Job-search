@@ -28,7 +28,7 @@ public class UserDao {
     public Optional<User> getUserByEmail(String email) {
         String sql = """
                 select * from users
-                where email =?
+                where email ilike ?
                 """;
         return Optional.ofNullable(
                 DataAccessUtils.singleResult(
@@ -58,7 +58,7 @@ public class UserDao {
     public List<User> getUserByName(String name) {
         String sql = """
                 select * from users
-                where name = ?
+                where name ilike ?
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(User.class), name);
     }
@@ -66,7 +66,7 @@ public class UserDao {
     public Optional<User> getUserByPhone(String phone) {
         String sql = """
                 select * from users
-                where PHONE_NUMBER = ?
+                where PHONE_NUMBER ilike ?
                 """;
         return Optional.ofNullable(
                 DataAccessUtils.singleResult(

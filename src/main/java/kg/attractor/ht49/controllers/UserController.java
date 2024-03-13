@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @GetMapping("users/{name}")
-    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable String name) {
+    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable(name = "name") String name) {
         return ResponseEntity.ok(service.getUserByName(name.strip()));
     }
 

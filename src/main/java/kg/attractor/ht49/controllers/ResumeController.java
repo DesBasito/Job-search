@@ -24,7 +24,7 @@ public class ResumeController {
     }
 
     @GetMapping("resumes/{category}")
-    public ResponseEntity<?> getResumesByCategory(@PathVariable String category) {
+    public ResponseEntity<?> getResumesByCategory(@PathVariable(name = "category") String category) {
         try {
             List<ResumeDto> resumes = service.getResumeByCategory(category.strip());
             return ResponseEntity.ok(resumes);

@@ -24,7 +24,7 @@ public class VacancyController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getRespondedApplicantsToVacancy(@PathVariable Long id){
+    public ResponseEntity<?> getRespondedApplicantsToVacancy(@PathVariable(name = "id") Long id){
         try {
             return ResponseEntity.ok(service.getRespondedApplicants(id));
         }catch (VacancyNotFoundException e){
