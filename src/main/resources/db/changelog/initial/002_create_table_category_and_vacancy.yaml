@@ -1,0 +1,94 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-categories-table
+      author: Abu
+      changes:
+        - createTable:
+            tableName: categories
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: parent_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_categories_parent_id
+                    references: categories(id)
+
+  - changeSet:
+      id: create-vacancies-table
+      author: Abu
+      changes:
+        - createTable:
+            tableName: vacancies
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: description
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_vacancies_category_id
+                    references: categories(id)
+                    nullable: false
+              - column:
+                  name: salary
+                  type: real
+                  constraints:
+                    nullable: false
+              - column:
+                  name: exp_from
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: exp_to
+                  type: integer
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: author_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_vacancies_author_id
+                    references: users(id)
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_date
+                  type: timestamp
+                  constraints:
+                    nullable: false

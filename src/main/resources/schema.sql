@@ -19,8 +19,11 @@ create table if not exists contact_types
 
 create table if not exists categories
 (
-    id   integer AUTO_INCREMENT not null primary key,
-    name text                   not null
+    id   integer AUTO_INCREMENT not null,
+    name text                   not null,
+    parent_id integer ,
+    PRIMARY KEY (id),
+    FOREIGN KEY (parent_id) references categories(id)
 );
 
 create table if not exists vacancies

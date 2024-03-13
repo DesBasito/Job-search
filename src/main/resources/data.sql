@@ -1,10 +1,10 @@
 INSERT INTO users (name, surname, age, email, password, phone_number, avatar, acc_type)
-VALUES ('John', 'Doe', 30, 'john.doe@example.com', 'password123', '1234567890', 'avatar.jpg', 'regular'),
-       ('Jane', 'Smith', 25, 'jane.smith@example.com', 'password456', '1987654321', 'avatar.png', 'premium'),
-       ('Michael', 'Johnson', 35, 'michael.johnson@example.com', 'password789', '1122334455', NULL, 'regular');
+VALUES ('John', 'Doe', 30, 'john.doe@example.com', 'password123', '1234567890', 'avatar.jpg', 'employer'),
+       ('Jane', 'Smith', 25, 'jane.smith@example.com', 'password456', '1987654321', 'avatar.png', 'employee'),
+       ('Michael', 'Johnson', 35, 'michael.johnson@example.com', 'password789', '1122334455', NULL, 'employer');
 
 INSERT INTO users (name, surname, age, email, password, phone_number, avatar, acc_type)
-VALUES ('John', 'Jakobson', 30, 'johny@example.com', 'qwerty', '763547234', 'avatar4.jpg', 'premium');
+VALUES ('John', 'Jakobson', 30, 'johny@example.com', 'qwerty', '763547234', 'avatar4.jpg', 'employee');
 
 INSERT INTO contact_types (type)
 VALUES ('Email'),
