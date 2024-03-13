@@ -1,3 +1,15 @@
 databaseChangeLog:
-  - includeAll:  
+  - includeAll:
       path: /db/changelog/initial/
+#  - include:
+#      file: /db/changelog/initial/001_create_user_and_contactType.yml
+#  - include:
+#      file: /db/changelog/initial/002_create_table_category_and_vacancy.yaml
+#  - include:
+#      file: /db/changelog/initial/003_create_resume_and_contactInfo.yaml
+#  - include:
+#      file: /db/changelog/initial/004_create_respondedAppl_and_educationInfo.yaml
+#  - include:
+#      file: /db/changelog/initial/005_create_workExpInfo_and_messages.yaml\
+#  - include:
+#      file: /db/changelog/initial/data.sql
