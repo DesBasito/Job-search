@@ -69,4 +69,10 @@ public class ResumeController {
         service.deleteResumeById(id);
         return HttpStatus.OK;
     }
+
+    @PostMapping("/edit")
+    public HttpStatus editResume(@RequestBody ResumeDto resume) {
+        service.editResume(resume);
+        return HttpStatus.OK;
+    }
 }

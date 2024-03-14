@@ -83,4 +83,20 @@ public class ResumeDao {
                 """;
         namedParameter.update(sql,new MapSqlParameterSource().addValue("id",id));
     }
+
+    public void editResume( ResumeDto resume) {
+        String sql = """
+            UPDATE Resumes
+            SET name = :name, category_id = :categoryId, salary = :salary, is_active = :isActive, update_date = :updateTime
+            WHERE id = :id;
+            """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("name",resume.getName())
+                .addValue("categoryId", resume.getCategory().getId())
+                .addValue("salary", resume.getSalary())
+                .addValue("isActive", resume.getIsActive())
+                .addValue("updateTime", LocalDateTime.now())
+                .addValue("id",resume.getId())
+        );
+    }
 }
