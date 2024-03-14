@@ -80,6 +80,11 @@ public class VacancyServiceImpl implements VacancyService {
         dao.deleteVacancyById(id);
     }
 
+    @Override
+    public void editVacancy(VacancyDto vacancy) {
+        dao.editVacancy(vacancy);
+    }
+
 
     private List<VacancyDto> getVacancyDtos(List<Vacancy> vacancies) {
         List<VacancyDto> dtos = new ArrayList<>();

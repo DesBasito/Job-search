@@ -53,10 +53,10 @@ public class VacancyController {
         service.deleteVacancyById(id);
         return HttpStatus.OK;
     }
-//
-//    @PostMapping("/edit")
-//    public HttpStatus editVacancy(@RequestBody VacancyDto vacancy) {
-//        service.editVacancy(vacancy);
-//        return HttpStatus.OK;
-//    }
+
+    @PostMapping("/edit")
+    public HttpStatus editVacancy(@RequestBody VacancyDto vacancy) {
+        service.editVacancy(vacancy);
+        return HttpStatus.OK;
+    }
 }

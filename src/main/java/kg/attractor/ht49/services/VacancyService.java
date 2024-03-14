@@ -19,4 +19,6 @@ public interface VacancyService {
     void createVacancy(VacancyDto vacancy);
 
     void deleteVacancyById(Long id);
+
+    void editVacancy(VacancyDto vacancy);
 }

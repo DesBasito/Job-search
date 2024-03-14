@@ -82,4 +82,23 @@ public class VacancyDao {
                 """;
         namedParameter.update(sql,new MapSqlParameterSource().addValue("id",id));
     }
+
+    public void editVacancy(VacancyDto vacancy) {
+        String sql = """
+            UPDATE VACANCIES
+            SET name = :name, description = :description, category_id = :categoryId, salary = :salary, exp_from = :expFrom, exp_to = :expTo, is_active = :isActive, update_date = :updateDate
+            WHERE id = :id;
+            """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("name", vacancy.getName())
+                .addValue("description", vacancy.getDescription())
+                .addValue("categoryId", vacancy.getCategory().getId())
+                .addValue("salary", vacancy.getSalary())
+                .addValue("expFrom", vacancy.getExpFrom())
+                .addValue("expTo", vacancy.getExpTo())
+                .addValue("isActive", vacancy.getIsActive())
+                .addValue("updateDate", LocalDateTime.now())
+                .addValue("id",vacancy.getId())
+        );
+    }
 }
