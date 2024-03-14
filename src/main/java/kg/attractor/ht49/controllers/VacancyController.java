@@ -1,5 +1,6 @@
 package kg.attractor.ht49.controllers;
 
+import kg.attractor.ht49.dto.ResumeDto;
 import kg.attractor.ht49.dto.VacancyDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
@@ -40,4 +41,22 @@ public class VacancyController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
+
+    @PostMapping()
+    public HttpStatus createResume(@RequestBody VacancyDto vacancy) {
+        service.createVacancy(vacancy);
+        return HttpStatus.OK;
+    }
+
+    @PostMapping("/delete/{id}")
+    public HttpStatus deleteVacancyById(@PathVariable(name = "id") Long id){
+        service.deleteVacancyById(id);
+        return HttpStatus.OK;
+    }
+//
+//    @PostMapping("/edit")
+//    public HttpStatus editVacancy(@RequestBody VacancyDto vacancy) {
+//        service.editVacancy(vacancy);
+//        return HttpStatus.OK;
+//    }
 }

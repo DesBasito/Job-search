@@ -70,6 +70,16 @@ public class VacancyServiceImpl implements VacancyService {
         return null;
     }
 
+    @Override
+    public void createVacancy(VacancyDto vacancy) {
+        dao.createVacancy(vacancy);
+    }
+
+    @Override
+    public void deleteVacancyById(Long id) {
+        dao.deleteVacancyById(id);
+    }
+
 
     private List<VacancyDto> getVacancyDtos(List<Vacancy> vacancies) {
         List<VacancyDto> dtos = new ArrayList<>();
