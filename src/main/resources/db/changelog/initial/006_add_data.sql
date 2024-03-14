@@ -1,3 +1,6 @@
+--liquibase formatted sql
+--changeset Abu:add_initial_data
+
 INSERT INTO users (name, surname, age, email, password, phone_number, avatar, acc_type)
 VALUES ('John', 'Doe', 30, 'john.doe@example.com', 'password123', '1234567890', 'avatar.jpg', 'employer'),
        ('Jane', 'Smith', 25, 'jane.smith@example.com', 'password456', '1987654321', 'avatar.png', 'employee'),

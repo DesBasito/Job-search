@@ -5,6 +5,6 @@ import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.models.Category;
 
 public interface CategoryService {
-    Category getCategoryIdByName(String category) throws CategoryNotFoundException;
+    Category getCategoryIdByName(String category);
     CategoryDto getCategoryById(Long id);
 }

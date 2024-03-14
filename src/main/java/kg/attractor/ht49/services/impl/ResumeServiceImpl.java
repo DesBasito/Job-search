@@ -28,21 +28,53 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public List<ResumeDto> getResumeByCategory(String categoryName) throws CategoryNotFoundException {
         Category categoryId = category.getCategoryIdByName(categoryName);
+        if (categoryId == null){
+            throw new CategoryNotFoundException();
+        }
         List<Resume> resumes = dao.getAllResumesByCategoryId(categoryId.getId());
         return getResumeDtos(resumes);
     }
 
     @Override
-    public List<ResumeDto> getResumes(){
+    public List<ResumeDto> getResumes() {
         List<Resume> resumes = dao.getAllResumes();
         return getResumeDtos(resumes);
     }
 
     @Override
-    public List<ResumeDto> getResumeByUserEmail(String email) throws UserNotFoundException, ResumeNotFoundException {
-        Long id = userService.getUserId(email);
-        List<Resume> resumes = dao.getAllResumesByUserId(id);
-        return getResumeDtos(resumes);
+    public List<ResumeDto> getResumeByUserEmail(String email) throws UserNotFoundException {
+        try {
+            Long id = userService.getUserId(email);
+            if (id == null){
+                log.error("user with email {} not found",email);
+                throw new UserNotFoundException();
+            }
+            List<Resume> resumes = dao.getAllResumesByUserId(id);
+            return getResumeDtos(resumes);
+        } catch (ResumeNotFoundException e) {
+            log.error("Resumes by user with email:{} not found",email);
+        }
+        return null;
+    }
+
+    @Override
+    public ResumeDto getResumeById(Long id) {
+        try {
+        Resume r = dao.getResumeById(id).orElseThrow(ResumeNotFoundException::new);
+        return ResumeDto.builder()
+                .id(r.getId())
+                .name(r.getName())
+                .category(category.getCategoryById(r.getCategoryId()))
+                .user(userService.getUserById(r.getApplicantId()))
+                .salary(r.getSalary())
+                .isActive(r.getIsActive())
+                .createdDate(r.getCreatedDate())
+                .updateTime(r.getUpdateTime())
+                .build();
+        }catch (ResumeNotFoundException e){
+            log.error("Resume by id: {} not found",id);
+        }
+        return null;
     }
 
     private List<ResumeDto> getResumeDtos(List<Resume> resumes) {

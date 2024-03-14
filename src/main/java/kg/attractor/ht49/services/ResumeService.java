@@ -10,5 +10,6 @@ import java.util.List;
 public interface ResumeService {
     List<ResumeDto> getResumeByCategory(String name) throws CategoryNotFoundException;
     List<ResumeDto> getResumes();
-    List<ResumeDto> getResumeByUserEmail(String user) throws UserNotFoundException, ResumeNotFoundException;
+    List<ResumeDto> getResumeByUserEmail(String user) throws UserNotFoundException;
+    ResumeDto getResumeById(Long id);
 }

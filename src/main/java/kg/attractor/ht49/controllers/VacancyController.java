@@ -3,7 +3,6 @@ package kg.attractor.ht49.controllers;
 import kg.attractor.ht49.dto.VacancyDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,15 +20,6 @@ public class VacancyController {
     @GetMapping()
     public ResponseEntity<List<VacancyDto>> getVacancies() {
         return ResponseEntity.ok(service.getAllVacancies());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getRespondedApplicantsToVacancy(@PathVariable(name = "id") Long id){
-        try {
-            return ResponseEntity.ok(service.getRespondedApplicants(id));
-        }catch (VacancyNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
     }
 
     @GetMapping("/vacancy")

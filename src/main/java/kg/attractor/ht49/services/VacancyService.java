@@ -12,9 +12,9 @@ import java.util.List;
 public interface VacancyService {
     List<VacancyDto> getAllVacancies();
 
-    List<UserDto> getRespondedApplicants(Long id) throws VacancyNotFoundException;
-
     List<VacancyDto> getVacanciesOfRespondedApplicant(String email) throws UserNotFoundException;
 
     List<VacancyDto> getVacanciesOfCategory(String strip) throws CategoryNotFoundException;
+
+    VacancyDto getVacancyById(Long vacancyId);
 }

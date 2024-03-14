@@ -31,10 +31,10 @@ public class UserServiceImpl implements UserService {
         try {
             User user = userDao.getUserByEmail(email).orElseThrow(UserNotFoundException::new);
             return getUserDto(user);
-        }catch (UserNotFoundException e){
-            log.error("user with email: {} does not exists",email);
+        } catch (UserNotFoundException e) {
+            log.error("user with email: {} does not exists", email);
         }
-       return null;
+        return null;
     }
 
 
@@ -63,15 +63,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserByPhone(String phone) throws UserNotFoundException {
-        User user = userDao.getUserByPhone(phone).orElseThrow(() -> new UserNotFoundException("cannot find user with phone number: " + phone));
-        return getUserDto(user);
+    public UserDto getUserByPhone(String phone) {
+        try {
+            User user = userDao.getUserByPhone(phone).orElseThrow(UserNotFoundException::new);
+            return getUserDto(user);
+
+        } catch (UserNotFoundException e) {
+            log.error("cannot find user with phone number: {}", phone);
+        }
+        return null;
     }
 
     @Override
-    public Long getUserId(String email) throws UserNotFoundException {
-        User user1 = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists"));
-        return user1.getId();
+    public Long getUserId(String email) {
+        try {
+            User user1 = userDao.getUserByEmail(email).orElseThrow(UserNotFoundException::new);
+            return user1.getId();
+        } catch (UserNotFoundException e) {
+            log.error("user with email: {} does not exists", email);
+        }
+        return null;
     }
 
     @Override
@@ -79,13 +90,6 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserByEmail(email).isPresent();
     }
 
-    @Override
-    public List<UserDto> getAllUsersByVacancyId(Long id) {
-        List<User> userList = userDao.getAllUsersByVacancyId(id);
-        List<UserDto> dtos = new ArrayList<>();
-        userList.forEach(e -> dtos.add(getUserDto(e)));
-        return dtos;
-    }
 
     private UserDto getUserDto(User user) {
         return UserDto.builder()

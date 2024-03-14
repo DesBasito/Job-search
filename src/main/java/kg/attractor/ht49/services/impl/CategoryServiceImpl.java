@@ -6,7 +6,6 @@ import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.services.CategoryService;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +15,13 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryDao dao;
     @Override
-    public Category getCategoryIdByName(String category) throws CategoryNotFoundException {
-        return dao.getCategoryByName(category).orElseThrow(() -> new CategoryNotFoundException("category: " + category+" does not exists"));
+    public Category getCategoryIdByName(String category){
+        try {
+        return dao.getCategoryByName(category).orElseThrow(CategoryNotFoundException::new);
+        }catch (CategoryNotFoundException e){
+            log.error("category: {} does not exists",category);
+        }
+        return null;
     }
 
     @Override
