@@ -3,6 +3,8 @@ package kg.attractor.ht49.controllers;
 import kg.attractor.ht49.dto.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
+import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +25,15 @@ public class ResumeController {
         return ResponseEntity.ok(resumes);
     }
 
-    @GetMapping("/{category}")
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getResumeById(@PathVariable(name = "id")Long id){
+        ResumeDto dto = service.getResumeById(id);
+        return dto == null ?
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by Id: "+id+" not found")
+                :ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/category/{category}")
     public ResponseEntity<?> getResumesByCategory(@PathVariable(name = "category") String category) {
         try {
             List<ResumeDto> resumes = service.getResumeByCategory(category.strip());
@@ -35,8 +45,8 @@ public class ResumeController {
         }
     }
 
-    @GetMapping("/userEmail")
-    public ResponseEntity<?> getResumesByUser(@RequestParam(name = "email", defaultValue = "") String email) {
+    @GetMapping("/userEmail/{email}")
+    public ResponseEntity<?> getResumesByUser(@PathVariable(name = "email") String email) {
         try {
             List<ResumeDto> resumes = service.getResumeByUserEmail(email.strip());
             if (resumes.isEmpty()) {
@@ -46,5 +56,11 @@ public class ResumeController {
         }catch (UserNotFoundException e){
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email: "+email+" not found");
         }
+    }
+
+    @PostMapping()
+    public HttpStatus createResume(@RequestBody ResumeDto resume) {
+        service.createResume(resume);
+        return HttpStatus.OK;
     }
 }

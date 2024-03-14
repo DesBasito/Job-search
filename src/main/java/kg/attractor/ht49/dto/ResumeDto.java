@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ResumeDto {
     private Long id;
-    private UserDto user;
     private String name;
+    private UserDto user;
     private CategoryDto category;
     private Double salary;
     private Boolean isActive;

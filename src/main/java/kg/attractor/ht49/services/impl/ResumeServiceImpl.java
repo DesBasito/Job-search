@@ -77,6 +77,11 @@ public class ResumeServiceImpl implements ResumeService {
         return null;
     }
 
+    @Override
+    public void createResume(ResumeDto resume) {
+        dao.createResume(resume);
+    }
+
     private List<ResumeDto> getResumeDtos(List<Resume> resumes) {
         List<ResumeDto> dtos = new ArrayList<>();
         resumes.forEach(r -> dtos.add(ResumeDto.builder()

@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 @Data
 public class Resume {
     private Long id;
-    private Long applicantId;
     private String name;
+    private Long applicantId;
     private Long categoryId;
     private Double salary;
     private Boolean isActive;
