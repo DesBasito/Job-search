@@ -5,4 +5,6 @@ import kg.attractor.ht49.models.User;
 
 public interface ProfileService {
     void editProfile(User user);
+
+    User getUser();
 }

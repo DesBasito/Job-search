@@ -112,4 +112,3 @@ VALUES ((SELECT id
          WHERE vacancy_id = (SELECT id FROM vacancies WHERE name = 'Financial Analyst')
            AND resume_id = (SELECT id FROM resumes WHERE name = 'Michael Johnson Resume')),
         'Unfortunately, your qualifications do not match our requirements.', NOW());
-

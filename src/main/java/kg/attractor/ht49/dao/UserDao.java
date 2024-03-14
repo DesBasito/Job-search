@@ -75,16 +75,6 @@ public class UserDao {
         );
     }
 
-    public List<User> getAllUsersByVacancyId(Long id) {
-        String sql = """
-                SELECT u.*
-                FROM users u
-                INNER JOIN responded_applicants r ON u.id = r.resume_id
-                WHERE r.vacancy_id = ?
-                """;
-        return template.query(sql, new BeanPropertyRowMapper<>(User.class), id);
-    }
-
     public Optional<User> getUserById(Long id) {
         String sql = """
                 select * from users
@@ -114,6 +104,5 @@ public class UserDao {
                 .addValue("accType", user.getAccType())
                 .addValue("id",user.getId())
         );
-
     }
 }
