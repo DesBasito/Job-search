@@ -77,6 +77,9 @@ public class VacancyDao {
     }
 
     public void deleteVacancyById(Long id) {
-
+        String sql = """
+                DELETE FROM VACANCIES WHERE id = :id;
+                """;
+        namedParameter.update(sql,new MapSqlParameterSource().addValue("id",id));
     }
 }
