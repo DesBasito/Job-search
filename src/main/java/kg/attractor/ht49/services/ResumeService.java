@@ -15,4 +15,6 @@ public interface ResumeService {
     ResumeDto getResumeById(Long id);
 
     void createResume(ResumeDto resume);
+
+    void deleteResumeById(Long id);
 }

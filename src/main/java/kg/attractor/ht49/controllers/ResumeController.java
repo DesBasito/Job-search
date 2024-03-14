@@ -63,4 +63,10 @@ public class ResumeController {
         service.createResume(resume);
         return HttpStatus.OK;
     }
+
+    @PostMapping("/delete/{id}")
+    public HttpStatus deleteResumeById(@PathVariable(name = "id") Long id){
+        service.deleteResumeById(id);
+        return HttpStatus.OK;
+    }
 }

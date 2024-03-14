@@ -82,6 +82,11 @@ public class ResumeServiceImpl implements ResumeService {
         dao.createResume(resume);
     }
 
+    @Override
+    public void deleteResumeById(Long id) {
+        dao.deleteResumeById(id);
+    }
+
     private List<ResumeDto> getResumeDtos(List<Resume> resumes) {
         List<ResumeDto> dtos = new ArrayList<>();
         resumes.forEach(r -> dtos.add(ResumeDto.builder()

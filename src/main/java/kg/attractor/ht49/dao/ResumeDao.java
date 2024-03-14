@@ -76,4 +76,11 @@ public class ResumeDao {
                 .addValue("updateTime", LocalDateTime.now())
         );
     }
+
+    public void deleteResumeById(Long id) {
+        String sql = """
+                DELETE FROM RESUMES WHERE id = :id;
+                """;
+        namedParameter.update(sql,new MapSqlParameterSource().addValue("id",id));
+    }
 }
