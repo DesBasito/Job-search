@@ -96,4 +96,24 @@ public class UserDao {
                 )
         );
     }
+
+    public void editUser(User user) {
+        String sql = """
+                UPDATE USERS
+            SET NAME = :name, SURNAME = :surname,AGE = :age,email = :email, password = :password, phone_number = :phoneNumber, avatar = :avatar , acc_type = :accType
+            WHERE id = :id;
+            """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("name", user.getName())
+                .addValue("surname", user.getSurname())
+                .addValue("age", user.getAge())
+                .addValue("email", user.getEmail())
+                .addValue("password", user.getPassword())
+                .addValue("phoneNumber", user.getPhoneNumber())
+                .addValue("avatar", user.getAvatar())
+                .addValue("accType", user.getAccType())
+                .addValue("id",user.getId())
+        );
+
+    }
 }

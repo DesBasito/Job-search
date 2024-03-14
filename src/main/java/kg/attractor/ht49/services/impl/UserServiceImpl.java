@@ -90,6 +90,11 @@ public class UserServiceImpl implements UserService {
         return userDao.getUserByEmail(email).isPresent();
     }
 
+    @Override
+    public void editUser(User user) {
+        userDao.editUser(user);
+    }
+
 
     private UserDto getUserDto(User user) {
         return UserDto.builder()
