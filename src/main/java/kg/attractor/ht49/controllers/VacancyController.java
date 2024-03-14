@@ -1,9 +1,9 @@
 package kg.attractor.ht49.controllers;
 
+import kg.attractor.ht49.dto.ResumeDto;
 import kg.attractor.ht49.dto.VacancyDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,15 +23,6 @@ public class VacancyController {
         return ResponseEntity.ok(service.getAllVacancies());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getRespondedApplicantsToVacancy(@PathVariable Long id){
-        try {
-            return ResponseEntity.ok(service.getRespondedApplicants(id));
-        }catch (VacancyNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
     @GetMapping("/vacancy")
     public ResponseEntity<?> getVacanciesOfRespondedApplicantEmail(@RequestParam(name = "email",defaultValue = "") String email){
         try {
@@ -49,5 +40,23 @@ public class VacancyController {
         }catch (CategoryNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
+
+    @PostMapping()
+    public HttpStatus createResume(@RequestBody VacancyDto vacancy) {
+        service.createVacancy(vacancy);
+        return HttpStatus.OK;
+    }
+
+    @PostMapping("/delete/{id}")
+    public HttpStatus deleteVacancyById(@PathVariable(name = "id") Long id){
+        service.deleteVacancyById(id);
+        return HttpStatus.OK;
+    }
+
+    @PostMapping("/edit")
+    public HttpStatus editVacancy(@RequestBody VacancyDto vacancy) {
+        service.editVacancy(vacancy);
+        return HttpStatus.OK;
     }
 }

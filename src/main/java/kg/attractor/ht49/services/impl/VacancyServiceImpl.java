@@ -6,22 +6,26 @@ import kg.attractor.ht49.dto.VacancyDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
+import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.services.CategoryService;
 import kg.attractor.ht49.services.UserService;
 import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyDao dao;
     private final CategoryService categoryService;
     private final UserService userService;
+
     @Override
     public List<VacancyDto> getAllVacancies() {
         List<Vacancy> vacancies = dao.getAllVacancies();
@@ -29,13 +33,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<UserDto> getRespondedApplicants(Long id) throws VacancyNotFoundException {
-        Vacancy vacancy = dao.getVacancyById(id).orElseThrow(() ->new VacancyNotFoundException("Vacancy with id: "+ id+" does not exists" ));
-        return userService.getAllUsersByVacancyId(vacancy.getId());
-    }
-
-    @Override
-    public List<VacancyDto> getVacanciesOfRespondedApplicant(String userEmail) throws UserNotFoundException {
+    public List<VacancyDto> getVacanciesOfRespondedApplicant(String userEmail) {
         UserDto applicant = userService.getUserByEmail(userEmail);
         Long id = applicant.getId();
         List<Vacancy> vacancies = dao.getVacanciesByRespondedApplicantsId(id);
@@ -43,10 +41,48 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getVacanciesOfCategory(String strip) throws CategoryNotFoundException {
-        Long id = categoryService.getCategoryId(strip);
-        List<Vacancy> vacancies = dao.getVacancyByCategory(id);
+    public List<VacancyDto> getVacanciesOfCategory(String strip) {
+        Category category = categoryService.getCategoryIdByName(strip);
+        List<Vacancy> vacancies = dao.getVacancyByCategory(category.getId());
         return getVacancyDtos(vacancies);
+    }
+
+    @Override
+    public VacancyDto getVacancyById(Long vacancyId) {
+        try {
+            Vacancy e = dao.getVacancyById(vacancyId).orElseThrow(VacancyNotFoundException::new);
+            return VacancyDto.builder()
+                    .id(e.getId())
+                    .category(categoryService.getCategoryById(e.getCategoryId()))
+                    .createdDate(e.getCreatedDate())
+                    .expTo(e.getExpTo())
+                    .description(e.getDescription())
+                    .expFrom(e.getExpFrom())
+                    .isActive(e.getIsActive())
+                    .salary(e.getSalary())
+                    .updateTime(e.getUpdateTime())
+                    .name(e.getName())
+                    .author(userService.getUserById(e.getAuthorId()))
+                    .build();
+        }catch (VacancyNotFoundException e){
+            log.error("vacancy by id: {} not found",vacancyId);
+        }
+        return null;
+    }
+
+    @Override
+    public void createVacancy(VacancyDto vacancy) {
+        dao.createVacancy(vacancy);
+    }
+
+    @Override
+    public void deleteVacancyById(Long id) {
+        dao.deleteVacancyById(id);
+    }
+
+    @Override
+    public void editVacancy(VacancyDto vacancy) {
+        dao.editVacancy(vacancy);
     }
 
 
@@ -54,7 +90,7 @@ public class VacancyServiceImpl implements VacancyService {
         List<VacancyDto> dtos = new ArrayList<>();
         vacancies.forEach(e -> dtos.add(VacancyDto.builder()
                 .id(e.getId())
-                .categoryId(e.getCategoryId())
+                .category(categoryService.getCategoryById(e.getCategoryId()))
                 .createdDate(e.getCreatedDate())
                 .expTo(e.getExpTo())
                 .description(e.getDescription())
@@ -63,7 +99,7 @@ public class VacancyServiceImpl implements VacancyService {
                 .salary(e.getSalary())
                 .updateTime(e.getUpdateTime())
                 .name(e.getName())
-                .authorId(e.getAuthorId())
+                .author(userService.getUserById(e.getAuthorId()))
                 .build()));
         return dtos;
     }

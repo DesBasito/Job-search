@@ -14,10 +14,10 @@ import java.util.Optional;
 public class CategoryDao {
     private final JdbcTemplate template;
 
-    public Optional<Category> getCategory(String name){
+    public Optional<Category> getCategoryByName(String name){
         String sql = """
                 select * from CATEGORIES
-                where name = ?
+                where name ilike ?
                 """;
         return Optional.ofNullable(
                 DataAccessUtils.singleResult(
@@ -25,4 +25,17 @@ public class CategoryDao {
                 )
         );
     }
+
+    public Optional<Category> getCategoryById(Long id){
+        String sql = """
+                select * from CATEGORIES
+                where id = ?
+                """;
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql,new BeanPropertyRowMapper<>(Category.class),id)
+                )
+        );
+    }
+
 }

@@ -15,8 +15,8 @@ public class VacancyDto {
     private Long id;
     private String name;
     private String description;
-    private Long categoryId;
-    private Long authorId;
+    private CategoryDto category;
+    private UserDto author;
     private Double salary;
     private Integer expFrom;
     private Integer expTo;

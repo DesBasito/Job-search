@@ -28,7 +28,7 @@ public class UserDao {
     public Optional<User> getUserByEmail(String email) {
         String sql = """
                 select * from users
-                where email =?
+                where email ilike ?
                 """;
         return Optional.ofNullable(
                 DataAccessUtils.singleResult(
@@ -58,7 +58,7 @@ public class UserDao {
     public List<User> getUserByName(String name) {
         String sql = """
                 select * from users
-                where name = ?
+                where name ilike ?
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(User.class), name);
     }
@@ -66,7 +66,7 @@ public class UserDao {
     public Optional<User> getUserByPhone(String phone) {
         String sql = """
                 select * from users
-                where PHONE_NUMBER = ?
+                where PHONE_NUMBER ilike ?
                 """;
         return Optional.ofNullable(
                 DataAccessUtils.singleResult(
@@ -75,13 +75,34 @@ public class UserDao {
         );
     }
 
-    public List<User> getAllUsersByVacancyId(Long id) {
+    public Optional<User> getUserById(Long id) {
         String sql = """
-                SELECT u.*
-                FROM users u
-                INNER JOIN responded_applicants r ON u.id = r.resume_id
-                WHERE r.vacancy_id = ?
+                select * from users
+                where ID = ?
                 """;
-        return template.query(sql, new BeanPropertyRowMapper<>(User.class), id);
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql, new BeanPropertyRowMapper<>(User.class), id)
+                )
+        );
+    }
+
+    public void editUser(User user) {
+        String sql = """
+                UPDATE USERS
+            SET NAME = :name, SURNAME = :surname,AGE = :age,email = :email, password = :password, phone_number = :phoneNumber, avatar = :avatar , acc_type = :accType
+            WHERE id = :id;
+            """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("name", user.getName())
+                .addValue("surname", user.getSurname())
+                .addValue("age", user.getAge())
+                .addValue("email", user.getEmail())
+                .addValue("password", user.getPassword())
+                .addValue("phoneNumber", user.getPhoneNumber())
+                .addValue("avatar", user.getAvatar())
+                .addValue("accType", user.getAccType())
+                .addValue("id",user.getId())
+        );
     }
 }

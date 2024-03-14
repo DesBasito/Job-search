@@ -1,10 +1,13 @@
-INSERT INTO users (name, surname, age, email, password, phone_number, avatar, acc_type)
-VALUES ('John', 'Doe', 30, 'john.doe@example.com', 'password123', '1234567890', 'avatar.jpg', 'regular'),
-       ('Jane', 'Smith', 25, 'jane.smith@example.com', 'password456', '1987654321', 'avatar.png', 'premium'),
-       ('Michael', 'Johnson', 35, 'michael.johnson@example.com', 'password789', '1122334455', NULL, 'regular');
+--liquibase formatted sql
+--changeset Abu:add_initial_data
 
 INSERT INTO users (name, surname, age, email, password, phone_number, avatar, acc_type)
-VALUES ('John', 'Jakobson', 30, 'johny@example.com', 'qwerty', '763547234', 'avatar4.jpg', 'premium');
+VALUES ('John', 'Doe', 30, 'john.doe@example.com', 'password123', '1234567890', 'avatar.jpg', 'employer'),
+       ('Jane', 'Smith', 25, 'jane.smith@example.com', 'password456', '1987654321', 'avatar.png', 'employee'),
+       ('Michael', 'Johnson', 35, 'michael.johnson@example.com', 'password789', '1122334455', NULL, 'employer');
+
+INSERT INTO users (name, surname, age, email, password, phone_number, avatar, acc_type)
+VALUES ('John', 'Jakobson', 30, 'johny@example.com', 'qwerty', '763547234', 'avatar4.jpg', 'employee');
 
 INSERT INTO contact_types (type)
 VALUES ('Email'),
@@ -32,7 +35,7 @@ INSERT INTO vacancies (name, description, category_id, salary, exp_from, exp_to,
                        update_date)
 VALUES ('Data base architecture', 'Description for architecture vacancy',
         (SELECT id FROM categories WHERE name = 'Software Development'), 67000, 2, 4, 1,
-        (SELECT id FROM users WHERE name = 'Jane' AND surname = 'Jakobson'), '2023-12-01 17:45:18',
+        (SELECT id FROM users WHERE name = 'Michael' AND surname = 'Johnson'), '2023-12-01 17:45:18',
         '2024-02-12 14:27:46');
 
 INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created_date, update_date)

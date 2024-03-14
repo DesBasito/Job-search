@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("users")
+@RequiredArgsConstructor
 public class UserController {
     private final UserService service;
 
@@ -23,37 +23,29 @@ public class UserController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable String name) {
+    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable(name = "name") String name) {
         return ResponseEntity.ok(service.getUserByName(name.strip()));
     }
 
     @GetMapping("/phone")
     public ResponseEntity<?> getUserByPhoneNum(@RequestParam(name = "phone", defaultValue = "0") String phone) {
-        try {
-            UserDto user = service.getUserByPhone(phone.strip());
-            return ResponseEntity.ok(user);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        UserDto user = service.getUserByPhone(phone.strip());
+        return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + phone + " not found") : ResponseEntity.ok(user);
     }
 
     @GetMapping("/email")
     public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email", defaultValue = "example@example.com") String email) {
-        try {
-            return ResponseEntity.ok(service.getUserByEmail(email.strip()));
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        UserDto user = service.getUserByEmail(email);
+        return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + email + " not found") : ResponseEntity.ok(service.getUserByEmail(email.strip()));
     }
 
-    @GetMapping("/confirm/{email}")
-    public ResponseEntity<?> checkUserByEmail(@PathVariable String email){
-       String userEmail = email.strip();
-            return ResponseEntity.ok(service.checkIfUserExists(userEmail));
+    @GetMapping("confirm/{confirm}")
+    public ResponseEntity<?> checkUserByEmail(@PathVariable String confirm){
+            return ResponseEntity.ok(service.checkIfUserExists(confirm.strip()));
     }
 
 
-    @PostMapping("users")
+    @PostMapping()
     public HttpStatus createUser(User user) {
         service.createUser(user);
         return HttpStatus.OK;

@@ -1,0 +1,88 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-resumes-table
+      author: Abu
+      changes:
+        - createTable:
+            tableName: resumes
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: name
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: category_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_resumes_category_id
+                    references: categories(id)
+                    nullable: false
+              - column:
+                  name: applicant_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_resumes_applicant_id
+                    references: users(id)
+                    nullable: false
+              - column:
+                  name: salary
+                  type: real
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_active
+                  type: boolean
+                  constraints:
+                    nullable: false
+              - column:
+                  name: created_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: update_date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: create-contacts-info-table
+      author: Abu
+      changes:
+        - createTable:
+            tableName: contacts_info
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: infoValue
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: type_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_contacts_info_type_id
+                    references: contact_types(id)
+                    nullable: false
+              - column:
+                  name: resume_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_contacts_info_resume_id
+                    references: resumes(id)
+                    nullable: false

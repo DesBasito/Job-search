@@ -2,8 +2,9 @@ package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
-import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
+import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,23 +25,54 @@ public class ResumeController {
         return ResponseEntity.ok(resumes);
     }
 
-    @GetMapping("/{category}")
-    public ResponseEntity<?> getResumesByCategory(@PathVariable String category) {
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getResumeById(@PathVariable(name = "id")Long id){
+        ResumeDto dto = service.getResumeById(id);
+        return dto == null ?
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by Id: "+id+" not found")
+                :ResponseEntity.ok(dto);
+    }
+
+    @GetMapping("/category/{category}")
+    public ResponseEntity<?> getResumesByCategory(@PathVariable(name = "category") String category) {
         try {
             List<ResumeDto> resumes = service.getResumeByCategory(category.strip());
-            return ResponseEntity.ok(resumes);
+            return resumes == null ?
+                    ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by category: " + category + " not found")
+                    : ResponseEntity.ok(resumes);
         } catch (CategoryNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category: " + category + " not found");
         }
     }
 
-    @GetMapping("/user/{email}")
-    public ResponseEntity<?> getResumesByUser(@PathVariable String email) {
+    @GetMapping("/userEmail/{email}")
+    public ResponseEntity<?> getResumesByUser(@PathVariable(name = "email") String email) {
         try {
             List<ResumeDto> resumes = service.getResumeByUserEmail(email.strip());
+            if (resumes.isEmpty()) {
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by user with email: " + email + " not found");
+            }
             return ResponseEntity.ok(resumes);
-        } catch (UserNotFoundException | ResumeNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }catch (UserNotFoundException e){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email: "+email+" not found");
         }
+    }
+
+    @PostMapping()
+    public HttpStatus createResume(@RequestBody ResumeDto resume) {
+        service.createResume(resume);
+        return HttpStatus.OK;
+    }
+
+    @PostMapping("/delete/{id}")
+    public HttpStatus deleteResumeById(@PathVariable(name = "id") Long id){
+        service.deleteResumeById(id);
+        return HttpStatus.OK;
+    }
+
+    @PostMapping("/edit")
+    public HttpStatus editResume(@RequestBody ResumeDto resume) {
+        service.editResume(resume);
+        return HttpStatus.OK;
     }
 }
