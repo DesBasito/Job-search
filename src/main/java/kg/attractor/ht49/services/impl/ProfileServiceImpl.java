@@ -17,9 +17,4 @@ public class ProfileServiceImpl implements ProfileService {
     public void editProfile(User user) {
         service.editUser(user);
     }
-
-    @Override
-    public User getUser() {
-        return null;
-    }
 }
