@@ -80,7 +80,7 @@ public class VacancyDao {
         String sql = """
                 DELETE FROM VACANCIES WHERE id = :id;
                 """;
-        template.update(sql,id);
+        namedParameter.update(sql,new MapSqlParameterSource("id",id));
     }
 
     public void editVacancy(VacancyDto vacancy) {

@@ -80,9 +80,9 @@ public class ResumeDao {
 
     public void deleteResumeById(Long id) {
         String sql = """
-                DELETE FROM RESUMES WHERE id = ?;
+                DELETE FROM RESUMES WHERE id = :id;
                 """;
-        template.update(sql,id);
+        namedParameter.update(sql,new MapSqlParameterSource("id",id));
     }
 
     public void editResume(ResumeDto resume) {
