@@ -82,7 +82,7 @@ public class ResumeDao {
         String sql = """
                 DELETE FROM RESUMES WHERE id = ?;
                 """;
-        template.update(sql,new BeanPropertySqlParameterSource(Resume.class),id);
+        template.update(sql,id);
     }
 
     public void editResume(ResumeDto resume) {

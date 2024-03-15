@@ -62,4 +62,11 @@ public class WorkExperienceInfoDao {
                     "WHERE resume_id = :resume_id";
             return template.query(sql, new BeanPropertyRowMapper<>(WorkExperienceInfo.class), resumeId);
         }
+
+    public void deleteVacancyById(Long id) {
+        String sql = """
+                DELETE FROM WORK_EXPERIENCE_INFO WHERE id = :id;
+                """;
+        template.update(sql,id);
+    }
 }

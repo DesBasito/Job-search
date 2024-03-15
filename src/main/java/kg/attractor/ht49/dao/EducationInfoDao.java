@@ -53,7 +53,7 @@ public class EducationInfoDao {
         String sql = """
                 DELETE FROM EDUCATION_INFO WHERE id = :id;
                 """;
-        namedParameter.update(sql,new MapSqlParameterSource().addValue("institution",id));
+        template.update(sql,id);
     }
 
     public void createEducationInfo(EducationInfo info) {
