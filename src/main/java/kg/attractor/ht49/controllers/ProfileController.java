@@ -2,7 +2,6 @@ package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.ProfileService;
-import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,5 +22,4 @@ public class ProfileController {
         service.editProfile(user);
         return HttpStatus.OK;
     }
-    //TODO спросить у саппортов про User не должен ли быть UserDto?
 }
