@@ -101,4 +101,28 @@ public class VacancyDao {
                 .addValue("id",vacancy.getId())
         );
     }
+
+    public List<Vacancy> getVacanciesOfCompany(Long id) {
+        String sql = """
+                SELECT * FROM vacancies
+                WHERE AUTHOR_ID = ?
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), id);
+    }
+
+    public List<Vacancy> getActiveVacanciesOfCompany(Long id) {
+        String sql = """
+                SELECT * FROM vacancies
+                WHERE AUTHOR_ID = ? and IS_ACTIVE = true;
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), id);
+    }
+
+    public List<Vacancy> getActiveVacancies() {
+        String sql = """
+                SELECT * FROM vacancies
+                WHERE IS_ACTIVE = true;
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class));
+    }
 }

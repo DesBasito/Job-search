@@ -7,6 +7,7 @@ import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.Category;
+import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.services.CategoryService;
 import kg.attractor.ht49.services.UserService;
@@ -21,6 +22,7 @@ import java.util.List;
 @Service
 @Slf4j
 @RequiredArgsConstructor
+
 public class VacancyServiceImpl implements VacancyService {
     private final VacancyDao dao;
     private final CategoryService categoryService;
@@ -64,8 +66,8 @@ public class VacancyServiceImpl implements VacancyService {
                     .name(e.getName())
                     .author(userService.getUserById(e.getAuthorId()))
                     .build();
-        }catch (VacancyNotFoundException e){
-            log.error("vacancy by id: {} not found",vacancyId);
+        } catch (VacancyNotFoundException e) {
+            log.error("vacancy by id: {} not found", vacancyId);
         }
         return null;
     }
@@ -83,6 +85,43 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public void editVacancy(VacancyDto vacancy) {
         dao.editVacancy(vacancy);
+    }
+
+    @Override
+    public List<VacancyDto> getAllVacanciesOfCompany(Long id) {
+        List<Vacancy> vacancies = dao.getVacanciesOfCompany(id);
+        try {
+            if (userService.getUserById(id) == null) {
+                throw new UserNotFoundException();
+            }
+            return getVacancyDtos(vacancies);
+
+        } catch (UserNotFoundException e) {
+            log.error("Author by id: {} not found", id);
+        }
+        return null;
+    }
+
+    @Override
+    public List<VacancyDto> getActiveVacanciesOfCompany(Long id) {
+
+        List<Vacancy> vacancies = dao.getActiveVacanciesOfCompany(id);
+        try {
+            if (userService.getUserById(id) == null) {
+                throw new UserNotFoundException();
+            }
+            return getVacancyDtos(vacancies);
+
+        } catch (UserNotFoundException e) {
+            log.error("Author by id: {} not found", id);
+        }
+        return null;
+    }
+
+    @Override
+    public List<VacancyDto> getActiveVacancies() {
+        List<Vacancy> vacancyList = dao.getActiveVacancies();
+        return getVacancyDtos(vacancyList);
     }
 
 

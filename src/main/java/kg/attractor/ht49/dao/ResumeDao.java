@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -79,12 +80,12 @@ public class ResumeDao {
 
     public void deleteResumeById(Long id) {
         String sql = """
-                DELETE FROM RESUMES WHERE id = :id;
+                DELETE FROM RESUMES WHERE id = ?;
                 """;
-        namedParameter.update(sql,new MapSqlParameterSource().addValue("id",id));
+        template.update(sql,new BeanPropertySqlParameterSource(Resume.class),id);
     }
 
-    public void editResume( ResumeDto resume) {
+    public void editResume(ResumeDto resume) {
         String sql = """
             UPDATE Resumes
             SET name = :name, category_id = :categoryId, salary = :salary, is_active = :isActive, update_date = :updateTime
