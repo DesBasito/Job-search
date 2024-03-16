@@ -8,7 +8,7 @@ public interface EducationInfoService {
 
     void editInfo(EducationInfoDto info);
 
-    void deleteEducationInfoById(Long id);
+    boolean deleteEducationInfoById(Long id);
 
     void createEducationInfo(EducationInfo info);
 }

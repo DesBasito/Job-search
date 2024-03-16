@@ -4,6 +4,7 @@ import kg.attractor.ht49.dto.VacancyDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
+import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -65,15 +66,17 @@ public class VacancyController {
     }
 
     @PostMapping()
-    public HttpStatus createResume(@RequestBody VacancyDto vacancy) {
+    public HttpStatus createResume(@RequestBody Vacancy vacancy) {
         service.createVacancy(vacancy);
         return HttpStatus.OK;
     }
 
-    @PostMapping("/delete/{id}")
-    public HttpStatus deleteVacancyById(@PathVariable(name = "id") Long id) {
-        service.deleteVacancyById(id);
-        return HttpStatus.OK;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteVacancyById(@PathVariable(name = "id") Long id) {
+        if (service.deleteVacancyById(id)){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/edit")

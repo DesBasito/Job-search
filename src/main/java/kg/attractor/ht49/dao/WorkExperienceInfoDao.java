@@ -65,7 +65,7 @@ public class WorkExperienceInfoDao {
 
     public void deleteVacancyById(Long id) {
         String sql = """
-                DELETE FROM WORK_EXPERIENCE_INFO WHERE id = :id;
+                DELETE FROM WORK_EXPERIENCE_INFO WHERE id = ?;
                 """;
         template.update(sql,id);
     }

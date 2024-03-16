@@ -4,6 +4,7 @@ package kg.attractor.ht49.services;
 import kg.attractor.ht49.dto.VacancyDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
+import kg.attractor.ht49.models.Vacancy;
 
 import java.util.List;
 
@@ -16,9 +17,9 @@ public interface VacancyService {
 
     VacancyDto getVacancyById(Long vacancyId);
 
-    void createVacancy(VacancyDto vacancy);
+    void createVacancy(Vacancy vacancy);
 
-    void deleteVacancyById(Long id);
+    Boolean deleteVacancyById(Long id);
 
     void editVacancy(VacancyDto vacancy);
 

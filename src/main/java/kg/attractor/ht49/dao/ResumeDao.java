@@ -62,15 +62,15 @@ public class ResumeDao {
         );
     }
 
-    public void createResume(ResumeDto resume) {
+    public void createResume(Resume resume) {
         String sql = """
                 insert into RESUMES(name, category_id, applicant_id, salary, is_active, created_date, update_date)\s
                 values (:name, :categoryId, :applicantId, :salary, :isActive, :createdDate, :updateTime);
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", resume.getName())
-                .addValue("categoryId", resume.getCategory().getId())
-                .addValue("applicantId", resume.getUser().getId())
+                .addValue("categoryId", resume.getCategoryId())
+                .addValue("applicantId", resume.getApplicantId())
                 .addValue("salary", resume.getSalary())
                 .addValue("isActive", true)
                 .addValue("createdDate", LocalDateTime.now())
@@ -80,9 +80,9 @@ public class ResumeDao {
 
     public void deleteResumeById(Long id) {
         String sql = """
-                DELETE FROM RESUMES WHERE id = :id;
+                DELETE FROM RESUMES WHERE id = ?;
                 """;
-        namedParameter.update(sql,new MapSqlParameterSource("id",id));
+        template.update(sql,id);
     }
 
     public void editResume(ResumeDto resume) {

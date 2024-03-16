@@ -3,11 +3,9 @@ package kg.attractor.ht49.services.impl;
 import kg.attractor.ht49.dao.VacancyDao;
 import kg.attractor.ht49.dto.UserDto;
 import kg.attractor.ht49.dto.VacancyDto;
-import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.Category;
-import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.services.CategoryService;
 import kg.attractor.ht49.services.UserService;
@@ -73,13 +71,17 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public void createVacancy(VacancyDto vacancy) {
+    public void createVacancy(Vacancy vacancy) {
         dao.createVacancy(vacancy);
     }
 
     @Override
-    public void deleteVacancyById(Long id) {
-        dao.deleteVacancyById(id);
+    public Boolean deleteVacancyById(Long id) {
+        if (dao.getVacancyById(id).isPresent()){
+            dao.deleteVacancyById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

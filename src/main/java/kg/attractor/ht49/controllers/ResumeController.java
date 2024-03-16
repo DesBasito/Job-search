@@ -59,15 +59,17 @@ public class ResumeController {
     }
 
     @PostMapping()
-    public HttpStatus createResume(@RequestBody ResumeDto resume) {
+    public HttpStatus createResume(@RequestBody Resume resume) {
         service.createResume(resume);
         return HttpStatus.OK;
     }
 
-    @PostMapping("/delete/{id}")
-    public HttpStatus deleteResumeById(@PathVariable(name = "id") Long id){
-        service.deleteResumeById(id);
-        return HttpStatus.OK;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteResumeById(@PathVariable(name = "id") Long id){
+        if (service.deleteResumeById(id)){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/edit")

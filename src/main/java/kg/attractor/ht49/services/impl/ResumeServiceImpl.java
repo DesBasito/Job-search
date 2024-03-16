@@ -78,13 +78,17 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void createResume(ResumeDto resume) {
+    public void createResume(Resume resume) {
         dao.createResume(resume);
     }
 
     @Override
-    public void deleteResumeById(Long id) {
-        dao.deleteResumeById(id);
+    public Boolean deleteResumeById(Long id) {
+        if (dao.getResumeById(id).isPresent()){
+            dao.deleteResumeById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

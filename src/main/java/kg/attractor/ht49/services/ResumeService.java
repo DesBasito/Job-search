@@ -14,9 +14,9 @@ public interface ResumeService {
     List<ResumeDto> getResumeByUserEmail(String user) throws UserNotFoundException;
     ResumeDto getResumeById(Long id);
 
-    void createResume(ResumeDto resume);
+    void createResume(Resume resume);
 
-    void deleteResumeById(Long id);
+    Boolean deleteResumeById(Long id);
 
     void editResume( ResumeDto resume);
 }

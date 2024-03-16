@@ -57,7 +57,7 @@ public class VacancyDao {
         return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class), id);
     }
 
-    public void createVacancy(VacancyDto vacancy) {
+    public void createVacancy(Vacancy vacancy) {
         String sql = """
                 insert into VACANCIES(name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date, update_date)\s
                 values (:name, :description , :categoryId, :salary, :expFrom, :expTo, :isActive, :authorId, :createdDate, :updateDate);
@@ -65,12 +65,12 @@ public class VacancyDao {
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", vacancy.getName())
                 .addValue("description", vacancy.getDescription())
-                .addValue("categoryId", vacancy.getCategory().getId())
+                .addValue("categoryId", vacancy.getCategoryId())
                 .addValue("salary", vacancy.getSalary())
                 .addValue("expFrom", vacancy.getExpFrom())
                 .addValue("expTo", vacancy.getExpTo())
                 .addValue("isActive", true)
-                .addValue("authorId", vacancy.getAuthor().getId())
+                .addValue("authorId", vacancy.getAuthorId())
                 .addValue("createdDate", LocalDateTime.now())
                 .addValue("updateDate", LocalDateTime.now())
         );
@@ -78,9 +78,9 @@ public class VacancyDao {
 
     public void deleteVacancyById(Long id) {
         String sql = """
-                DELETE FROM VACANCIES WHERE id = :id;
+                DELETE FROM VACANCIES WHERE id = ?;
                 """;
-        namedParameter.update(sql,new MapSqlParameterSource("id",id));
+        template.update(sql,id);
     }
 
     public void editVacancy(VacancyDto vacancy) {

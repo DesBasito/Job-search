@@ -14,22 +14,25 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("education")
 public class EducationInfoController {
     private final EducationInfoService service;
+
     @GetMapping("/resume/{id}")
-    public ResponseEntity<?> getEducationInfoByResumeId(@PathVariable(name = "id") Long id){
+    public ResponseEntity<?> getEducationInfoByResumeId(@PathVariable(name = "id") Long id) {
         EducationInfoDto education = service.getEducationByResumeId(id);
         return education == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("Info by resume id: " + id + " not found") : ResponseEntity.ok(education);
     }
 
     @PostMapping()
-    public HttpStatus createEducationInfo(EducationInfo info){
+    public HttpStatus createEducationInfo(EducationInfo info) {
         service.createEducationInfo(info);
         return HttpStatus.OK;
     }
 
-    @PostMapping("/delete/{id}")
-    public HttpStatus deleteEducationInfoById(@PathVariable Long id){
-        service.deleteEducationInfoById(id);
-        return HttpStatus.OK;
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEducationInfoById(@PathVariable Long id) {
+        if (service.deleteEducationInfoById(id)){
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/edit")

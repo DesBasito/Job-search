@@ -22,12 +22,12 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     @Override
     public EducationInfoDto getEducationByResumeId(Long id) {
         try {
-            if (rService.getResumeById(id)==null){
-                throw new ResumeNotFoundException("cannot find Resume by id: "+id);
+            if (rService.getResumeById(id) == null) {
+                throw new ResumeNotFoundException("cannot find Resume by id: " + id);
             }
-            EducationInfo info = dao.getEducationByResume(id).orElseThrow(()->new EducationInfoNotFoundException("cannot find Education info by resume id: "+ id));
+            EducationInfo info = dao.getEducationByResume(id).orElseThrow(() -> new EducationInfoNotFoundException("cannot find Education info by resume id: " + id));
             return getEducationInfoDto(info);
-        }catch (ResumeNotFoundException | EducationInfoNotFoundException e){
+        } catch (ResumeNotFoundException | EducationInfoNotFoundException e) {
             log.error(e.getMessage());
             return null;
         }
@@ -39,8 +39,12 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     }
 
     @Override
-    public void deleteEducationInfoById(Long id) {
-        dao.deleteEducationInfoById(id);
+    public boolean deleteEducationInfoById(Long id) {
+        if (dao.getEducationById(id).isPresent()) {
+            dao.deleteEducationInfoById(id);
+            return true;
+        }
+        return false;
     }
 
     @Override

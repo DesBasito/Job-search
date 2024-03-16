@@ -51,7 +51,7 @@ public class EducationInfoDao {
 
     public void deleteEducationInfoById(Long id) {
         String sql = """
-                DELETE FROM EDUCATION_INFO WHERE id = :id;
+                DELETE FROM EDUCATION_INFO WHERE id = ?;
                 """;
         template.update(sql,id);
     }
@@ -68,6 +68,19 @@ public class EducationInfoDao {
                 .addValue("startDate",info.getStartDate())
                 .addValue("endDate", info.getEndDate())
                 .addValue("degree", info.getDegree())
+        );
+    }
+
+
+    public Optional<EducationInfo> getEducationById(Long id) {
+        String sql = """
+                 select * from EDUCATION_INFO
+                where ID = ?;
+                """;
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql, new BeanPropertyRowMapper<>(EducationInfo.class),id)
+                )
         );
     }
 }
