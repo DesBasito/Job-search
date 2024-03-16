@@ -111,4 +111,10 @@ public class ResumeServiceImpl implements ResumeService {
                 .build()));
         return dtos;
     }
+
+    @Override
+    public List<ResumeDto> getResumeByName(String rName) {
+        List<Resume> resumeList = dao.getResumesByName(rName);
+        return getResumeDtos(resumeList);
+    }
 }

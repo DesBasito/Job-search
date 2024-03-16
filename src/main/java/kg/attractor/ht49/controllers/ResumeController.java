@@ -25,6 +25,14 @@ public class ResumeController {
         return ResponseEntity.ok(resumes);
     }
 
+    @GetMapping("/searchByName/{resumeName}")
+    public ResponseEntity<?> getResumeByName(@PathVariable(name = "resumeName")String rName){
+        List<ResumeDto> dto = service.getResumeByName(rName);
+        return dto == null ?
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by Id: "+rName+" not found")
+                :ResponseEntity.ok(dto);
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<?> getResumeById(@PathVariable(name = "id")Long id){
         ResumeDto dto = service.getResumeById(id);

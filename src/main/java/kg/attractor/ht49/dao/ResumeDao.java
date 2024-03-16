@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlReturnType;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -99,5 +100,12 @@ public class ResumeDao {
                 .addValue("updateTime", LocalDateTime.now())
                 .addValue("id",resume.getId())
         );
+    }
+
+    public List<Resume> getResumesByName(String rName) {
+       String sql = """
+               SELECT * FROM resumes WHERE name ilike  '%' || ? || '%';
+               """;
+      return template.query(sql, new BeanPropertyRowMapper<>(Resume.class),rName);
     }
 }

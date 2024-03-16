@@ -21,4 +21,6 @@ public interface ResumeService {
     void editResume( ResumeDto resume);
 
     List<ResumeDto> getResumeDtos(List<Resume> resumes);
+
+    List<ResumeDto> getResumeByName(String rName);
 }
