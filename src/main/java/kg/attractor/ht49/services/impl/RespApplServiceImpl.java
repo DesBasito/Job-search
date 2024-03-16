@@ -2,7 +2,9 @@ package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.RespondedApplicantsDao;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
+import kg.attractor.ht49.dto.ResumeDto;
 import kg.attractor.ht49.models.RespondedApplicant;
+import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.services.RespondedApplicantsService;
 import kg.attractor.ht49.services.ResumeService;
 import kg.attractor.ht49.services.VacancyService;
@@ -28,9 +30,9 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     }
 
     @Override
-    public List<RespondedApplicantDto> getRespondedApplicantsByVacancyId(Long id) {
-        List<RespondedApplicant> applicants = dao.getAllRespApplByVacancyId(id);
-        return getRespondedApplicantDtos(applicants);
+    public List<ResumeDto> getRespondedApplicantsByVacancyId(Long id) {
+        List<Resume> applicants = dao.getAllRespApplByVacancyId(id);
+        return resumeService.getResumeDtos(applicants);
     }
 
 

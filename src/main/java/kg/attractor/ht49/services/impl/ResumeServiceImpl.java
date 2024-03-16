@@ -96,7 +96,8 @@ public class ResumeServiceImpl implements ResumeService {
         dao.editResume(resume);
     }
 
-    private List<ResumeDto> getResumeDtos(List<Resume> resumes) {
+    @Override
+    public List<ResumeDto> getResumeDtos(List<Resume> resumes) {
         List<ResumeDto> dtos = new ArrayList<>();
         resumes.forEach(r -> dtos.add(ResumeDto.builder()
                 .id(r.getId())
