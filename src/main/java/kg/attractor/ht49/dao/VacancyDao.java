@@ -1,7 +1,7 @@
 package kg.attractor.ht49.dao;
 
-import kg.attractor.ht49.dto.VacancyDto;
-import kg.attractor.ht49.dto.VacancyEditDto;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
+import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.models.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;

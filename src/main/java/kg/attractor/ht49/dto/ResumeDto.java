@@ -1,6 +1,6 @@
 package kg.attractor.ht49.dto;
 
-import kg.attractor.ht49.models.Category;
+import kg.attractor.ht49.dto.users.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

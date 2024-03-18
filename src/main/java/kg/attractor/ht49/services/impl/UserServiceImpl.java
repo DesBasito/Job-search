@@ -1,8 +1,9 @@
 package kg.attractor.ht49.services.impl;
 
-import kg.attractor.ht49.dto.UserCreationDto;
+import kg.attractor.ht49.dto.users.EditUserDto;
+import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dao.UserDao;
-import kg.attractor.ht49.dto.UserDto;
+import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
@@ -96,7 +97,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(User user) {
+    public void editUser(EditUserDto user) {
         userDao.editUser(user);
     }
 

@@ -1,7 +1,7 @@
 package kg.attractor.ht49.controllers;
 
-import kg.attractor.ht49.dto.VacancyDto;
-import kg.attractor.ht49.dto.VacancyEditDto;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
+import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.services.VacancyService;

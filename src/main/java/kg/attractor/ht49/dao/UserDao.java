@@ -1,7 +1,8 @@
 package kg.attractor.ht49.dao;
 
 
-import kg.attractor.ht49.dto.UserCreationDto;
+import kg.attractor.ht49.dto.users.EditUserDto;
+import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.models.User;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 
@@ -98,7 +98,7 @@ public class UserDao {
         );
     }
 
-    public void editUser(User user) {
+    public void editUser(EditUserDto user) {
         String sql = """
                 UPDATE USERS
             SET NAME = :name, SURNAME = :surname,AGE = :age, password = :password, phone_number = :phoneNumber, avatar = :avatar

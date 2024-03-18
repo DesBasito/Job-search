@@ -1,7 +1,8 @@
 package kg.attractor.ht49.services;
 
-import kg.attractor.ht49.dto.UserCreationDto;
-import kg.attractor.ht49.dto.UserDto;
+import kg.attractor.ht49.dto.users.EditUserDto;
+import kg.attractor.ht49.dto.users.UserCreationDto;
+import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.models.User;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public interface UserService {
     Long getUserId(String user);
     Boolean checkIfUserExists(String email);
 
-    void editUser(User user);
+    void editUser(EditUserDto user);
 
     List<UserDto> getUsersByType(String type) throws Exception;
 

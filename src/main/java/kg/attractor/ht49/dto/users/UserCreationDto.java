@@ -1,4 +1,4 @@
-package kg.attractor.ht49.dto;
+package kg.attractor.ht49.dto.users;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

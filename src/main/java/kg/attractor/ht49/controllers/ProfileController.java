@@ -1,5 +1,6 @@
 package kg.attractor.ht49.controllers;
 
+import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.ProfileService;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +14,7 @@ public class ProfileController {
     private final ProfileService service;
 
     @PostMapping("/edit")
-    public HttpStatus editProfile(@RequestBody User user) {
+    public HttpStatus editProfile(@RequestBody EditUserDto user) {
         service.editProfile(user);
         return HttpStatus.OK;
     }

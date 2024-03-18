@@ -1,8 +1,7 @@
 package kg.attractor.ht49.controllers;
 
-import kg.attractor.ht49.dto.UserCreationDto;
-import kg.attractor.ht49.dto.UserDto;
-import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.dto.users.UserCreationDto;
+import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
