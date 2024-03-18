@@ -3,6 +3,7 @@ package kg.attractor.ht49.services.impl;
 import kg.attractor.ht49.dto.UserCreationDto;
 import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dto.UserDto;
+import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.UserService;
@@ -98,6 +99,23 @@ public class UserServiceImpl implements UserService {
     public void editUser(User user) {
         userDao.editUser(user);
     }
+
+    @Override
+    public List<UserDto> getUsersByType(String type) throws Exception {
+        List<User> userList;
+        if (type.equalsIgnoreCase(AccountTypes.EMPLOYEE.toString())){
+            userList =  userDao.getEmployees(AccountTypes.EMPLOYEE);
+        }else if(type.equalsIgnoreCase(AccountTypes.EMPLOYER.toString())){
+            userList = userDao.getEmployees(AccountTypes.EMPLOYER);
+        }else {
+            log.error("Users by type {} not found",type);
+            throw new Exception();
+        }
+        List<UserDto> dtos = new ArrayList<>();
+        userList.forEach(e -> dtos.add(getUserDto(e)));
+        return dtos;
+    }
+
 
 
     private UserDto getUserDto(User user) {

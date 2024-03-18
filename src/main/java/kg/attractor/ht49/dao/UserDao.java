@@ -2,6 +2,7 @@ package kg.attractor.ht49.dao;
 
 
 import kg.attractor.ht49.dto.UserCreationDto;
+import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -12,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -24,6 +26,14 @@ public class UserDao {
     public List<User> getAllUsers() {
         String sql = "SELECT * FROM USERS";
         return template.query(sql, new BeanPropertyRowMapper<>(User.class));
+    }
+
+    public List<User> getEmployees(AccountTypes type){
+        String sql = " Select * from users where ACC_TYPE like ?";
+        if (type.toString().equalsIgnoreCase("employee")){
+            return template.query(sql,new BeanPropertyRowMapper<>(User.class), AccountTypes.EMPLOYEE.toString());
+        }
+        return template.query(sql,new BeanPropertyRowMapper<>(User.class),AccountTypes.EMPLOYER.toString());
     }
 
     public Optional<User> getUserByEmail(String email) {

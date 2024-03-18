@@ -17,4 +17,7 @@ public interface UserService {
     Boolean checkIfUserExists(String email);
 
     void editUser(User user);
+
+    List<UserDto> getUsersByType(String type) throws Exception;
+
 }

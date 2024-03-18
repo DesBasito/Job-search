@@ -33,6 +33,16 @@ public class UserController {
         return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + phone + " not found") : ResponseEntity.ok(user);
     }
 
+    @GetMapping("/getUsers/{type}")
+    public ResponseEntity<?> getUsersByType(@PathVariable(name = "type") String type){
+        try {
+            return ResponseEntity.ok(service.getUsersByType(type));
+        }catch (Exception e){
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Users by type "+type+" not found");
+        }
+    }
+
+
     @GetMapping("/email")
     public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email", defaultValue = "example@example.com") String email) {
         UserDto user = service.getUserByEmail(email);
