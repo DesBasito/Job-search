@@ -1,6 +1,7 @@
 package kg.attractor.ht49.dao;
 
 import kg.attractor.ht49.dto.VacancyDto;
+import kg.attractor.ht49.dto.VacancyEditDto;
 import kg.attractor.ht49.models.Vacancy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -8,10 +9,16 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -83,10 +90,10 @@ public class VacancyDao {
         template.update(sql,id);
     }
 
-    public void editVacancy(VacancyDto vacancy) {
+    public void editVacancy(VacancyEditDto vacancy) {
         String sql = """
             UPDATE VACANCIES
-            SET name = :name, description = :description, category_id = :categoryId, salary = :salary, exp_from = :expFrom, exp_to = :expTo, is_active = :isActive, update_date = :updateDate
+            SET name = :name, description = :description, category_id = :categoryId, salary = :salary, exp_from = :expFrom, exp_to = :expTo
             WHERE id = :id;
             """;
         namedParameter.update(sql, new MapSqlParameterSource()
@@ -96,7 +103,6 @@ public class VacancyDao {
                 .addValue("salary", vacancy.getSalary())
                 .addValue("expFrom", vacancy.getExpFrom())
                 .addValue("expTo", vacancy.getExpTo())
-                .addValue("isActive", vacancy.getIsActive())
                 .addValue("updateDate", LocalDateTime.now())
                 .addValue("id",vacancy.getId())
         );
@@ -124,5 +130,62 @@ public class VacancyDao {
                 WHERE IS_ACTIVE = true;
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class));
+    }
+
+    public Optional<Vacancy> getVacancyByName(String name) {
+        String sql = """
+                select * from VACANCIES
+                where NAME =?
+                """;
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql, new BeanPropertyRowMapper<>(Vacancy.class),name)
+                )
+        );
+    }
+
+    public Long createVacancyAndReturnId(VacancyDto vacancy) {
+        String sql = """
+                insert into VACANCIES(name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date, update_date)
+                values (?, ? , ?, ?, ?, ?, ?,?,?,?);
+                """;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        template.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
+            ps.setString(1,vacancy.getName());
+            ps.setString(2,vacancy.getDescription());
+            ps.setLong(3,vacancy.getCategory().getId());
+            ps.setDouble(4,vacancy.getSalary());
+            ps.setInt(5,vacancy.getExpFrom());
+            ps.setInt(6,vacancy.getExpTo());
+            ps.setBoolean(7,true);
+            ps.setLong(8,vacancy.getAuthor().getId());
+            ps.setDate(9, Date.valueOf(LocalDate.now()));
+            ps.setDate(10, Date.valueOf(LocalDate.now()));
+            return ps;
+        }, keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey().longValue());
+    }
+
+    public void makeVacancyFalse(Long id) {
+        String sql = """
+            UPDATE VACANCIES
+            SET IS_ACTIVE = false
+            WHERE id = :id;
+            """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("id",id)
+        );
+    }
+
+    public void makeVacancyTrue(Long id) {
+        String sql = """
+            UPDATE VACANCIES
+            SET IS_ACTIVE = true
+            WHERE id = :id;
+            """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("id",id)
+        );
     }
 }

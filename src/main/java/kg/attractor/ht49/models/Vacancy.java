@@ -1,10 +1,12 @@
 package kg.attractor.ht49.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 public class Vacancy {
     private Long id;
     private String name;

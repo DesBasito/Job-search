@@ -1,10 +1,9 @@
 package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.VacancyDto;
+import kg.attractor.ht49.dto.VacancyEditDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.exceptions.VacancyNotFoundException;
-import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +22,7 @@ public class VacancyController {
     public ResponseEntity<List<VacancyDto>> getVacancies() {
         return ResponseEntity.ok(service.getAllVacancies());
     }
+
     @GetMapping("/active")
     public ResponseEntity<List<VacancyDto>> getActiveVacancies() {
         return ResponseEntity.ok(service.getActiveVacancies());
@@ -66,22 +66,41 @@ public class VacancyController {
     }
 
     @PostMapping()
-    public HttpStatus createVacancy(@RequestBody Vacancy vacancy) {
+    public ResponseEntity<?> createVacancy(@RequestBody VacancyDto vacancy) {
         service.createVacancy(vacancy);
-        return HttpStatus.OK;
+        Long id = service.createVacancyAndReturnId(vacancy);
+        return ResponseEntity.ok(id);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVacancyById(@PathVariable(name = "id") Long id) {
-        if (service.deleteVacancyById(id)){
+        if (service.deleteVacancyById(id)) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();
     }
 
     @PostMapping("/edit")
-    public HttpStatus editVacancy(@RequestBody VacancyDto vacancy) {
+    public ResponseEntity<VacancyDto> editVacancy(@RequestBody VacancyEditDto vacancy) {
         service.editVacancy(vacancy);
-        return HttpStatus.OK;
+        return ResponseEntity.ok(service.getVacancyById(vacancy.getId()));
+    }
+
+    @PostMapping("/switchOff/{id}")
+    public ResponseEntity<?> deactivateVacancy(@PathVariable(name = "id") Long id) {
+        if (service.getVacancyById(id).getIsActive()){
+            service.deactivateVacancy(id);
+            return ResponseEntity.ok(service.getVacancyById(id));
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Already deactivated");
+    }
+
+    @PostMapping("/switchOn/{id}")
+    public ResponseEntity<?> activateVacancy(@PathVariable(name = "id") Long id) {
+        if (!service.getVacancyById(id).getIsActive()){
+            service.activateVacancy(id);
+            return ResponseEntity.ok(service.getVacancyById(id));
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Already activated");
     }
 }

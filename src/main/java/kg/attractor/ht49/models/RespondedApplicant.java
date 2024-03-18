@@ -1,8 +1,10 @@
 package kg.attractor.ht49.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class RespondedApplicant {
     private Long id;
     private Long resumeId;

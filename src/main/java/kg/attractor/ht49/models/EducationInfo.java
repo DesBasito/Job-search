@@ -1,10 +1,12 @@
 package kg.attractor.ht49.models;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 public class EducationInfo {
     private Long id;
     private Long resumeId;
