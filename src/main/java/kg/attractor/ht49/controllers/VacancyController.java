@@ -66,7 +66,7 @@ public class VacancyController {
     }
 
     @PostMapping()
-    public HttpStatus createResume(@RequestBody Vacancy vacancy) {
+    public HttpStatus createVacancy(@RequestBody Vacancy vacancy) {
         service.createVacancy(vacancy);
         return HttpStatus.OK;
     }

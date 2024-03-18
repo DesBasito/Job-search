@@ -1,0 +1,87 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-responded-applicants-table
+      author: Abu
+      changes:
+        - createTable:
+            tableName: responded_applicants
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: vacancy_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_responded_applicants_vacancy_id
+                    references: vacancies(id)
+                    nullable: false
+                    onDelete: CASCADE
+                    onUpdate: RESTRICT
+              - column:
+                  name: resume_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_responded_applicants_resume_id
+                    references: resumes(id)
+                    nullable: false
+                    onDelete: CASCADE
+                    onUpdate: RESTRICT
+              - column:
+                  name: confirmation
+                  type: boolean
+                  constraints:
+                    nullable: false
+
+  - changeSet:
+      id: create-education-info-table
+      author: Abu
+      changes:
+        - createTable:
+            tableName: education_info
+            columns:
+              - column:
+                  name: id
+                  type: integer
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: institution
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: program
+                  type: text
+                  constraints:
+                    nullable: false
+              - column:
+                  name: resume_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_education_info_resume_id
+                    references: resumes(id)
+                    nullable: false
+                    onDelete: CASCADE
+                    onUpdate: RESTRICT
+              - column:
+                  name: start_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: end_date
+                  type: date
+                  constraints:
+                    nullable: false
+              - column:
+                  name: degree
+                  type: text
+                  constraints:
+                    nullable: false

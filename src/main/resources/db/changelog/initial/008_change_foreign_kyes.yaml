@@ -1,0 +1,7 @@
+databaseChangeLog:
+    - changeSet:
+          id: drop-all-tables
+          author: Abu
+          changes:
+              - sql:
+                    sql: DROP TABLE IF EXISTS users, categories, vacancies, resumes, contacts_info, contact_types, responded_applicants, education_info, work_experience_info, messages;
