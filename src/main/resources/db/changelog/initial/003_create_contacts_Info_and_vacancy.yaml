@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
-      id: create-categories-table
+      id: create-contacts-info-table
       author: Abu
       changes:
         - createTable:
-            tableName: categories
+            tableName: contacts_info
             columns:
               - column:
                   name: id
@@ -14,18 +14,26 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: name
+                  name: infoValue
                   type: text
                   constraints:
                     nullable: false
               - column:
-                  name: parent_id
+                  name: type_id
                   type: integer
                   constraints:
-                    foreignKeyName: fk_categories_parent_id
-                    references: categories(id)
-                    onDelete: CASCADE
-                    onUpdate: RESTRICT
+                    foreignKeyName: fk_contacts_info_type_id
+                    references: contact_types(id)
+                    nullable: false
+                    deleteCascade: true
+              - column:
+                  name: resume_id
+                  type: integer
+                  constraints:
+                    foreignKeyName: fk_contacts_info_resume_id
+                    references: resumes(id)
+                    nullable: false
+                    deleteCascade: true
 
   - changeSet:
       id: create-vacancies-table
@@ -58,6 +66,7 @@ databaseChangeLog:
                     foreignKeyName: fk_vacancies_category_id
                     references: categories(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: salary
                   type: real
@@ -85,8 +94,7 @@ databaseChangeLog:
                     nullable: false
                     foreignKeyName: fk_vacancies_author_id
                     references: users(id)
-                    onDelete: CASCADE
-                    onUpdate: RESTRICT
+                    deleteCascade: true
               - column:
                   name: created_date
                   type: timestamp

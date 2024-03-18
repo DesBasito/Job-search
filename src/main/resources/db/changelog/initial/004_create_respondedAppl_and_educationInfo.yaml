@@ -20,6 +20,7 @@ databaseChangeLog:
                     foreignKeyName: fk_responded_applicants_vacancy_id
                     references: vacancies(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: resume_id
                   type: integer
@@ -27,6 +28,7 @@ databaseChangeLog:
                     foreignKeyName: fk_responded_applicants_resume_id
                     references: resumes(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: confirmation
                   type: boolean
@@ -35,7 +37,7 @@ databaseChangeLog:
 
   - changeSet:
       id: create-education-info-table
-      author: Abu
+      author: author
       changes:
         - createTable:
             tableName: education_info
@@ -64,6 +66,7 @@ databaseChangeLog:
                     foreignKeyName: fk_education_info_resume_id
                     references: resumes(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: start_date
                   type: date

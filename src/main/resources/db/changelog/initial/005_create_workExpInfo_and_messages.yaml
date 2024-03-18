@@ -20,6 +20,7 @@ databaseChangeLog:
                     foreignKeyName: fk_work_experience_info_resume_id
                     references: resumes(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: years
                   type: integer
@@ -62,6 +63,7 @@ databaseChangeLog:
                     foreignKeyName: fk_messages_responded_applicants
                     references: users(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: content
                   type: text

@@ -1,5 +1,31 @@
 databaseChangeLog:
   - changeSet:
+        id: create-categories-table
+        author: Abu
+        changes:
+          - createTable:
+              tableName: categories
+              columns:
+                - column:
+                    name: id
+                    type: integer
+                    autoIncrement: true
+                    constraints:
+                      primaryKey: true
+                      nullable: false
+                - column:
+                    name: name
+                    type: text
+                    constraints:
+                      nullable: false
+                - column:
+                    name: parent_id
+                    type: integer
+                    constraints:
+                      foreignKeyName: fk_categories_parent_id
+                      references: categories(id)
+                      deleteCascade: true
+  - changeSet:
       id: create-resumes-table
       author: Abu
       changes:
@@ -25,6 +51,7 @@ databaseChangeLog:
                     foreignKeyName: fk_resumes_category_id
                     references: categories(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: applicant_id
                   type: integer
@@ -32,6 +59,7 @@ databaseChangeLog:
                     foreignKeyName: fk_resumes_applicant_id
                     references: users(id)
                     nullable: false
+                    deleteCascade: true
               - column:
                   name: salary
                   type: real
@@ -53,36 +81,3 @@ databaseChangeLog:
                   constraints:
                     nullable: false
 
-  - changeSet:
-      id: create-contacts-info-table
-      author: Abu
-      changes:
-        - createTable:
-            tableName: contacts_info
-            columns:
-              - column:
-                  name: id
-                  type: integer
-                  autoIncrement: true
-                  constraints:
-                    primaryKey: true
-                    nullable: false
-              - column:
-                  name: infoValue
-                  type: text
-                  constraints:
-                    nullable: false
-              - column:
-                  name: type_id
-                  type: integer
-                  constraints:
-                    foreignKeyName: fk_contacts_info_type_id
-                    references: contact_types(id)
-                    nullable: false
-              - column:
-                  name: resume_id
-                  type: integer
-                  constraints:
-                    foreignKeyName: fk_contacts_info_resume_id
-                    references: resumes(id)
-                    nullable: false

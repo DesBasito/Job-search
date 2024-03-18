@@ -4,10 +4,9 @@
 INSERT INTO users (name, surname, age, email, password, phone_number, avatar, acc_type)
 VALUES ('John', 'Doe', 30, 'john.doe@example.com', 'password123', '1234567890', 'avatar.jpg', 'employer'),
        ('Jane', 'Smith', 25, 'jane.smith@example.com', 'password456', '1987654321', 'avatar.png', 'employee'),
-       ('Michael', 'Johnson', 35, 'michael.johnson@example.com', 'password789', '1122334455', NULL, 'employer');
+       ('Michael', 'Johnson', 35, 'michael.johnson@example.com', 'password789', '1122334455', NULL, 'employer'),
+       ('John', 'Jakobson', 30, 'johny@example.com', 'qwerty', '763547234', 'avatar4.jpg', 'employee');
 
-INSERT INTO users (name, surname, age, email, password, phone_number, avatar, acc_type)
-VALUES ('John', 'Jakobson', 30, 'johny@example.com', 'qwerty', '763547234', 'avatar4.jpg', 'employee');
 
 INSERT INTO contact_types (type)
 VALUES ('Email'),
@@ -17,7 +16,8 @@ VALUES ('Email'),
 INSERT INTO categories (name)
 VALUES ('Software Development'),
        ('Marketing'),
-       ('Finance');
+       ('Finance'),
+       ('Bio Engineer');
 
 INSERT INTO vacancies (name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date,
                        update_date)
@@ -29,11 +29,8 @@ VALUES ('Software Engineer', 'Description for software engineer vacancy',
         (SELECT id FROM users WHERE name = 'Jane' AND surname = 'Smith'), NOW(), NOW()),
        ('Financial Analyst', 'Description for financial analyst vacancy',
         (SELECT id FROM categories WHERE name = 'Finance'), 80000, 3, 6, 1,
-        (SELECT id FROM users WHERE name = 'John' AND surname = 'Doe'), NOW(), NOW());
-
-INSERT INTO vacancies (name, description, category_id, salary, exp_from, exp_to, is_active, author_id, created_date,
-                       update_date)
-VALUES ('Data base architecture', 'Description for architecture vacancy',
+        (SELECT id FROM users WHERE name = 'John' AND surname = 'Doe'), NOW(), NOW()),
+       ('Data base architecture', 'Description for architecture vacancy',
         (SELECT id FROM categories WHERE name = 'Software Development'), 67000, 2, 4, 1,
         (SELECT id FROM users WHERE name = 'Michael' AND surname = 'Johnson'), '2023-12-01 17:45:18',
         '2024-02-12 14:27:46');
@@ -44,10 +41,8 @@ VALUES ('John Doe Resume', (SELECT id FROM categories WHERE name = 'Software Dev
        ('Jane Smith Resume', (SELECT id FROM categories WHERE name = 'Marketing'),
         (SELECT id FROM users WHERE name = 'Jane' AND surname = 'Smith'), 60000, 1, NOW(), NOW()),
        ('Michael Johnson Resume', (SELECT id FROM categories WHERE name = 'Finance'),
-        (SELECT id FROM users WHERE name = 'Michael' AND surname = 'Johnson'), 80000, 1, NOW(), NOW());
-
-INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created_date, update_date)
-VALUES ('John Doe Resume of php dev-op', (SELECT id FROM categories WHERE name = 'Software Development'),
+        (SELECT id FROM users WHERE name = 'Michael' AND surname = 'Johnson'), 80000, 1, NOW(), NOW()),
+       ('John Doe Resume of php dev-op', (SELECT id FROM categories WHERE name = 'Software Development'),
         (SELECT id FROM users WHERE name = 'John' AND surname = 'Doe'), 70000, 1, '2024-01-23 12:34:09',
         '2024-03-02 18:12:39');
 
