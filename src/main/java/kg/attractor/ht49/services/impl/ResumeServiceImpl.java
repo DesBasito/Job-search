@@ -1,7 +1,8 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.ResumeDao;
-import kg.attractor.ht49.dto.ResumeDto;
+import kg.attractor.ht49.dto.resumes.CreateResumeDto;
+import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
@@ -78,7 +79,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void createResume(Resume resume) {
+    public void createResume(CreateResumeDto resume) {
         dao.createResume(resume);
     }
 

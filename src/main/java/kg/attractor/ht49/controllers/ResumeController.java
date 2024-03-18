@@ -1,10 +1,10 @@
 package kg.attractor.ht49.controllers;
 
-import kg.attractor.ht49.dto.ResumeDto;
+import kg.attractor.ht49.dto.resumes.CreateResumeDto;
+import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.Resume;
-import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -67,7 +67,7 @@ public class ResumeController {
     }
 
     @PostMapping()
-    public HttpStatus createResume(@RequestBody Resume resume) {
+    public HttpStatus createResume(@RequestBody CreateResumeDto resume) {
         service.createResume(resume);
         return HttpStatus.OK;
     }

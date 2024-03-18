@@ -2,7 +2,7 @@ package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.RespondedApplicantsDao;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
-import kg.attractor.ht49.dto.ResumeDto;
+import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.services.RespondedApplicantsService;

@@ -1,12 +1,11 @@
 package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.RespondedApplicantDto;
-import kg.attractor.ht49.dto.ResumeDto;
+import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.services.RespondedApplicantsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,15 +1,13 @@
 package kg.attractor.ht49.dao;
 
-import kg.attractor.ht49.dto.ResumeDto;
+import kg.attractor.ht49.dto.resumes.CreateResumeDto;
+import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.models.Resume;
-import kg.attractor.ht49.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.SqlReturnType;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
@@ -63,15 +61,15 @@ public class ResumeDao {
         );
     }
 
-    public void createResume(Resume resume) {
+    public void createResume(CreateResumeDto resume) {
         String sql = """
                 insert into RESUMES(name, category_id, applicant_id, salary, is_active, created_date, update_date)\s
                 values (:name, :categoryId, :applicantId, :salary, :isActive, :createdDate, :updateTime);
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", resume.getName())
-                .addValue("categoryId", resume.getCategoryId())
-                .addValue("applicantId", resume.getApplicantId())
+                .addValue("categoryId", resume.getCategory().getId())
+                .addValue("applicantId", resume.getUser().getId())
                 .addValue("salary", resume.getSalary())
                 .addValue("isActive", true)
                 .addValue("createdDate", LocalDateTime.now())

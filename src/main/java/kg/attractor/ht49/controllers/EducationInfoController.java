@@ -1,7 +1,6 @@
 package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.EducationInfoDto;
-import kg.attractor.ht49.dto.ResumeDto;
 import kg.attractor.ht49.models.EducationInfo;
 import kg.attractor.ht49.services.EducationInfoService;
 import lombok.RequiredArgsConstructor;
