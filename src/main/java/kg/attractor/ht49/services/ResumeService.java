@@ -23,4 +23,6 @@ public interface ResumeService {
     List<ResumeDto> getResumeDtos(List<Resume> resumes);
 
     List<ResumeDto> getResumeByName(String rName);
+
+    Long createAndReturnIdResume(CreateResumeDto resume);
 }

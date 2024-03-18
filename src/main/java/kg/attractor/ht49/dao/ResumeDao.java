@@ -10,10 +10,16 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -105,5 +111,25 @@ public class ResumeDao {
                SELECT * FROM resumes WHERE name ilike  '%' || ? || '%';
                """;
       return template.query(sql, new BeanPropertyRowMapper<>(Resume.class),rName);
+    }
+
+    public Long createAndReturnResumeId(CreateResumeDto resume) {
+        String sql = """
+                insert into RESUMES(name, category_id, applicant_id, salary, is_active, created_date, update_date)
+                values (?, ? , ?, ?, ?, ?, ?)
+                """;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        template.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
+            ps.setString(1,resume.getName());
+            ps.setLong(2,resume.getCategory().getId());
+            ps.setLong(3,resume.getUser().getId());
+            ps.setDouble(4,resume.getSalary());
+            ps.setBoolean(5,true);
+            ps.setDate(6, Date.valueOf(LocalDate.now()));
+            ps.setDate(7, Date.valueOf(LocalDate.now()));
+            return ps;
+        }, keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey().longValue());
     }
 }

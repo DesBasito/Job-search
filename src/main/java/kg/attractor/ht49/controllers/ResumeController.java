@@ -67,9 +67,10 @@ public class ResumeController {
     }
 
     @PostMapping()
-    public HttpStatus createResume(@RequestBody CreateResumeDto resume) {
+    public ResponseEntity<Long> createResume(@RequestBody CreateResumeDto resume) {
         service.createResume(resume);
-        return HttpStatus.OK;
+        Long id = service.createAndReturnIdResume(resume);
+        return ResponseEntity.ok(id);
     }
 
     @DeleteMapping("/{id}")

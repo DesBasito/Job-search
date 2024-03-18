@@ -118,4 +118,9 @@ public class ResumeServiceImpl implements ResumeService {
         List<Resume> resumeList = dao.getResumesByName(rName);
         return getResumeDtos(resumeList);
     }
+
+    @Override
+    public Long createAndReturnIdResume(CreateResumeDto resume) {
+        return dao.createAndReturnResumeId(resume);
+    }
 }
