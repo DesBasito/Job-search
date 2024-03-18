@@ -29,7 +29,7 @@ public class ResumeController {
     public ResponseEntity<?> getResumeByName(@PathVariable(name = "resumeName")String rName){
         List<ResumeDto> dto = service.getResumeByName(rName);
         return dto == null ?
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by Id: "+rName+" not found")
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by name: "+rName+" not found")
                 :ResponseEntity.ok(dto);
     }
 

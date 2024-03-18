@@ -1,8 +1,7 @@
 package kg.attractor.ht49.controllers;
 
+import kg.attractor.ht49.dto.UserCreationDto;
 import kg.attractor.ht49.dto.UserDto;
-import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -46,8 +45,13 @@ public class UserController {
 
 
     @PostMapping()
-    public HttpStatus createUser(User user) {
-        service.createUser(user);
-        return HttpStatus.OK;
+    public HttpStatus createUser(UserCreationDto user) {
+        try {
+            service.createUser(user);
+            return HttpStatus.OK;
+        }catch (Exception e){
+            return HttpStatus.CONFLICT;
+        }
+
     }
 }

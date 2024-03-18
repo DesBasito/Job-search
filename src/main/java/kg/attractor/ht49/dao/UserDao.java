@@ -1,6 +1,7 @@
 package kg.attractor.ht49.dao;
 
 
+import kg.attractor.ht49.dto.UserCreationDto;
 import kg.attractor.ht49.models.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -37,7 +38,7 @@ public class UserDao {
         );
     }
 
-    public void createUser(User user) {
+    public void createUser(UserCreationDto user) {
         String sql = """
                 insert into users(name, surname, age, email, password, phone_number, avatar, acc_type)\s
                 values (:name, :surname, :age, :email, :password, :phoneNumber, :avatar, :accType);

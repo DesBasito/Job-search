@@ -1,5 +1,6 @@
 package kg.attractor.ht49.services.impl;
 
+import kg.attractor.ht49.dto.UserCreationDto;
 import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dto.UserDto;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
@@ -50,7 +51,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(User user) {
+    public void createUser(UserCreationDto user) throws Exception {
+        if (userDao.getUserByEmail(user.getEmail()).isPresent()){
+            throw new Exception();
+        }
         userDao.createUser(user);
     }
 
