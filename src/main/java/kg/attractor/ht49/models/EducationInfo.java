@@ -1,12 +1,14 @@
 package kg.attractor.ht49.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
 @Getter
 @Setter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 public class EducationInfo {
     private Long id;
     private Long resumeId;

@@ -1,0 +1,27 @@
+databaseChangeLog:
+  - changeSet:
+      id: added table for user image
+      author: Abu
+      changes:
+        - createTable:
+            tableName: user_images
+            columns:
+              - column:
+                  name: id
+                  type: long
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: user_id
+                  type: long
+                  constraints:
+                    foreignKeyName: ufk_user_id
+                    nullable: false
+                    references: users(id)
+              - column:
+                  name: file_name
+                  type: varchar(255)
+                  constraints:
+                    nullable: false

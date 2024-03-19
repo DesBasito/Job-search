@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class CategoryServiceImpl implements CategoryService {
     private final CategoryDao dao;
     @Override
-    public Category getCategoryIdByName(String category){
+    public Category getCategoryByName(String category){
         try {
         return dao.getCategoryByName(category).orElseThrow(CategoryNotFoundException::new);
         }catch (CategoryNotFoundException e){

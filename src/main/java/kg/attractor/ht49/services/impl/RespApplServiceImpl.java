@@ -3,6 +3,8 @@ package kg.attractor.ht49.services.impl;
 import kg.attractor.ht49.dao.RespondedApplicantsDao;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.exceptions.ResumeNotFoundException;
+import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.services.RespondedApplicantsService;
@@ -35,14 +37,25 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
         return resumeService.getResumeDtos(applicants);
     }
 
+    @Override
+    public void createRespAppl(String email, String vacancyId) {
+        try {
+            Long resumeId = resumeService.getResumeByUserEmail(email).getFirst().getId();
+            dao.createRespAppl(resumeId, vacancyId);
+        } catch (UserNotFoundException e){
+            log.error("User not found");
+        }
+
+    }
+
 
     private List<RespondedApplicantDto> getRespondedApplicantDtos(List<RespondedApplicant> applicants) {
         List<RespondedApplicantDto> dtos = new ArrayList<>();
         applicants.forEach(e -> dtos.add(RespondedApplicantDto.builder()
-                        .id(e.getId())
-                        .resume(resumeService.getResumeById(e.getResumeId()))
-                        .vacancy(vacancyService.getVacancyById(e.getVacancyId()))
-                        .confirmation(e.getConfirmation())
+                .id(e.getId())
+                .resume(resumeService.getResumeById(e.getResumeId()))
+                .vacancy(vacancyService.getVacancyById(e.getVacancyId()))
+                .confirmation(e.getConfirmation())
                 .build()));
         return dtos;
     }

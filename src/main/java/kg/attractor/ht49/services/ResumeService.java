@@ -1,6 +1,7 @@
 package kg.attractor.ht49.services;
 
 import kg.attractor.ht49.dto.resumes.CreateResumeDto;
+import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
@@ -15,7 +16,7 @@ public interface ResumeService {
     List<ResumeDto> getResumeByUserEmail(String user) throws UserNotFoundException;
     ResumeDto getResumeById(Long id);
 
-    void createResume(CreateResumeDto resume);
+    void createResume(ResumeCreateDto resume);
 
     Boolean deleteResumeById(Long id);
 
@@ -25,7 +26,9 @@ public interface ResumeService {
 
     List<ResumeDto> getResumeByName(String rName);
 
-    Long createAndReturnIdResume(CreateResumeDto resume);
+    Long createAndReturnIdResume(ResumeCreateDto resume);
 
     void changeResumeState(Long id);
+
+    void createResumeTest(CreateResumeDto resume);
 }

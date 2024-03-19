@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers;
+package kg.attractor.ht49.controllers.users;
 
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
@@ -22,10 +22,6 @@ public class UserController {
         return ResponseEntity.ok(service.getUsers());
     }
 
-    @GetMapping("/{name}")
-    public ResponseEntity<List<UserDto>> getUsersByName(@PathVariable(name = "name") String name) {
-        return ResponseEntity.ok(service.getUserByName(name.strip()));
-    }
 
     @GetMapping("/phone")
     public ResponseEntity<?> getUserByPhoneNum(@RequestParam(name = "phone", defaultValue = "0") String phone) {
@@ -65,8 +61,4 @@ public class UserController {
         }
     }
 
-//    @PostMapping("/upload")
-//    public void uploadUserImage(@RequestBody UserImageDto image) {
-//        service.
-//    }
 }

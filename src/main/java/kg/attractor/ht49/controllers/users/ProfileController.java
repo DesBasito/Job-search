@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers;
+package kg.attractor.ht49.controllers.users;
 
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.models.User;

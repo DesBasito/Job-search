@@ -1,10 +1,10 @@
 package kg.attractor.ht49.dao;
 
 
-import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.models.User;
+import kg.attractor.ht49.models.UserImages;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -28,12 +28,12 @@ public class UserDao {
         return template.query(sql, new BeanPropertyRowMapper<>(User.class));
     }
 
-    public List<User> getEmployees(AccountTypes type){
+    public List<User> getUsersByTypeAcc(AccountTypes type) {
         String sql = " Select * from users where ACC_TYPE like ?";
-        if (type.toString().equalsIgnoreCase("employee")){
-            return template.query(sql,new BeanPropertyRowMapper<>(User.class), AccountTypes.EMPLOYEE.toString());
+        if (type.toString().equalsIgnoreCase("employee")) {
+            return template.query(sql, new BeanPropertyRowMapper<>(User.class), AccountTypes.EMPLOYER.toString());
         }
-        return template.query(sql,new BeanPropertyRowMapper<>(User.class),AccountTypes.EMPLOYER.toString());
+        return template.query(sql, new BeanPropertyRowMapper<>(User.class), AccountTypes.EMPLOYEE.toString());
     }
 
     public Optional<User> getUserByEmail(String email) {
@@ -66,12 +66,15 @@ public class UserDao {
 
     }
 
-    public List<User> getUserByName(String name) {
+    public List<User> getUserByName(String name, AccountTypes type) {
         String sql = """
                 select * from users
-                where name ilike ?
+                where name ilike ? and ACC_TYPE = ?
                 """;
-        return template.query(sql, new BeanPropertyRowMapper<>(User.class), name);
+        if (type.toString().equalsIgnoreCase("employee")) {
+            return template.query(sql, new BeanPropertyRowMapper<>(User.class), name, AccountTypes.EMPLOYER.toString());
+        }
+        return template.query(sql, new BeanPropertyRowMapper<>(User.class), name, AccountTypes.EMPLOYEE.toString());
     }
 
     public Optional<User> getUserByPhone(String phone) {
@@ -100,10 +103,10 @@ public class UserDao {
 
     public void editUser(User user) {
         String sql = """
-                UPDATE USERS
-            SET NAME = :name, SURNAME = :surname,AGE = :age, password = :password, phone_number = :phoneNumber, avatar = :avatar
-            WHERE id = :id;
-            """;
+                    UPDATE USERS
+                SET NAME = :name, SURNAME = :surname,AGE = :age, password = :password, phone_number = :phoneNumber, avatar = :avatar
+                WHERE id = :id;
+                """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", user.getName())
                 .addValue("surname", user.getSurname())
@@ -111,7 +114,53 @@ public class UserDao {
                 .addValue("password", user.getPassword())
                 .addValue("phoneNumber", user.getPhoneNumber())
                 .addValue("avatar", user.getAvatar())
-                .addValue("id",user.getId())
+                .addValue("id", user.getId())
+        );
+    }
+
+    public void uploadUserImages(UserImages userImages) {
+        String sql = """
+                insert into USER_IMAGES(user_id, file_name)\s
+                values ( ?,? )
+                """;
+        template.update(sql, userImages.getUserId(), userImages.getFileName());
+    }
+
+    public Optional<User> getEmplByEmail(String email, AccountTypes type) {
+        String sql = """
+                select * from users
+                where email ilike ? and ACC_TYPE = ?
+                """;
+        if (type.toString().equalsIgnoreCase("employee")) {
+            return Optional.ofNullable(
+                    DataAccessUtils.singleResult(
+                            template.query(sql, new BeanPropertyRowMapper<>(User.class), email, AccountTypes.EMPLOYEE.toString())
+                    )
+            );
+        }
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql, new BeanPropertyRowMapper<>(User.class), email, AccountTypes.EMPLOYER.toString())
+                )
+        );
+    }
+
+    public Optional<User> getEmplByPhone(String phone, AccountTypes type) {
+        String sql = """
+                select * from users
+                where PHONE_NUMBER like ? and ACC_TYPE = ?
+                """;
+        if (type.toString().equalsIgnoreCase("employee")) {
+            return Optional.ofNullable(
+                    DataAccessUtils.singleResult(
+                            template.query(sql, new BeanPropertyRowMapper<>(User.class), phone, AccountTypes.EMPLOYEE.toString())
+                    )
+            );
+        }
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql, new BeanPropertyRowMapper<>(User.class), phone, AccountTypes.EMPLOYER.toString())
+                )
         );
     }
 }

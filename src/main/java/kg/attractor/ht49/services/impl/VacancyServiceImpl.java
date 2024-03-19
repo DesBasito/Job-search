@@ -1,7 +1,6 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.VacancyDao;
-import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
@@ -48,7 +47,7 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public List<VacancyDto> getVacanciesByCategory(String strip) {
-        Category category = categoryService.getCategoryIdByName(strip);
+        Category category = categoryService.getCategoryByName(strip);
         List<Vacancy> vacancies = dao.getVacancyByCategory(category.getId());
         List<VacancyDto> dtos = new ArrayList<>();
         vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
@@ -67,21 +66,22 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public void createVacancy(VacancyDto vacancy1){
-        Vacancy vacancy = new Vacancy();
-        vacancy.setName(vacancy1.getName());
-        vacancy.setDescription(vacancy1.getDescription());
-        vacancy.setCategoryId(vacancy1.getCategory().getId());
-        vacancy.setAuthorId(vacancy1.getAuthor().getId());
-        vacancy.setSalary(vacancy1.getSalary());
-        vacancy.setExpFrom(vacancy1.getExpFrom());
-        vacancy.setExpTo(vacancy1.getExpTo());
+    public void createVacancy(VacancyDto vacancy1) {
+        Vacancy vacancy = Vacancy.builder()
+                .name(vacancy1.getName())
+                .description(vacancy1.getDescription())
+                .categoryId(vacancy1.getCategory().getId())
+                .authorId(vacancy1.getAuthor().getId())
+                .salary(vacancy1.getSalary())
+                .expFrom(vacancy1.getExpFrom())
+                .expTo(vacancy1.getExpTo())
+                .build();
         dao.createVacancy(vacancy);
     }
 
     @Override
     public Boolean deleteVacancyById(Long id) {
-        if (dao.getVacancyById(id).isPresent()){
+        if (dao.getVacancyById(id).isPresent()) {
             dao.deleteVacancyById(id);
             return true;
         }
@@ -90,14 +90,15 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public void editVacancy(VacancyEditDto vacancy) {
-        Vacancy vac = new Vacancy();
-        vac.setId(vacancy.getId());
-        vac.setName(vacancy.getName());
-        vac.setDescription(vacancy.getDescription());
-        vac.setCategoryId(vacancy.getCategory().getId());
-        vac.setSalary(vacancy.getSalary());
-        vac.setExpFrom(vacancy.getExpFrom());
-        vac.setExpTo(vacancy.getExpTo());
+        Vacancy vac = Vacancy.builder()
+                .id(vacancy.getId())
+                .name(vacancy.getName())
+                .description(vacancy.getDescription())
+                .categoryId(vacancy.getCategory().getId())
+                .salary(vacancy.getSalary())
+                .expFrom(vacancy.getExpFrom())
+                .expTo(vacancy.getExpTo())
+                .build();
         dao.editVacancy(vac);
     }
 
@@ -149,22 +150,32 @@ public class VacancyServiceImpl implements VacancyService {
         try {
             Vacancy e = dao.getVacancyByName(name).orElseThrow(VacancyNotFoundException::new);
             return getVacancyDto(e);
-        }catch (VacancyNotFoundException e){
-            log.error("Vacancy by name {} not found",name);
+        } catch (VacancyNotFoundException e) {
+            log.error("Vacancy by name {} not found", name);
             return null;
         }
     }
 
     @Override
-    public Long createVacancyAndReturnId(VacancyDto vacancy) {
+    public Long createVacancyAndReturnId(VacancyDto vacancy1) {
+        Vacancy vacancy = Vacancy.builder()
+                .name(vacancy1.getName())
+                .description(vacancy1.getDescription())
+                .categoryId(vacancy1.getCategory().getId())
+                .authorId(vacancy1.getAuthor().getId())
+                .salary(vacancy1.getSalary())
+                .expFrom(vacancy1.getExpFrom())
+                .expTo(vacancy1.getExpTo())
+                .build();
         return dao.createVacancyAndReturnId(vacancy);
     }
 
     @Override
     public void changeVacancyState(Long id) {
         boolean b = !getVacancyById(id).getIsActive();
-        dao.changeVacancyState(id,b);
+        dao.changeVacancyState(id, b);
     }
+
     private VacancyDto getVacancyDto(Vacancy e) {
         return VacancyDto.builder()
                 .id(e.getId())

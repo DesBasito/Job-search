@@ -9,4 +9,6 @@ public interface RespondedApplicantsService {
     List<RespondedApplicantDto> getAllRespondents();
 
     List<ResumeDto> getRespondedApplicantsByVacancyId(Long id);
+
+    void createRespAppl(String email, String vacancyId);
 }

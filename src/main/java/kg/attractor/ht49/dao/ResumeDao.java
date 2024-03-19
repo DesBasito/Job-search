@@ -1,8 +1,6 @@
 package kg.attractor.ht49.dao;
 
-import kg.attractor.ht49.dto.resumes.CreateResumeDto;
-import kg.attractor.ht49.dto.resumes.EditResumeDto;
-import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.models.Resume;
 import lombok.RequiredArgsConstructor;
@@ -113,7 +111,7 @@ public class ResumeDao {
       return template.query(sql, new BeanPropertyRowMapper<>(Resume.class),rName);
     }
 
-    public Long createAndReturnResumeId(CreateResumeDto resume) {
+    public Long createAndReturnResumeId(Resume resume) {
         String sql = """
                 insert into RESUMES(name, category_id, applicant_id, salary, is_active, created_date, update_date)
                 values (?, ? , ?, ?, ?, ?, ?)
@@ -122,8 +120,8 @@ public class ResumeDao {
         template.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
             ps.setString(1,resume.getName());
-            ps.setLong(2,resume.getCategory().getId());
-            ps.setLong(3,resume.getUser().getId());
+            ps.setLong(2,resume.getCategoryId());
+            ps.setLong(3,resume.getApplicantId());
             ps.setDouble(4,resume.getSalary());
             ps.setBoolean(5,true);
             ps.setDate(6, Date.valueOf(LocalDate.now()));
