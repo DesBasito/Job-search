@@ -1,7 +1,6 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.ResumeDao;
-import kg.attractor.ht49.dto.resumes.CreateResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
@@ -9,7 +8,6 @@ import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.Category;
-import kg.attractor.ht49.models.ContactsInfo;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.CategoryService;
@@ -154,19 +152,5 @@ public class ResumeServiceImpl implements ResumeService {
     public void changeResumeState(Long id) {
         boolean b = !getResumeById(id).getIsActive();
         dao.changeResumeState(id, b);
-    }
-
-    @Override
-    public void createResumeTest(CreateResumeDto resume) {
-        Category category1 = category.getCategoryByName(resume.getCategoryName());
-        User user = userService.getRawUserByEmail(resume.getAuthorEmail());
-        Resume resume1 = Resume.builder()
-                .name(resume.getTitle())
-                .applicantId(user.getId())
-                .categoryId(category1.getId())
-                .salary(resume.getSalary())
-                .build();
-        dao.createResume(resume1);
-
     }
 }
