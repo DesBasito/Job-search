@@ -11,9 +11,9 @@ import java.util.List;
 public interface VacancyService {
     List<VacancyDto> getAllVacancies();
 
-    List<VacancyDto> getVacanciesOfRespondedApplicant(String email) throws UserNotFoundException;
+    List<VacancyDto> getVacanciesByRespondedApplicant(String email) throws UserNotFoundException;
 
-    List<VacancyDto> getVacanciesOfCategory(String strip) throws CategoryNotFoundException;
+    List<VacancyDto> getVacanciesByCategory(String strip) throws CategoryNotFoundException;
 
     VacancyDto getVacancyById(Long vacancyId);
 
@@ -23,9 +23,9 @@ public interface VacancyService {
 
     void editVacancy(VacancyEditDto vacancy);
 
-    List<VacancyDto> getAllVacanciesOfCompany(Long id);
+    List<VacancyDto> getAllVacanciesByCompany(Long id);
 
-    List<VacancyDto> getActiveVacanciesOfCompany(Long id);
+    List<VacancyDto> getActiveVacanciesByCompany(Long id);
 
     List<VacancyDto> getActiveVacancies();
 

@@ -26,19 +26,19 @@ public class ResumeController {
     }
 
     @GetMapping("/searchByName/{resumeName}")
-    public ResponseEntity<?> getResumeByName(@PathVariable(name = "resumeName")String rName){
+    public ResponseEntity<?> getResumeByName(@PathVariable(name = "resumeName") String rName) {
         List<ResumeDto> dto = service.getResumeByName(rName);
         return dto == null ?
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by name: "+rName+" not found")
-                :ResponseEntity.ok(dto);
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by name: " + rName + " not found")
+                : ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getResumeById(@PathVariable(name = "id")Long id){
+    public ResponseEntity<?> getResumeById(@PathVariable(name = "id") Long id) {
         ResumeDto dto = service.getResumeById(id);
         return dto == null ?
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by Id: "+id+" not found")
-                :ResponseEntity.ok(dto);
+                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by Id: " + id + " not found")
+                : ResponseEntity.ok(dto);
     }
 
     @GetMapping("/category/{category}")
@@ -61,8 +61,8 @@ public class ResumeController {
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by user with email: " + email + " not found");
             }
             return ResponseEntity.ok(resumes);
-        }catch (UserNotFoundException e){
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email: "+email+" not found");
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email: " + email + " not found");
         }
     }
 
@@ -74,25 +74,28 @@ public class ResumeController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteResumeById(@PathVariable(name = "id") Long id){
-        if (service.deleteResumeById(id)){
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteResumeById(@PathVariable(name = "id") Long id) {
+        if (service.deleteResumeById(id)) {
+            return ResponseEntity.ok(service.getResumes());
         }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by id: "+id+" not found");
     }
 
     @PostMapping("/edit")
-    public HttpStatus editResume(@RequestBody EditResumeDto resume) {
-        service.editResume(resume);
-        return HttpStatus.OK;
+    public ResponseEntity<?> editResume(@RequestBody EditResumeDto resume) {
+        if (service.getResumeById(resume.getId()) != null) {
+            service.editResume(resume);
+            return ResponseEntity.ok(service.getResumeById(resume.getId()));
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume: "+resume+" does not exists");
     }
 
     @PostMapping("/status/{id}")
     public ResponseEntity<?> changeResumeState(@PathVariable(name = "id") Long id) {
-        if (service.getResumeById(id) != null){
+        if (service.getResumeById(id) != null) {
             service.changeResumeState(id);
             return ResponseEntity.ok(service.getResumeById(id));
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Resume by id "+id+" not found");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by id " + id + " not found");
     }
 }

@@ -30,7 +30,7 @@ public class VacancyController {
 
     @GetMapping("company/{id}")
     public ResponseEntity<?> getVacanciesByCompanyId(@PathVariable(name = "id") Long id) {
-        List<VacancyDto> vacancies = service.getAllVacanciesOfCompany(id);
+        List<VacancyDto> vacancies = service.getAllVacanciesByCompany(id);
         if (vacancies == null || vacancies.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No resumes were found :(");
         }
@@ -39,7 +39,7 @@ public class VacancyController {
 
     @GetMapping("company/active/{id}")
     public ResponseEntity<?> getActiveVacanciesByCompanyId(@PathVariable(name = "id") Long id) {
-        List<VacancyDto> vacancies = service.getActiveVacanciesOfCompany(id);
+        List<VacancyDto> vacancies = service.getActiveVacanciesByCompany(id);
         if (vacancies == null || vacancies.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No resumes were found :(");
         }
@@ -49,17 +49,17 @@ public class VacancyController {
     @GetMapping("/vacancy")
     public ResponseEntity<?> getVacanciesOfRespondedApplicantEmail(@RequestParam(name = "email", defaultValue = "") String email) {
         try {
-            return ResponseEntity.ok(service.getVacanciesOfRespondedApplicant(email.strip()));
+            return ResponseEntity.ok(service.getVacanciesByRespondedApplicant(email.strip()));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 
     @GetMapping("/category")
-    public ResponseEntity<?> getVacanciesOfCategory(@RequestParam(name = "category", defaultValue = "") String category) {
+    public ResponseEntity<?> getVacanciesByCategory(@RequestParam(name = "category", defaultValue = "") String category) {
         try {
             String categoryStriped = category.strip();
-            return ResponseEntity.ok(service.getVacanciesOfCategory(categoryStriped));
+            return ResponseEntity.ok(service.getVacanciesByCategory(categoryStriped));
         } catch (CategoryNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }

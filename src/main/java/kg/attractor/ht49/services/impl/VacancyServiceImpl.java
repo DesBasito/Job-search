@@ -36,7 +36,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getVacanciesOfRespondedApplicant(String userEmail) {
+    public List<VacancyDto> getVacanciesByRespondedApplicant(String userEmail) {
         UserDto applicant = userService.getUserByEmail(userEmail);
         Long id = applicant.getId();
         List<Vacancy> vacancies = dao.getVacanciesByRespondedApplicantsId(id);
@@ -46,7 +46,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getVacanciesOfCategory(String strip) {
+    public List<VacancyDto> getVacanciesByCategory(String strip) {
         Category category = categoryService.getCategoryIdByName(strip);
         List<Vacancy> vacancies = dao.getVacancyByCategory(category.getId());
         List<VacancyDto> dtos = new ArrayList<>();
@@ -93,7 +93,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getAllVacanciesOfCompany(Long id) {
+    public List<VacancyDto> getAllVacanciesByCompany(Long id) {
         List<Vacancy> vacancies = dao.getVacanciesOfCompany(id);
         try {
             if (userService.getUserById(id) == null) {
@@ -110,7 +110,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getActiveVacanciesOfCompany(Long id) {
+    public List<VacancyDto> getActiveVacanciesByCompany(Long id) {
 
         List<Vacancy> vacancies = dao.getActiveVacanciesOfCompany(id);
         try {
