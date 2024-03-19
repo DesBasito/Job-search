@@ -2,6 +2,7 @@ package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.users.UserImageDto;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -55,13 +56,17 @@ public class UserController {
 
 
     @PostMapping()
-    public ResponseEntity<?> createUser(UserCreationDto user) {
+    public ResponseEntity<?> createUser(@RequestBody UserCreationDto user) {
         try {
             service.createUser(user);
             return ResponseEntity.ok(service.getUserByEmail(user.getEmail()));
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("User is already exists");
         }
-
     }
+
+//    @PostMapping("/upload")
+//    public void uploadUserImage(@RequestBody UserImageDto image) {
+//        service.
+//    }
 }

@@ -81,7 +81,7 @@ public class ResumeController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by id: "+id+" not found");
     }
 
-    @PostMapping("/edit")
+    @PutMapping("/edit")
     public ResponseEntity<?> editResume(@RequestBody EditResumeDto resume) {
         if (service.getResumeById(resume.getId()) != null) {
             service.editResume(resume);

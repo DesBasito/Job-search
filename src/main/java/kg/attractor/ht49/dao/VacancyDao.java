@@ -90,7 +90,7 @@ public class VacancyDao {
         template.update(sql,id);
     }
 
-    public void editVacancy(VacancyEditDto vacancy) {
+    public void editVacancy(Vacancy vacancy) {
         String sql = """
             UPDATE VACANCIES
             SET name = :name, description = :description, category_id = :categoryId, salary = :salary, exp_from = :expFrom, exp_to = :expTo
@@ -99,7 +99,7 @@ public class VacancyDao {
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", vacancy.getName())
                 .addValue("description", vacancy.getDescription())
-                .addValue("categoryId", vacancy.getCategory().getId())
+                .addValue("categoryId", vacancy.getCategoryId())
                 .addValue("salary", vacancy.getSalary())
                 .addValue("expFrom", vacancy.getExpFrom())
                 .addValue("expTo", vacancy.getExpTo())

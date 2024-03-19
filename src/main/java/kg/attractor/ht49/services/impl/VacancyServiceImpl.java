@@ -1,6 +1,7 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.VacancyDao;
+import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
@@ -89,7 +90,15 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public void editVacancy(VacancyEditDto vacancy) {
-        dao.editVacancy(vacancy);
+        Vacancy vac = new Vacancy();
+        vac.setId(vacancy.getId());
+        vac.setName(vacancy.getName());
+        vac.setDescription(vacancy.getDescription());
+        vac.setCategoryId(vacancy.getCategory().getId());
+        vac.setSalary(vacancy.getSalary());
+        vac.setExpFrom(vacancy.getExpFrom());
+        vac.setExpTo(vacancy.getExpTo());
+        dao.editVacancy(vac);
     }
 
     @Override

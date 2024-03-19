@@ -98,7 +98,7 @@ public class UserDao {
         );
     }
 
-    public void editUser(EditUserDto user) {
+    public void editUser(User user) {
         String sql = """
                 UPDATE USERS
             SET NAME = :name, SURNAME = :surname,AGE = :age, password = :password, phone_number = :phoneNumber, avatar = :avatar

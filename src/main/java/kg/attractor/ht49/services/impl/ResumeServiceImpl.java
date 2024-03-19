@@ -81,7 +81,12 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void createResume(CreateResumeDto resume) {
-        dao.createResume(resume);
+        Resume resume1 = new Resume();
+        resume1.setName(resume.getName());
+        resume1.setApplicantId(resume.getUser().getId());
+        resume1.setCategoryId(resume.getCategory().getId());
+        resume1.setSalary(resume.getSalary());
+        dao.createResume(resume1);
     }
 
     @Override
@@ -95,7 +100,12 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void editResume(EditResumeDto editDto) {
-        dao.editResume(editDto);
+        Resume resume = new Resume();
+        resume.setId(resume.getId());
+        resume.setName(editDto.getName());
+        resume.setCategoryId(editDto.getCategory().getId());
+        resume.setSalary(editDto.getSalary());
+        dao.editResume(resume);
     }
 
     @Override

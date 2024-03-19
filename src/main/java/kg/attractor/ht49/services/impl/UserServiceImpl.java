@@ -8,6 +8,7 @@ import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.UserService;
+import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
+    private final FileUtil util;
 
     @Override
     public List<UserDto> getUsers() {
@@ -57,6 +59,9 @@ public class UserServiceImpl implements UserService {
         if (userDao.getUserByEmail(user.getEmail()).isPresent()){
             throw new Exception();
         }
+//        String fileName = util.saveUploadedFile(user.getAvatar());
+
+
         userDao.createUser(user);
     }
 
@@ -98,7 +103,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(EditUserDto user) {
-        userDao.editUser(user);
+        User user1 = new User();
+        user1.setId(user.getId());
+        user1.setName(user.getName());
+        user1.setSurname(user.getSurname());
+        user1.setAge(user.getAge());
+        user1.setPassword(user.getPassword());
+        user1.setPhoneNumber(user.getPhoneNumber());
+        user1.setAvatar(user.getAvatar());
+        userDao.editUser(user1);
     }
 
     @Override

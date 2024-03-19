@@ -68,15 +68,15 @@ public class ResumeDao {
         );
     }
 
-    public void createResume(CreateResumeDto resume) {
+    public void createResume(Resume resume) {
         String sql = """
                 insert into RESUMES(name, category_id, applicant_id, salary, is_active, created_date, update_date)\s
                 values (:name, :categoryId, :applicantId, :salary, :isActive, :createdDate, :updateTime);
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", resume.getName())
-                .addValue("categoryId", resume.getCategory().getId())
-                .addValue("applicantId", resume.getUser().getId())
+                .addValue("categoryId", resume.getCategoryId())
+                .addValue("applicantId", resume.getApplicantId())
                 .addValue("salary", resume.getSalary())
                 .addValue("isActive", true)
                 .addValue("createdDate", LocalDateTime.now())
@@ -91,7 +91,7 @@ public class ResumeDao {
         template.update(sql,id);
     }
 
-    public void editResume(EditResumeDto resume) {
+    public void editResume(Resume resume) {
         String sql = """
             UPDATE Resumes
             SET name = :name, category_id = :categoryId, salary = :salary, update_date = :updateTime
@@ -99,7 +99,7 @@ public class ResumeDao {
             """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name",resume.getName())
-                .addValue("categoryId", resume.getCategory().getId())
+                .addValue("categoryId", resume.getCategoryId())
                 .addValue("salary", resume.getSalary())
                 .addValue("updateTime", LocalDateTime.now())
                 .addValue("id",resume.getId())
