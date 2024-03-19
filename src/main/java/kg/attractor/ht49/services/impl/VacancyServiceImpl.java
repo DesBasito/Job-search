@@ -30,7 +30,9 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<VacancyDto> getAllVacancies() {
         List<Vacancy> vacancies = dao.getAllVacancies();
-        return getVacancyDtos(vacancies);
+        List<VacancyDto> dtos = new ArrayList<>();
+        vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
+        return dtos;
     }
 
     @Override
@@ -38,14 +40,18 @@ public class VacancyServiceImpl implements VacancyService {
         UserDto applicant = userService.getUserByEmail(userEmail);
         Long id = applicant.getId();
         List<Vacancy> vacancies = dao.getVacanciesByRespondedApplicantsId(id);
-        return getVacancyDtos(vacancies);
+        List<VacancyDto> dtos = new ArrayList<>();
+        vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
+        return dtos;
     }
 
     @Override
     public List<VacancyDto> getVacanciesOfCategory(String strip) {
         Category category = categoryService.getCategoryIdByName(strip);
         List<Vacancy> vacancies = dao.getVacancyByCategory(category.getId());
-        return getVacancyDtos(vacancies);
+        List<VacancyDto> dtos = new ArrayList<>();
+        vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
+        return dtos;
     }
 
     @Override
@@ -93,7 +99,9 @@ public class VacancyServiceImpl implements VacancyService {
             if (userService.getUserById(id) == null) {
                 throw new UserNotFoundException();
             }
-            return getVacancyDtos(vacancies);
+            List<VacancyDto> dtos = new ArrayList<>();
+            vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
+            return dtos;
 
         } catch (UserNotFoundException e) {
             log.error("Author by id: {} not found", id);
@@ -109,7 +117,9 @@ public class VacancyServiceImpl implements VacancyService {
             if (userService.getUserById(id) == null) {
                 throw new UserNotFoundException();
             }
-            return getVacancyDtos(vacancies);
+            List<VacancyDto> dtos = new ArrayList<>();
+            vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
+            return dtos;
 
         } catch (UserNotFoundException e) {
             log.error("Author by id: {} not found", id);
@@ -120,7 +130,9 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<VacancyDto> getActiveVacancies() {
         List<Vacancy> vacancyList = dao.getActiveVacancies();
-        return getVacancyDtos(vacancyList);
+        List<VacancyDto> dtos = new ArrayList<>();
+        vacancyList.forEach(e -> dtos.add(getVacancyDto(e)));
+        return dtos;
     }
 
     @Override
@@ -158,23 +170,5 @@ public class VacancyServiceImpl implements VacancyService {
                 .name(e.getName())
                 .author(userService.getUserById(e.getAuthorId()))
                 .build();
-    }
-
-    private List<VacancyDto> getVacancyDtos(List<Vacancy> vacancies) {
-        List<VacancyDto> dtos = new ArrayList<>();
-        vacancies.forEach(e -> dtos.add(VacancyDto.builder()
-                .id(e.getId())
-                .category(categoryService.getCategoryById(e.getCategoryId()))
-                .createdDate(e.getCreatedDate())
-                .expTo(e.getExpTo())
-                .description(e.getDescription())
-                .expFrom(e.getExpFrom())
-                .isActive(e.getIsActive())
-                .salary(e.getSalary())
-                .updateTime(e.getUpdateTime())
-                .name(e.getName())
-                .author(userService.getUserById(e.getAuthorId()))
-                .build()));
-        return dtos;
     }
 }
