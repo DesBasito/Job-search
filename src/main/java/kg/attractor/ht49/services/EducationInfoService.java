@@ -1,7 +1,9 @@
 package kg.attractor.ht49.services;
 
-import kg.attractor.ht49.dto.EducationInfoDto;
-import kg.attractor.ht49.models.EducationInfo;
+import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
+import kg.attractor.ht49.dto.educations.EducationInfoDto;
+
+import java.util.List;
 
 public interface EducationInfoService {
     EducationInfoDto getEducationByResumeId(Long id);
@@ -10,5 +12,9 @@ public interface EducationInfoService {
 
     boolean deleteEducationInfoById(Long id);
 
-    void createEducationInfo(EducationInfo info);
+    void createEducationInfo(CreateEducationInfoDto info);
+
+    List<EducationInfoDto> getEducationsInfo();
+
+    Long createAndReturnEduInfoId(CreateEducationInfoDto info);
 }

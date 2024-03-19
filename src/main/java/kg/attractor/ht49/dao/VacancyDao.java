@@ -167,24 +167,16 @@ public class VacancyDao {
         return Objects.requireNonNull(keyHolder.getKey().longValue());
     }
 
-    public void makeVacancyFalse(Long id) {
-        String sql = """
-            UPDATE VACANCIES
-            SET IS_ACTIVE = false
-            WHERE id = :id;
-            """;
-        namedParameter.update(sql, new MapSqlParameterSource()
-                .addValue("id",id)
-        );
-    }
 
-    public void makeVacancyTrue(Long id) {
+
+    public void changeVacancyState(Long id, boolean b) {
         String sql = """
             UPDATE VACANCIES
-            SET IS_ACTIVE = true
+            SET IS_ACTIVE = :isActive
             WHERE id = :id;
             """;
         namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("isActive",b)
                 .addValue("id",id)
         );
     }

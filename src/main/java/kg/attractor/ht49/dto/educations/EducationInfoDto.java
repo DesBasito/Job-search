@@ -1,4 +1,4 @@
-package kg.attractor.ht49.dto;
+package kg.attractor.ht49.dto.educations;
 
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import lombok.AllArgsConstructor;
@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 @Data
 @Builder
@@ -17,7 +17,7 @@ public class EducationInfoDto {
     private ResumeDto resume;
     private String institution;
     private String program;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Date startDate;
+    private Date endDate;
     private String degree;
 }

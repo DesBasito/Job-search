@@ -86,21 +86,12 @@ public class VacancyController {
         return ResponseEntity.ok(service.getVacancyById(vacancy.getId()));
     }
 
-    @PostMapping("/switchOff/{id}")
-    public ResponseEntity<?> deactivateVacancy(@PathVariable(name = "id") Long id) {
-        if (service.getVacancyById(id).getIsActive()){
-            service.deactivateVacancy(id);
+    @PostMapping("/status/{id}")
+    public ResponseEntity<?> changeVacancyState(@PathVariable(name = "id") Long id) {
+        if (service.getVacancyById(id) != null){
+            service.changeVacancyState(id);
             return ResponseEntity.ok(service.getVacancyById(id));
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Already deactivated");
-    }
-
-    @PostMapping("/switchOn/{id}")
-    public ResponseEntity<?> activateVacancy(@PathVariable(name = "id") Long id) {
-        if (!service.getVacancyById(id).getIsActive()){
-            service.activateVacancy(id);
-            return ResponseEntity.ok(service.getVacancyById(id));
-        }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Already activated");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Vacancy by id "+id+" not found");
     }
 }

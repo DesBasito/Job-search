@@ -1,10 +1,10 @@
 package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.resumes.CreateResumeDto;
+import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.services.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -82,8 +82,17 @@ public class ResumeController {
     }
 
     @PostMapping("/edit")
-    public HttpStatus editResume(@RequestBody ResumeDto resume) {
+    public HttpStatus editResume(@RequestBody EditResumeDto resume) {
         service.editResume(resume);
         return HttpStatus.OK;
+    }
+
+    @PostMapping("/status/{id}")
+    public ResponseEntity<?> changeResumeState(@PathVariable(name = "id") Long id) {
+        if (service.getResumeById(id) != null){
+            service.changeResumeState(id);
+            return ResponseEntity.ok(service.getResumeById(id));
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("Resume by id "+id+" not found");
     }
 }

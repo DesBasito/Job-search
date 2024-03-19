@@ -2,6 +2,7 @@ package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.ResumeDao;
 import kg.attractor.ht49.dto.resumes.CreateResumeDto;
+import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
@@ -93,8 +94,8 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void editResume( ResumeDto resume) {
-        dao.editResume(resume);
+    public void editResume(EditResumeDto editDto) {
+        dao.editResume(editDto);
     }
 
     @Override
@@ -122,5 +123,11 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public Long createAndReturnIdResume(CreateResumeDto resume) {
         return dao.createAndReturnResumeId(resume);
+    }
+
+    @Override
+    public void changeResumeState(Long id) {
+        boolean b = !getResumeById(id).getIsActive();
+        dao.changeResumeState(id,b);
     }
 }

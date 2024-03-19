@@ -1,6 +1,7 @@
 package kg.attractor.ht49.dao;
 
 import kg.attractor.ht49.dto.resumes.CreateResumeDto;
+import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.models.Resume;
@@ -90,17 +91,16 @@ public class ResumeDao {
         template.update(sql,id);
     }
 
-    public void editResume(ResumeDto resume) {
+    public void editResume(EditResumeDto resume) {
         String sql = """
             UPDATE Resumes
-            SET name = :name, category_id = :categoryId, salary = :salary, is_active = :isActive, update_date = :updateTime
+            SET name = :name, category_id = :categoryId, salary = :salary, update_date = :updateTime
             WHERE id = :id;
             """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name",resume.getName())
                 .addValue("categoryId", resume.getCategory().getId())
                 .addValue("salary", resume.getSalary())
-                .addValue("isActive", resume.getIsActive())
                 .addValue("updateTime", LocalDateTime.now())
                 .addValue("id",resume.getId())
         );
@@ -131,5 +131,17 @@ public class ResumeDao {
             return ps;
         }, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey().longValue());
+    }
+
+    public void changeResumeState(Long id,boolean b) {
+        String sql = """
+            UPDATE RESUMES
+            SET IS_ACTIVE = :isActive
+            WHERE id = :id;
+            """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("isActive",b)
+                .addValue("id",id)
+        );
     }
 }

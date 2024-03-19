@@ -33,7 +33,5 @@ public interface VacancyService {
 
     Long createVacancyAndReturnId(VacancyDto vacancyDto);
 
-    void deactivateVacancy(Long id);
-
-    void activateVacancy(Long id);
+    void changeVacancyState(Long id);
 }

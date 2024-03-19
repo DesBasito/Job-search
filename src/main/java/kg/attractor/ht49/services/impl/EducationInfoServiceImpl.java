@@ -1,7 +1,8 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.EducationInfoDao;
-import kg.attractor.ht49.dto.EducationInfoDto;
+import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
+import kg.attractor.ht49.dto.educations.EducationInfoDto;
 import kg.attractor.ht49.exceptions.EducationInfoNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.models.EducationInfo;
@@ -10,6 +11,10 @@ import kg.attractor.ht49.services.ResumeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -48,8 +53,22 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     }
 
     @Override
-    public void createEducationInfo(EducationInfo info) {
-        dao.createEducationInfo(info);
+    public void createEducationInfo(CreateEducationInfoDto info) {
+        CreateEducationInfoDto dto = info;
+        dao.createEducationInfo(dto);
+    }
+
+    @Override
+    public List<EducationInfoDto> getEducationsInfo() {
+        List<EducationInfo> info = dao.getAllEduCationInfos();
+        List<EducationInfoDto> dtos = new ArrayList<>();
+        info.forEach(e -> dtos.add(getEducationInfoDto(e)));
+        return dtos;
+    }
+
+    @Override
+    public Long createAndReturnEduInfoId(CreateEducationInfoDto info) {
+        return dao.createAndReturnId(info);
     }
 
     private EducationInfoDto getEducationInfoDto(EducationInfo info) {
@@ -59,8 +78,8 @@ public class EducationInfoServiceImpl implements EducationInfoService {
                 .program(info.getProgram())
                 .institution(info.getInstitution())
                 .resume(rService.getResumeById(info.getResumeId()))
-                .startDate(info.getStartDate())
-                .endDate(info.getEndDate())
+                .startDate(Date.valueOf(info.getStartDate()))
+                .endDate(Date.valueOf(info.getEndDate()))
                 .build();
     }
 }

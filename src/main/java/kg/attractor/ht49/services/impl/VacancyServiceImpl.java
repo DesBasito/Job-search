@@ -140,16 +140,10 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public void deactivateVacancy(Long id) {
-        dao.makeVacancyFalse(id);
+    public void changeVacancyState(Long id) {
+        boolean b = !getVacancyById(id).getIsActive();
+        dao.changeVacancyState(id,b);
     }
-
-    @Override
-    public void activateVacancy(Long id) {
-        dao.makeVacancyTrue(id);
-    }
-
-
     private VacancyDto getVacancyDto(Vacancy e) {
         return VacancyDto.builder()
                 .id(e.getId())

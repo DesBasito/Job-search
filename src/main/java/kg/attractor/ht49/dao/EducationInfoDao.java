@@ -1,18 +1,23 @@
 package kg.attractor.ht49.dao;
 
-import kg.attractor.ht49.dto.EducationInfoDto;
+import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
+import kg.attractor.ht49.dto.educations.EducationInfoDto;
 import kg.attractor.ht49.models.EducationInfo;
-import kg.attractor.ht49.models.Resume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -56,7 +61,7 @@ public class EducationInfoDao {
         template.update(sql,id);
     }
 
-    public void createEducationInfo(EducationInfo info) {
+    public void createEducationInfo(CreateEducationInfoDto info) {
         String sql = """
                 insert into EDUCATION_INFO(institution, program, resume_id, start_date, end_date, degree)\s
                 values (:institution, :program, :resumeId, :startDate, :endDate, :degree);
@@ -64,7 +69,7 @@ public class EducationInfoDao {
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("institution",info.getInstitution())
                 .addValue("program",info.getProgram())
-                .addValue("resumeId",info.getResumeId())
+                .addValue("resumeId",info.getResume().getId())
                 .addValue("startDate",info.getStartDate())
                 .addValue("endDate", info.getEndDate())
                 .addValue("degree", info.getDegree())
@@ -82,5 +87,29 @@ public class EducationInfoDao {
                         template.query(sql, new BeanPropertyRowMapper<>(EducationInfo.class),id)
                 )
         );
+    }
+
+    public List<EducationInfo> getAllEduCationInfos() {
+        String sql = "select * from EDUCATION_INFO";
+       return  template.query(sql,new BeanPropertyRowMapper<>(EducationInfo.class));
+    }
+
+    public Long createAndReturnId(CreateEducationInfoDto info) {
+        String sql = """
+                insert into EDUCATION_INFO(institution, program, resume_id, start_date, end_date, degree)
+                values (?, ? , ?, ?, ?, ?)
+                """;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        template.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
+            ps.setString(1,info.getInstitution());
+            ps.setString(2,info.getProgram());
+            ps.setLong(3,info.getResume().getId());
+            ps.setDate(4, info.getStartDate());
+            ps.setDate(5, info.getEndDate());
+            ps.setString(6,info.getDegree());
+            return ps;
+        }, keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey().longValue());
     }
 }
