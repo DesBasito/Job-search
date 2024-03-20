@@ -1,7 +1,8 @@
 package kg.attractor.ht49.dto.resumes;
 
-import kg.attractor.ht49.dto.WorkExperienceInfoDto;
-import kg.attractor.ht49.dto.educations.EducationInfoDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExperienceInfoDto;
+import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
 import kg.attractor.ht49.models.ContactsInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -19,7 +20,6 @@ public class CreateResumeDto {
     private String authorEmail;
     private String categoryName;
     private Double salary;
-    private List<WorkExperienceInfoDto> wei;
-    private List<EducationInfoDto> ei;
-    private ContactsInfo contactsInfo;
+    private List<WorkExpInfoCreateDto> wei;
+    private List<CreateEducationInfoDto> ei;
 }

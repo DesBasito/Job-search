@@ -1,4 +1,4 @@
-package kg.attractor.ht49.dto;
+package kg.attractor.ht49.dto.workExpInfo;
 
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import lombok.AllArgsConstructor;
@@ -10,9 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WorkExperienceInfoDto {
-    private Long id;
-    private ResumeDto resume;
+public class WorkExpInfoCreateDto {
     private Byte years;
     private String companyName;
     private String position;

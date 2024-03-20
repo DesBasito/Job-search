@@ -34,7 +34,7 @@ public class RespondedApplicantsDao {
         return template.query(sql, new BeanPropertyRowMapper<>(Resume.class),id);
     }
 
-    public void createRespAppl(Long resumeId, String vacancyId) {
+    public void createRespAppl(Long resumeId, Long vacancyId) {
         String sql = """
                 insert into RESPONDED_APPLICANTS(vacancy_id, resume_id, confirmation)
                 values (:vacancyId,:resumeId,:confirmation)

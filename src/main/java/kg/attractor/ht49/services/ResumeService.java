@@ -26,9 +26,5 @@ public interface ResumeService {
 
     List<ResumeDto> getResumeByName(String rName);
 
-    Long createAndReturnIdResume(ResumeCreateDto resume);
-
     void changeResumeState(Long id);
-
-    void createResumeTest(CreateResumeDto resume);
 }

@@ -9,7 +9,6 @@ import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.models.UserImages;
-import kg.attractor.ht49.services.RespondedApplicantsService;
 import kg.attractor.ht49.services.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +24,6 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final FileUtil util;
-    private final RespondedApplicantsService respService;
 
     @Override
     public List<UserDto> getUsers() {
@@ -184,11 +182,6 @@ public class UserServiceImpl implements UserService {
             log.error("employee with phone: {} does not exists", strip);
         }
         return null;
-    }
-
-    @Override
-    public void ApplyToVacancy(String email, String vacancyId) {
-        respService.createRespAppl(email,vacancyId);
     }
 
 

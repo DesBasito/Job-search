@@ -2,6 +2,7 @@ package kg.attractor.ht49.dao;
 
 import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
 import kg.attractor.ht49.dto.educations.EducationInfoDto;
+import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
 import kg.attractor.ht49.models.EducationInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -38,7 +39,7 @@ public class EducationInfoDao {
         );
     }
 
-    public void editInfo(EducationInfoDto info) {
+    public void editInfo(EducationInfoEditDto info) {
         String sql = """
             UPDATE EDUCATION_INFO
             SET INSTITUTION  = :institution, PROGRAM = :program, START_DATE = :startDate, END_DATE = :endDate,DEGREE= :degree
@@ -61,7 +62,7 @@ public class EducationInfoDao {
         template.update(sql,id);
     }
 
-    public void createEducationInfo(CreateEducationInfoDto info) {
+    public void createEducationInfo(CreateEducationInfoDto info,Long resumeId) {
         String sql = """
                 insert into EDUCATION_INFO(institution, program, resume_id, start_date, end_date, degree)\s
                 values (:institution, :program, :resumeId, :startDate, :endDate, :degree);
@@ -69,7 +70,7 @@ public class EducationInfoDao {
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("institution",info.getInstitution())
                 .addValue("program",info.getProgram())
-                .addValue("resumeId",info.getResume().getId())
+                .addValue("resumeId",resumeId)
                 .addValue("startDate",info.getStartDate())
                 .addValue("endDate", info.getEndDate())
                 .addValue("degree", info.getDegree())
@@ -89,12 +90,8 @@ public class EducationInfoDao {
         );
     }
 
-    public List<EducationInfo> getAllEduCationInfos() {
-        String sql = "select * from EDUCATION_INFO";
-       return  template.query(sql,new BeanPropertyRowMapper<>(EducationInfo.class));
-    }
 
-    public Long createAndReturnId(CreateEducationInfoDto info) {
+    public Long createAndReturnId(CreateEducationInfoDto info,Long id) {
         String sql = """
                 insert into EDUCATION_INFO(institution, program, resume_id, start_date, end_date, degree)
                 values (?, ? , ?, ?, ?, ?)
@@ -104,7 +101,7 @@ public class EducationInfoDao {
             PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
             ps.setString(1,info.getInstitution());
             ps.setString(2,info.getProgram());
-            ps.setLong(3,info.getResume().getId());
+            ps.setLong(3,id);
             ps.setDate(4, info.getStartDate());
             ps.setDate(5, info.getEndDate());
             ps.setString(6,info.getDegree());

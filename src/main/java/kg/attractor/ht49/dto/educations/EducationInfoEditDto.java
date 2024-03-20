@@ -12,9 +12,8 @@ import java.sql.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EducationInfoDto {
+public class EducationInfoEditDto {
     private Long id;
-    private Long resumeId;
     private String institution;
     private String program;
     private Date startDate;

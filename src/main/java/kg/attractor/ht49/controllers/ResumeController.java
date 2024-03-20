@@ -1,6 +1,5 @@
 package kg.attractor.ht49.controllers;
 
-import kg.attractor.ht49.dto.resumes.CreateResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
@@ -70,15 +69,7 @@ public class ResumeController {
     @PostMapping()
     public ResponseEntity<Long> createResume(@RequestBody ResumeCreateDto resume) {
         service.createResume(resume);
-        Long id = service.createAndReturnIdResume(resume);
-        return ResponseEntity.ok(id);
-    }
-
-    @PostMapping("/test/createResume")
-    public ResponseEntity<Long> createResumeTesting(@RequestBody CreateResumeDto resume) {
-        service.createResumeTest(resume);
-//        Long id = service.createAndReturnIdResumeTest(resume);
-        return ResponseEntity.ok(null);
+        return ResponseEntity.ok().build();
     }
 
 
