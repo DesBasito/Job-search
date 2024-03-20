@@ -39,7 +39,7 @@ public class EducationInfoDao {
         );
     }
 
-    public void editInfo(EducationInfoEditDto info) {
+    public void editInfo(EducationInfo info) {
         String sql = """
             UPDATE EDUCATION_INFO
             SET INSTITUTION  = :institution, PROGRAM = :program, START_DATE = :startDate, END_DATE = :endDate,DEGREE= :degree

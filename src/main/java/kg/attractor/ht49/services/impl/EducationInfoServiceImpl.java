@@ -33,7 +33,15 @@ public class EducationInfoServiceImpl implements EducationInfoService {
 
     @Override
     public void editInfo(EducationInfoEditDto info) {
-        dao.editInfo(info);
+        EducationInfo edu = EducationInfo.builder()
+                .id(info.getId())
+                .institution(info.getInstitution())
+                .program(info.getProgram())
+                .startDate(info.getStartDate().toLocalDate())
+                .endDate(info.getEndDate().toLocalDate())
+                .degree(info.getDegree())
+                .build();
+        dao.editInfo(edu);
     }
 
     @Override
@@ -47,8 +55,7 @@ public class EducationInfoServiceImpl implements EducationInfoService {
 
     @Override
     public void createEducationInfo(CreateEducationInfoDto info, Long id) {
-           CreateEducationInfoDto dto = info;
-           dao.createEducationInfo(dto,id);
+           dao.createEducationInfo(info,id);
     }
 
 
