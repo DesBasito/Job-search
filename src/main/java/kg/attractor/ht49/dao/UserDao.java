@@ -48,7 +48,7 @@ public class UserDao {
         );
     }
 
-    public void createUser(UserCreationDto user) {
+    public void createUser(User user) {
         String sql = """
                 insert into users(name, surname, age, email, password, phone_number, avatar, acc_type)\s
                 values (:name, :surname, :age, :email, :password, :phoneNumber, :avatar, :accType);
@@ -116,14 +116,6 @@ public class UserDao {
                 .addValue("avatar", user.getAvatar())
                 .addValue("id", user.getId())
         );
-    }
-
-    public void uploadUserImages(UserImages userImages) {
-        String sql = """
-                insert into USER_IMAGES(user_id, file_name)\s
-                values ( ?,? )
-                """;
-        template.update(sql, userImages.getUserId(), userImages.getFileName());
     }
 
     public Optional<User> getEmplByEmail(String email, AccountTypes type) {

@@ -4,7 +4,6 @@ import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.dto.users.UserImageDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
@@ -59,10 +58,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(UserCreationDto user) throws Exception {
-        if (userDao.getUserByEmail(user.getEmail()).isPresent()){
+    public void createUser(UserCreationDto dto) throws Exception {
+        if (userDao.getUserByEmail(dto.getEmail()).isPresent()){
             throw new Exception();
         }
+        String fileName  = util.saveUploadedFile(dto.getFile(),"/images");
+        User user = User.builder()
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .age(dto.getAge())
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .phoneNumber(dto.getPhoneNumber())
+                .accType(dto.getAccType())
+                .avatar(fileName)
+                .build();
         userDao.createUser(user);
     }
 
@@ -130,23 +140,6 @@ public class UserServiceImpl implements UserService {
         List<UserDto> dtos = new ArrayList<>();
         userList.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;
-    }
-
-    @Override
-    public void uploadImage(UserImageDto image) {
-        String fileName  = util.saveUploadedFile(image.getFile(),"/images");
-        try {
-            User user = userDao.getUserById(image.getUserId()).orElseThrow(UserNotFoundException::new);
-            UserImages userImages = UserImages.builder()
-                    .userId(image.getUserId())
-                    .fileName(fileName)
-                    .build();
-            userDao.uploadUserImages(userImages);
-            user.setAvatar(fileName);
-            userDao.editUser(user);
-        }catch (UserNotFoundException e){
-            log.error("User by id {} not found",image.getUserId());
-        }
     }
 
     @Override

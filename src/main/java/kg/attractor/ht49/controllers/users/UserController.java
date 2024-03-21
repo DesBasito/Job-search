@@ -2,7 +2,6 @@ package kg.attractor.ht49.controllers.users;
 
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.dto.users.UserImageDto;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -52,7 +51,7 @@ public class UserController {
 
 
     @PostMapping()
-    public ResponseEntity<?> createUser(@RequestBody UserCreationDto user) {
+    public ResponseEntity<?> createUser(UserCreationDto user) {
         try {
             service.createUser(user);
             return ResponseEntity.ok(service.getUserByEmail(user.getEmail()));

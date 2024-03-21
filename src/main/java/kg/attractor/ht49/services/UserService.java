@@ -3,7 +3,6 @@ package kg.attractor.ht49.services;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.dto.users.UserImageDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.models.User;
 
@@ -22,8 +21,6 @@ public interface UserService {
     void editUser(EditUserDto user);
 
     List<UserDto> getUsersByType(String type) throws Exception;
-
-    void uploadImage(UserImageDto image);
 
     User getRawUserByEmail(String email);
 

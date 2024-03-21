@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -16,6 +17,6 @@ public class UserCreationDto {
     private String email;
     private String password;
     private String phoneNumber;
-    private String avatar;
+    private MultipartFile file;
     private String accType;
 }

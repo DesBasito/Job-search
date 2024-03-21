@@ -1,7 +1,6 @@
 package kg.attractor.ht49.controllers.users;
 
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.dto.users.UserImageDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +37,4 @@ public class EmployeeController {
         return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + email + " not found") : ResponseEntity.ok(service.getUserByEmail(email.strip()));
     }
 
-
-    @PostMapping("/upload")
-    public ResponseEntity<Void> uploadUserImage(UserImageDto image) {
-        service.uploadImage(image);
-        return ResponseEntity.ok().build();
-    }
 }
