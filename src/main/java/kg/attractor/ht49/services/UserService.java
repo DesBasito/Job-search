@@ -4,15 +4,18 @@ import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
+import kg.attractor.ht49.exceptions.AlreadyExistsException;
+import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public interface UserService {
     List<UserDto> getUsers();
     UserDto getUserByEmail(String email) ;
     UserDto getUserById(Long id);
-    void createUser(UserCreationDto user) throws Exception;
+    void createUser(UserCreationDto user) throws AlreadyExistsException;
     List<UserDto> getUserByName(String name, AccountTypes type);
     UserDto getUserByPhone(String phone);
     Long getUserId(String user);
@@ -26,8 +29,8 @@ public interface UserService {
 
     List<UserDto> getEmpl(AccountTypes types);
 
-    UserDto getEmplByEmail(String email, AccountTypes accountTypes);
+    UserDto getEmplByEmail(String email, AccountTypes accountTypes) throws UserNotFoundException;
 
-    UserDto getEmplByPhone(String strip, AccountTypes accountTypes);
+    UserDto getEmplByPhone(String strip, AccountTypes accountTypes) throws UserNotFoundException;
 
 }

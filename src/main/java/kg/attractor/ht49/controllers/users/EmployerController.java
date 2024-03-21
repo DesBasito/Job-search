@@ -1,5 +1,7 @@
 package kg.attractor.ht49.controllers.users;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.services.UserService;
@@ -24,17 +26,17 @@ public class EmployerController {
         return ResponseEntity.ok(service.getUserByName(name.strip(),AccountTypes.EMPLOYEE));
     }
 
-    @GetMapping("/phone")
-    public ResponseEntity<?> getEmployeeByPhoneNum(@RequestParam(name = "phone", defaultValue = "0") String phone) {
+    @GetMapping("/phone/{phone}")
+    public ResponseEntity<UserDto> getEmployeeByPhoneNum(@Valid @NotBlank @PathVariable(name = "phone") String phone) {
         UserDto user = service.getEmplByPhone(phone.strip(),AccountTypes.EMPLOYEE);
-        return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + phone + " not found") : ResponseEntity.ok(user);
+        return ResponseEntity.ok(user);
     }
 
 
     @GetMapping("/email")
-    public ResponseEntity<?> getEmployeeByEmail(@RequestParam(name = "email", defaultValue = "example@example.com") String email) {
+    public ResponseEntity<UserDto> getEmployeeByEmail(@RequestParam(name = "email", defaultValue = "example@example.com") String email) {
         UserDto user = service.getEmplByEmail(email,AccountTypes.EMPLOYEE);
-        return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + email + " not found") : ResponseEntity.ok(service.getUserByEmail(email.strip()));
+        return ResponseEntity.ok(user);
     }
 
 }

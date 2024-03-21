@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dto.users;
 
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -11,12 +12,19 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserCreationDto {
-    private String name;
-    private String surname;
+    @NotBlank @Size(max = 30)
+    private String name, surname;
+    @Min(value = 18, message = "The age must be over 18")
+    @Max(value = 70,message = "Enter rational age")
     private Byte age;
+    @NotBlank
+    @Email
     private String email;
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
     private String password;
+    @Size(max = 20) @Pattern(regexp ="^\\d+$",message = "enter phone number(only digits)")
     private String phoneNumber;
-    private MultipartFile file;
+    private MultipartFile avatar;
+    @NotBlank @Pattern(regexp = "^(?=.*[a-z])(?=.*[a-zA-Z]).+$", message = "Should contain only letters")
     private String accType;
 }

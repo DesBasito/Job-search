@@ -1,13 +1,14 @@
 package kg.attractor.ht49.services.impl;
 
+import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
+import kg.attractor.ht49.exceptions.AlreadyExistsException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.User;
-import kg.attractor.ht49.models.UserImages;
 import kg.attractor.ht49.services.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
@@ -58,11 +60,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUser(UserCreationDto dto) throws Exception {
+    public void createUser(UserCreationDto dto) throws AlreadyExistsException {
         if (userDao.getUserByEmail(dto.getEmail()).isPresent()){
-            throw new Exception();
+            throw new AlreadyExistsException("User with email:"+dto.getEmail()+" already exists.");
         }
-        String fileName  = util.saveUploadedFile(dto.getFile(),"/images");
+        String fileName = null;
+        if (!dto.getAvatar().isEmpty()){
+           fileName = util.saveUploadedFile(dto.getAvatar(),"/images");
+        }
+
         User user = User.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
@@ -158,24 +164,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getEmplByEmail(String email, AccountTypes accountTypes) {
-        try {
-            User user = userDao.getEmplByEmail(email,accountTypes).orElseThrow(UserNotFoundException::new);
+            User user = userDao.getEmplByEmail(email,accountTypes).orElseThrow(() -> new UserNotFoundException("user by email: "+email+" not found"));
             return getUserDto(user);
-        } catch (UserNotFoundException e) {
-            log.error("employee with email: {} does not exists",email);
-        }
-        return null;
     }
 
     @Override
-    public UserDto getEmplByPhone(String strip, AccountTypes accountTypes) {
-        try {
-            User user = userDao.getEmplByPhone(strip,accountTypes).orElseThrow(UserNotFoundException::new);
+    public UserDto getEmplByPhone(String strip, AccountTypes accountTypes) throws UserNotFoundException {
+            User user = userDao.getEmplByPhone(strip,accountTypes).orElseThrow(()->new NoSuchElementException("user with phone number: "+strip+" not found"));
             return getUserDto(user);
-        } catch (UserNotFoundException e) {
-            log.error("employee with phone: {} does not exists", strip);
-        }
-        return null;
     }
 
 

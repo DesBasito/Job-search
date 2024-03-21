@@ -1,6 +1,8 @@
 package kg.attractor.ht49.exceptions;
 
-public class EducationInfoNotFoundException extends Exception {
+import java.util.NoSuchElementException;
+
+public class EducationInfoNotFoundException extends NoSuchElementException {
     public EducationInfoNotFoundException() {
     }
 

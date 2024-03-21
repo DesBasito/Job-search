@@ -1,6 +1,8 @@
 package kg.attractor.ht49.exceptions;
 
-public class UserNotFoundException extends Exception{
+import java.util.NoSuchElementException;
+
+public class UserNotFoundException extends NoSuchElementException {
     public UserNotFoundException() {
     }
 

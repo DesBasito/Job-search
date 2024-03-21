@@ -1,5 +1,7 @@
 package kg.attractor.ht49.controllers.users;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.services.UserService;
@@ -29,11 +31,11 @@ public class UserController {
     }
 
     @GetMapping("/getUsers/{type}")
-    public ResponseEntity<?> getUsersByType(@PathVariable(name = "type") String type){
+    public ResponseEntity<?> getUsersByType(@PathVariable(name = "type") String type) {
         try {
             return ResponseEntity.ok(service.getUsersByType(type));
-        }catch (Exception e){
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Users by type "+type+" not found");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Users by type " + type + " not found");
         }
     }
 
@@ -45,19 +47,14 @@ public class UserController {
     }
 
     @GetMapping("confirm/{confirm}")
-    public ResponseEntity<?> checkUserByEmail(@PathVariable String confirm){
-            return ResponseEntity.ok(service.checkIfUserExists(confirm.strip()));
+    public ResponseEntity<?> checkUserByEmail(@PathVariable String confirm) {
+        return ResponseEntity.ok(service.checkIfUserExists(confirm.strip()));
     }
 
 
     @PostMapping()
-    public ResponseEntity<?> createUser(UserCreationDto user) {
-        try {
-            service.createUser(user);
-            return ResponseEntity.ok(service.getUserByEmail(user.getEmail()));
-        }catch (Exception e){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("User is already exists");
-        }
+    public ResponseEntity<UserDto> createUser(@Valid UserCreationDto user) {
+        service.createUser(user);
+        return ResponseEntity.ok(service.getUserByEmail(user.getEmail()));
     }
-
 }
