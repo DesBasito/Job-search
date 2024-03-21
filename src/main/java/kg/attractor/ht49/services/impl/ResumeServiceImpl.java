@@ -4,6 +4,7 @@ import kg.attractor.ht49.dao.ResumeDao;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
@@ -148,7 +149,7 @@ public class ResumeServiceImpl implements ResumeService {
                 throw new CategoryNotFoundException();
             }
             User user = userService.getRawUserByEmail(resume.getAuthorEmail());
-            if (user == null ){
+            if (user == null || user.getAccType().equals(AccountTypes.EMPLOYEE.toString())){
                 throw new UserNotFoundException();
             }
             Resume resume1 = Resume.builder()
@@ -160,6 +161,7 @@ public class ResumeServiceImpl implements ResumeService {
             Long id = dao.createAndReturnResumeId(resume1);
             resume.getEi().forEach( e -> eiService.createEducationInfo(e,id));
             resume.getWei().forEach(e -> weiService.createWorkExpInfo(e,id));
+            resume.getContacts().forEach(e -> contacts.createNewContactsInfo(e,id));
         }catch (UserNotFoundException | CategoryNotFoundException e) {
             throw new RuntimeException(e);
         }

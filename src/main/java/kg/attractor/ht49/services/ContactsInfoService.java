@@ -1,7 +1,8 @@
 package kg.attractor.ht49.services;
 
-import kg.attractor.ht49.models.ContactsInfo;
+import kg.attractor.ht49.dto.ContactsInfoDto;
 
 public interface ContactsInfoService {
-    void createNewContacts(ContactsInfo contactsInfo);
+
+    void createNewContactsInfo(ContactsInfoDto contactsInfo, Long id);
 }

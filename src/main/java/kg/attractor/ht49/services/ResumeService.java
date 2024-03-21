@@ -1,6 +1,5 @@
 package kg.attractor.ht49.services;
 
-import kg.attractor.ht49.dto.resumes.CreateResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;

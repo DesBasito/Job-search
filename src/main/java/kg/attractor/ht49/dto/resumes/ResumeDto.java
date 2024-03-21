@@ -1,13 +1,19 @@
 package kg.attractor.ht49.dto.resumes;
 
 import kg.attractor.ht49.dto.CategoryDto;
+import kg.attractor.ht49.dto.ContactsInfoDto;
+import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
+import kg.attractor.ht49.dto.educations.EducationInfoDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExperienceInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,4 +28,7 @@ public class ResumeDto {
     private Boolean isActive;
     private LocalDateTime createdDate;
     private LocalDateTime updateTime;
+//    private List<WorkExperienceInfoDto> wei;
+//    private List<EducationInfoDto> ei;
+//    private List<ContactsInfoDto> contacts;
 }

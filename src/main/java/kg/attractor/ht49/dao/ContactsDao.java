@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dao;
 
+import kg.attractor.ht49.dto.ContactsInfoDto;
 import kg.attractor.ht49.models.ContactsInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;

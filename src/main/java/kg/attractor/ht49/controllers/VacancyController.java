@@ -67,7 +67,6 @@ public class VacancyController {
 
     @PostMapping()
     public ResponseEntity<Long> createVacancy(@RequestBody VacancyDto vacancy) {
-        service.createVacancy(vacancy);
         Long id = service.createVacancyAndReturnId(vacancy);
         return ResponseEntity.ok(id);
     }
