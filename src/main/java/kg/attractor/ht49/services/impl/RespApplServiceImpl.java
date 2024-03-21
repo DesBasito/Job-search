@@ -4,6 +4,7 @@ import kg.attractor.ht49.dao.RespondedApplicantsDao;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
@@ -41,12 +42,11 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     }
 
     @Override
-    public void ApplyToVacancy(String email, Long vacancyId) throws UserNotFoundException {
-        User userByEmail = userService.getRawUserByEmail(email);
-        if (userByEmail == null || userByEmail.getAccType().equals("employee")){
-            throw new UserNotFoundException("employee by email "+email+" not found");
+    public void ApplyToVacancy(Long resumeId, Long vacancyId) throws ResumeNotFoundException {
+        ResumeDto resume = resumeService.getResumeById(resumeId);
+        if (resume == null || !resume.getIsActive()){
+            throw new ResumeNotFoundException("resume by id " + resumeId + " not found");
         }
-        ResumeDto resume = resumeService.getResumeByUserEmail(email).getLast();
         dao.createRespAppl(resume.getId(),vacancyId);
     }
 

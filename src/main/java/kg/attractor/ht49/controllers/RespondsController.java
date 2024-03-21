@@ -33,9 +33,9 @@ public class RespondsController {
     }
 
     @PostMapping("/applyToVacancy")
-    public ResponseEntity<?> applyToVacancy(@RequestParam String email, Long vacancyId){
+    public ResponseEntity<?> applyToVacancy(@RequestParam Long resumeId, Long vacancyId){
         try {
-            service.ApplyToVacancy(email,vacancyId);
+            service.ApplyToVacancy(resumeId,vacancyId);
             return ResponseEntity.ok(service.getAllRespondents());
         }catch (UserNotFoundException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
