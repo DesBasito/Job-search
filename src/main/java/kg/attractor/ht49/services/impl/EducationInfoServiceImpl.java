@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @Slf4j
@@ -19,17 +21,6 @@ import java.sql.Date;
 public class EducationInfoServiceImpl implements EducationInfoService {
     private final EducationInfoDao dao;
 
-
-    @Override
-    public EducationInfoDto getEducationByResumeId(Long id) {
-        try {
-            EducationInfo info = dao.getEducationByResume(id).orElseThrow(() -> new EducationInfoNotFoundException("cannot find Education info by resume id: " + id));
-            return getEducationInfoDto(info);
-        } catch (EducationInfoNotFoundException e) {
-            log.error(e.getMessage());
-            return null;
-        }
-    }
 
     @Override
     public void editInfo(EducationInfoEditDto info) {
@@ -63,6 +54,13 @@ public class EducationInfoServiceImpl implements EducationInfoService {
     public Long createAndReturnEduInfoId(CreateEducationInfoDto info) {
 //        return dao.createAndReturnId(info);
         return null;
+    }
+
+    @Override
+    public List<EducationInfoDto> getEducationsInfoByResumeId(Long id) {
+        List<EducationInfoDto> dtos = new ArrayList<>();
+        dao.getEducationByResume(id).forEach(e -> dtos.add(getEducationInfoDto(e)));
+        return dtos;
     }
 
     private EducationInfoDto getEducationInfoDto(EducationInfo info) {

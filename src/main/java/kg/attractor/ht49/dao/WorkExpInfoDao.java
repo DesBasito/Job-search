@@ -106,4 +106,11 @@ public class WorkExpInfoDao {
         }, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey().longValue());
     }
+
+    public List<WorkExperienceInfo> getListWorkExpByResumeId(Long resumeId) {
+        String sql = """
+                select * FROM WORK_EXPERIENCE_INFO WHERE RESUME_ID = ?;
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(WorkExperienceInfo.class),resumeId);
+    }
 }

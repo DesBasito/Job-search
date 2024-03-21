@@ -4,9 +4,9 @@ import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
 import kg.attractor.ht49.dto.educations.EducationInfoDto;
 import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
 
-public interface EducationInfoService {
-    EducationInfoDto getEducationByResumeId(Long id);
+import java.util.List;
 
+public interface EducationInfoService {
     void editInfo(EducationInfoEditDto info);
 
     boolean deleteEducationInfoById(Long id);
@@ -14,4 +14,6 @@ public interface EducationInfoService {
     void createEducationInfo(CreateEducationInfoDto info, Long id);
 
     Long createAndReturnEduInfoId(CreateEducationInfoDto info);
+
+    List<EducationInfoDto> getEducationsInfoByResumeId(Long id);
 }

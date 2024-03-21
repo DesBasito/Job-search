@@ -1,4 +1,4 @@
-package kg.attractor.ht49.dto;
+package kg.attractor.ht49.dto.ContactInfo;
 
 import kg.attractor.ht49.dto.ContactType.ContactTypeDto;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class ContactsInfoDto {
+public class ContactsInfoWithIdDto {
+    private Long id;
     private String type;
     private String infoValue;
 }

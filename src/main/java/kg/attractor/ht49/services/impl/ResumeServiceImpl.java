@@ -4,6 +4,7 @@ import kg.attractor.ht49.dao.ResumeDao;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExperienceInfoDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
@@ -64,7 +65,6 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public ResumeDto getResumeById(Long id) {
-        try {
             Resume r = dao.getResumeById(id).orElseThrow(ResumeNotFoundException::new);
             return ResumeDto.builder()
                     .id(r.getId())
@@ -75,11 +75,10 @@ public class ResumeServiceImpl implements ResumeService {
                     .isActive(r.getIsActive())
                     .createdDate(r.getCreatedDate())
                     .updateTime(r.getUpdateTime())
+                    .wei(weiService.getWorkExperiencesByResumeId(id))
+                    .ei(eiService.getEducationsInfoByResumeId(id))
+                    .contacts(contacts.getContactsByResumeId(id))
                     .build();
-        } catch (ResumeNotFoundException e) {
-            log.error("Resume by id: {} not found", id);
-        }
-        return null;
     }
 
     @Override
@@ -124,6 +123,9 @@ public class ResumeServiceImpl implements ResumeService {
                 .isActive(r.getIsActive())
                 .createdDate(r.getCreatedDate())
                 .updateTime(r.getUpdateTime())
+                .wei(weiService.getWorkExperiencesByResumeId(r.getId()))
+                .ei(eiService.getEducationsInfoByResumeId(r.getId()))
+                .contacts(contacts.getContactsByResumeId(r.getId()))
                 .build()));
         return dtos;
     }

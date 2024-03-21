@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -47,5 +48,17 @@ public class ContactsTypeDao {
             return ps;
         }, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
+    }
+
+    public Optional<ContactType> getContactTypeById(Long typeId) {
+        String sql = """
+                SELECT * from CONTACT_TYPES
+                where ID = ?
+                """;
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql, new BeanPropertyRowMapper<>(ContactType.class), typeId)
+                )
+        );
     }
 }

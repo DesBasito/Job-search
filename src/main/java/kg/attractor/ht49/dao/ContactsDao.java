@@ -1,12 +1,14 @@
 package kg.attractor.ht49.dao;
 
-import kg.attractor.ht49.dto.ContactsInfoDto;
 import kg.attractor.ht49.models.ContactsInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -23,5 +25,13 @@ public class ContactsDao {
                 .addValue("infoValue",contactsInfo.getInfoValue())
                 .addValue("typeId",contactsInfo.getTypeId())
                 .addValue("resumeId",contactsInfo.getResumeId()));
+    }
+
+    public List<ContactsInfo> getContactsInfoByResumeId(Long id) {
+        String sql = """
+                select * from CONTACTS_INFO
+                where RESUME_ID = ?;
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(ContactsInfo.class), id);
     }
 }

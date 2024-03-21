@@ -7,4 +7,6 @@ public interface ContactsTypeService {
     ContactsTypeWithIdDto getContactTypeByName(String contactsType);
 
     Long createNewContacts(String type);
+
+    ContactsTypeWithIdDto getContactTypeById(Long typeId);
 }

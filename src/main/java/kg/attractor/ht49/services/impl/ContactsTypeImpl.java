@@ -9,6 +9,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -32,6 +35,15 @@ public class ContactsTypeImpl implements ContactsTypeService {
                 .type(type)
                 .build();
         return dao.createAndReturnId(contactType);
+    }
+
+    @Override
+    public ContactsTypeWithIdDto getContactTypeById(Long typeId) {
+        ContactType types = dao.getContactTypeById(typeId).orElse(null);
+        if (types == null){
+            return null;
+        }
+        return ContactsTypeWithIdDto.builder().id(types.getId()).type(types.getType()).build();
     }
 
 }

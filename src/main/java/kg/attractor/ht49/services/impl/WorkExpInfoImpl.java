@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -46,5 +49,20 @@ public class WorkExpInfoImpl implements WorkExperienceInfoService {
     @Override
     public Long createAndReturnWorkExpInfoId(WorkExperienceInfoDto info) {
         return null;
+    }
+
+    @Override
+    public List<WorkExperienceInfoDto> getWorkExperiencesByResumeId(Long resumeId) {
+        List<WorkExperienceInfo> infos = dao.getListWorkExpByResumeId(resumeId);
+        List<WorkExperienceInfoDto> dtos = new ArrayList<>();
+        infos.forEach( e -> dtos.add(WorkExperienceInfoDto.builder()
+                        .id(e.getId())
+                        .companyName(e.getCompanyName())
+                        .resumeId(e.getResumeId())
+                        .position(e.getPosition())
+                        .responsibilities(e.getResponsibilities())
+                        .years(e.getYears())
+                .build()));
+        return dtos;
     }
 }

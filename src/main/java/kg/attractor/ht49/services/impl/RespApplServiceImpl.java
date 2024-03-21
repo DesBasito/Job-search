@@ -27,7 +27,6 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     private final RespondedApplicantsDao dao;
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
-    private final UserService userService;
 
     @Override
     public List<RespondedApplicantDto> getAllRespondents() {

@@ -27,16 +27,12 @@ public class EducationInfoDao {
     private final JdbcTemplate template;
     private final NamedParameterJdbcTemplate namedParameter;
 
-    public Optional<EducationInfo> getEducationByResume(Long id) {
+    public List<EducationInfo> getEducationByResume(Long id) {
         String sql = """
                 select * from EDUCATION_INFO
                 where RESUME_ID = ?;
                 """;
-       return Optional.ofNullable(
-                DataAccessUtils.singleResult(
-                        template.query(sql, new BeanPropertyRowMapper<>(EducationInfo.class), id)
-                )
-        );
+       return template.query(sql, new BeanPropertyRowMapper<>(EducationInfo.class), id);
     }
 
     public void editInfo(EducationInfo info) {
