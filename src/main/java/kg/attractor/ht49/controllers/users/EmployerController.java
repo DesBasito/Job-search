@@ -40,12 +40,6 @@ public class EmployerController {
         return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + email + " not found") : ResponseEntity.ok(service.getUserByEmail(email.strip()));
     }
 
-    @PostMapping("/applyToVacancy/{email}{vacancyId}")
-    public ResponseEntity<?> applyToVacancy(@PathVariable String email, @PathVariable String vacancyId){
-        service.ApplyToVacancy(email,vacancyId);
-        return ResponseEntity.ok().build();
-    }
-
     @PostMapping("/upload")
     public ResponseEntity<Void> uploadUserImage(UserImageDto image) {
         service.uploadImage(image);

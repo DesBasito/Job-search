@@ -3,12 +3,14 @@ package kg.attractor.ht49.services.impl;
 import kg.attractor.ht49.dao.RespondedApplicantsDao;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
-import kg.attractor.ht49.exceptions.ResumeNotFoundException;
+import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.RespondedApplicantsService;
 import kg.attractor.ht49.services.ResumeService;
+import kg.attractor.ht49.services.UserService;
 import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,7 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     private final RespondedApplicantsDao dao;
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
+    private final UserService userService;
 
     @Override
     public List<RespondedApplicantDto> getAllRespondents() {
@@ -38,14 +41,13 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     }
 
     @Override
-    public void createRespAppl(String email, String vacancyId) {
-        try {
-            Long resumeId = resumeService.getResumeByUserEmail(email).getFirst().getId();
-            dao.createRespAppl(resumeId, vacancyId);
-        } catch (UserNotFoundException e){
-            log.error("User not found");
+    public void ApplyToVacancy(String email, Long vacancyId) throws UserNotFoundException {
+        User userByEmail = userService.getRawUserByEmail(email);
+        if (userByEmail == null || userByEmail.getAccType().equals("employee")){
+            throw new UserNotFoundException("employee by email "+email+" not found");
         }
-
+        ResumeDto resume = resumeService.getResumeByUserEmail(email).getLast();
+        dao.createRespAppl(resume.getId(),vacancyId);
     }
 
 

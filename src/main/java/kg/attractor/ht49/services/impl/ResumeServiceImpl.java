@@ -10,10 +10,7 @@ import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.User;
-import kg.attractor.ht49.services.CategoryService;
-import kg.attractor.ht49.services.ContactsInfoService;
-import kg.attractor.ht49.services.ResumeService;
-import kg.attractor.ht49.services.UserService;
+import kg.attractor.ht49.services.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,6 +25,8 @@ public class ResumeServiceImpl implements ResumeService {
     private final CategoryService category;
     private final ResumeDao dao;
     private final UserService userService;
+    private final EducationInfoService eiService;
+    private final WorkExperienceInfoService weiService;
     private final ContactsInfoService contacts;
 
     @Override
@@ -83,18 +82,6 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void createResume(ResumeCreateDto resume) {
-        Category category1 = category.getCategoryByName(resume.getCategoryName());
-        Resume resume1 = Resume.builder()
-                .name(resume.getTitle())
-                .applicantId(resume.getUser().getId())
-                .categoryId(category1.getId())
-                .salary(resume.getSalary())
-                .build();
-        dao.createResume(resume1);
-    }
-
-    @Override
     public Boolean deleteResumeById(Long id) {
         if (dao.getResumeById(id).isPresent()) {
             dao.deleteResumeById(id);
@@ -105,13 +92,23 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void editResume(EditResumeDto editDto) {
-        Resume resume = Resume.builder()
-                .id(editDto.getId())
-                .name(editDto.getName())
-                .categoryId(editDto.getCategory().getId())
-                .salary(editDto.getSalary())
-                .build();
-        dao.editResume(resume);
+        try {
+            Category category1 = category.getCategoryByName(editDto.getCategoryName());
+            if (category1 == null){
+                throw new CategoryNotFoundException();
+            }
+            Resume resume = Resume.builder()
+                    .id(editDto.getId())
+                    .name(editDto.getTitle())
+                    .categoryId(category1.getId())
+                    .salary(editDto.getSalary())
+                    .build();
+            dao.editResume(resume);
+            editDto.getEi().forEach(eiService::editInfo);
+            editDto.getWei().forEach(weiService::editInfo);
+        }catch (CategoryNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -136,21 +133,36 @@ public class ResumeServiceImpl implements ResumeService {
         return getResumeDtos(resumeList);
     }
 
-    @Override
-    public Long createAndReturnIdResume(ResumeCreateDto resume) {
-        Category category1 = category.getCategoryByName(resume.getCategoryName());
-        Resume resume1 = Resume.builder()
-                .name(resume.getTitle())
-                .applicantId(resume.getUser().getId())
-                .categoryId(category1.getId())
-                .salary(resume.getSalary())
-                .build();
-        return dao.createAndReturnResumeId(resume1);
-    }
 
     @Override
     public void changeResumeState(Long id) {
         boolean b = !getResumeById(id).getIsActive();
         dao.changeResumeState(id, b);
+    }
+
+    @Override
+    public void createResume(ResumeCreateDto resume) {
+        try {
+            Category category1 = category.getCategoryByName(resume.getCategoryName());
+            if (category1 == null){
+                throw new CategoryNotFoundException();
+            }
+            User user = userService.getRawUserByEmail(resume.getAuthorEmail());
+            if (user == null ){
+                throw new UserNotFoundException();
+            }
+            Resume resume1 = Resume.builder()
+                    .name(resume.getTitle())
+                    .applicantId(user.getId())
+                    .categoryId(category1.getId())
+                    .salary(resume.getSalary())
+                    .build();
+            Long id = dao.createAndReturnResumeId(resume1);
+            resume.getEi().forEach( e -> eiService.createEducationInfo(e,id));
+            resume.getWei().forEach(e -> weiService.createWorkExpInfo(e,id));
+        }catch (UserNotFoundException | CategoryNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 }

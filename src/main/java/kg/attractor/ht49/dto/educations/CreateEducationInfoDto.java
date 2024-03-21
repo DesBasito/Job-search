@@ -14,7 +14,6 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateEducationInfoDto {
-    private ResumeDto resume;
     private String institution;
     private String program;
     private Date startDate;
