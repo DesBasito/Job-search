@@ -114,6 +114,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(EditUserDto user) {
+        String fileName = util.saveUploadedFile(user.getAvatar(),"/images");
         User user1 = User.builder()
                 .id(user.getId())
                 .name(user.getName())
@@ -121,7 +122,7 @@ public class UserServiceImpl implements UserService {
                 .age(user.getAge())
                 .password(user.getPassword())
                 .phoneNumber(user.getPhoneNumber())
-                .avatar(user.getAvatar())
+                .avatar(fileName)
                 .build();
         userDao.editUser(user1);
     }

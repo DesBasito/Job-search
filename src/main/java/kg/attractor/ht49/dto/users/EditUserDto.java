@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -17,5 +18,5 @@ public class EditUserDto {
     private Byte age;
     private String password;
     private String phoneNumber;
-    private String avatar;
+    private MultipartFile avatar;
 }
