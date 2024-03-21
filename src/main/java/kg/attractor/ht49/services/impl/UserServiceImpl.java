@@ -170,7 +170,7 @@ public class UserServiceImpl implements UserService {
             User user = userDao.getEmplByEmail(email,accountTypes).orElseThrow(UserNotFoundException::new);
             return getUserDto(user);
         } catch (UserNotFoundException e) {
-            log.error("employee with email: {} does not exists", email);
+            log.error("employee with email: {} does not exists",email);
         }
         return null;
     }
