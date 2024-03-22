@@ -114,11 +114,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Boolean checkIfUserExists(String email) {
-        return userDao.getUserByEmail(email).isPresent();
-    }
-
-    @Override
     public void editUser(EditUserDto user) {
         String fileName = util.saveUploadedFile(user.getAvatar(),"/images");
         User user1 = User.builder()

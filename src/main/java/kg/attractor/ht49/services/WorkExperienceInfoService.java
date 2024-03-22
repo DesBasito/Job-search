@@ -7,8 +7,6 @@ import kg.attractor.ht49.dto.workExpInfo.WorkExperienceInfoDto;
 import java.util.List;
 
 public interface WorkExperienceInfoService {
-    WorkExperienceInfoDto getEducationByResumeId(Long id);
-
     void editInfo(WorkExpInfoEditDto info);
 
     boolean deleteWorkExpInfoById(Long id);

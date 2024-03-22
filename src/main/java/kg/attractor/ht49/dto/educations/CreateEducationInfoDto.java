@@ -1,7 +1,6 @@
 package kg.attractor.ht49.dto.educations;
 
 
-import kg.attractor.ht49.dto.resumes.ResumeDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

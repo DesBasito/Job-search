@@ -1,7 +1,5 @@
 package kg.attractor.ht49.dao;
 
-import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
-import kg.attractor.ht49.dto.educations.EducationInfoDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
 import kg.attractor.ht49.models.EducationInfo;
 import kg.attractor.ht49.models.WorkExperienceInfo;
@@ -15,9 +13,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
 import java.sql.PreparedStatement;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -77,7 +73,7 @@ public class WorkExpInfoDao {
     }
 
 
-    public Optional<EducationInfo> getEducationById(Long id) {
+    public Optional<EducationInfo> getWorkExpInfoById(Long id) {
         String sql = """
                  select * from EDUCATION_INFO
                 where ID = ?;

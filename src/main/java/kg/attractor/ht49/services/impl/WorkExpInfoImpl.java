@@ -20,20 +20,15 @@ public class WorkExpInfoImpl implements WorkExperienceInfoService {
     private final WorkExpInfoDao dao;
 
     @Override
-    public WorkExperienceInfoDto getEducationByResumeId(Long id) {
-        return null;
-    }
-
-    @Override
     public void editInfo(WorkExpInfoEditDto info) {
-        WorkExperienceInfo info1 = WorkExperienceInfo.builder()
+        WorkExperienceInfo info2 = WorkExperienceInfo.builder()
                 .id(info.getId())
                 .companyName(info.getCompanyName())
                 .position(info.getPosition())
                 .responsibilities(info.getResponsibilities())
                 .years(info.getYears())
                 .build();
-        dao.editInfo(info1);
+        dao.editInfo(info2);
     }
 
     @Override

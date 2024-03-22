@@ -1,5 +1,7 @@
 package kg.attractor.ht49.controllers;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Pattern;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
@@ -24,7 +26,7 @@ public class RespondsController {
     }
 
     @GetMapping("/{vacancyId}")
-    public ResponseEntity<?> getRespondedApplicantsToVacancy(@PathVariable Long vacancyId){
+    public ResponseEntity<?> getRespondedApplicantsToVacancy(@Valid @PathVariable Long vacancyId){
         List<ResumeDto> dtos = service.getRespondedApplicantsByVacancyId(vacancyId);
         if (dtos.isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vacancy by id: "+vacancyId+" not found");
@@ -33,7 +35,7 @@ public class RespondsController {
     }
 
     @PostMapping("/applyToVacancy")
-    public ResponseEntity<?> applyToVacancy(@RequestParam Long resumeId, Long vacancyId){
+    public ResponseEntity<?> applyToVacancy(@Valid @Pattern (regexp = "^\\d+$",message = "enter only digits")@RequestParam Long resumeId, Long vacancyId){
         try {
             service.ApplyToVacancy(resumeId,vacancyId);
             return ResponseEntity.ok(service.getAllRespondents());

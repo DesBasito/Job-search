@@ -2,23 +2,28 @@ package kg.attractor.ht49.dto.vacancies;
 
 import jakarta.validation.constraints.*;
 import kg.attractor.ht49.dto.CategoryDto;
+import kg.attractor.ht49.dto.users.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class VacancyEditDto {
-    private Long id;
-    @NotBlank @Size(max = 30)
+public class VacancyCreateDto {
+    @NotBlank
+    @Size(max = 30)
     private String name;
     @NotBlank @Size(max = 245,message = "description should contains not more then 245 characters")
     private String description;
     @NotBlank
-    private CategoryDto category;
+    private String category;
+    @NotBlank@Email
+    private String authorEmail;
     @Pattern(regexp = "^\\d+$",message = "enter only digits characters")
     private Double salary;
     @Max(value = 40)

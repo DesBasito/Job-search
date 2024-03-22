@@ -1,5 +1,6 @@
 package kg.attractor.ht49.controllers.users;
 
+import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.models.User;
@@ -17,8 +18,8 @@ public class ProfileController {
     private final ProfileService service;
     private final UserService userService;
 
-    @PutMapping("/edit")
-    public ResponseEntity<UserDto> editProfile(EditUserDto user) {
+    @PutMapping( "/edit")
+    public ResponseEntity<UserDto> editProfile(@Valid EditUserDto user) {
         service.editProfile(user);
         return ResponseEntity.ok(userService.getUserById(user.getId()));
     }

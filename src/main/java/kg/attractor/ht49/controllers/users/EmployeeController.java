@@ -1,6 +1,9 @@
 package kg.attractor.ht49.controllers.users;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
@@ -25,19 +28,19 @@ public class EmployeeController {
     }
 
     @GetMapping("/{name}")
-    public ResponseEntity<List<UserDto>> getEmployeesByName(@PathVariable(name = "name") String name) {
+    public ResponseEntity<List<UserDto>> getEmployeesByName(@Valid @PathVariable(name = "name") String name) {
         return ResponseEntity.ok(service.getUserByName(name.strip(), AccountTypes.EMPLOYER));
     }
 
     @GetMapping( "/phone/{phone}")
-    public ResponseEntity<UserDto> getEmployeeByPhoneNum(@NotBlank @PathVariable(name = "phone") String phone) {
+    public ResponseEntity<UserDto> getEmployeeByPhoneNum(@Valid @PathVariable(name = "phone") String phone) {
         UserDto user = service.getEmplByPhone(phone.strip(), AccountTypes.EMPLOYER);
         return ResponseEntity.ok(user);
     }
 
 
     @GetMapping("/email")
-    public ResponseEntity<UserDto> getEmployeeByEmail(@RequestParam(name = "email", defaultValue = "example@example.com") String email) {
+    public ResponseEntity<UserDto> getEmployeeByEmail(@Valid @Email @RequestParam(name = "email", defaultValue = "example@example.com") String email) {
         UserDto user = service.getEmplByEmail(email, AccountTypes.EMPLOYER);
         return ResponseEntity.ok(user);
     }

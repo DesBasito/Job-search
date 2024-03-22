@@ -19,7 +19,6 @@ public interface UserService {
     List<UserDto> getUserByName(String name, AccountTypes type);
     UserDto getUserByPhone(String phone);
     Long getUserId(String user);
-    Boolean checkIfUserExists(String email);
 
     void editUser(EditUserDto user);
 

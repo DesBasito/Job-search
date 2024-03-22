@@ -1,7 +1,9 @@
 package kg.attractor.ht49.controllers.users;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.services.UserService;
@@ -25,13 +27,13 @@ public class UserController {
 
 
     @GetMapping("/phone")
-    public ResponseEntity<?> getUserByPhoneNum(@RequestParam(name = "phone", defaultValue = "0") String phone) {
+    public ResponseEntity<?> getUserByPhoneNum(@Valid @Pattern(regexp = "^\\d+$",message = "enter a correct number") @RequestParam(name = "phone") String phone) {
         UserDto user = service.getUserByPhone(phone.strip());
         return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + phone + " not found") : ResponseEntity.ok(user);
     }
 
     @GetMapping("/getUsers/{type}")
-    public ResponseEntity<?> getUsersByType(@PathVariable(name = "type") String type) {
+    public ResponseEntity<?> getUsersByType(@Valid@Pattern(regexp = "^[a-zA-Z]+$",message = "enter a type: 1.employee, 2.employer")@PathVariable(name = "type") String type) {
         try {
             return ResponseEntity.ok(service.getUsersByType(type));
         } catch (Exception e) {
@@ -41,14 +43,9 @@ public class UserController {
 
 
     @GetMapping("/email")
-    public ResponseEntity<?> getUserByEmail(@RequestParam(name = "email", defaultValue = "example@example.com") String email) {
+    public ResponseEntity<?> getUserByEmail(@Valid@Email @RequestParam(name = "email", defaultValue = "example@example.com") String email) {
         UserDto user = service.getUserByEmail(email);
         return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + email + " not found") : ResponseEntity.ok(service.getUserByEmail(email.strip()));
-    }
-
-    @GetMapping("confirm/{confirm}")
-    public ResponseEntity<?> checkUserByEmail(@PathVariable String confirm) {
-        return ResponseEntity.ok(service.checkIfUserExists(confirm.strip()));
     }
 
 
