@@ -57,13 +57,9 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public VacancyDto getVacancyById(Long vacancyId) {
-        try {
-            Vacancy e = dao.getVacancyById(vacancyId).orElseThrow(VacancyNotFoundException::new);
-            return getVacancyDto(e);
-        } catch (VacancyNotFoundException e) {
-            log.error("vacancy by id: {} not found", vacancyId);
-        }
-        return null;
+        Vacancy e = dao.getVacancyById(vacancyId).orElseThrow(() -> new VacancyNotFoundException("Vacancy by id" + vacancyId + " not found"));
+        return getVacancyDto(e);
+
     }
 
     public void createVacancy(VacancyDto vacancy1) {
@@ -105,36 +101,25 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<VacancyDto> getAllVacanciesByCompany(Long id) {
         List<Vacancy> vacancies = dao.getVacanciesOfCompany(id);
-        try {
-            if (userService.getUserById(id) == null) {
-                throw new UserNotFoundException();
-            }
-            List<VacancyDto> dtos = new ArrayList<>();
-            vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
-            return dtos;
-
-        } catch (UserNotFoundException e) {
-            log.error("Author by id: {} not found", id);
+        if (userService.getUserById(id) == null) {
+            throw new UserNotFoundException("employer by id " + id + " not found");
         }
-        return null;
+        List<VacancyDto> dtos = new ArrayList<>();
+        vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
+        return dtos;
     }
 
     @Override
     public List<VacancyDto> getActiveVacanciesByCompany(Long id) {
 
         List<Vacancy> vacancies = dao.getActiveVacanciesOfCompany(id);
-        try {
-            if (userService.getUserById(id) == null) {
-                throw new UserNotFoundException();
-            }
-            List<VacancyDto> dtos = new ArrayList<>();
-            vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
-            return dtos;
-
-        } catch (UserNotFoundException e) {
-            log.error("Author by id: {} not found", id);
+        if (userService.getUserById(id) == null) {
+            throw new UserNotFoundException("employer by id " + id + " not found");
         }
-        return null;
+        List<VacancyDto> dtos = new ArrayList<>();
+        vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
+        return dtos;
+
     }
 
     @Override
@@ -147,13 +132,8 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public VacancyDto getVacancyByName(String name) {
-        try {
-            Vacancy e = dao.getVacancyByName(name).orElseThrow(VacancyNotFoundException::new);
-            return getVacancyDto(e);
-        } catch (VacancyNotFoundException e) {
-            log.error("Vacancy by name {} not found", name);
-            return null;
-        }
+        Vacancy e = dao.getVacancyByName(name).orElseThrow(()->new VacancyNotFoundException("vacancy by name "+name+" not found"));
+        return getVacancyDto(e);
     }
 
     @Override
@@ -172,6 +152,9 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public void changeVacancyState(Long id) {
+        if (dao.getVacancyById(id).isEmpty()){
+            throw new VacancyNotFoundException("Vacancy by id "+id+" not found");
+        }
         boolean b = !getVacancyById(id).getIsActive();
         dao.changeVacancyState(id, b);
     }

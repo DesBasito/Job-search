@@ -27,11 +27,9 @@ public class ResumeController {
     }
 
     @GetMapping("/searchByName/{resumeName}")
-    public ResponseEntity<?> getResumeByName(@Valid  @PathVariable(name = "resumeName") String rName) {
+    public ResponseEntity<List<ResumeDto>> getResumeByName(@Valid @PathVariable(name = "resumeName") String rName) {
         List<ResumeDto> dto = service.getResumeByName(rName);
-        return dto == null ?
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by name: " + rName + " not found")
-                : ResponseEntity.ok(dto);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/{id}")
@@ -42,14 +40,14 @@ public class ResumeController {
 
     @GetMapping("/category/{category}")
     public ResponseEntity<List<ResumeDto>> getResumesByCategory(@Valid @PathVariable(name = "category") String category) {
-            List<ResumeDto> resumes = service.getResumeByCategory(category.strip());
-            return ResponseEntity.ok(resumes);
+        List<ResumeDto> resumes = service.getResumeByCategory(category.strip());
+        return ResponseEntity.ok(resumes);
     }
 
     @GetMapping("/userEmail/{email}")
     public ResponseEntity<List<ResumeDto>> getResumesByUser(@Valid @PathVariable(name = "email") String email) {
-            List<ResumeDto> resumes = service.getResumeByUserEmail(email.strip());
-            return ResponseEntity.ok(resumes);
+        List<ResumeDto> resumes = service.getResumeByUserEmail(email.strip());
+        return ResponseEntity.ok(resumes);
     }
 
     @PostMapping()
@@ -64,24 +62,18 @@ public class ResumeController {
         if (service.deleteResumeById(id)) {
             return ResponseEntity.ok(service.getResumes());
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by id: "+id+" not found");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by id: " + id + " not found");
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<?> editResume(@Valid @RequestBody EditResumeDto resume) {
-        if (service.getResumeById(resume.getId()) != null) {
-            service.editResume(resume);
-            return ResponseEntity.ok(service.getResumeById(resume.getId()));
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume: "+resume+" does not exists");
+    public ResponseEntity<ResumeDto> editResume(@Valid @RequestBody EditResumeDto resume) {
+        service.editResume(resume);
+        return ResponseEntity.ok(service.getResumeById(resume.getId()));
     }
 
     @PostMapping("/status/{id}")
-    public ResponseEntity<?> changeResumeState(@Valid @PathVariable(name = "id") Long id) {
-        if (service.getResumeById(id) != null) {
-            service.changeResumeState(id);
-            return ResponseEntity.ok(service.getResumeById(id));
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by id " + id + " not found");
+    public ResponseEntity<ResumeDto> changeResumeState(@Valid @PathVariable(name = "id") Long id) {
+        service.changeResumeState(id);
+        return ResponseEntity.ok(service.getResumeById(id));
     }
 }

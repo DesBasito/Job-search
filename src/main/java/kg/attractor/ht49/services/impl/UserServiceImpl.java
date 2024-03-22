@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 @Service
 @Slf4j
@@ -67,6 +68,9 @@ public class UserServiceImpl implements UserService {
         }
         String fileName = null;
         if (!dto.getAvatar().isEmpty()) {
+            if (! Objects.requireNonNull(dto.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
+                throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
+            }
             fileName = util.saveUploadedFile(dto.getAvatar(), "/images");
         }
 

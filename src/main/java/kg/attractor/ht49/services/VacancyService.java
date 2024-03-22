@@ -11,9 +11,9 @@ import java.util.List;
 public interface VacancyService {
     List<VacancyDto> getAllVacancies();
 
-    List<VacancyDto> getVacanciesByRespondedApplicant(String email) throws UserNotFoundException;
+    List<VacancyDto> getVacanciesByRespondedApplicant(String email) ;
 
-    List<VacancyDto> getVacanciesByCategory(String strip) throws CategoryNotFoundException;
+    List<VacancyDto> getVacanciesByCategory(String strip) ;
 
     VacancyDto getVacancyById(Long vacancyId);
 

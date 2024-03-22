@@ -90,6 +90,9 @@ public class ResumeServiceImpl implements ResumeService {
             if (category1 == null){
                 throw new CategoryNotFoundException("Error with filling category object");
             }
+            if (dao.getResumeById(editDto.getId()).isEmpty()){
+                throw new IllegalArgumentException("Resume by id: "+editDto.getId()+" not found");
+            }
             Resume resume = Resume.builder()
                     .id(editDto.getId())
                     .name(editDto.getTitle())
@@ -129,6 +132,9 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void changeResumeState(Long id) {
+        if (dao.getResumeById(id).isEmpty()){
+            throw new ResumeNotFoundException("Resume by id: "+id+" not found");
+        }
         boolean b = !getResumeById(id).getIsActive();
         dao.changeResumeState(id, b);
     }

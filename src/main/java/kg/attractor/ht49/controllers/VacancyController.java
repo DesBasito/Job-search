@@ -1,5 +1,8 @@
 package kg.attractor.ht49.controllers;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
@@ -29,46 +32,32 @@ public class VacancyController {
     }
 
     @GetMapping("company/{id}")
-    public ResponseEntity<?> getVacanciesByCompanyId(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<List<VacancyDto>> getVacanciesByCompanyId(@Valid @Pattern(regexp = "^\\d+$", message = "only numbers") @PathVariable(name = "id") Long id) {
         List<VacancyDto> vacancies = service.getAllVacanciesByCompany(id);
-        if (vacancies == null || vacancies.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No resumes were found :(");
-        }
         return ResponseEntity.ok(vacancies);
     }
 
     @GetMapping("company/active/{id}")
-    public ResponseEntity<?> getActiveVacanciesByCompanyId(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<List<VacancyDto>> getActiveVacanciesByCompanyId(@Valid @Pattern(regexp = "^\\d+$", message = "only numbers") @PathVariable(name = "id") Long id) {
         List<VacancyDto> vacancies = service.getActiveVacanciesByCompany(id);
-        if (vacancies == null || vacancies.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No resumes were found :(");
-        }
         return ResponseEntity.ok(vacancies);
     }
 
     @GetMapping("/vacancy")
-    public ResponseEntity<?> getVacanciesOfRespondedApplicantEmail(@RequestParam(name = "email", defaultValue = "") String email) {
-        try {
-            return ResponseEntity.ok(service.getVacanciesByRespondedApplicant(email.strip()));
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<List<VacancyDto>> getVacanciesOfRespondedApplicantEmail(@Valid @Email @RequestParam(name = "email", defaultValue = "") String email) {
+        return ResponseEntity.ok(service.getVacanciesByRespondedApplicant(email.strip()));
     }
 
     @GetMapping("/category")
-    public ResponseEntity<?> getVacanciesByCategory(@RequestParam(name = "category", defaultValue = "") String category) {
-        try {
-            String categoryStriped = category.strip();
-            return ResponseEntity.ok(service.getVacanciesByCategory(categoryStriped));
-        } catch (CategoryNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<List<VacancyDto>> getVacanciesByCategory(@Valid @RequestParam(name = "category", defaultValue = "") String category) {
+        String categoryStriped = category.strip();
+        return ResponseEntity.ok(service.getVacanciesByCategory(categoryStriped));
     }
 
     @PostMapping()
-    public ResponseEntity<Long> createVacancy(@RequestBody VacancyDto vacancy) {
+    public ResponseEntity<VacancyDto> createVacancy(@Valid @RequestParam VacancyDto vacancy) {
         Long id = service.createVacancyAndReturnId(vacancy);
-        return ResponseEntity.ok(id);
+        return ResponseEntity.ok(service.getVacancyById(id));
     }
 
     @DeleteMapping("/{id}")
@@ -87,10 +76,7 @@ public class VacancyController {
 
     @PostMapping("/status/{id}")
     public ResponseEntity<?> changeVacancyState(@PathVariable(name = "id") Long id) {
-        if (service.getVacancyById(id) != null){
-            service.changeVacancyState(id);
-            return ResponseEntity.ok(service.getVacancyById(id));
-        }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Vacancy by id "+id+" not found");
+        service.changeVacancyState(id);
+        return ResponseEntity.ok(service.getVacancyById(id));
     }
 }
