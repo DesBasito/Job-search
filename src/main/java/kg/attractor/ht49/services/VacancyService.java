@@ -17,8 +17,6 @@ public interface VacancyService {
 
     VacancyDto getVacancyById(Long vacancyId);
 
-    void createVacancy(VacancyDto vacancy) ;
-
     Boolean deleteVacancyById(Long id);
 
     void editVacancy(VacancyEditDto vacancy);

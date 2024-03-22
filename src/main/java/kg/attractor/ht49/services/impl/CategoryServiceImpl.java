@@ -16,29 +16,17 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryDao dao;
     @Override
     public Category getCategoryByName(String category){
-        try {
         return dao.getCategoryByName(category).orElseThrow(CategoryNotFoundException::new);
-        }catch (CategoryNotFoundException e){
-            log.error("category: {} does not exists",category);
-        }
-        return null;
     }
 
     @Override
-    public CategoryDto getCategoryById(Long id)  {
-        try {
-        Category category= dao.getCategoryById(id)
-                .orElseThrow(
-                        CategoryNotFoundException::new);
+    public CategoryDto getCategoryById(Long id) {
+        Category category= dao.getCategoryById(id).orElseThrow(CategoryNotFoundException::new);
 
         return CategoryDto.builder()
                 .name(category.getName())
                 .id(category.getId())
                 .category(dao.getCategoryById(category.getParentId()).orElse(null))
                 .build();
-        }catch (CategoryNotFoundException e){
-            log.error("category with id:{} not found",id);
-        }
-        return null;
     }
 }

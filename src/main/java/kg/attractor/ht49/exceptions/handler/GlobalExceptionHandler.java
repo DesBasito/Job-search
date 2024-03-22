@@ -22,6 +22,6 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ErrorResponse AlreadyExistsException(IllegalArgumentException ex){
-        return ErrorResponse.builder(ex,HttpStatus.BAD_REQUEST,ex.getMessage()).build();
+        return ErrorResponse.builder(ex,HttpStatus.CONFLICT,ex.getMessage()).build();
     }
 }

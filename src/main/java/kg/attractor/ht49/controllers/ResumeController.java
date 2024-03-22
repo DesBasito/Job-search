@@ -1,5 +1,6 @@
 package kg.attractor.ht49.controllers;
 
+import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
@@ -26,7 +27,7 @@ public class ResumeController {
     }
 
     @GetMapping("/searchByName/{resumeName}")
-    public ResponseEntity<?> getResumeByName(@PathVariable(name = "resumeName") String rName) {
+    public ResponseEntity<?> getResumeByName(@Valid  @PathVariable(name = "resumeName") String rName) {
         List<ResumeDto> dto = service.getResumeByName(rName);
         return dto == null ?
                 ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by name: " + rName + " not found")
@@ -34,47 +35,32 @@ public class ResumeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getResumeById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<ResumeDto> getResumeById(@Valid @PathVariable(name = "id") Long id) {
         ResumeDto dto = service.getResumeById(id);
-        return dto == null ?
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resume by Id: " + id + " not found")
-                : ResponseEntity.ok(dto);
+        return ResponseEntity.ok(dto);
     }
 
     @GetMapping("/category/{category}")
-    public ResponseEntity<?> getResumesByCategory(@PathVariable(name = "category") String category) {
-        try {
+    public ResponseEntity<List<ResumeDto>> getResumesByCategory(@Valid @PathVariable(name = "category") String category) {
             List<ResumeDto> resumes = service.getResumeByCategory(category.strip());
-            return resumes == null ?
-                    ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by category: " + category + " not found")
-                    : ResponseEntity.ok(resumes);
-        } catch (CategoryNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Category: " + category + " not found");
-        }
+            return ResponseEntity.ok(resumes);
     }
 
     @GetMapping("/userEmail/{email}")
-    public ResponseEntity<?> getResumesByUser(@PathVariable(name = "email") String email) {
-        try {
+    public ResponseEntity<List<ResumeDto>> getResumesByUser(@Valid @PathVariable(name = "email") String email) {
             List<ResumeDto> resumes = service.getResumeByUserEmail(email.strip());
-            if (resumes.isEmpty()) {
-                ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by user with email: " + email + " not found");
-            }
             return ResponseEntity.ok(resumes);
-        } catch (UserNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email: " + email + " not found");
-        }
     }
 
     @PostMapping()
-    public ResponseEntity<Long> createResume(@RequestBody ResumeCreateDto resume) {
+    public ResponseEntity<Long> createResume(@Valid @RequestBody ResumeCreateDto resume) {
         service.createResume(resume);
         return ResponseEntity.ok().build();
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteResumeById(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<?> deleteResumeById(@Valid @PathVariable(name = "id") Long id) {
         if (service.deleteResumeById(id)) {
             return ResponseEntity.ok(service.getResumes());
         }
@@ -82,7 +68,7 @@ public class ResumeController {
     }
 
     @PutMapping("/edit")
-    public ResponseEntity<?> editResume(@RequestBody EditResumeDto resume) {
+    public ResponseEntity<?> editResume(@Valid @RequestBody EditResumeDto resume) {
         if (service.getResumeById(resume.getId()) != null) {
             service.editResume(resume);
             return ResponseEntity.ok(service.getResumeById(resume.getId()));
@@ -91,7 +77,7 @@ public class ResumeController {
     }
 
     @PostMapping("/status/{id}")
-    public ResponseEntity<?> changeResumeState(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<?> changeResumeState(@Valid @PathVariable(name = "id") Long id) {
         if (service.getResumeById(id) != null) {
             service.changeResumeState(id);
             return ResponseEntity.ok(service.getResumeById(id));

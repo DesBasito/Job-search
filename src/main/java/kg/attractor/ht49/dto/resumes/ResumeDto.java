@@ -20,12 +20,12 @@ import java.util.List;
 public class ResumeDto {
     private Long id;
     private String name;
-    private UserDto user;
+    private String userEmail;
     private CategoryDto category;
     private Double salary;
     private Boolean isActive;
     private LocalDateTime createdDate;
-    private LocalDateTime updateTime;
+    private LocalDateTime updateDate;
     private List<WorkExperienceInfoDto> wei;
     private List<EducationInfoDto> ei;
     private List<ContactsInfoWithIdDto> contacts;

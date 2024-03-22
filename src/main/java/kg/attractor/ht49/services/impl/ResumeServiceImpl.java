@@ -4,7 +4,6 @@ import kg.attractor.ht49.dao.ResumeDao;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
-import kg.attractor.ht49.dto.workExpInfo.WorkExperienceInfoDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
@@ -17,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.rmi.UnexpectedException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,10 +31,10 @@ public class ResumeServiceImpl implements ResumeService {
     private final ContactsInfoService contacts;
 
     @Override
-    public List<ResumeDto> getResumeByCategory(String categoryName) throws CategoryNotFoundException {
+    public List<ResumeDto> getResumeByCategory(String categoryName) {
         Category categoryId = category.getCategoryByName(categoryName);
         if (categoryId == null) {
-            throw new CategoryNotFoundException();
+            throw new CategoryNotFoundException("Category: "+categoryName+" not found");
         }
         List<Resume> resumes = dao.getAllResumesByCategoryId(categoryId.getId());
         return getResumeDtos(resumes);
@@ -49,33 +47,28 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<ResumeDto> getResumeByUserEmail(String email) throws UserNotFoundException {
-        try {
+    public List<ResumeDto> getResumeByUserEmail(String email) {
             Long id = userService.getUserId(email);
             if (id == null) {
                 log.error("user with email {} not found", email);
-                throw new UserNotFoundException();
+                throw new UserNotFoundException("User with email "+email+" not found");
             }
             List<Resume> resumes = dao.getAllResumesByUserId(id);
             return getResumeDtos(resumes);
-        } catch (ResumeNotFoundException e) {
-            log.error("Resumes by user with email:{} not found", email);
-        }
-        return null;
     }
 
     @Override
     public ResumeDto getResumeById(Long id) {
-            Resume r = dao.getResumeById(id).orElseThrow(ResumeNotFoundException::new);
+            Resume r = dao.getResumeById(id).orElseThrow(() -> new ResumeNotFoundException("Resume by id "+id+" not found"));
             return ResumeDto.builder()
                     .id(r.getId())
                     .name(r.getName())
                     .category(category.getCategoryById(r.getCategoryId()))
-                    .user(userService.getUserById(r.getApplicantId()))
+                    .userEmail(userService.getUserById(r.getApplicantId()).getEmail())
                     .salary(r.getSalary())
                     .isActive(r.getIsActive())
                     .createdDate(r.getCreatedDate())
-                    .updateTime(r.getUpdateTime())
+                    .updateDate(r.getUpdateTime())
                     .wei(weiService.getWorkExperiencesByResumeId(id))
                     .ei(eiService.getEducationsInfoByResumeId(id))
                     .contacts(contacts.getContactsByResumeId(id))
@@ -93,10 +86,9 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void editResume(EditResumeDto editDto) {
-        try {
             Category category1 = category.getCategoryByName(editDto.getCategoryName());
             if (category1 == null){
-                throw new CategoryNotFoundException();
+                throw new CategoryNotFoundException("Error with filling category object");
             }
             Resume resume = Resume.builder()
                     .id(editDto.getId())
@@ -107,9 +99,6 @@ public class ResumeServiceImpl implements ResumeService {
             dao.editResume(resume);
             editDto.getEi().forEach(eiService::editInfo);
             editDto.getWei().forEach(weiService::editInfo);
-        }catch (CategoryNotFoundException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     @Override
@@ -119,11 +108,11 @@ public class ResumeServiceImpl implements ResumeService {
                 .id(r.getId())
                 .name(r.getName())
                 .category(category.getCategoryById(r.getCategoryId()))
-                .user(userService.getUserById(r.getApplicantId()))
+                .userEmail(userService.getUserById(r.getApplicantId()).getEmail())
                 .salary(r.getSalary())
                 .isActive(r.getIsActive())
                 .createdDate(r.getCreatedDate())
-                .updateTime(r.getUpdateTime())
+                .updateDate(r.getUpdateTime())
                 .wei(weiService.getWorkExperiencesByResumeId(r.getId()))
                 .ei(eiService.getEducationsInfoByResumeId(r.getId()))
                 .contacts(contacts.getContactsByResumeId(r.getId()))
@@ -146,7 +135,6 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void createResume(ResumeCreateDto resume) {
-        try {
             Category category1 = category.getCategoryByName(resume.getCategoryName());
             if (category1 == null){
                 throw new CategoryNotFoundException();
@@ -164,10 +152,5 @@ public class ResumeServiceImpl implements ResumeService {
             Long id = dao.createAndReturnResumeId(resume1);
             resume.getEi().forEach( e -> eiService.createEducationInfo(e,id));
             resume.getWei().forEach(e -> weiService.createWorkExpInfo(e,id));
-            resume.getContacts().forEach(e -> contacts.createNewContactsInfo(e,id));
-        }catch (UserNotFoundException | CategoryNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
     }
 }

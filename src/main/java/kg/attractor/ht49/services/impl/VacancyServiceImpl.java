@@ -1,6 +1,7 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.VacancyDao;
+import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
@@ -65,13 +66,12 @@ public class VacancyServiceImpl implements VacancyService {
         return null;
     }
 
-    @Override
     public void createVacancy(VacancyDto vacancy1) {
         Vacancy vacancy = Vacancy.builder()
                 .name(vacancy1.getName())
                 .description(vacancy1.getDescription())
-                .categoryId(vacancy1.getCategory().getId())
-                .authorId(vacancy1.getAuthor().getId())
+                .categoryId(categoryService.getCategoryByName(vacancy1.getCategory()).getId())
+                .authorId(userService.getUserByEmail(vacancy1.getAuthorEmail()).getId())
                 .salary(vacancy1.getSalary())
                 .expFrom(vacancy1.getExpFrom())
                 .expTo(vacancy1.getExpTo())
@@ -161,8 +161,8 @@ public class VacancyServiceImpl implements VacancyService {
         Vacancy vacancy = Vacancy.builder()
                 .name(vacancy1.getName())
                 .description(vacancy1.getDescription())
-                .categoryId(vacancy1.getCategory().getId())
-                .authorId(vacancy1.getAuthor().getId())
+                .categoryId(categoryService.getCategoryByName(vacancy1.getCategory()).getId())
+                .authorId(userService.getUserByEmail(vacancy1.getAuthorEmail()).getId())
                 .salary(vacancy1.getSalary())
                 .expFrom(vacancy1.getExpFrom())
                 .expTo(vacancy1.getExpTo())
@@ -179,7 +179,7 @@ public class VacancyServiceImpl implements VacancyService {
     private VacancyDto getVacancyDto(Vacancy e) {
         return VacancyDto.builder()
                 .id(e.getId())
-                .category(categoryService.getCategoryById(e.getCategoryId()))
+                .category(categoryService.getCategoryById(e.getCategoryId()).getName())
                 .createdDate(e.getCreatedDate())
                 .expTo(e.getExpTo())
                 .description(e.getDescription())
@@ -188,7 +188,7 @@ public class VacancyServiceImpl implements VacancyService {
                 .salary(e.getSalary())
                 .updateTime(e.getUpdateTime())
                 .name(e.getName())
-                .author(userService.getUserById(e.getAuthorId()))
+                .authorEmail(userService.getUserById(e.getAuthorId()).getEmail())
                 .build();
     }
 }
