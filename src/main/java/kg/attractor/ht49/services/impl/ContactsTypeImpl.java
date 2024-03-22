@@ -1,19 +1,14 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.ContactsTypeDao;
-import kg.attractor.ht49.dto.ContactType.ContactTypeDto;
 import kg.attractor.ht49.dto.ContactType.ContactsTypeWithIdDto;
 import kg.attractor.ht49.models.ContactType;
 import kg.attractor.ht49.services.ContactsTypeService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class ContactsTypeImpl implements ContactsTypeService {
     private final ContactsTypeDao dao;

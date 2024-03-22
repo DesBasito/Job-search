@@ -8,9 +8,15 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 @RequiredArgsConstructor
@@ -44,5 +50,23 @@ public class RespondedApplicantsDao {
                 .addValue("resumeId",resumeId)
                 .addValue("confirmation",false));
     }
+
+    public Long createAndReturnRespApplId(Long resumeId, Long vacancyId) {
+        String sql = """
+                insert into RESPONDED_APPLICANTS(vacancy_id, resume_id, confirmation)
+                values (?,?,?)
+                """;
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        template.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
+            ps.setLong(1,vacancyId);
+            ps.setLong(2,resumeId);
+            ps.setBoolean(3,false);
+            return ps;
+        }, keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey().longValue());
+    }
+
+
 
 }

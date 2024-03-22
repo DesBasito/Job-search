@@ -20,27 +20,20 @@ public class RespondsController {
     private final RespondedApplicantsService service;
 
     @GetMapping()
-    public ResponseEntity<List<RespondedApplicantDto>> getAllRespondedApplicants(){
+    public ResponseEntity<List<RespondedApplicantDto>> getAllRespondedApplicants() {
         List<RespondedApplicantDto> dtos = service.getAllRespondents();
         return ResponseEntity.ok(dtos);
     }
 
     @GetMapping("/{vacancyId}")
-    public ResponseEntity<?> getRespondedApplicantsToVacancy(@Valid @PathVariable Long vacancyId){
+    public ResponseEntity<List<ResumeDto>> getRespondedApplicantsToVacancy(@Valid @PathVariable Long vacancyId) {
         List<ResumeDto> dtos = service.getRespondedApplicantsByVacancyId(vacancyId);
-        if (dtos.isEmpty()){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Vacancy by id: "+vacancyId+" not found");
-        }
         return ResponseEntity.ok(dtos);
     }
 
     @PostMapping("/applyToVacancy")
-    public ResponseEntity<?> applyToVacancy(@Valid @Pattern (regexp = "^\\d+$",message = "enter only digits")@RequestParam Long resumeId, Long vacancyId){
-        try {
-            service.ApplyToVacancy(resumeId,vacancyId);
-            return ResponseEntity.ok(service.getAllRespondents());
-        }catch (UserNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<?> applyToVacancy(@Valid @Pattern(regexp = "^\\d+$", message = "enter only digits") @RequestParam Long resumeId, Long vacancyId) {
+        Long id = service.ApplyAndReturnVacancyId(resumeId, vacancyId);
+        return ResponseEntity.ok(service.getAllRespondents());
     }
 }

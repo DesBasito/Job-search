@@ -12,5 +12,7 @@ public interface RespondedApplicantsService {
 
     List<ResumeDto> getRespondedApplicantsByVacancyId(Long id);
 
-    void ApplyToVacancy(Long resumeId, Long vacancyId) throws ResumeNotFoundException;
+    void ApplyToVacancy(Long resumeId, Long vacancyId);
+
+    Long ApplyAndReturnVacancyId(Long resumeId, Long vacancyId);
 }

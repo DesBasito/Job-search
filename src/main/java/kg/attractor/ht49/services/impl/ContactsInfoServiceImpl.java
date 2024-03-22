@@ -7,7 +7,6 @@ import kg.attractor.ht49.models.ContactsInfo;
 import kg.attractor.ht49.services.ContactsInfoService;
 import kg.attractor.ht49.services.ContactsTypeService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -15,7 +14,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ContactsInfoServiceImpl implements ContactsInfoService {
     private final ContactsDao dao;
     private final ContactsTypeService contacts;

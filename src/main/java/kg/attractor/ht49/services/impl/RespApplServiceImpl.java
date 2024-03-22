@@ -3,18 +3,15 @@ package kg.attractor.ht49.services.impl;
 import kg.attractor.ht49.dao.RespondedApplicantsDao;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
-import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
-import kg.attractor.ht49.exceptions.UserNotFoundException;
+import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
-import kg.attractor.ht49.models.User;
 import kg.attractor.ht49.services.RespondedApplicantsService;
 import kg.attractor.ht49.services.ResumeService;
-import kg.attractor.ht49.services.UserService;
 import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,7 +19,6 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class RespApplServiceImpl implements RespondedApplicantsService {
     private final RespondedApplicantsDao dao;
     private final ResumeService resumeService;
@@ -36,17 +32,34 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
 
     @Override
     public List<ResumeDto> getRespondedApplicantsByVacancyId(Long id) {
+        if (vacancyService.getVacancyById(id) == null){
+            throw new VacancyNotFoundException("Vacancy by id: "+id+" not found");
+        }
         List<Resume> applicants = dao.getAllRespApplByVacancyId(id);
         return resumeService.getResumeDtos(applicants);
     }
 
     @Override
-    public void ApplyToVacancy(Long resumeId, Long vacancyId) throws ResumeNotFoundException {
+    public void ApplyToVacancy(Long resumeId, Long vacancyId)  {
+       checkForExceptions(resumeId,vacancyId);
+        dao.createRespAppl(resumeId,vacancyId);
+    }
+
+    @Override
+    public Long ApplyAndReturnVacancyId(Long resumeId, Long vacancyId) {
+        checkForExceptions(resumeId, vacancyId);
+        return dao.createAndReturnRespApplId(resumeId,vacancyId);
+    }
+
+    private void checkForExceptions(Long resumeId, Long vacancyId) {
         ResumeDto resume = resumeService.getResumeById(resumeId);
+        VacancyDto vacancyDto = vacancyService.getVacancyById(vacancyId);
         if (resume == null || !resume.getIsActive()){
             throw new ResumeNotFoundException("resume by id " + resumeId + " not found");
         }
-        dao.createRespAppl(resume.getId(),vacancyId);
+        if (vacancyDto == null || !vacancyDto.getIsActive()){
+            throw new VacancyNotFoundException("vacancy by id " + resumeId + " not found");
+        }
     }
 
 

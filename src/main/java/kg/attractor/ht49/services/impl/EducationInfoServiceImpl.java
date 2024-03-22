@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class EducationInfoServiceImpl implements EducationInfoService {
     private final EducationInfoDao dao;

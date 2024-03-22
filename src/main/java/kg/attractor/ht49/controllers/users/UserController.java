@@ -27,25 +27,21 @@ public class UserController {
 
 
     @GetMapping("/phone")
-    public ResponseEntity<?> getUserByPhoneNum(@Valid @Pattern(regexp = "^\\d+$",message = "enter a correct number") @RequestParam(name = "phone") String phone) {
+    public ResponseEntity<UserDto> getUserByPhoneNum(@Valid @Pattern(regexp = "^\\d+$",message = "enter a correct number") @RequestParam(name = "phone") String phone) {
         UserDto user = service.getUserByPhone(phone.strip());
-        return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + phone + " not found") : ResponseEntity.ok(user);
+        return ResponseEntity.ok(user);
     }
 
     @GetMapping("/getUsers/{type}")
-    public ResponseEntity<?> getUsersByType(@Valid@Pattern(regexp = "^[a-zA-Z]+$",message = "enter a type: 1.employee, 2.employer")@PathVariable(name = "type") String type) {
-        try {
+    public ResponseEntity<List<UserDto>> getUsersByType(@Valid@Pattern(regexp = "^[a-zA-Z]+$",message = "enter a type: 1.employee, 2.employer")@PathVariable(name = "type") String type) {
             return ResponseEntity.ok(service.getUsersByType(type));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Users by type " + type + " not found");
-        }
     }
 
 
     @GetMapping("/email")
-    public ResponseEntity<?> getUserByEmail(@Valid@Email @RequestParam(name = "email", defaultValue = "example@example.com") String email) {
+    public ResponseEntity<UserDto> getUserByEmail(@Valid@Email @RequestParam(name = "email", defaultValue = "example@example.com") String email) {
         UserDto user = service.getUserByEmail(email);
-        return user == null ? ResponseEntity.status(HttpStatus.NOT_FOUND).body("User with email " + email + " not found") : ResponseEntity.ok(service.getUserByEmail(email.strip()));
+        return ResponseEntity.ok(user);
     }
 
 

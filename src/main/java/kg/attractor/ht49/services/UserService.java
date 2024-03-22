@@ -15,21 +15,21 @@ public interface UserService {
     List<UserDto> getUsers();
     UserDto getUserByEmail(String email) ;
     UserDto getUserById(Long id);
-    void createUser(UserCreationDto user) throws AlreadyExistsException;
+    void createUser(UserCreationDto user);
     List<UserDto> getUserByName(String name, AccountTypes type);
     UserDto getUserByPhone(String phone);
     Long getUserId(String user);
 
     void editUser(EditUserDto user);
 
-    List<UserDto> getUsersByType(String type) throws Exception;
+    List<UserDto> getUsersByType(String type);
 
     User getRawUserByEmail(String email);
 
     List<UserDto> getEmpl(AccountTypes types);
 
-    UserDto getEmplByEmail(String email, AccountTypes accountTypes) throws UserNotFoundException;
+    UserDto getEmplByEmail(String email, AccountTypes accountTypes);
 
-    UserDto getEmplByPhone(String strip, AccountTypes accountTypes) throws UserNotFoundException;
+    UserDto getEmplByPhone(String strip, AccountTypes accountTypes);
 
 }
