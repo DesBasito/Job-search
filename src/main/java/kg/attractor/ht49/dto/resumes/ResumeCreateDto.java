@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dto.resumes;
 
+import jakarta.validation.constraints.*;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoDto;
 import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
@@ -15,9 +16,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResumeCreateDto {
-    private String title;
+    @NotBlank @Size(max = 45)
+    private String title, categoryName;
+    @NotBlank @Email
     private String authorEmail;
-    private String categoryName;
+    @PositiveOrZero
     private Double salary;
     private List<WorkExpInfoCreateDto> wei;
     private List<CreateEducationInfoDto> ei;

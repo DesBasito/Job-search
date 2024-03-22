@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dto.resumes;
 
+import jakarta.validation.constraints.*;
 import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import lombok.AllArgsConstructor;
@@ -15,9 +16,14 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditResumeDto {
+    @Positive
     private Long id;
-    private String title;
-    private String categoryName;
+    @NotBlank
+    @Size(max = 45)
+    private String title, categoryName;
+    @NotBlank @Email
+    private String authorEmail;
+    @PositiveOrZero
     private Double salary;
     private List<WorkExpInfoEditDto> wei;
     private List<EducationInfoEditDto> ei;

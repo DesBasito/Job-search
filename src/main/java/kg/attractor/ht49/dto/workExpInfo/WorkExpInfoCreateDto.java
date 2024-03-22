@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dto.workExpInfo;
 
+import jakarta.validation.constraints.*;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,8 +12,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WorkExpInfoCreateDto {
+    @PositiveOrZero @Max(value = 30)
     private Byte years;
-    private String companyName;
-    private String position;
+    @NotBlank @Size(max = 255)
+    private String companyName, position;
+    @NotBlank @Size(max = 355)
     private String responsibilities;
 }

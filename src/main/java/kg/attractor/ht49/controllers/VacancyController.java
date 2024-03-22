@@ -68,13 +68,13 @@ public class VacancyController {
         return ResponseEntity.notFound().build();
     }
 
-    @PostMapping("/edit")
+    @PutMapping()
     public ResponseEntity<VacancyDto> editVacancy(@RequestBody VacancyEditDto vacancy) {
         service.editVacancy(vacancy);
         return ResponseEntity.ok(service.getVacancyById(vacancy.getId()));
     }
 
-    @PostMapping("/status/{id}")
+    @PutMapping("/status/{id}")
     public ResponseEntity<?> changeVacancyState(@PathVariable(name = "id") Long id) {
         service.changeVacancyState(id);
         return ResponseEntity.ok(service.getVacancyById(id));

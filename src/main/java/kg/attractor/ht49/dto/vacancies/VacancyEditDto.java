@@ -17,8 +17,8 @@ public class VacancyEditDto {
     private String name;
     @NotBlank @Size(max = 245,message = "description should contains not more then 245 characters")
     private String description;
-    @NotBlank
-    private CategoryDto category;
+    @NotBlank @Size(max = 30)
+    private String category;
     @Pattern(regexp = "^\\d+$",message = "enter only digits characters")
     private Double salary;
     @Max(value = 40)

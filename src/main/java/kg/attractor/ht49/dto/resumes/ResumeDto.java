@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dto.resumes;
 
+import jakarta.validation.constraints.Positive;
 import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoWithIdDto;
 import kg.attractor.ht49.dto.educations.EducationInfoDto;
@@ -20,8 +21,8 @@ import java.util.List;
 public class ResumeDto {
     private Long id;
     private String name;
+    private String category;
     private String userEmail;
-    private CategoryDto category;
     private Double salary;
     private Boolean isActive;
     private LocalDateTime createdDate;

@@ -37,25 +37,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        try {
-            User user = userDao.getUserByEmail(email).orElseThrow(UserNotFoundException::new);
-            return getUserDto(user);
-        } catch (UserNotFoundException e) {
-            log.error("user with email: {} does not exists", email);
-        }
-        return null;
+        User user = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists"));
+        return getUserDto(user);
     }
 
 
     @Override
     public UserDto getUserById(Long id) {
-        try {
-            User user = userDao.getUserById(id).orElseThrow(UserNotFoundException::new);
-            return getUserDto(user);
-        } catch (UserNotFoundException e) {
-            log.error("User with {} not found", id);
-        }
-        return null;
+        User user = userDao.getUserById(id).orElseThrow(()->new UserNotFoundException("user with id: " + id + " does not exists"));
+        return getUserDto(user);
     }
 
     @Override
@@ -68,7 +58,7 @@ public class UserServiceImpl implements UserService {
         }
         String fileName = null;
         if (!dto.getAvatar().isEmpty()) {
-            if (! Objects.requireNonNull(dto.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
+            if (!Objects.requireNonNull(dto.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
                 throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
             }
             fileName = util.saveUploadedFile(dto.getAvatar(), "/images");
@@ -97,14 +87,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserByPhone(String phone) {
-        try {
-            User user = userDao.getUserByPhone(phone).orElseThrow(UserNotFoundException::new);
-            return getUserDto(user);
-
-        } catch (UserNotFoundException e) {
-            log.error("cannot find user with phone number: {}", phone);
-        }
-        return null;
+        User user = userDao.getUserByPhone(phone).orElseThrow(() -> new UserNotFoundException("User by phone num: " + phone + " not found"));
+        return getUserDto(user);
     }
 
     @Override

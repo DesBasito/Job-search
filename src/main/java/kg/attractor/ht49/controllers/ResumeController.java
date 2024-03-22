@@ -65,13 +65,13 @@ public class ResumeController {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Resumes by id: " + id + " not found");
     }
 
-    @PutMapping("/edit")
+    @PutMapping()
     public ResponseEntity<ResumeDto> editResume(@Valid @RequestBody EditResumeDto resume) {
         service.editResume(resume);
         return ResponseEntity.ok(service.getResumeById(resume.getId()));
     }
 
-    @PostMapping("/status/{id}")
+    @PutMapping("/status/{id}")
     public ResponseEntity<ResumeDto> changeResumeState(@Valid @PathVariable(name = "id") Long id) {
         service.changeResumeState(id);
         return ResponseEntity.ok(service.getResumeById(id));

@@ -90,7 +90,7 @@ public class VacancyServiceImpl implements VacancyService {
                 .id(vacancy.getId())
                 .name(vacancy.getName())
                 .description(vacancy.getDescription())
-                .categoryId(vacancy.getCategory().getId())
+                .categoryId(categoryService.getCategoryByName(vacancy.getCategory()).getId())
                 .salary(vacancy.getSalary())
                 .expFrom(vacancy.getExpFrom())
                 .expTo(vacancy.getExpTo())
