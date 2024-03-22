@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dto.resumes;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoDto;
 import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
@@ -22,7 +23,7 @@ public class ResumeCreateDto {
     private String authorEmail;
     @PositiveOrZero
     private Double salary;
-    private List<WorkExpInfoCreateDto> wei;
-    private List<CreateEducationInfoDto> ei;
-    private List<ContactsInfoDto> contacts;
+    private List<@Valid WorkExpInfoCreateDto> wei;
+    private List<@Valid CreateEducationInfoDto> ei;
+    private List<@Valid ContactsInfoDto> contacts;
 }

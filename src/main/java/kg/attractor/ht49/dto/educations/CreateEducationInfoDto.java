@@ -22,9 +22,9 @@ public class CreateEducationInfoDto {
     private String institution;
     @NotBlank @Size(max = 200)
     private String program;
-    @Past @NotBlank
+    @Past
     private Date startDate;
-    @Past @NotBlank
+    @Past
     private Date endDate;
     @Pattern(regexp = "^[a-zA-Z]+$")
     @NotBlank

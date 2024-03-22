@@ -18,7 +18,7 @@ public class ProfileController {
     private final ProfileService service;
     private final UserService userService;
 
-    @PutMapping( "/edit")
+    @PutMapping( )
     public ResponseEntity<UserDto> editProfile(@Valid EditUserDto user) {
         service.editProfile(user);
         return ResponseEntity.ok(userService.getUserById(user.getId()));

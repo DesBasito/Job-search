@@ -51,9 +51,9 @@ public class ResumeController {
     }
 
     @PostMapping()
-    public ResponseEntity<Long> createResume(@Valid @RequestBody ResumeCreateDto resume) {
-        service.createResume(resume);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<ResumeDto> createResume(@Valid @RequestBody ResumeCreateDto resume) {
+        Long id = service.createResume(resume);
+        return ResponseEntity.ok(service.getResumeById(id));
     }
 
 

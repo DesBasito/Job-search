@@ -140,7 +140,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void createResume(ResumeCreateDto resume) {
+    public Long createResume(ResumeCreateDto resume) {
             Category category1 = category.getCategoryByName(resume.getCategoryName());
             if (category1 == null){
                 throw new CategoryNotFoundException();
@@ -158,5 +158,7 @@ public class ResumeServiceImpl implements ResumeService {
             Long id = dao.createAndReturnResumeId(resume1);
             resume.getEi().forEach( e -> eiService.createEducationInfo(e,id));
             resume.getWei().forEach(e -> weiService.createWorkExpInfo(e,id));
+            resume.getContacts().forEach(e -> contacts.createNewContactsInfo(e,id));
+        return id;
     }
 }
