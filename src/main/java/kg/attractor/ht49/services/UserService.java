@@ -4,12 +4,9 @@ import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
-import kg.attractor.ht49.exceptions.AlreadyExistsException;
-import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.models.User;
+import kg.attractor.ht49.models.UserModel;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 public interface UserService {
     List<UserDto> getUsers();
@@ -24,7 +21,7 @@ public interface UserService {
 
     List<UserDto> getUsersByType(String type);
 
-    User getRawUserByEmail(String email);
+    UserModel getRawUserByEmail(String email);
 
     List<UserDto> getEmpl(AccountTypes types);
 

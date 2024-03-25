@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: drop column - Account type
+      author: Abu
+      changes:
+        - dropColumn:
+            columnName: acc_type
+            columns:
+              - column:
+                  name: acc_type
+            schemaName: public
+            tableName: users
+  - changeSet:
+      id: modify users
+      author: Abu
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: enabled
+                  type: boolean
+                  constraints:
+                    nullable: false

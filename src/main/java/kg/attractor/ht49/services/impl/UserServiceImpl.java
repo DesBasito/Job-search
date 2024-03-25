@@ -7,7 +7,7 @@ import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.AlreadyExistsException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.models.User;
+import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,6 @@ import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
@@ -28,24 +27,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDto> getUsers() {
-        List<User> users = userDao.getAllUsers();
+        List<UserModel> userModels = userDao.getAllUsers();
         List<UserDto> dtos = new ArrayList<>();
-        users.forEach(e -> dtos.add(getUserDto(e)));
+        userModels.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;
     }
 
 
     @Override
     public UserDto getUserByEmail(String email) {
-        User user = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists"));
-        return getUserDto(user);
+        UserModel userModel = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists"));
+        return getUserDto(userModel);
     }
 
 
     @Override
     public UserDto getUserById(Long id) {
-        User user = userDao.getUserById(id).orElseThrow(()->new UserNotFoundException("user with id: " + id + " does not exists"));
-        return getUserDto(user);
+        UserModel userModel = userDao.getUserById(id).orElseThrow(()->new UserNotFoundException("user with id: " + id + " does not exists"));
+        return getUserDto(userModel);
     }
 
     @Override
@@ -64,7 +63,7 @@ public class UserServiceImpl implements UserService {
             fileName = util.saveUploadedFile(dto.getAvatar(), "/images");
         }
 
-        User user = User.builder()
+        UserModel userModel = UserModel.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .age(dto.getAge())
@@ -74,33 +73,33 @@ public class UserServiceImpl implements UserService {
                 .accType(dto.getAccType())
                 .avatar(fileName)
                 .build();
-        userDao.createUser(user);
+        userDao.createUser(userModel);
     }
 
     @Override
     public List<UserDto> getUserByName(String name, AccountTypes type) {
-        List<User> users = userDao.getUserByName(name, type);
+        List<UserModel> userModels = userDao.getUserByName(name, type);
         List<UserDto> dtos = new ArrayList<>();
-        users.forEach(e -> dtos.add(getUserDto(e)));
+        userModels.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;
     }
 
     @Override
     public UserDto getUserByPhone(String phone) {
-        User user = userDao.getUserByPhone(phone).orElseThrow(() -> new UserNotFoundException("User by phone num: " + phone + " not found"));
-        return getUserDto(user);
+        UserModel userModel = userDao.getUserByPhone(phone).orElseThrow(() -> new UserNotFoundException("User by phone num: " + phone + " not found"));
+        return getUserDto(userModel);
     }
 
     @Override
     public Long getUserId(String email) {
-        User user1 = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("User by email " + email + " not found"));
-        return user1.getId();
+        UserModel userModel1 = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("User by email " + email + " not found"));
+        return userModel1.getId();
     }
 
     @Override
     public void editUser(EditUserDto user) {
         String fileName = util.saveUploadedFile(user.getAvatar(), "/images");
-        User user1 = User.builder()
+        UserModel userModel1 = UserModel.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .surname(user.getSurname())
@@ -109,33 +108,32 @@ public class UserServiceImpl implements UserService {
                 .phoneNumber(user.getPhoneNumber())
                 .avatar(fileName)
                 .build();
-        userDao.editUser(user1);
+        userDao.editUser(userModel1);
     }
 
     @Override
     public List<UserDto> getUsersByType(String type) {
-        List<User> userList;
+        List<UserModel> userModelList;
         if (type.equalsIgnoreCase(AccountTypes.EMPLOYEE.toString())) {
-            userList = userDao.getUsersByTypeAcc(AccountTypes.EMPLOYEE);
+            userModelList = userDao.getUsersByTypeAcc(AccountTypes.EMPLOYEE);
         } else if (type.equalsIgnoreCase(AccountTypes.EMPLOYER.toString())) {
-            userList = userDao.getUsersByTypeAcc(AccountTypes.EMPLOYER);
+            userModelList = userDao.getUsersByTypeAcc(AccountTypes.EMPLOYER);
         } else {
-            log.error("Users by type {} not found", type);
             throw new IllegalArgumentException("Users by type " + type + " not found");
         }
         List<UserDto> dtos = new ArrayList<>();
-        userList.forEach(e -> dtos.add(getUserDto(e)));
+        userModelList.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;
     }
 
     @Override
-    public User getRawUserByEmail(String email) {
+    public UserModel getRawUserByEmail(String email) {
         return userDao.getUserByEmail(email).orElse(null);
     }
 
     @Override
     public List<UserDto> getEmpl(AccountTypes types) {
-        List<User> employees = userDao.getUsersByTypeAcc(types);
+        List<UserModel> employees = userDao.getUsersByTypeAcc(types);
         List<UserDto> dtos = new ArrayList<>();
         employees.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;
@@ -143,27 +141,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getEmplByEmail(String email, AccountTypes accountTypes) {
-        User user = userDao.getEmplByEmail(email, accountTypes).orElseThrow(() -> new UserNotFoundException("user by email: " + email + " not found"));
-        return getUserDto(user);
+        UserModel userModel = userDao.getEmplByEmail(email, accountTypes).orElseThrow(() -> new UserNotFoundException("user by email: " + email + " not found"));
+        return getUserDto(userModel);
     }
 
     @Override
     public UserDto getEmplByPhone(String strip, AccountTypes accountTypes) {
-        User user = userDao.getEmplByPhone(strip, accountTypes).orElseThrow(() -> new NoSuchElementException("user with phone number: " + strip + " not found"));
-        return getUserDto(user);
+        UserModel userModel = userDao.getEmplByPhone(strip, accountTypes).orElseThrow(() -> new NoSuchElementException("user with phone number: " + strip + " not found"));
+        return getUserDto(userModel);
     }
 
 
-    private UserDto getUserDto(User user) {
+    private UserDto getUserDto(UserModel userModel) {
         return UserDto.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .surname(user.getSurname())
-                .age(user.getAge())
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
-                .avatar(user.getAvatar())
-                .accType(user.getAccType())
+                .id(userModel.getId())
+                .name(userModel.getName())
+                .surname(userModel.getSurname())
+                .age(userModel.getAge())
+                .email(userModel.getEmail())
+                .phoneNumber(userModel.getPhoneNumber())
+                .avatar(userModel.getAvatar())
+                .accType(userModel.getAccType())
                 .build();
     }
 }

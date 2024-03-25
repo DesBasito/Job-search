@@ -10,7 +10,7 @@ import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
-import kg.attractor.ht49.models.User;
+import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class ResumeServiceImpl implements ResumeService {
     private final CategoryService category;
@@ -50,7 +49,6 @@ public class ResumeServiceImpl implements ResumeService {
     public List<ResumeDto> getResumeByUserEmail(String email) {
             Long id = userService.getUserId(email);
             if (id == null) {
-                log.error("user with email {} not found", email);
                 throw new UserNotFoundException("User with email "+email+" not found");
             }
             List<Resume> resumes = dao.getAllResumesByUserId(id);
@@ -145,13 +143,13 @@ public class ResumeServiceImpl implements ResumeService {
             if (category1 == null){
                 throw new CategoryNotFoundException();
             }
-            User user = userService.getRawUserByEmail(resume.getAuthorEmail());
-            if (user == null || user.getAccType().equals(AccountTypes.EMPLOYEE.toString())){
+            UserModel userModel = userService.getRawUserByEmail(resume.getAuthorEmail());
+            if (userModel == null || userModel.getAccType().equals(AccountTypes.EMPLOYEE.toString())){
                 throw new UserNotFoundException();
             }
             Resume resume1 = Resume.builder()
                     .name(resume.getTitle())
-                    .applicantId(user.getId())
+                    .applicantId(userModel.getId())
                     .categoryId(category1.getId())
                     .salary(resume.getSalary())
                     .build();

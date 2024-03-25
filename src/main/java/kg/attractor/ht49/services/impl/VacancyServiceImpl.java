@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 
 public class VacancyServiceImpl implements VacancyService {

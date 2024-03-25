@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class WorkExpInfoImpl implements WorkExperienceInfoService {
     private final WorkExpInfoDao dao;
