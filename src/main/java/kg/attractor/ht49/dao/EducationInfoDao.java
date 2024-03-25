@@ -44,8 +44,8 @@ public class EducationInfoDao {
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("institution",info.getInstitution())
                 .addValue("program", info.getProgram())
-                .addValue("startDate", info.getStartDate())
-                .addValue("endDate",info.getEndDate())
+                .addValue("startDate",  info.getStartDate() == null ?Date.valueOf(LocalDate.now())  : info.getStartDate())
+                .addValue("endDate",  info.getStartDate() == null ?Date.valueOf(LocalDate.now())  : info.getStartDate())
                 .addValue("degree",info.getDegree())
                 .addValue("id",info.getId())
         );
@@ -67,8 +67,8 @@ public class EducationInfoDao {
                 .addValue("institution",info.getInstitution())
                 .addValue("program",info.getProgram())
                 .addValue("resumeId",resumeId)
-                .addValue("startDate",info.getStartDate())
-                .addValue("endDate", info.getEndDate())
+                .addValue("startDate",  info.getStartDate() == null ?Date.valueOf(LocalDate.now())  : info.getStartDate())
+                .addValue("endDate",  info.getStartDate() == null ?Date.valueOf(LocalDate.now())  : info.getStartDate())
                 .addValue("degree", info.getDegree())
         );
     }

@@ -1,10 +1,8 @@
 package kg.attractor.ht49.dto.educations;
 
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Past;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,7 +15,6 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateEducationInfoDto {
-    @Pattern(regexp = "^[a-zA-Z]+$")
     @Size(max = 100)
     private String institution;
 
@@ -30,6 +27,6 @@ public class CreateEducationInfoDto {
     @Past
     private Date endDate;
 
-    @Pattern(regexp = "^[a-zA-Z]+$")
+    @Size(max = 100)
     private String degree;
 }

@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ContactsInfoDto {
 
-    @Pattern(regexp = "^[a-zA-Z]+$")
+    @Size(max = 145)
     private String type;
 
     @Size(max = 255)

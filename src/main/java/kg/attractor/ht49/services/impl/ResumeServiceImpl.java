@@ -65,8 +65,8 @@ public class ResumeServiceImpl implements ResumeService {
                     .isActive(r.getIsActive())
                     .createdDate(r.getCreatedDate())
                     .updateDate(r.getUpdateTime())
-                    .wei(weiService.getWorkExperiencesByResumeId(id))
-                    .ei(eiService.getEducationsInfoByResumeId(id))
+                    .workExpInfo(weiService.getWorkExperiencesByResumeId(id))
+                    .educationInfo(eiService.getEducationsInfoByResumeId(id))
                     .contacts(contacts.getContactsByResumeId(id))
                     .build();
     }
@@ -112,8 +112,8 @@ public class ResumeServiceImpl implements ResumeService {
                 .isActive(r.getIsActive())
                 .createdDate(r.getCreatedDate())
                 .updateDate(r.getUpdateTime())
-                .wei(weiService.getWorkExperiencesByResumeId(r.getId()))
-                .ei(eiService.getEducationsInfoByResumeId(r.getId()))
+                .workExpInfo(weiService.getWorkExperiencesByResumeId(r.getId()))
+                .educationInfo(eiService.getEducationsInfoByResumeId(r.getId()))
                 .contacts(contacts.getContactsByResumeId(r.getId()))
                 .build()));
         return dtos;

@@ -1,10 +1,7 @@
 package kg.attractor.ht49.dto.resumes;
 
-import jakarta.validation.constraints.Positive;
-import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoWithIdDto;
 import kg.attractor.ht49.dto.educations.EducationInfoDto;
-import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExperienceInfoDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,7 +24,7 @@ public class ResumeDto {
     private Boolean isActive;
     private LocalDateTime createdDate;
     private LocalDateTime updateDate;
-    private List<WorkExperienceInfoDto> wei;
-    private List<EducationInfoDto> ei;
+    private List<WorkExperienceInfoDto> workExpInfo;
+    private List<EducationInfoDto> educationInfo;
     private List<ContactsInfoWithIdDto> contacts;
 }

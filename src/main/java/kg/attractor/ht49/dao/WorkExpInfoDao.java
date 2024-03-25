@@ -14,6 +14,8 @@ import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
+import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -65,7 +67,7 @@ public class WorkExpInfoDao {
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("resumeId", id)
-                .addValue("years", info.getYears())
+                .addValue("years", info.getYears() != null ? info.getYears() : 0)
                 .addValue("companyName", info.getCompanyName())
                 .addValue("position", info.getPosition())
                 .addValue("responsibilities", info.getResponsibilities())
@@ -94,7 +96,7 @@ public class WorkExpInfoDao {
         template.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setLong(1, id);
-            ps.setByte(2, info.getYears());
+            ps.setByte(2, info.getYears() != null ? info.getYears() : 0);
             ps.setString(3, info.getCompanyName());
             ps.setString(4, info.getPosition());
             ps.setString(5, info.getResponsibilities());
