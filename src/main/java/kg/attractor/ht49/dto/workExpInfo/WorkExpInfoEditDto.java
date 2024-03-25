@@ -14,12 +14,17 @@ import lombok.NoArgsConstructor;
 public class WorkExpInfoEditDto {
     @Positive
     private Long id;
-    @PositiveOrZero
+
+    @Positive
     @Max(value = 30)
     private Byte years;
-    @NotBlank
+
     @Size(max = 255)
-    private String companyName, position;
-    @NotBlank @Size(max = 355)
+    private String companyName;
+
+    @Size(max = 255)
+    private String position;
+
+    @Size(max = 355)
     private String responsibilities;
 }

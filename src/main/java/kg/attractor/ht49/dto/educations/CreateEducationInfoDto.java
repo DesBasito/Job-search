@@ -18,15 +18,18 @@ import java.sql.Date;
 @NoArgsConstructor
 public class CreateEducationInfoDto {
     @Pattern(regexp = "^[a-zA-Z]+$")
-    @NotBlank @Size(max = 50)
+    @Size(max = 100)
     private String institution;
-    @NotBlank @Size(max = 200)
+
+    @Size(max = 200)
     private String program;
+
     @Past
     private Date startDate;
+
     @Past
     private Date endDate;
+
     @Pattern(regexp = "^[a-zA-Z]+$")
-    @NotBlank
     private String degree;
 }

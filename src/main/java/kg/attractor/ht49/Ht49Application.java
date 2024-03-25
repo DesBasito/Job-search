@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @SpringBootApplication
 public class Ht49Application {
     public static void main(String[] args) {
-        String password = "qwerty";
+        String password = "password456";
 
         // Create BCryptPasswordEncoder instance
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

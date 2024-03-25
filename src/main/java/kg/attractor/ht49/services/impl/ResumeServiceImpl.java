@@ -4,7 +4,6 @@ import kg.attractor.ht49.dao.ResumeDao;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
-import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
@@ -13,7 +12,6 @@ import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.*;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -98,8 +96,8 @@ public class ResumeServiceImpl implements ResumeService {
                     .salary(editDto.getSalary())
                     .build();
             dao.editResume(resume);
-            editDto.getEi().forEach(eiService::editInfo);
-            editDto.getWei().forEach(weiService::editInfo);
+            editDto.getEducationInfo().forEach(eiService::editInfo);
+            editDto.getWorkExpInfoEdit().forEach(weiService::editInfo);
     }
 
     @Override
@@ -144,9 +142,6 @@ public class ResumeServiceImpl implements ResumeService {
                 throw new CategoryNotFoundException();
             }
             UserModel userModel = userService.getRawUserByEmail(resume.getAuthorEmail());
-            if (userModel == null || userModel.getAccType().equals(AccountTypes.EMPLOYEE.toString())){
-                throw new UserNotFoundException();
-            }
             Resume resume1 = Resume.builder()
                     .name(resume.getTitle())
                     .applicantId(userModel.getId())
@@ -154,8 +149,8 @@ public class ResumeServiceImpl implements ResumeService {
                     .salary(resume.getSalary())
                     .build();
             Long id = dao.createAndReturnResumeId(resume1);
-            resume.getEi().forEach( e -> eiService.createEducationInfo(e,id));
-            resume.getWei().forEach(e -> weiService.createWorkExpInfo(e,id));
+            resume.getEducationInfo().forEach(e -> eiService.createEducationInfo(e,id));
+            resume.getWorkExpInfo().forEach(e -> weiService.createWorkExpInfo(e,id));
             resume.getContacts().forEach(e -> contacts.createNewContactsInfo(e,id));
         return id;
     }

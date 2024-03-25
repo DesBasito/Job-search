@@ -16,17 +16,20 @@ import java.sql.Date;
 public class EducationInfoEditDto {
     @Positive
     private Long id;
+
     @Pattern(regexp = "^[a-zA-Z]+$")
-    @NotBlank
     @Size(max = 50)
     private String institution;
-    @NotBlank @Size(max = 200)
+
+    @Size(max = 200)
     private String program;
+
     @Past
     private Date startDate;
+
     @Past
     private Date endDate;
+
     @Pattern(regexp = "^[a-zA-Z]+$")
-    @NotBlank
     private String degree;
 }

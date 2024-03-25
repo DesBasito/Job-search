@@ -18,12 +18,18 @@ import java.util.List;
 @NoArgsConstructor
 public class ResumeCreateDto {
     @NotBlank @Size(max = 45)
-    private String title, categoryName;
+    private String title;
+
+    @NotBlank @Size(max = 45)
+    private String categoryName;
+
     @NotBlank @Email
     private String authorEmail;
+
     @PositiveOrZero
     private Double salary;
-    private List<@Valid WorkExpInfoCreateDto> wei;
-    private List<@Valid CreateEducationInfoDto> ei;
+
+    private List<@Valid WorkExpInfoCreateDto> workExpInfo;
+    private List<@Valid CreateEducationInfoDto> educationInfo;
     private List<@Valid ContactsInfoDto> contacts;
 }
