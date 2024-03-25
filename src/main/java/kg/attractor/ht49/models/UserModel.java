@@ -17,5 +17,5 @@ public class UserModel {
     private String password;
     private String phoneNumber;
     private String avatar;
-    private String accType;
+    private Boolean enabled;
 }

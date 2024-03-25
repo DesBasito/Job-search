@@ -52,9 +52,6 @@ public class UserServiceImpl implements UserService {
         if (userDao.getUserByEmail(dto.getEmail()).isPresent()) {
             throw new AlreadyExistsException("User with email:" + dto.getEmail() + " already exists.");
         }
-        if (!dto.getAccType().equals(AccountTypes.EMPLOYER.toString()) || !dto.getAccType().equals(AccountTypes.EMPLOYEE.toString())) {
-            throw new IllegalArgumentException("Unsupported type");
-        }
         String fileName = null;
         if (!dto.getAvatar().isEmpty()) {
             if (!Objects.requireNonNull(dto.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
@@ -70,7 +67,7 @@ public class UserServiceImpl implements UserService {
                 .email(dto.getEmail())
                 .password(dto.getPassword())
                 .phoneNumber(dto.getPhoneNumber())
-                .accType(dto.getAccType())
+                .enabled(true)
                 .avatar(fileName)
                 .build();
         userDao.createUser(userModel);
@@ -161,7 +158,7 @@ public class UserServiceImpl implements UserService {
                 .email(userModel.getEmail())
                 .phoneNumber(userModel.getPhoneNumber())
                 .avatar(userModel.getAvatar())
-                .accType(userModel.getAccType())
+                .accType(userDao.getRoleByUserEmail(userModel.getEmail()))
                 .build();
     }
 }

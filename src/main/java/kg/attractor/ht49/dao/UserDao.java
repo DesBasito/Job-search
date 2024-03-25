@@ -48,8 +48,8 @@ public class UserDao {
 
     public void createUser(UserModel userModel) {
         String sql = """
-                insert into users(name, surname, age, email, password, phone_number, avatar, acc_type)\s
-                values (:name, :surname, :age, :email, :password, :phoneNumber, :avatar, :accType);
+                insert into users(name, surname, age, email, password, phone_number, avatar, ENABLED)\s
+                values (:name, :surname, :age, :email, :password, :phoneNumber, :avatar, :enabled);
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", userModel.getName())
@@ -59,7 +59,7 @@ public class UserDao {
                 .addValue("password", userModel.getPassword())
                 .addValue("phoneNumber", userModel.getPhoneNumber())
                 .addValue("avatar", userModel.getAvatar())
-                .addValue("accType", userModel.getAccType())
+                .addValue("accType", userModel.getEnabled())
         );
 
     }
@@ -152,5 +152,15 @@ public class UserDao {
                         template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), phone, AccountTypes.EMPLOYER.toString())
                 )
         );
+    }
+
+    public String getRoleByUserEmail(String email) {
+        String sql = """
+                select ROLE from AUTHORITIES
+                 inner join PUBLIC.USERS U on AUTHORITIES.ID = U.ROLE_ID
+                 inner join PUBLIC.USER_AUTHORITY UA on AUTHORITIES.ID = UA.AUTHORITY_ID
+                where U.EMAIL like ?
+                """;
+        return template.queryForObject(sql, String.class, email);
     }
 }
