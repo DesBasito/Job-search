@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 
@@ -167,10 +166,9 @@ public class UserDao {
 
     public String getRoleByUserEmail(String email) {
         String sql = """
-                select ROLE from AUTHORITIES
-                 inner join PUBLIC.USERS U on AUTHORITIES.ID = U.ROLE_ID
-                 inner join PUBLIC.USER_AUTHORITY UA on AUTHORITIES.ID = UA.AUTHORITY_ID
-                where U.EMAIL like ?
+                select ROLE from AUTHORITIES a, USER_AUTHORITY ua, USERS u
+                                   where ua.AUTHORITY_ID= a.ID and u.ID = ua.USER_ID
+                and U.EMAIL = ?
                 """;
         return template.queryForObject(sql, String.class, email);
     }
@@ -186,11 +184,11 @@ public class UserDao {
     public void createUserAuthority(Long userId, Long roleId) {
         String sql = """
                 insert into USER_AUTHORITY(user_id, authority_id)\s
-                values ( :userId,:roleId);
+                values (:userId,:roleId);
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
-                .addValue("userId", userId)
-                .addValue("roleId", roleId)
+                .addValue("userId",userId)
+                .addValue("roleId",roleId)
         );
     }
 }

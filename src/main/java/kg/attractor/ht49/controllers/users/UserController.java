@@ -46,8 +46,8 @@ public class UserController {
 
 
     @PostMapping()
-    public ResponseEntity<UserDto> createUser(@Valid UserCreationDto user) {
+    public ResponseEntity<UserCreationDto> createUser(@Valid UserCreationDto user) {
         service.createUser(user);
-        return ResponseEntity.ok(service.getUserByEmail(user.getEmail()));
+        return ResponseEntity.ok(user);
     }
 }
