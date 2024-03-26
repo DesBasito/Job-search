@@ -4,13 +4,12 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,8 +20,8 @@ import java.util.List;
 public class EmployerController {
     private final UserService service;
     @GetMapping()
-    public ResponseEntity<List<UserDto>> getEmployees(){
-        return ResponseEntity.ok(service.getEmpl(AccountTypes.EMPLOYEE));
+    public ResponseEntity<List<UserDto>> getEmployees(Authentication autho){
+        return ResponseEntity.ok(service.getEmpl(autho));
     }
     @GetMapping("/{name}")
     public ResponseEntity<List<UserDto>> getEmployeesByName(@Valid @Pattern(regexp = "^[a-zA-Z]+$", message = "Input should contain only letters") @PathVariable(name = "name") String name) {

@@ -70,12 +70,17 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET,"vacancies").permitAll()
+                        .requestMatchers(HttpMethod.DELETE,"vacancies").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.POST,"users").permitAll()
                         .requestMatchers("users/**").hasAuthority("admin")
-                        .requestMatchers(HttpMethod.POST,"/users").permitAll()
-                        .requestMatchers(HttpMethod.POST,"responses").hasAuthority("employee")
-                        .requestMatchers(HttpMethod.PUT,"responses").hasAuthority("employee")
-                        .requestMatchers(HttpMethod.DELETE,"responses").hasAuthority("employee")
+                        .requestMatchers(HttpMethod.POST,"responses","resumes").hasAuthority("employee")
+                        .requestMatchers(HttpMethod.PUT,"resumes").hasAuthority("employee")
+                        .requestMatchers(HttpMethod.GET,"employee/**","resumes/**","responses").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.GET,"employer/**").hasAuthority("employee")
+                        .requestMatchers(HttpMethod.DELETE,"responses","resumes").hasAuthority("employee")
                         .anyRequest().permitAll());
+
         return http.build();
     }
 }

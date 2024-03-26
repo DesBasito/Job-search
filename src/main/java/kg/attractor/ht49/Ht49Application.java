@@ -9,16 +9,6 @@ import java.time.LocalDateTime;
 @SpringBootApplication
 public class Ht49Application {
     public static void main(String[] args) {
-        String password = "password456";
-
-        // Create BCryptPasswordEncoder instance
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-        // Encode the password
-        String encodedPassword = passwordEncoder.encode(password);
-
-        // Print the encoded password
-        System.out.println("Encoded Password: " + encodedPassword);
         SpringApplication.run(Ht49Application.class, args);
     }
 }

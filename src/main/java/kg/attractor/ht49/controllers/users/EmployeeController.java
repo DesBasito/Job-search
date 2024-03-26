@@ -2,16 +2,12 @@ package kg.attractor.ht49.controllers.users;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
-import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.ErrorResponse;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +19,8 @@ public class EmployeeController {
     private final UserService service;
 
     @GetMapping()
-    public ResponseEntity<List<UserDto>> getEmployees() {
-        return ResponseEntity.ok(service.getEmpl(AccountTypes.EMPLOYER));
+    public ResponseEntity<List<UserDto>> getEmployees(Authentication auto) {
+        return ResponseEntity.ok(service.getEmpl(auto));
     }
 
     @GetMapping("/{name}")

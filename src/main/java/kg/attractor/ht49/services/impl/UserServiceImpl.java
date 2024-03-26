@@ -1,5 +1,6 @@
 package kg.attractor.ht49.services.impl;
 
+import kg.attractor.ht49.config.AppConfig;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dao.UserDao;
@@ -11,7 +12,9 @@ import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,6 +27,7 @@ import java.util.Objects;
 public class UserServiceImpl implements UserService {
     private final UserDao userDao;
     private final FileUtil util;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getUsers() {
@@ -43,7 +47,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Long id) {
-        UserModel userModel = userDao.getUserById(id).orElseThrow(()->new UserNotFoundException("user with id: " + id + " does not exists"));
+        UserModel userModel = userDao.getUserById(id).orElseThrow(() -> new UserNotFoundException("user with id: " + id + " does not exists"));
         return getUserDto(userModel);
     }
 
@@ -54,21 +58,23 @@ public class UserServiceImpl implements UserService {
         }
         String fileName = null;
         if (!dto.getAvatar().isEmpty()) {
-            if (!Objects.requireNonNull(dto.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
+            if (Objects.requireNonNull(dto.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
                 throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
             }
             fileName = util.saveUploadedFile(dto.getAvatar(), "/images");
         }
+        Long roleId = userDao.getTypeIdByName(dto.getAccType());
 
         UserModel userModel = UserModel.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
                 .age(dto.getAge())
                 .email(dto.getEmail())
-                .password(dto.getPassword())
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .enabled(true)
                 .avatar(fileName)
+                .roleId(roleId)
                 .build();
         userDao.createUser(userModel);
     }
@@ -95,13 +101,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void editUser(EditUserDto user) {
-        String fileName = util.saveUploadedFile(user.getAvatar(), "/images");
-        UserModel userModel1 = UserModel.builder()
+        String fileName = null;
+        if (!user.getAvatar().isEmpty()) {
+            if (Objects.requireNonNull(user.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
+                throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
+            }
+            fileName = util.saveUploadedFile(user.getAvatar(), "/images");
+        }        UserModel userModel1 = UserModel.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .surname(user.getSurname())
                 .age(user.getAge())
-                .password(user.getPassword())
+                .password(new BCryptPasswordEncoder().encode(user.getPassword()))
                 .phoneNumber(user.getPhoneNumber())
                 .avatar(fileName)
                 .build();
@@ -111,13 +122,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDto> getUsersByType(String type) {
         List<UserModel> userModelList;
-        if (type.equalsIgnoreCase(AccountTypes.EMPLOYEE.toString())) {
-            userModelList = userDao.getUsersByTypeAcc(AccountTypes.EMPLOYEE);
-        } else if (type.equalsIgnoreCase(AccountTypes.EMPLOYER.toString())) {
-            userModelList = userDao.getUsersByTypeAcc(AccountTypes.EMPLOYER);
-        } else {
-            throw new IllegalArgumentException("Users by type " + type + " not found");
-        }
+        userModelList = userDao.getUsersByTypeAcc(type);
         List<UserDto> dtos = new ArrayList<>();
         userModelList.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;
@@ -129,8 +134,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getEmpl(AccountTypes types) {
-        List<UserModel> employees = userDao.getUsersByTypeAcc(types);
+    public List<UserDto> getEmpl(Authentication autho) {
+        String type = userDao.getRoleByUserEmail(autho.getName());
+        List<UserModel> employees = userDao.getUsersByTypeAcc(type);
         List<UserDto> dtos = new ArrayList<>();
         employees.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;

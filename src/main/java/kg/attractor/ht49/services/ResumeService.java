@@ -4,6 +4,7 @@ import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.models.Resume;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface ResumeService {
     List<ResumeDto> getResumeByUserEmail(String user);
     ResumeDto getResumeById(Long id);
 
-    Long createResume(ResumeCreateDto resume);
+    Long createResume(ResumeCreateDto resume, Authentication auth);
 
     Boolean deleteResumeById(Long id);
 

@@ -5,6 +5,7 @@ import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.models.UserModel;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ public interface UserService {
 
     UserModel getRawUserByEmail(String email);
 
-    List<UserDto> getEmpl(AccountTypes types);
+    List<UserDto> getEmpl(Authentication autho);
 
     UserDto getEmplByEmail(String email, AccountTypes accountTypes);
 

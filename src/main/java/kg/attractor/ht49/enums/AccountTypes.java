@@ -1,7 +1,7 @@
 package kg.attractor.ht49.enums;
 
 public enum AccountTypes {
-    EMPLOYEE("employee"),EMPLOYER("employer");
+    EMPLOYEE("employee"),EMPLOYER("employer"),ADMIN("admin"),GUEST("guest");
 
     private  final String accType;
 

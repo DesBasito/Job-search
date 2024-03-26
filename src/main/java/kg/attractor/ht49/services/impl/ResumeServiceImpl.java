@@ -12,6 +12,7 @@ import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -136,7 +137,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public Long createResume(ResumeCreateDto resume) {
+    public Long createResume(ResumeCreateDto resume, Authentication auth) {
             Category category1 = category.getCategoryByName(resume.getCategoryName());
             if (category1 == null){
                 throw new CategoryNotFoundException();

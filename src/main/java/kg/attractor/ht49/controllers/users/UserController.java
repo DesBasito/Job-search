@@ -32,7 +32,7 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/getUsers/{type}")
+    @GetMapping("/getByType/{type}")
     public ResponseEntity<List<UserDto>> getUsersByType(@Valid@Pattern(regexp = "^[a-zA-Z]+$",message = "enter a type: 1.employee, 2.employer")@PathVariable(name = "type") String type) {
             return ResponseEntity.ok(service.getUsersByType(type));
     }

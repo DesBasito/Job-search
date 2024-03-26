@@ -18,4 +18,5 @@ public class UserModel {
     private String phoneNumber;
     private String avatar;
     private Boolean enabled;
+    private Long roleId;
 }

@@ -10,6 +10,7 @@ import kg.attractor.ht49.services.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -51,8 +52,8 @@ public class ResumeController {
     }
 
     @PostMapping()
-    public ResponseEntity<ResumeDto> createResume(@Valid @RequestBody ResumeCreateDto resume) {
-        Long id = service.createResume(resume);
+    public ResponseEntity<ResumeDto> createResume(@Valid @RequestBody ResumeCreateDto resume, Authentication auth) {
+        Long id = service.createResume(resume,auth);
         return ResponseEntity.ok(service.getResumeById(id));
     }
 
