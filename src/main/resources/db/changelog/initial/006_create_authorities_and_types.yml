@@ -31,6 +31,7 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_user_id
                     nullable: false
+                    deleteCascade: true
                     references: users(id)
               - column:
                   name: authority_id
@@ -38,4 +39,5 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_authority_id
                     nullable: false
+                    deleteCascade: true
                     references: authorities(id)

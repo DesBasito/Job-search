@@ -22,8 +22,6 @@ public class VacancyCreateDto {
     private String description;
     @NotBlank
     private String category;
-    @NotBlank@Email
-    private String authorEmail;
     @Pattern(regexp = "^\\d+$",message = "enter only digits characters")
     private Double salary;
     @Max(value = 40)

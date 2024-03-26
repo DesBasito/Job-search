@@ -28,4 +28,5 @@ databaseChangeLog:
                   constraints:
                     foreignKeyName: fk_role_id
                     nullable: false
+                    deleteCascade: true
                     references: authorities(id)

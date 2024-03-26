@@ -41,7 +41,7 @@ public class UserDao {
                     template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), AccountTypes.EMPLOYEE.toString());
             case "employer" ->
                     template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), AccountTypes.EMPLOYER.toString());
-            default -> template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), AccountTypes.GUEST.toString());
+            default -> throw new IllegalStateException("Unexpected value: " + type);
         };
     }
 
@@ -181,5 +181,16 @@ public class UserDao {
                 where A.ROLE like ?
                 """;
         return template.queryForObject(sql, Long.class, accType);
+    }
+
+    public void createUserAuthority(Long userId, Long roleId) {
+        String sql = """
+                insert into USER_AUTHORITY(user_id, authority_id)\s
+                values ( :userId,:roleId);
+                """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("userId", userId)
+                .addValue("roleId", roleId)
+        );
     }
 }

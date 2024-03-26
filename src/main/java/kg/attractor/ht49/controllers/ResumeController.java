@@ -67,8 +67,8 @@ public class ResumeController {
     }
 
     @PutMapping()
-    public ResponseEntity<ResumeDto> editResume(@Valid @RequestBody EditResumeDto resume) {
-        service.editResume(resume);
+    public ResponseEntity<ResumeDto> editResume(@Valid @RequestBody EditResumeDto resume, Authentication auth) {
+        service.editResume(resume,auth);
         return ResponseEntity.ok(service.getResumeById(resume.getId()));
     }
 

@@ -3,6 +3,7 @@ package kg.attractor.ht49.controllers;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Pattern;
+import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
@@ -11,6 +12,7 @@ import kg.attractor.ht49.services.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,8 +57,8 @@ public class VacancyController {
     }
 
     @PostMapping()
-    public ResponseEntity<VacancyDto> createVacancy(@Valid @RequestParam VacancyDto vacancy) {
-        Long id = service.createVacancyAndReturnId(vacancy);
+    public ResponseEntity<VacancyDto> createVacancy(@Valid VacancyCreateDto vacancy, Authentication auth) {
+        Long id = service.createVacancyAndReturnId(vacancy,auth);
         return ResponseEntity.ok(service.getVacancyById(id));
     }
 
@@ -69,8 +71,8 @@ public class VacancyController {
     }
 
     @PutMapping()
-    public ResponseEntity<VacancyDto> editVacancy(@RequestBody VacancyEditDto vacancy) {
-        service.editVacancy(vacancy);
+    public ResponseEntity<VacancyDto> editVacancy(@RequestBody VacancyEditDto vacancy,Authentication auth) {
+        service.editVacancy(vacancy,auth);
         return ResponseEntity.ok(service.getVacancyById(vacancy.getId()));
     }
 

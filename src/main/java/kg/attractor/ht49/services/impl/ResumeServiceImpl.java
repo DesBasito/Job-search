@@ -4,12 +4,12 @@ import kg.attractor.ht49.dao.ResumeDao;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
-import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -32,7 +32,7 @@ public class ResumeServiceImpl implements ResumeService {
     public List<ResumeDto> getResumeByCategory(String categoryName) {
         Category categoryId = category.getCategoryByName(categoryName);
         if (categoryId == null) {
-            throw new CategoryNotFoundException("Category: "+categoryName+" not found");
+            throw new CategoryNotFoundException("Category: " + categoryName + " not found");
         }
         List<Resume> resumes = dao.getAllResumesByCategoryId(categoryId.getId());
         return getResumeDtos(resumes);
@@ -46,30 +46,30 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<ResumeDto> getResumeByUserEmail(String email) {
-            Long id = userService.getUserId(email);
-            if (id == null) {
-                throw new UserNotFoundException("User with email "+email+" not found");
-            }
-            List<Resume> resumes = dao.getAllResumesByUserId(id);
-            return getResumeDtos(resumes);
+        Long id = userService.getUserId(email);
+        if (id == null) {
+            throw new UserNotFoundException("User with email " + email + " not found");
+        }
+        List<Resume> resumes = dao.getAllResumesByUserId(id);
+        return getResumeDtos(resumes);
     }
 
     @Override
     public ResumeDto getResumeById(Long id) {
-            Resume r = dao.getResumeById(id).orElseThrow(() -> new ResumeNotFoundException("Resume by id "+id+" not found"));
-            return ResumeDto.builder()
-                    .id(r.getId())
-                    .name(r.getName())
-                    .category(category.getCategoryById(r.getCategoryId()).getName())
-                    .userEmail(userService.getUserById(r.getApplicantId()).getEmail())
-                    .salary(r.getSalary())
-                    .isActive(r.getIsActive())
-                    .createdDate(r.getCreatedDate())
-                    .updateDate(r.getUpdateTime())
-                    .workExpInfo(weiService.getWorkExperiencesByResumeId(id))
-                    .educationInfo(eiService.getEducationsInfoByResumeId(id))
-                    .contacts(contacts.getContactsByResumeId(id))
-                    .build();
+        Resume r = dao.getResumeById(id).orElseThrow(() -> new ResumeNotFoundException("Resume by id " + id + " not found"));
+        return ResumeDto.builder()
+                .id(r.getId())
+                .name(r.getName())
+                .category(category.getCategoryById(r.getCategoryId()).getName())
+                .userEmail(userService.getUserById(r.getApplicantId()).getEmail())
+                .salary(r.getSalary())
+                .isActive(r.getIsActive())
+                .createdDate(r.getCreatedDate())
+                .updateDate(r.getUpdateTime())
+                .workExpInfo(weiService.getWorkExperiencesByResumeId(id))
+                .educationInfo(eiService.getEducationsInfoByResumeId(id))
+                .contacts(contacts.getContactsByResumeId(id))
+                .build();
     }
 
     @Override
@@ -82,23 +82,28 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void editResume(EditResumeDto editDto) {
-            Category category1 = category.getCategoryByName(editDto.getCategoryName());
-            if (category1 == null){
-                throw new CategoryNotFoundException("Error with filling category object");
-            }
-            if (dao.getResumeById(editDto.getId()).isEmpty()){
-                throw new IllegalArgumentException("Resume by id: "+editDto.getId()+" not found");
-            }
-            Resume resume = Resume.builder()
-                    .id(editDto.getId())
-                    .name(editDto.getTitle())
-                    .categoryId(category1.getId())
-                    .salary(editDto.getSalary())
-                    .build();
-            dao.editResume(resume);
-            editDto.getEducationInfo().forEach(eiService::editInfo);
-            editDto.getWorkExpInfoEdit().forEach(weiService::editInfo);
+    public void editResume(EditResumeDto editDto, Authentication auth) {
+        Category category1 = category.getCategoryByName(editDto.getCategoryName());
+        if (category1 == null) {
+            throw new CategoryNotFoundException("Error with filling category object");
+        }
+        if (dao.getResumeById(editDto.getId()).isEmpty()) {
+            throw new IllegalArgumentException("Resume by id: " + editDto.getId() + " not found");
+        }
+        Resume resum = dao.getResumeById(editDto.getId()).orElseThrow(()->new ResumeNotFoundException("resume by id:"+editDto.getId()+" not found"));
+        UserDto dto = userService.getUserById(resum.getApplicantId());
+        if (!dto.getEmail().equals(auth.getName())){
+            throw new IllegalArgumentException("Resume not belong to user: "+ auth.getName()+". It belongs to: "+dto.getEmail());
+        }
+        Resume resume = Resume.builder()
+                .id(editDto.getId())
+                .name(editDto.getTitle())
+                .categoryId(category1.getId())
+                .salary(editDto.getSalary())
+                .build();
+        dao.editResume(resume);
+        editDto.getEducationInfo().forEach(eiService::editInfo);
+        editDto.getWorkExpInfoEdit().forEach(weiService::editInfo);
     }
 
     @Override
@@ -129,8 +134,8 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public void changeResumeState(Long id) {
-        if (dao.getResumeById(id).isEmpty()){
-            throw new ResumeNotFoundException("Resume by id: "+id+" not found");
+        if (dao.getResumeById(id).isEmpty()) {
+            throw new ResumeNotFoundException("Resume by id: " + id + " not found");
         }
         boolean b = !getResumeById(id).getIsActive();
         dao.changeResumeState(id, b);
@@ -138,21 +143,21 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Long createResume(ResumeCreateDto resume, Authentication auth) {
-            Category category1 = category.getCategoryByName(resume.getCategoryName());
-            if (category1 == null){
-                throw new CategoryNotFoundException();
-            }
-            UserModel userModel = userService.getRawUserByEmail(resume.getAuthorEmail());
-            Resume resume1 = Resume.builder()
-                    .name(resume.getTitle())
-                    .applicantId(userModel.getId())
-                    .categoryId(category1.getId())
-                    .salary(resume.getSalary())
-                    .build();
-            Long id = dao.createAndReturnResumeId(resume1);
-            resume.getEducationInfo().forEach(e -> eiService.createEducationInfo(e,id));
-            resume.getWorkExpInfo().forEach(e -> weiService.createWorkExpInfo(e,id));
-            resume.getContacts().forEach(e -> contacts.createNewContactsInfo(e,id));
+        Category category1 = category.getCategoryByName(resume.getCategoryName());
+        if (category1 == null) {
+            throw new CategoryNotFoundException();
+        }
+        UserDto dto = userService.getUserByEmail(auth.getName());
+        Resume resume1 = Resume.builder()
+                .name(resume.getTitle())
+                .applicantId(dto.getId())
+                .categoryId(category1.getId())
+                .salary(resume.getSalary())
+                .build();
+        Long id = dao.createAndReturnResumeId(resume1);
+        resume.getEducationInfo().forEach(e -> eiService.createEducationInfo(e, id));
+        resume.getWorkExpInfo().forEach(e -> weiService.createWorkExpInfo(e, id));
+        resume.getContacts().forEach(e -> contacts.createNewContactsInfo(e, id));
         return id;
     }
 }

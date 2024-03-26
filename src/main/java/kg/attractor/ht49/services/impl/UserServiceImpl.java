@@ -1,6 +1,5 @@
 package kg.attractor.ht49.services.impl;
 
-import kg.attractor.ht49.config.AppConfig;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dao.UserDao;
@@ -13,7 +12,6 @@ import kg.attractor.ht49.services.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -57,7 +55,7 @@ public class UserServiceImpl implements UserService {
             throw new AlreadyExistsException("User with email:" + dto.getEmail() + " already exists.");
         }
         String fileName = null;
-        if (!dto.getAvatar().isEmpty()) {
+        if (dto.getAvatar() != null) {
             if (Objects.requireNonNull(dto.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
                 throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
             }
@@ -77,6 +75,7 @@ public class UserServiceImpl implements UserService {
                 .roleId(roleId)
                 .build();
         userDao.createUser(userModel);
+        userDao.createUserAuthority(getUserId(userModel.getEmail()),userModel.getRoleId());
     }
 
     @Override
@@ -112,7 +111,7 @@ public class UserServiceImpl implements UserService {
                 .name(user.getName())
                 .surname(user.getSurname())
                 .age(user.getAge())
-                .password(new BCryptPasswordEncoder().encode(user.getPassword()))
+                .password(passwordEncoder.encode(user.getPassword()))
                 .phoneNumber(user.getPhoneNumber())
                 .avatar(fileName)
                 .build();

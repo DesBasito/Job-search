@@ -18,7 +18,7 @@ public interface ResumeService {
 
     Boolean deleteResumeById(Long id);
 
-    void editResume(EditResumeDto editDto);
+    void editResume(EditResumeDto editDto, Authentication auth);
 
     List<ResumeDto> getResumeDtos(List<Resume> resumes);
 

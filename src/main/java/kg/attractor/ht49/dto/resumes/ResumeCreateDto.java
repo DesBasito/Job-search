@@ -23,9 +23,6 @@ public class ResumeCreateDto {
     @NotBlank @Size(max = 45)
     private String categoryName;
 
-    @NotBlank @Email
-    private String authorEmail;
-
     @PositiveOrZero
     private Double salary;
 

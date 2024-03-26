@@ -1,10 +1,10 @@
 package kg.attractor.ht49.services;
 
 
+import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
-import kg.attractor.ht49.exceptions.CategoryNotFoundException;
-import kg.attractor.ht49.exceptions.UserNotFoundException;
+import org.springframework.security.core.Authentication;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public interface VacancyService {
 
     Boolean deleteVacancyById(Long id);
 
-    void editVacancy(VacancyEditDto vacancy);
+    void editVacancy(VacancyEditDto vacancy, Authentication authentication);
 
     List<VacancyDto> getAllVacanciesByCompany(Long id);
 
@@ -29,7 +29,7 @@ public interface VacancyService {
 
     VacancyDto getVacancyByName(String name);
 
-    Long createVacancyAndReturnId(VacancyDto vacancyDto);
+    Long createVacancyAndReturnId(VacancyCreateDto vacancyDto, Authentication auth);
 
     void changeVacancyState(Long id);
 }

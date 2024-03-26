@@ -31,7 +31,7 @@ public class EditUserDto {
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
     private String password;
 
-    @Size(max = 20) @Pattern(regexp ="^\\d+$",message = "enter phone number(only digits)")
+    @Size(max = 25)
     private String phoneNumber;
 
     private MultipartFile avatar;

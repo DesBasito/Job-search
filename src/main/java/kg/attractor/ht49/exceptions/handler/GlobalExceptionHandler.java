@@ -18,6 +18,12 @@ public class GlobalExceptionHandler {
         return ErrorResponse.builder(e, HttpStatus.NOT_FOUND,e.getMessage()).build();
     }
 
+    @ExceptionHandler(NullPointerException.class)
+    public ErrorResponse nullPointerExceptions(NullPointerException e){
+        log.error(e.getMessage());
+        return ErrorResponse.builder(e, HttpStatus.NO_CONTENT,e.getMessage()).build();
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ErrorResponse validationHandler(MethodArgumentNotValidException ex){
          log.error(ex.getMessage());
