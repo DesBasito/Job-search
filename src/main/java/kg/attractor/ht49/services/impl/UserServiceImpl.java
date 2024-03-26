@@ -54,13 +54,6 @@ public class UserServiceImpl implements UserService {
         if (userDao.getUserByEmail(dto.getEmail()).isPresent()) {
             throw new AlreadyExistsException("User with email:" + dto.getEmail() + " already exists.");
         }
-        String fileName = null;
-        if (dto.getAvatar() != null) {
-            if (Objects.requireNonNull(dto.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
-                throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
-            }
-            fileName = util.saveUploadedFile(dto.getAvatar(), "/images");
-        }
         Long roleId = userDao.getTypeIdByName(dto.getAccType());
 
         UserModel userModel = UserModel.builder()
@@ -71,7 +64,7 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .enabled(true)
-                .avatar(fileName)
+                .avatar(null)
                 .roleId(roleId)
                 .build();
         userDao.createUser(userModel);
