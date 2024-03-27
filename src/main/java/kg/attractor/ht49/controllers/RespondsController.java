@@ -4,10 +4,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
-import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.services.RespondedApplicantsService;
+import kg.attractor.ht49.services.interfaces.RespondedApplicantsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

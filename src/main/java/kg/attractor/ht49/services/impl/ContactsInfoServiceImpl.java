@@ -4,8 +4,8 @@ import kg.attractor.ht49.dao.ContactsDao;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoDto;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoWithIdDto;
 import kg.attractor.ht49.models.ContactsInfo;
-import kg.attractor.ht49.services.ContactsInfoService;
-import kg.attractor.ht49.services.ContactsTypeService;
+import kg.attractor.ht49.services.interfaces.ContactsInfoService;
+import kg.attractor.ht49.services.interfaces.ContactsTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

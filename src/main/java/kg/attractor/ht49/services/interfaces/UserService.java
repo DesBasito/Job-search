@@ -1,4 +1,4 @@
-package kg.attractor.ht49.services;
+package kg.attractor.ht49.services.interfaces;
 
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;

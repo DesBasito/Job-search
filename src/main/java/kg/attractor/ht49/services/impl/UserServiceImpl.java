@@ -8,7 +8,7 @@ import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.exceptions.AlreadyExistsException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.UserModel;
-import kg.attractor.ht49.services.UserService;
+import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

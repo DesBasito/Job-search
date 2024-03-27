@@ -3,7 +3,7 @@ package kg.attractor.ht49.services.impl;
 import kg.attractor.ht49.dao.ContactsTypeDao;
 import kg.attractor.ht49.dto.ContactType.ContactsTypeWithIdDto;
 import kg.attractor.ht49.models.ContactType;
-import kg.attractor.ht49.services.ContactsTypeService;
+import kg.attractor.ht49.services.interfaces.ContactsTypeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

@@ -5,9 +5,8 @@ import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExperienceInfoDto;
 import kg.attractor.ht49.models.WorkExperienceInfo;
-import kg.attractor.ht49.services.WorkExperienceInfoService;
+import kg.attractor.ht49.services.interfaces.WorkExperienceInfoService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

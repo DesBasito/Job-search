@@ -4,11 +4,9 @@ import kg.attractor.ht49.dao.EducationInfoDao;
 import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
 import kg.attractor.ht49.dto.educations.EducationInfoDto;
 import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
-import kg.attractor.ht49.exceptions.EducationInfoNotFoundException;
 import kg.attractor.ht49.models.EducationInfo;
-import kg.attractor.ht49.services.EducationInfoService;
+import kg.attractor.ht49.services.interfaces.EducationInfoService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;

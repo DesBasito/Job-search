@@ -8,9 +8,9 @@ import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
-import kg.attractor.ht49.services.RespondedApplicantsService;
-import kg.attractor.ht49.services.ResumeService;
-import kg.attractor.ht49.services.VacancyService;
+import kg.attractor.ht49.services.interfaces.RespondedApplicantsService;
+import kg.attractor.ht49.services.interfaces.ResumeService;
+import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

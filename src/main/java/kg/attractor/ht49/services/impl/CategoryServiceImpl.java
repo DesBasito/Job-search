@@ -4,9 +4,8 @@ import kg.attractor.ht49.dao.CategoryDao;
 import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.models.Category;
-import kg.attractor.ht49.services.CategoryService;
+import kg.attractor.ht49.services.interfaces.CategoryService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service

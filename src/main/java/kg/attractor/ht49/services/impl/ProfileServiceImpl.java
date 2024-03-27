@@ -1,8 +1,8 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dto.users.EditUserDto;
-import kg.attractor.ht49.services.ProfileService;
-import kg.attractor.ht49.services.UserService;
+import kg.attractor.ht49.services.interfaces.ProfileService;
+import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
