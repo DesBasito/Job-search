@@ -22,11 +22,3 @@ databaseChangeLog:
                   type: boolean
                   constraints:
                     nullable: false
-              - column:
-                  name: role_id
-                  type: long
-                  constraints:
-                    foreignKeyName: fk_role_id
-                    nullable: false
-                    deleteCascade: true
-                    references: authorities(id)

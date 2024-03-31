@@ -9,7 +9,6 @@ import java.util.List;
 public interface WorkExperienceInfoService {
     void editInfo(WorkExpInfoEditDto info);
 
-    boolean deleteWorkExpInfoById(Long id);
 
     void createWorkExpInfo(WorkExpInfoCreateDto info, Long id);
 

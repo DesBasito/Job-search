@@ -30,11 +30,6 @@ public class WorkExpInfoImpl implements WorkExperienceInfoService {
     }
 
     @Override
-    public boolean deleteWorkExpInfoById(Long id) {
-        return false;
-    }
-
-    @Override
     public void createWorkExpInfo(WorkExpInfoCreateDto info, Long id) {
         dao.createWorkInfo(info,id);
     }
