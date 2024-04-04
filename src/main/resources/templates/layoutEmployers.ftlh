@@ -21,7 +21,7 @@
 
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
-            <div class="container-xxl">
+            <div class="container">
                 <a class="navbar-brand" href="#"><img class="logo" src="/static/images/logo.png" alt="Job search"></a>
                 <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
@@ -73,12 +73,6 @@
             <div class="numbers ms-lg-5 mb-2 ms-md-3 ps-3  ">
                 <p>+7 495 120-32-14</p>
                 <p>+7 495 120-32-15</p>
-            </div>
-
-            <div class="links ms-lg-auto ps-3 ms-md-auto">
-                <a href="https://youtu.be/HSt0ZMl4TVQ?si=wrmAXkU2aN_8HxDy"
-                   class="btn text-decoration-none text-dark  bg-light"><i class="bi bi-instagram"></i></a>
-                <a href="#" class="btn text-decoration-none text-dark  bg-light ms-4"><i class="bi bi-twitter"></i></a>
             </div>
         </div>
     </footer>

@@ -111,7 +111,8 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getActiveVacanciesByCompany(Long id) {
+    public List<VacancyDto> getActiveVacanciesByCompany(String email) {
+        Long id = userService.getUserByEmail(email).getId();
         List<Vacancy> vacancies = dao.getActiveVacanciesOfCompany(id);
         return getVacancyDtos(id, vacancies);
     }

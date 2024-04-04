@@ -23,7 +23,7 @@ public interface VacancyService {
 
     List<VacancyDto> getAllVacanciesByCompany(Long id);
 
-    List<VacancyDto> getActiveVacanciesByCompany(Long id);
+    List<VacancyDto> getActiveVacanciesByCompany(String email);
 
     List<VacancyDto> getActiveVacancies();
 

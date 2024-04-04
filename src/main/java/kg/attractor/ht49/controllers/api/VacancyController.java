@@ -39,9 +39,9 @@ public class VacancyController {
         return ResponseEntity.ok(vacancies);
     }
 
-    @GetMapping("company/active/{id}")
-    public ResponseEntity<List<VacancyDto>> getActiveVacanciesByCompanyId(@Valid @Pattern(regexp = "^\\d+$", message = "only numbers") @PathVariable(name = "id") Long id) {
-        List<VacancyDto> vacancies = service.getActiveVacanciesByCompany(id);
+    @GetMapping("company/active/{email}")
+    public ResponseEntity<List<VacancyDto>> getActiveVacanciesByCompanyId(@Email @PathVariable(name = "email") String email) {
+        List<VacancyDto> vacancies = service.getActiveVacanciesByCompany(email);
         return ResponseEntity.ok(vacancies);
     }
 
