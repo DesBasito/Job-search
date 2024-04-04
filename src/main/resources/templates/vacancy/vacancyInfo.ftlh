@@ -1,4 +1,4 @@
-<#import "../layoutApplicants.ftlh" as main>
+<#import "../layouts/layout.ftlh" as main>
 <@main.layout>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col-md-9"> <!-- Adjusted column size for the first card -->

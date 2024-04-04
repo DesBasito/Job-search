@@ -1,12 +1,12 @@
-<#import "../layoutApplicants.ftlh" as main>
+<#import "../layouts/layout.ftlh" as main>
 <@main.layout>
 
     <div class="row">
-        <#list vacancies as vacancy>
+        <#list employers as employer>
             <div class="card text-center">
-                <h5 class="card-header">${vacancy.name}</h5>
+                <h5 class="card-header">${employer.name}</h5>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
+                    <h5 class="card-title">${employers.size}</h5>
                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
                     <a href="#" class="btn btn-primary">Go somewhere</a>
                 </div>

@@ -1,4 +1,4 @@
-<#import "../layoutApplicants.ftlh" as main>
+<#import "../layouts/layout.ftlh" as main>
 <@main.layout>
 
     <div class="row">

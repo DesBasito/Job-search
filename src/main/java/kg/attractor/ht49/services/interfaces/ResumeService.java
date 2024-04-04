@@ -11,7 +11,7 @@ import java.util.List;
 public interface ResumeService {
     List<ResumeDto> getResumeByCategory(String name) ;
     List<ResumeDto> getResumes();
-    List<ResumeDto> getResumeByUserEmail(String user);
+    List<ResumeDto> getResumesByUserEmail(String user);
     ResumeDto getResumeById(Long id);
 
     Long createResume(ResumeCreateDto resume, Authentication auth);

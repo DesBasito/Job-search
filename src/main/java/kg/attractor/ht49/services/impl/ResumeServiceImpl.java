@@ -45,7 +45,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public List<ResumeDto> getResumeByUserEmail(String email) {
+    public List<ResumeDto> getResumesByUserEmail(String email) {
         Long id = userService.getUserId(email);
         if (id == null) {
             throw new UserNotFoundException("User with email " + email + " not found");
@@ -65,7 +65,7 @@ public class ResumeServiceImpl implements ResumeService {
                 .salary(r.getSalary())
                 .isActive(r.getIsActive())
                 .createdDate(r.getCreatedDate())
-                .updateDate(r.getUpdateTime())
+                .updateDate(r.getUpdateDate())
                 .workExpInfo(weiService.getWorkExperiencesByResumeId(id))
                 .educationInfo(eiService.getEducationsInfoByResumeId(id))
                 .contacts(contacts.getContactsByResumeId(id))
@@ -117,7 +117,7 @@ public class ResumeServiceImpl implements ResumeService {
                 .salary(r.getSalary())
                 .isActive(r.getIsActive())
                 .createdDate(r.getCreatedDate())
-                .updateDate(r.getUpdateTime())
+                .updateDate(r.getUpdateDate())
                 .workExpInfo(weiService.getWorkExperiencesByResumeId(r.getId()))
                 .educationInfo(eiService.getEducationsInfoByResumeId(r.getId()))
                 .contacts(contacts.getContactsByResumeId(r.getId()))
