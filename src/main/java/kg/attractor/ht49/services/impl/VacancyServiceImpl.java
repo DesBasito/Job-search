@@ -13,6 +13,7 @@ import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -106,25 +107,23 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<VacancyDto> getAllVacanciesByCompany(Long id) {
         List<Vacancy> vacancies = dao.getVacanciesOfCompany(id);
-        if (userService.getUserById(id) == null) {
-            throw new UserNotFoundException("employer by id " + id + " not found");
-        }
-        List<VacancyDto> dtos = new ArrayList<>();
-        vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
-        return dtos;
+        return getVacancyDtos(id, vacancies);
     }
 
     @Override
     public List<VacancyDto> getActiveVacanciesByCompany(Long id) {
-
         List<Vacancy> vacancies = dao.getActiveVacanciesOfCompany(id);
+        return getVacancyDtos(id, vacancies);
+    }
+
+    @NotNull
+    private List<VacancyDto> getVacancyDtos(Long id, List<Vacancy> vacancies) {
         if (userService.getUserById(id) == null) {
             throw new UserNotFoundException("employer by id " + id + " not found");
         }
         List<VacancyDto> dtos = new ArrayList<>();
         vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
         return dtos;
-
     }
 
     @Override
@@ -174,7 +173,7 @@ public class VacancyServiceImpl implements VacancyService {
                 .expFrom(e.getExpFrom())
                 .isActive(e.getIsActive())
                 .salary(e.getSalary())
-                .updateTime(e.getUpdateTime())
+                .updateTime(e.getUpdateDate())
                 .name(e.getName())
                 .authorEmail(userService.getUserById(e.getAuthorId()).getEmail())
                 .build();

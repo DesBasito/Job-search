@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers;
+package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("responses")
+@RequestMapping("api/responses")
 public class RespondsController {
     private final RespondedApplicantsService service;
 

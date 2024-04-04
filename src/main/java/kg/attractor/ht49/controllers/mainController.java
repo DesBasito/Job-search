@@ -1,0 +1,10 @@
+package kg.attractor.ht49.controllers;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@RequestMapping("main")
+public class mainController {
+    
+}

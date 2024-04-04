@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers.users;
+package kg.attractor.ht49.controllers.api.users;
 
 import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.users.EditUserDto;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("profile")
+@RequestMapping("api/profile")
 public class ProfileController {
     private final ProfileService service;
     private final UserService userService;

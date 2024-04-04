@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers.users;
+package kg.attractor.ht49.controllers.api.users;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("employer")
+@RequestMapping("api/employer")
 @RequiredArgsConstructor
 public class EmployerController {
     private final UserService service;

@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers;
+package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -10,13 +10,15 @@ import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("vacancies")
+@RequestMapping("api/vacancies")
 public class VacancyController {
     private final VacancyService service;
 
@@ -26,6 +28,7 @@ public class VacancyController {
     }
 
     @GetMapping("/active")
+
     public ResponseEntity<List<VacancyDto>> getActiveVacancies() {
         return ResponseEntity.ok(service.getActiveVacancies());
     }
