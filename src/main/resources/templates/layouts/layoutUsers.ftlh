@@ -1,4 +1,4 @@
-<#macro layout>
+<#macro layoutUsers>
     <!doctype html>
     <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
@@ -66,10 +66,10 @@
                 font-weight: 600;
             }
 
-            .card img {
+            .card img{
                 max-width: 212px;
                 height: auto;
-                margin: 60px auto 15px auto;
+                margin: 60px  auto 15px auto;
             }
 
             .logo {
@@ -89,7 +89,7 @@
                 background: #F05A00;
             }
 
-            .res-btn {
+            .res-btn{
                 max-width: 170px;
                 height: 85px;
             }
@@ -133,8 +133,7 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <i class="bi bi-list-nested"></i>
                 </button>
-                <button type="button"
-                        class="btn btn-link btn-user bg-orange rounded-1 text-light bg-orange order-md-1 ms-3"
+                <button type="button" class="btn btn-link btn-user bg-orange rounded-1 text-light bg-orange order-md-1 ms-3"
                         onclick="window.location.href='/profile'"
                         data-bs-toggle="tooltip" data-bs-placement="left" title="Profile">
                     <i class="bi bi-person-circle"></i>
@@ -142,19 +141,21 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav fw-medium mx-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/vacancies">Вакансии
+                        <#if user.accType == 'employee'>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/vacancies">Вакансии
+                                </a>
+                            </li>
+                            <li class="mx-3 nav-item">
+                                <a class="nav-link " href="#">Компании</a>
+                            </li>
+                        <#else>
+                            <a class="nav-link active" aria-current="page" href="/vacancies">Поиск сотрудников
                             </a>
-                        </li>
-                        <li class="mx-3 nav-item">
-                            <a class="nav-link " href="#">Компании</a>
-                        </li>
-                        <li class="mx-3 nav-item">
-                            <a class="nav-link" href="#">связатся с тех-поддержкой</a>
-                        </li>
-                        <li class="mx-3 nav-item">
-                            <a class="nav-link" href="/register">Регистрироваться</a>
-                        </li>
+                            <li class="mx-3 nav-item">
+                                <a class="nav-link" href="#">связатся с тех-поддержкой</a>
+                            </li>
+                        </#if>
                     </ul>
                 </div>
             </div>
@@ -167,6 +168,8 @@
             <#nested>
         </div>
     </div>
+
+
 
 
     </body>

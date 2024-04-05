@@ -1,5 +1,5 @@
-<#import "../layouts/layout.ftlh" as main>
-<@main.layout>
+<#import "../layouts/layoutUsers.ftlh" as main>
+<@main.layoutUsers>
 <div class="container my-5 mx-auto" style="max-width: 1100px; background: white; border-radius: 15px">
     <div class="row g-2 my-3">
         <div class="col-md">
@@ -25,6 +25,7 @@
             </div>
         </div>
     </div>
+    <#if resumes?has_content>
     <h6>резюме :</h6>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <#list resumes as resume>
@@ -38,5 +39,6 @@
             </div>
         </#list>
     </div>
+    </#if>
 </div>
-</@main.layout>
+</@main.layoutUsers>

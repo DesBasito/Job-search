@@ -58,8 +58,8 @@ public class UserDao {
 
     public void createUser(UserModel userModel) {
         String sql = """
-                insert into users(name, surname, age, email, password, phone_number, avatar, ENABLED,ROLE_ID)\s
-                values (:name, :surname, :age, :email, :password, :phoneNumber, :avatar, :enabled,:roleId);
+                insert into users(name, surname, age, email, password, phone_number, avatar, ENABLED)\s
+                values (:name, :surname, :age, :email, :password, :phoneNumber, :avatar, :enabled);
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", userModel.getName())
@@ -70,7 +70,6 @@ public class UserDao {
                 .addValue("phoneNumber", userModel.getPhoneNumber())
                 .addValue("avatar", userModel.getAvatar())
                 .addValue("enabled", userModel.getEnabled())
-                .addValue("roleId", userModel.getRoleId())
         );
 
     }

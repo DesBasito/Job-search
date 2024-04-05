@@ -1,5 +1,5 @@
-<#import "../layouts/layout.ftlh" as main>
-<@main.layout>
+<#import "../layouts/layoutUsers.ftlh" as main>
+<@main.layoutUsers>
     <div class="container my-5 mx-auto" style="max-width: 1100px; background: white; border-radius: 15px">
         <div class="row g-2 my-3">
             <div class="col-md">
@@ -10,8 +10,8 @@
             <div class="col-md-6">
                 <div class="card border-0">
                     <h5 class="card-title">${user.name} ${user.surname}</h5>
-                    <p class="card-text">${user.age}</p>
-                    <p>${user.email}</p>
+                    <p class="card-text">age: ${user.age}</p>
+                    <button type="button" class="btn btn-success" style="width: 200px">Edit</button>
                 </div>
             </div>
             <div class="col-md">
@@ -26,12 +26,18 @@
                 <div class="col mb-3">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title"><a  href="vacancies/info/${vacancy.id}" class="text-decoration-none text-dark">${vacancy.name}</a></h5>
+                            <h5 class="card-title">
+                                <a href="/vacancies/info/${vacancy.id}" class="text-decoration-none text-dark">${vacancy.name}</a>
+                            </h5>
                             <p class="card-text">${vacancy.updateTime}</p>
                         </div>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between gx-2 my-2">
+                        <button type="button" class="btn btn-primary col-6" onclick="handleUpdate(${vacancy.id})">Update</button>
+                        <button type="button" class="btn btn-success col-6" onclick="handleEdit(${vacancy.id})">Edit</button>
                     </div>
                 </div>
             </#list>
         </div>
     </div>
-</@main.layout>
+</@main.layoutUsers>
