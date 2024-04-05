@@ -47,11 +47,7 @@ public class ResumeDao {
                 select * from RESUMES
                 where APPLICANT_ID = ?
                 """;
-        List<Resume> resumes = template.query(sql, new BeanPropertyRowMapper<>(Resume.class), id);
-        if (resumes.isEmpty()) {
-            throw new ResumeNotFoundException("resumes by this user not found!");
-        }
-        return resumes;
+        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), id);
     }
 
     public Optional<Resume> getResumeById(Long id) {

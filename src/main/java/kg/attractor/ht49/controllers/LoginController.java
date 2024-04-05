@@ -12,21 +12,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("register")
+@RequestMapping("/")
 public class LoginController {
     private final UserService service;
 
-    @GetMapping()
+    @GetMapping("register")
     public String create() {
-        return "users/register";
+        return "login/register";
     }
 
-    @PostMapping()
+    @GetMapping("login")
+    public String login() {
+        return "login/login";
+    }
+
+    @PostMapping("register")
     public String create(UserCreationDto newUser, Model model) {
         service.createUser(newUser);
         UserDto user = service.getUserByEmail(newUser.getEmail());
         model.addAttribute("user", user);
         return "redirect:/vacancies";
 
+    }
+
+    @PostMapping("login")
+    public String login(UserCreationDto newUser, Model model) {
+        service.createUser(newUser);
+        UserDto user = service.getUserByEmail(newUser.getEmail());
+        model.addAttribute("user", user);
+        return "redirect:/vacancies";
     }
 }

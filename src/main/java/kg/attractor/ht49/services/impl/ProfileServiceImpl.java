@@ -3,6 +3,7 @@ package kg.attractor.ht49.services.impl;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.users.UserEditOnFrontDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.services.interfaces.ProfileService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
@@ -40,4 +41,5 @@ public class ProfileServiceImpl implements ProfileService {
         UserDto user = service.getUserByEmail(email);
         return vacancyService.getAllVacanciesByCompany(user.getId());
     }
+
 }

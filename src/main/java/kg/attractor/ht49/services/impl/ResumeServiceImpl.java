@@ -1,10 +1,12 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.ResumeDao;
+import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -139,6 +142,34 @@ public class ResumeServiceImpl implements ResumeService {
         }
         boolean b = !getResumeById(id).getIsActive();
         dao.changeResumeState(id, b);
+    }
+
+    @Override
+    public List<WorkExpInfoForFrontDto> getWorkExpInfoByResumeId(Long id) {
+        return  weiService.getWorkExperiencesByResumeId(id).stream().map(workExp -> WorkExpInfoForFrontDto.builder()
+       .id(workExp.getId())
+       .companyName(workExp.getCompanyName())
+       .position(workExp.getPosition())
+       .years(workExp.getYears())
+       .responsibilities(workExp.getResponsibilities())
+       .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<EducationInfoForFrontDto> getEducationInfoByResumeId(Long id) {
+        return eiService.getEducationsInfoByResumeId(id).stream().map(edu -> EducationInfoForFrontDto.builder()
+                .id(edu.getId())
+                .institution(edu.getInstitution())
+                .program(edu.getProgram())
+                .degree(edu.getDegree())
+                .startDate(edu.getStartDate())
+                .endDate(edu.getEndDate())
+                .build()).collect(Collectors.toList());
+    }
+
+    @Override
+    public UserDto getUserByResumesAuthorEmail(String userEmail) {
+        return  userService.getUserByEmail(userEmail);
     }
 
     @Override

@@ -1,8 +1,11 @@
 package kg.attractor.ht49.services.interfaces;
 
+import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.models.Resume;
 import org.springframework.security.core.Authentication;
 
@@ -25,4 +28,10 @@ public interface ResumeService {
     List<ResumeDto> getResumeByName(String rName);
 
     void changeResumeState(Long id);
+
+    List<WorkExpInfoForFrontDto> getWorkExpInfoByResumeId(Long id);
+
+    List<EducationInfoForFrontDto> getEducationInfoByResumeId(Long id);
+
+    UserDto getUserByResumesAuthorEmail(String userEmail);
 }

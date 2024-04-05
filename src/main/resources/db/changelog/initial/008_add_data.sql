@@ -14,7 +14,10 @@ VALUES /* qwe */('John', 'Doe', 30, 'john.doe@example.com',
     /* password123 */('Michael', 'Johnson', 35, 'michael.johnson@example.com',
                       '$2a$10$VGkwdmvXTqgn6yfmdZ6w7.NdMDeSYTs4JcDdySZ.yMdQ4qzGH3At.', '1122334455', NULL, true),
     /* qwerty */('John', 'Jacobson', 30, 'johny@example.com',
-                 '$2a$10$UYXM0mgh1OLkf6r7Iq0kCe2KV/fZT/GB1SkbdddpjzXEHK8NOQomi', '763547234', 'avatar4.jpg', true);
+                 '$2a$10$UYXM0mgh1OLkf6r7Iq0kCe2KV/fZT/GB1SkbdddpjzXEHK8NOQomi', '763547234', 'avatar4.jpg', true),
+    /* qwerty */('John', 'Sina', 20, 'sina@example.com',
+                 '$2a$10$UYXM0mgh1OLkf6r7Iq0kCe2KV/fZT/GB1SkbdddpjzXEHK8NOQomi', '237644345', 'avatar5.jpg', true);
+
 
 
 
@@ -26,7 +29,9 @@ values ((SELECT id FROM USERS WHERE EMAIL = 'john.doe@example.com'),
        ((SELECT id FROM USERS WHERE EMAIL = 'michael.johnson@example.com'),
         (SELECT id FROM AUTHORITIES WHERE ROLE = 'admin')),
        ((SELECT id FROM USERS WHERE EMAIL = 'jane.smith@example.com'),
-        (SELECT id FROM AUTHORITIES WHERE ROLE = 'employer'));
+        (SELECT id FROM AUTHORITIES WHERE ROLE = 'employer')),
+       ((SELECT id FROM USERS WHERE EMAIL = 'sina@example.com'),
+        (SELECT id FROM AUTHORITIES WHERE ROLE = 'employee'));
 
 INSERT INTO contact_types (type)
 VALUES ('Email'),

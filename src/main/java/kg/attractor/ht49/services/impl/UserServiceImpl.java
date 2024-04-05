@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void editUser(EditUserDto user) {
         String fileName = null;
-        if (!user.getAvatar().isEmpty()) {
+        if (user.getAvatar()!=null ) {
             if (Objects.requireNonNull(user.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
                 throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
             }

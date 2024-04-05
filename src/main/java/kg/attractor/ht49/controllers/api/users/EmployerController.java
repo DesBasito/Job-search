@@ -25,19 +25,19 @@ public class EmployerController {
     }
     @GetMapping("/{name}")
     public ResponseEntity<List<UserDto>> getEmployeesByName(@Valid @Pattern(regexp = "^[a-zA-Z]+$", message = "Input should contain only letters") @PathVariable(name = "name") String name) {
-        return ResponseEntity.ok(service.getUserByName(name.strip(),AccountTypes.EMPLOYEE));
+        return ResponseEntity.ok(service.getUserByName(name.strip(),AccountTypes.APPLICANT));
     }
 
     @GetMapping("/phone/{phone}")
     public ResponseEntity<UserDto> getEmployeeByPhoneNum(@Valid @NotBlank @PathVariable(name = "phone") String phone) {
-        UserDto user = service.getEmplByPhone(phone.strip(),AccountTypes.EMPLOYEE);
+        UserDto user = service.getEmplByPhone(phone.strip(),AccountTypes.APPLICANT);
         return ResponseEntity.ok(user);
     }
 
 
     @GetMapping("/email")
     public ResponseEntity<UserDto> getEmployeeByEmail(@Valid @Email @RequestParam(name = "email", defaultValue = "example@example.com") String email) {
-        UserDto user = service.getEmplByEmail(email,AccountTypes.EMPLOYEE);
+        UserDto user = service.getEmplByEmail(email,AccountTypes.APPLICANT);
         return ResponseEntity.ok(user);
     }
 

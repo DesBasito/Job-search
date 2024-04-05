@@ -37,7 +37,7 @@ public class UserDao {
             case "admin" ->
                     template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), AccountTypes.ADMIN.toString());
             case "employee" ->
-                    template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), AccountTypes.EMPLOYEE.toString());
+                    template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), AccountTypes.APPLICANT.toString());
             case "employer" ->
                     template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), AccountTypes.EMPLOYER.toString());
             default -> throw new IllegalStateException("Unexpected value: " + type);
@@ -84,7 +84,7 @@ public class UserDao {
         if (type.toString().equalsIgnoreCase("employee")) {
             return template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), name, AccountTypes.EMPLOYER.toString());
         }
-        return template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), name, AccountTypes.EMPLOYEE.toString());
+        return template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), name, AccountTypes.APPLICANT.toString());
     }
 
     public Optional<UserModel> getUserByPhone(String phone) {
@@ -158,7 +158,7 @@ public class UserDao {
         }
         return Optional.ofNullable(
                 DataAccessUtils.singleResult(
-                        template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), phone, AccountTypes.EMPLOYEE.toString())
+                        template.query(sql, new BeanPropertyRowMapper<>(UserModel.class), phone, AccountTypes.APPLICANT.toString())
                 )
         );
     }

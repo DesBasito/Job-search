@@ -40,11 +40,11 @@
                 </select>
             </div>
 
-                <button class="btn btn-primary" type="submit">Register!</button>
+            <button class="btn btn-primary" type="submit">Register!</button>
 
-                <button class="btn btn-warning btn-link text-decoration-none text-dark" onclick="window.location.href='/login'">
-                    Have an account?
-                </button>
+            <a class="btn btn-warning btn-link text-decoration-none text-dark" onclick="window.location.href='/login'">
+                Have an account?
+            </a>
         </fieldset>
     </form>
 </main>

@@ -11,33 +11,39 @@
                 <div class="card border-0">
                     <h5 class="card-title">${user.name} ${user.surname}</h5>
                     <p class="card-text">age: ${user.age}</p>
-                    <button type="button" class="btn btn-success" style="width: 200px">Edit</button>
+                    <button type="button" class="btn btn-success"
+                            onclick="window.location.href='/profile/edit/${user.id}'" style="width: 200px">Edit
+                    </button>
                 </div>
             </div>
             <div class="col-md">
                 <div class="card border-0 align-items-center text-align-center">
-                    <a href="#" class="btn btn-danger res-btn text-decoration-none" >+ Создать вакансию</a>
+                    <a href="#" class="btn btn-danger res-btn text-decoration-none">+ Создать вакансию</a>
                 </div>
             </div>
         </div>
-        <h6>Созданные вакансии :</h6>
-        <div class="row row-cols-1 row-cols-md-3 g-4">
-            <#list vacancies as vacancy>
-                <div class="col mb-3">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="/vacancies/info/${vacancy.id}" class="text-decoration-none text-dark">${vacancy.name}</a>
-                            </h5>
-                            <p class="card-text">${vacancy.updateTime}</p>
+        <#if vacancies?has_content>
+            <h6>Созданные вакансии :</h6>
+            <div class="row row-cols-1 row-cols-md-3 py-3 g-4">
+                <#list vacancies as vacancy>
+                    <div class="col mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="/vacancies/info/${vacancy.id}"
+                                       class="text-decoration-none text-dark">${vacancy.name}</a>
+                                </h5>
+                                <p class="card-text">${vacancy.updateTime}</p>
+                            </div>
+                        </div>
+                        <div class="card-footer d-flex justify-content-between gx-2 my-2">
+                            <button type="button" class="btn btn-primary col-6">Update</button>
+                            <button type="button" class="btn btn-success col-6">Edit</button>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                        <button type="button" class="btn btn-primary col-6" onclick="handleUpdate(${vacancy.id})">Update</button>
-                        <button type="button" class="btn btn-success col-6" onclick="handleEdit(${vacancy.id})">Edit</button>
-                    </div>
-                </div>
-            </#list>
-        </div>
+                </#list>
+            </div>
+        </#if>
+
     </div>
 </@main.layoutUsers>
