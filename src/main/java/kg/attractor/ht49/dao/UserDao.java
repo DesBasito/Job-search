@@ -115,7 +115,7 @@ public class UserDao {
         String sql = """
                 UPDATE USERS
                 SET NAME = :name, SURNAME = :surname,AGE = :age, password = :password, phone_number = :phoneNumber, avatar = :avatar
-                WHERE id = :id;
+                WHERE EMAIL = :email;
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", userModel.getName())
@@ -124,7 +124,7 @@ public class UserDao {
                 .addValue("password", userModel.getPassword())
                 .addValue("phoneNumber", userModel.getPhoneNumber())
                 .addValue("avatar", userModel.getAvatar())
-                .addValue("id", userModel.getId())
+                .addValue("email", userModel.getEmail())
         );
     }
 

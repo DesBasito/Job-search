@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
             }
             fileName = util.saveUploadedFile(user.getAvatar(), "/images");
         }        UserModel userModel1 = UserModel.builder()
-                .id(user.getId())
+                .email(user.getEmail())
                 .name(user.getName())
                 .surname(user.getSurname())
                 .age(user.getAge())

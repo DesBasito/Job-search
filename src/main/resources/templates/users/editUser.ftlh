@@ -6,7 +6,8 @@
                 <div class="form-element">
                     <div class="row gx-5 gy-3">
                         <div class="col-12">
-                            <input class="form-control" name="id" type="number" value="${userId}" aria-label="Disabled input example" disabled readonly>
+                            <input name="id" type="number" class="form-control" placeholder="id"
+                                   aria-label="id">
                         </div>
                         <div class="col-6">
                             <input name="name" type="text" class="form-control" placeholder="First name"
@@ -16,7 +17,7 @@
                             <input name="surname" type="text" class="form-control" placeholder="Last name"
                                    aria-label="Last name">
                         </div>
-                        <div class="col-6">
+                        <div class="col-9">
                             <input name="password" type="password" class="form-control" placeholder="Password"
                                    aria-label="Password">
                         </div>
@@ -24,13 +25,17 @@
                             <input name="age" type="number" class="form-control" placeholder="Age"
                                    aria-label="age">
                         </div>
-                        <div class="col-9">
+                        <div class="col-12">
                             <input name="phoneNumber" type="tel" class="form-control" placeholder="Phone number"
                                    aria-label="phoneNumber">
                         </div>
+                        <div class="col-12">
+                            <input name="avatar" type="file" class="form-control" placeholder="image"
+                                   aria-label="image">
+                        </div>
                     </div>
 
-                <button class="btn btn-primary mt-5" style="width: 200px" type="submit">Edit</button>
+                    <button class="btn btn-primary mt-5" style="width: 200px" type="submit">Edit</button>
             </fieldset>
         </form>
     </main>

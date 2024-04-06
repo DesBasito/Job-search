@@ -13,9 +13,8 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditUserDto {
-
-    @Min(value = 1)
-    private Long id;
+    @Email @NotBlank
+    private String email;
 
     @Size(max = 30)
     private String name;
@@ -33,6 +32,5 @@ public class EditUserDto {
 
     @Size(max = 25)
     private String phoneNumber;
-
     private MultipartFile avatar;
 }

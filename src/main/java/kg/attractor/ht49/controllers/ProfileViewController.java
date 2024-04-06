@@ -4,7 +4,6 @@ import jakarta.validation.constraints.Email;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.dto.users.UserEditOnFrontDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.enums.AccountTypes;
 import kg.attractor.ht49.services.interfaces.ProfileService;
@@ -43,16 +42,8 @@ public class ProfileViewController {
     }
 
     @PostMapping("/edit")
-    public String editProfile(UserEditOnFrontDto userDto) {
-        service.editProfile(EditUserDto.builder()
-                        .id(userDto.getId())
-                        .name(userDto.getName())
-                        .age(userDto.getAge())
-                        .surname(userDto.getSurname())
-                        .avatar(null)
-                        .password(userDto.getPassword())
-                        .phoneNumber(userDto.getPhoneNumber())
-                .build());
+    public String editProfile(EditUserDto userDto) {
+        service.editProfile(userDto);
         return "redirect:/vacancies";
     }
 

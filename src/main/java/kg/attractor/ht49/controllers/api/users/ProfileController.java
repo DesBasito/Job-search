@@ -19,6 +19,6 @@ public class ProfileController {
     @PutMapping( )
     public ResponseEntity<UserDto> editProfile(@Valid EditUserDto user) {
         service.editProfile(user);
-        return ResponseEntity.ok(userService.getUserById(user.getId()));
+        return ResponseEntity.ok(userService.getUserByEmail(user.getEmail()));
     }
 }
