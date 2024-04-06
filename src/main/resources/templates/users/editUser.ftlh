@@ -1,14 +1,14 @@
 <#import "../layouts/layout.ftlh" as register>
 <@register.layout>
     <main>
-        <form action="/profile/edit" method="post">
+        <#if accType == 'employee'>
+        <form action="/applicant/edit" method="post">
+        <#else>
+        <form action="/employer/edit" method="post">
+        </#if>
             <fieldset>
                 <div class="form-element">
                     <div class="row gx-5 gy-3">
-                        <div class="col-12">
-                            <input name="id" type="number" class="form-control" placeholder="id"
-                                   aria-label="id">
-                        </div>
                         <div class="col-6">
                             <input name="name" type="text" class="form-control" placeholder="First name"
                                    aria-label="First name">
@@ -17,10 +17,6 @@
                             <input name="surname" type="text" class="form-control" placeholder="Last name"
                                    aria-label="Last name">
                         </div>
-                        <div class="col-9">
-                            <input name="password" type="password" class="form-control" placeholder="Password"
-                                   aria-label="Password">
-                        </div>
                         <div class="col-3">
                             <input name="age" type="number" class="form-control" placeholder="Age"
                                    aria-label="age">
@@ -28,10 +24,6 @@
                         <div class="col-12">
                             <input name="phoneNumber" type="tel" class="form-control" placeholder="Phone number"
                                    aria-label="phoneNumber">
-                        </div>
-                        <div class="col-12">
-                            <input name="avatar" type="file"  class="form-control" placeholder="image"
-                                   aria-label="image">
                         </div>
                     </div>
 

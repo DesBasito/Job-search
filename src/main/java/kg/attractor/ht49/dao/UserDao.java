@@ -111,20 +111,18 @@ public class UserDao {
         );
     }
 
-    public void editUser(UserModel userModel) {
+    public void editUser(UserModel userModel, String email) {
         String sql = """
                 UPDATE USERS
-                SET NAME = :name, SURNAME = :surname,AGE = :age, password = :password, phone_number = :phoneNumber, avatar = :avatar
+                SET NAME = :name, SURNAME = :surname,AGE = :age, phone_number = :phoneNumber
                 WHERE EMAIL = :email;
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", userModel.getName())
                 .addValue("surname", userModel.getSurname())
                 .addValue("age", userModel.getAge())
-                .addValue("password", userModel.getPassword())
                 .addValue("phoneNumber", userModel.getPhoneNumber())
-                .addValue("avatar", userModel.getAvatar())
-                .addValue("email", userModel.getEmail())
+                .addValue("email", email)
         );
     }
 
@@ -186,8 +184,32 @@ public class UserDao {
                 values (:userId,:roleId);
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
-                .addValue("userId",userId)
-                .addValue("roleId",roleId)
+                .addValue("userId", userId)
+                .addValue("roleId", roleId)
+        );
+    }
+
+    public void setImage(String fileName, String email) {
+        String sql = """
+                UPDATE USERS
+                SET AVATAR = :avatar
+                WHERE EMAIL = :email;
+                """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("avatar", fileName)
+                .addValue("email", email)
+        );
+    }
+
+    public void setNewPassword(String newPassword, String email) {
+        String sql = """
+                UPDATE USERS
+                SET PASSWORD = :password
+                WHERE EMAIL = :email;
+                """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("password", newPassword)
+                .addValue("email", email)
         );
     }
 }

@@ -13,9 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EditUserDto {
-    @Email @NotBlank
-    private String email;
-
     @Size(max = 30)
     private String name;
 
@@ -26,11 +23,6 @@ public class EditUserDto {
     @Max(value = 70,message = "Enter rational age")
     private Byte age;
 
-    @NotBlank
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
-    private String password;
-
     @Size(max = 25)
     private String phoneNumber;
-    private MultipartFile avatar;
 }

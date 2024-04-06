@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("restProfile")
+@RestController("restResponses")
 @RequiredArgsConstructor
 @RequestMapping("api/responses")
 public class RespondsController {

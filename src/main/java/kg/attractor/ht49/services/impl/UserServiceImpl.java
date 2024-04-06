@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,23 +93,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void editUser(EditUserDto user) {
-        String fileName = null;
-        if (user.getAvatar()!=null ) {
-            if (Objects.requireNonNull(user.getAvatar().getContentType()).matches("png|jpeg|jpg")) {
+    public void uploadImage(MultipartFile avatar,Authentication authentication){
+        UserModel user =  userDao.getUserByEmail(authentication.getName()).orElseThrow(()->new NoSuchElementException("user not found: "+authentication.getName()));
+        String fileName = user.getAvatar();
+        if (avatar!=null ) {
+            if (Objects.requireNonNull(avatar.getContentType()).matches("png|jpeg|jpg")) {
                 throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
             }
-            fileName = util.saveUploadedFile(user.getAvatar(), "/images");
-        }        UserModel userModel1 = UserModel.builder()
-                .email(user.getEmail())
+            fileName = util.saveUploadedFile(avatar, "/images");
+        }
+        userDao.setImage(fileName,authentication.getName());
+    }
+
+    @Override
+    public void editUser(EditUserDto user, Authentication auth) {
+       UserModel userModel1 = UserModel.builder()
                 .name(user.getName())
                 .surname(user.getSurname())
                 .age(user.getAge())
-                .password(passwordEncoder.encode(user.getPassword()))
                 .phoneNumber(user.getPhoneNumber())
-                .avatar(fileName)
                 .build();
-        userDao.editUser(userModel1);
+        userDao.editUser(userModel1,auth.getName());
+    }
+
+    @Override
+    public void changePassword(String oldPassword, String newPassword, Authentication auth){
+        UserModel user = userDao.getUserByEmail(auth.getName()).orElseThrow(()->new UserNotFoundException("User by email: "+auth.getName()+"not registered"));
+        if (user.getPassword().equals(oldPassword)){
+            userDao.setNewPassword(newPassword, auth.getName());
+        }
     }
 
     @Override

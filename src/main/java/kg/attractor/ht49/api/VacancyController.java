@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("restProfile")
+@RestController("restVacancies")
 @RequiredArgsConstructor
 @RequestMapping("api/vacancies")
 public class VacancyController {

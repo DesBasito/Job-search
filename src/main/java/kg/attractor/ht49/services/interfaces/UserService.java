@@ -4,8 +4,8 @@ import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
-import kg.attractor.ht49.models.UserModel;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,7 +18,11 @@ public interface UserService {
     UserDto getUserByPhone(String phone);
     Long getUserId(String user);
 
-    void editUser(EditUserDto user);
+    void uploadImage(MultipartFile avatar, Authentication authentication);
+
+    void editUser(EditUserDto user, Authentication auth);
+
+    void changePassword(String oldPassword, String newPassword, Authentication auth);
 
     List<UserDto> getUsersByType(String type);
 

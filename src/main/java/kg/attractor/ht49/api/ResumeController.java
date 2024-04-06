@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("restProfile")
+@RestController("restResumes")
 @RequiredArgsConstructor
 @RequestMapping("api/resumes")
 public class ResumeController {

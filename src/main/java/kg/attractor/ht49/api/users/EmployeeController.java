@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("restProfile")
+@RestController("restEmployee")
 @RequestMapping("api/employee")
 @RequiredArgsConstructor
 public class EmployeeController {
