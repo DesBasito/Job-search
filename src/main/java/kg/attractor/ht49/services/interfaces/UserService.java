@@ -22,8 +22,6 @@ public interface UserService {
 
     List<UserDto> getUsersByType(String type);
 
-    UserModel getRawUserByEmail(String email);
-
     List<UserDto> getEmpl(Authentication autho);
 
     UserDto getEmplByEmail(String email, AccountTypes accountTypes);

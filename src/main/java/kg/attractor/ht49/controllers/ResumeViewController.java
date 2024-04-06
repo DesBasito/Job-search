@@ -2,7 +2,6 @@ package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
-import kg.attractor.ht49.dto.resumes.ResumeForFrontDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.services.interfaces.ResumeService;

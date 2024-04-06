@@ -30,7 +30,7 @@
                                    aria-label="phoneNumber">
                         </div>
                         <div class="col-12">
-                            <input name="avatar" type="file" class="form-control" placeholder="image"
+                            <input name="avatar" type="file"  class="form-control" placeholder="image"
                                    aria-label="image">
                         </div>
                     </div>

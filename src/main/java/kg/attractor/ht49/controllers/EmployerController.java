@@ -1,38 +1,35 @@
 package kg.attractor.ht49.controllers;
 
 import jakarta.validation.constraints.Email;
-import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
-import kg.attractor.ht49.enums.AccountTypes;
-import kg.attractor.ht49.services.interfaces.ProfileService;
+import kg.attractor.ht49.services.interfaces.UserService;
+import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("/profile")
+@RequestMapping("employer")
 @RequiredArgsConstructor
-public class ProfileViewController {
-    private final ProfileService service;
+public class EmployerController {
+    private final UserService service;
+    private final VacancyService vacancyService;
 
     @GetMapping("/{email}")
     public String applicantInfo(Model model, @PathVariable @Email String email) {
-        UserDto user = service.getUserInfoByEmail(email);
+        UserDto user = service.getUserByEmail(email);
         model.addAttribute("user", user);
-        if (user.getAccType().equals(AccountTypes.APPLICANT.toString())) {
-            List<ResumeDto> resumes = service.getApplicantResumes(email);
-            model.addAttribute("resumes", resumes);
-            return "users/layoutApplicant";
-        } else {
-            List<VacancyDto> vacancies = service.getEmployerVacancies(email);
-            model.addAttribute("vacancies", vacancies);
-            return "users/layoutEmployers";
-        }
+        List<VacancyDto> vacancies = vacancyService.getAllVacanciesByCompany(user.getId());
+        model.addAttribute("vacancies", vacancies);
+        return "users/layoutEmployers";
     }
 
     @GetMapping("/edit/{id}")
@@ -43,9 +40,8 @@ public class ProfileViewController {
 
     @PostMapping("/edit")
     public String editProfile(EditUserDto userDto) {
-        service.editProfile(userDto);
+        service.editUser(userDto);
         return "redirect:/vacancies";
     }
-
 
 }

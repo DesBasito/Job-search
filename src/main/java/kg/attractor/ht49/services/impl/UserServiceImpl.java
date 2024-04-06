@@ -121,11 +121,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserModel getRawUserByEmail(String email) {
-        return userDao.getUserByEmail(email).orElse(null);
-    }
-
-    @Override
     public List<UserDto> getEmpl(Authentication autho) {
         String type = userDao.getRoleByUserEmail(autho.getName());
         List<UserModel> employees = userDao.getUsersByTypeAcc(type);

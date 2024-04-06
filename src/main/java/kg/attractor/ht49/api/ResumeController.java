@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers.api;
+package kg.attractor.ht49.api;
 
 import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RestController("restProfile")
 @RequiredArgsConstructor
 @RequestMapping("api/resumes")
 public class ResumeController {
