@@ -11,7 +11,7 @@
             <div class="card border-0">
                 <h5 class="card-title">${user.name} ${user.surname}</h5>
                 <p class="card-text">${user.age}</p>
-                <button type="button" class="btn btn-success" onclick="window.location.href='/applicant/edit/${user.id}'" style="width: 200px">Edit</button>
+                <button type="button" class="btn btn-success" onclick="window.location.href='/applicant/edit/${user.email}'" style="width: 200px">Edit</button>
             </div>
         </div>
         <div class="col-md">

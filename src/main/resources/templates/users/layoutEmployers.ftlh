@@ -12,7 +12,7 @@
                     <h5 class="card-title">${user.name} ${user.surname}</h5>
                     <p class="card-text">age: ${user.age}</p>
                     <button type="button" class="btn btn-success"
-                            onclick="window.location.href='/employer/edit/${user.id}'" style="width: 200px">Edit
+                            onclick="window.location.href='/employer/edit/${user.email}'" style="width: 200px">Edit
                     </button>
                 </div>
             </div>

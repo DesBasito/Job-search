@@ -32,4 +32,6 @@ public interface UserService {
 
     UserDto getEmplByPhone(String strip, AccountTypes accountTypes);
 
+    void editUserTest(EditUserDto userDto, String email);
+
 }

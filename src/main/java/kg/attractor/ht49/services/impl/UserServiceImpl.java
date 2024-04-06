@@ -154,6 +154,17 @@ public class UserServiceImpl implements UserService {
         return getUserDto(userModel);
     }
 
+    @Override
+    public void editUserTest(EditUserDto user, String email) {
+        UserModel userModel1 = UserModel.builder()
+                .name(user.getName())
+                .surname(user.getSurname())
+                .age(user.getAge())
+                .phoneNumber(user.getPhoneNumber())
+                .build();
+        userDao.editUser(userModel1,email);
+    }
+
 
     private UserDto getUserDto(UserModel userModel) {
         return UserDto.builder()
