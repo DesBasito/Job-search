@@ -4,7 +4,7 @@
     <div class="row g-2 my-3 py-3">
         <div class="col-md-3">
             <div class="card border-0">
-                <img src="" alt="User image">
+                <img src="../../../../../data/images/${user.avatar}" alt="User image">
             </div>
         </div>
         <div class="col-md-6">

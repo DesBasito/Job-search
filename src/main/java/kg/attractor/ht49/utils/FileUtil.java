@@ -16,7 +16,7 @@ import java.util.UUID;
 @Slf4j
 public class FileUtil {
 
-    private static final String UPLOAD_DIR = "data";
+    private static final String UPLOAD_DIR = "src/main/resources/static";
 
     @SneakyThrows
     public String saveUploadedFile(MultipartFile file, String subDir) {

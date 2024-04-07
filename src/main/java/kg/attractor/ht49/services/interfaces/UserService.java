@@ -19,10 +19,12 @@ public interface UserService {
     Long getUserId(String user);
 
     void uploadImage(MultipartFile avatar, Authentication authentication);
+    void uploadImage(MultipartFile avatar, String email);
 
     void editUser(EditUserDto user, Authentication auth);
 
     void changePassword(String oldPassword, String newPassword, Authentication auth);
+    void changePassword(String oldPassword, String newPassword, String email);
 
     List<UserDto> getUsersByType(String type);
 

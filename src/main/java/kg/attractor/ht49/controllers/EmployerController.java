@@ -1,14 +1,12 @@
 package kg.attractor.ht49.controllers;
 
 import jakarta.validation.constraints.Email;
-import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -59,7 +57,7 @@ public class EmployerController {
     public String editProfile(Model model, @PathVariable @Email String email) {
         UserDto user = service.getUserByEmail(email);
         model.addAttribute("accType", user.getAccType());
-        return "users/editUser";
+        return "edit/editUser";
     }
 
     @PostMapping("/edit")

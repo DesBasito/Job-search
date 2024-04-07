@@ -10,10 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -57,13 +55,47 @@ public class ApplicantController {
     public String editProfile(Model model, @PathVariable @Email String email) {
         UserDto user = service.getUserByEmail(email);
         model.addAttribute("accType", user.getAccType());
-        return "users/editUser";
+        return "edit/editUser";
     }
-
     @PostMapping("/edit")
     public String editProfile(EditUserDto userDto, String email) {
         service.editUserTest(userDto,email);
         return "redirect:/vacancies";
     }
+
+
+    @GetMapping("/uploadImage/{email}")
+    public String uploadImageToProfile(Model model, @PathVariable String email) {
+        UserDto user = service.getUserByEmail(email);
+        model.addAttribute("accType", user.getAccType());
+        return "edit/uploadImage";
+    }
+
+    @PostMapping("/uploadImage")
+    public String uploadImageProfile(Model model, String email, MultipartFile file) {
+        UserDto user = service.getUserByEmail(email);
+        service.uploadImage(file, email);
+        model.addAttribute("accType", user.getAccType());
+        return "redirect:/vacancies";
+    }
+
+
+    @GetMapping("/changePassword/{email}")
+    public String changePassword(Model model, @PathVariable String email) {
+        UserDto user = service.getUserByEmail(email);
+        model.addAttribute("accType", user.getAccType());
+        return "edit/setNewPassword";
+    }
+
+    @PostMapping("/changePassword")
+    public String SetNewPassword(Model model, String email, String oldPassword, String newPassword) {
+        UserDto user = service.getUserByEmail(email);
+        service.changePassword(oldPassword,newPassword,email);
+        model.addAttribute("accType", user.getAccType());
+        return "redirect:/vacancies";
+    }
+
+
+
 
 }

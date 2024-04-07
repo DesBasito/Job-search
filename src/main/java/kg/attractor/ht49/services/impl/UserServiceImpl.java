@@ -106,6 +106,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void uploadImage(MultipartFile avatar, String email) {
+        UserModel user =  userDao.getUserByEmail(email).orElseThrow(()->new NoSuchElementException("user not found: "+email));
+        String fileName = user.getAvatar();
+        if (avatar!=null ) {
+            if (Objects.requireNonNull(avatar.getContentType()).matches("png|jpeg|jpg")) {
+                throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
+            }
+            fileName = util.saveUploadedFile(avatar, "/images");
+        }
+        userDao.setImage(fileName,email);
+    }
+
+    @Override
     public void editUser(EditUserDto user, Authentication auth) {
        UserModel userModel1 = UserModel.builder()
                 .name(user.getName())
@@ -121,6 +134,16 @@ public class UserServiceImpl implements UserService {
         UserModel user = userDao.getUserByEmail(auth.getName()).orElseThrow(()->new UserNotFoundException("User by email: "+auth.getName()+"not registered"));
         if (user.getPassword().equals(oldPassword)){
             userDao.setNewPassword(newPassword, auth.getName());
+        }
+    }
+
+    @Override
+    public void changePassword(String oldPassword, String newPassword, String email) {
+        UserModel user = userDao.getUserByEmail(email).orElseThrow(()->new UserNotFoundException("User by email: "+email+"not registered"));
+        String oldPass = passwordEncoder.encode(oldPassword);
+        if (user.getPassword().equals(oldPass)){
+            String pass = passwordEncoder.encode(newPassword);
+            userDao.setNewPassword(pass, email);
         }
     }
 
