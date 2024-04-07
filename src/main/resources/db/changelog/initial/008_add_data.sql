@@ -20,7 +20,6 @@ VALUES /* qwe */('John', 'Doe', 30, 'john.doe@example.com',
 
 
 
-
 insert into USER_AUTHORITY(user_id, authority_id)
 values ((SELECT id FROM USERS WHERE EMAIL = 'john.doe@example.com'),
         (SELECT id FROM AUTHORITIES WHERE ROLE = 'employee')),
@@ -52,7 +51,10 @@ VALUES ('Marketing Manager', 'Description for marketing manager vacancy',
        ('Data base architecture', 'Description for architecture vacancy',
         (SELECT id FROM categories WHERE name = 'Software Development'), 67000, 2, 4, 1,
         (SELECT id FROM USERS WHERE name = 'Michael' AND surname = 'Johnson'), '2023-12-01 17:45:18',
-        '2024-02-12 14:27:46'),('Software Engineer', 'Description for software engineer vacancy', (SELECT id FROM categories WHERE name = 'Software Development'), 70000, 3, 5, 1, (SELECT id FROM USERS WHERE name = 'Jane' AND surname = 'Smith'), NOW(), NOW());
+        '2024-02-12 14:27:46'),
+       ('Software Engineer', 'Description for software engineer vacancy',
+        (SELECT id FROM categories WHERE name = 'Software Development'), 70000, 3, 5, 1,
+        (SELECT id FROM USERS WHERE name = 'Jane' AND surname = 'Smith'), NOW(), NOW());
 
 INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created_date, update_date)
 VALUES ('John Doe Resume', (SELECT id FROM categories WHERE name = 'Software Development'),
@@ -96,7 +98,8 @@ INSERT INTO messages (responded_applicants, content, timestamp)
 VALUES ((SELECT id
          FROM responded_applicants
          WHERE vacancy_id = (SELECT id FROM vacancies WHERE name = 'Marketing Manager')
-           AND resume_id = (SELECT id FROM resumes WHERE name = 'John Jacobson Resume')), 'Thank you for applying.', NOW()),
+           AND resume_id = (SELECT id FROM resumes WHERE name = 'John Jacobson Resume')), 'Thank you for applying.',
+        NOW()),
        ((SELECT id
          FROM responded_applicants
          WHERE vacancy_id = (SELECT id FROM vacancies WHERE name = 'Data base architecture')
