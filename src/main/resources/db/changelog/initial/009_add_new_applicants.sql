@@ -1,5 +1,18 @@
 --liquibase formatted sql
 --changeset Abu:add_applicants_data
+INSERT INTO categories (name)
+VALUES ('Engineering'),
+       ('Sales'),
+       ('Human Resources'),
+       ('Customer Support'),
+       ('Operations'),
+       ('Design'),
+       ('Healthcare'),
+       ('Education'),
+       ('Legal'),
+       ('Hospitality'),
+       ('Construction'),
+       ('Research');
 
 INSERT INTO USERS (name, surname, age, email, password, phone_number, avatar, ENABLED)
 VALUES
@@ -71,21 +84,6 @@ INSERT INTO contact_types (type)
 VALUES ('Telegram'),
        ('Instagram'),
        ('Facebook');
-
-INSERT INTO categories (name)
-VALUES ('Engineering'),
-       ('Sales'),
-       ('Human Resources'),
-       ('Customer Support'),
-       ('Operations'),
-       ('Design'),
-       ('Healthcare'),
-       ('Education'),
-       ('Legal'),
-       ('Hospitality'),
-       ('Construction'),
-       ('Research');
-
 
 -- Alice Johnson's Resume
 INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created_date, update_date)

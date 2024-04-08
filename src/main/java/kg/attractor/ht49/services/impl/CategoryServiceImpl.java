@@ -8,6 +8,9 @@ import kg.attractor.ht49.services.interfaces.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
@@ -20,7 +23,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public CategoryDto getCategoryById(Long id) {
         Category category= dao.getCategoryById(id).orElseThrow(() -> new CategoryNotFoundException("Category by id "+id+" not found"));
+        return getDto(category);
+    }
 
+    @Override
+    public List<CategoryDto> getCategories() {
+        return dao.getCategories().stream().map(this::getDto).collect(Collectors.toList());
+    }
+
+    private CategoryDto getDto(Category category){
         return CategoryDto.builder()
                 .name(category.getName())
                 .id(category.getId())

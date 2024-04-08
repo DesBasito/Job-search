@@ -1,12 +1,11 @@
 package kg.attractor.ht49.dto.vacancies;
 
 import jakarta.validation.constraints.*;
-import kg.attractor.ht49.dto.CategoryDto;
-import kg.attractor.ht49.dto.users.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
 
@@ -22,7 +21,7 @@ public class VacancyCreateDto {
     private String description;
     @NotBlank
     private String category;
-    @Pattern(regexp = "^\\d+$",message = "enter only digits characters")
+    @NotNull
     private Double salary;
     @Max(value = 40)
     @Min(value = 0)

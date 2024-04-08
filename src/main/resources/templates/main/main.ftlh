@@ -20,14 +20,21 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Filter Vacancies</h5>
-                    <form action="/vacancies/category" method="get">
+                    <form action="/vacancies/filter" method="get">
                         <div class="mb-3">
                             <label for="category" class="form-label">Category:</label>
-                            <input type="text" class="form-control" id="category" name="category" placeholder="name of category">
+                            <input type="text" list="datalistOptions" class="form-control" id="category" name="category"
+                                   placeholder="name of category">
+                            <datalist id="datalistOptions">
+                                <#list categories as category>
+                                <option value=${category.name}>
+                                    </#list>
+                            </datalist>
                         </div>
                         <div class="mb-3">
                             <label for="salary" class="form-label">Salary:</label>
-                            <input type="number" class="form-control" id="salary" name="salary" placeholder="salary amount">
+                            <input type="number" class="form-control" id="salary" name="salary"
+                                   placeholder="salary amount">
                         </div>
                         <button type="submit" class="btn btn-primary">Filter</button>
                     </form>

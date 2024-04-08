@@ -64,16 +64,3 @@ VALUES ((SELECT id FROM USERS WHERE EMAIL = 'peter.wilson@example.com'),
        ((SELECT id FROM USERS WHERE EMAIL = 'kevin.adams@example.com'),
         (SELECT id FROM AUTHORITIES WHERE ROLE = 'employer'));
 
-INSERT INTO categories (name)
-VALUES ('Engineering'),
-       ('Sales'),
-       ('Human Resources'),
-       ('Customer Support'),
-       ('Operations'),
-       ('Design'),
-       ('Healthcare'),
-       ('Education'),
-       ('Legal'),
-       ('Hospitality'),
-       ('Construction'),
-       ('Research');

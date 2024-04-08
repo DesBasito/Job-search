@@ -137,7 +137,7 @@
                 </button>
                 <button type="button"
                         class="btn btn-link btn-user bg-orange rounded-1 text-light bg-orange order-md-1 ms-3"
-                        onclick="window.location.href='/profile'"
+                        onclick="window.location.href='/applicant/profile'"
                         data-bs-toggle="tooltip" data-bs-placement="left" title="Profile">
                     <i class="bi bi-person-circle"></i>
                 </button>
