@@ -1,15 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Avatar</title>
+<#import "../layouts/layout.ftlh" as main>
+<@main.layout>
     <style>
         body {
-            font-family: Arial, sans-serif;
             text-align: center;
-            padding-top: 50px;
-            background-color: #f8f9fa; /* Light gray background */
         }
 
         h1 {
@@ -87,5 +80,4 @@
         }
     });
 </script>
-</body>
-</html>
+</@main.layout>

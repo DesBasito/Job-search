@@ -1,64 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Change Password</title>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-            text-align: center;
-            padding-top: 50px;
-        }
+<#import "../layouts/layout.ftlh" as main>
+<@main.layout>
+<style>
+    .password-field {
+        width: 300px;
+        margin: 0 auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
 
-        .container {
-            width: 300px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
+    input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
 
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 16px;
-        }
+    button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
 
-        button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
+    button:hover {
+        background-color: #45a049;
+    }
 
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .error-message {
-            color: red;
-            margin-bottom: 15px;
-        }
-    </style>
-</head>
-<body>
-<div class="container">
+    .error-message {
+        color: red;
+        margin-bottom: 15px;
+    }
+</style>
+<div class="password-field">
     <h1>Change Your Password</h1>
     <main>
         <form id="password-form" action="/applicant/changePassword" method="post">
@@ -91,6 +77,4 @@
         this.reset();
         document.getElementById('error-message').textContent = "";
     });
-</script>
-</body>
-</html>
+    </@main.layout>

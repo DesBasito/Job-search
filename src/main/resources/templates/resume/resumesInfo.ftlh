@@ -19,7 +19,8 @@
                         <p class="card-text text-muted"><strong>Salary:</strong> ${resume.salary}</p>
                         <p class="card-text text-muted"><strong>Created Date:</strong> ${resume.createdDate}</p>
                         <p class="card-text text-muted"><strong>Email:</strong> ${resume.userEmail}</p>
-                        <p class="card-text text-muted"><strong>Active:</strong> ${resume.isActive ? string('Yes', 'No')}</p>
+                        <p class="card-text text-muted">
+                            <strong>Active:</strong> ${resume.isActive ? string('Yes', 'No')}</p>
 
                         <hr class="my-4"> <!-- Horizontal line -->
 
@@ -29,7 +30,7 @@
                                 <div class="mb-3">
                                     <h6>${work.position} - ${work.companyName}</h6>
                                     <p>${work.responsibilities}</p>
-                                    <p class="text-muted">${work.years}</p>
+                                    <p class="text-muted">Worked: ${work.years}-ears</p>
                                 </div>
                             </#list>
                         </div>
@@ -46,8 +47,19 @@
                                 </div>
                             </#list>
                         </div>
-
-                        <p class="card-text mt-4 text-muted text-end"><small>Last updated: ${resume.updateDate.getDayOfMonth()} - ${resume.updateDate.getMonth().name()} (${resume.updateDate.getYear()})</small></p>
+                        <#if resume.updateDate.getYear() == 2024>
+                            <p class="card-text mt-4 text-muted text-end">
+                                <small>Last
+                                    updated: ${resume.updateDate.getDayOfMonth()}
+                                    - ${resume.updateDate.getMonth().name()}</small>
+                            </p>
+                        <#else>
+                            <p class="card-text mt-4 text-muted text-end">
+                                <small>Last
+                                    updated: ${resume.updateDate.getDayOfMonth()}
+                                    - ${resume.updateDate.getMonth().name()} (${resume.updateDate.getYear()})</small>
+                            </p>
+                        </#if>
                     </div>
                 </div>
             </div>

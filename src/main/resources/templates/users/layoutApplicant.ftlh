@@ -11,7 +11,7 @@
             <div class="card border-0">
                 <h5 class="card-title">${user.name} ${user.surname}</h5>
                 <p class="card-text">${user.age}</p>
-                <div class="dropdown">
+                <div class="dropend">
                     <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                         Edit
                     </button>

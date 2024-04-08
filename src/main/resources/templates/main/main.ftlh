@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-8">
             <#list vacancies as vacancy>
-                <div class="card mb-3git ">
+                <div class="card mb-3">
                     <div class="card-body">
                         <a href="#" class="text-decoration-none text-dark">${vacancy.authorEmail}</a>
                         <h3 class="mt-2 mb-5"><a href="vacancies/info/${vacancy.id}"
@@ -16,16 +16,16 @@
                 </div>
             </#list>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 h-100">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Filter Vacancies</h5>
                     <form action="/vacancies/category" method="get">
-                        <div>
+                        <div class="mb-3">
                             <label for="category" class="form-label">Category:</label>
                             <input type="text" class="form-control" id="category" name="category" placeholder="name of category">
                         </div>
-                        <div>
+                        <div class="mb-3">
                             <label for="salary" class="form-label">Salary:</label>
                             <input type="number" class="form-control" id="salary" name="salary" placeholder="salary amount">
                         </div>
