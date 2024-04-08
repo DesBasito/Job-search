@@ -4,7 +4,7 @@ INSERT INTO vacancies (name, description, category_id, salary, exp_from, exp_to,
 VALUES
     ('Marketing Manager', 'Description for marketing manager vacancy',
      (SELECT id FROM categories WHERE name = 'Marketing' LIMIT 1), 60000, 5, 7, 1,
-     (SELECT id FROM USERS WHERE email = 'jane.smith@example.com' LIMIT 1), NOW(), NOW()),
+     (SELECT id FROM USERS WHERE email = 'peter.wilson@example.com' LIMIT 1), NOW(), NOW()),
 
     ('Sales Executive', 'Description for sales executive vacancy',
      (SELECT id FROM categories WHERE name = 'Sales' LIMIT 1), 65000, 4, 6, 1,

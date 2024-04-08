@@ -5,9 +5,7 @@ import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -32,4 +30,11 @@ public class VacancyViewController {
        model.addAttribute("employers", vacanciesOfAuthor);
        return "vacancy/vacancyInfo";
    }
+
+   @GetMapping("/category")
+    public String getVacancyByCategory(@RequestParam String category, Model model){
+        List<VacancyDto> vacancies = service.getVacanciesByCategory(category);
+        model.addAttribute("vacancies", vacancies);
+        return "main/main";
+    }
 }

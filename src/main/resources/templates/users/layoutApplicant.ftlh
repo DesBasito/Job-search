@@ -11,7 +11,16 @@
             <div class="card border-0">
                 <h5 class="card-title">${user.name} ${user.surname}</h5>
                 <p class="card-text">${user.age}</p>
-                <button type="button" class="btn btn-success" onclick="window.location.href='/applicant/edit/${user.email}'" style="width: 200px">Edit</button>
+                <div class="dropdown">
+                    <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        Edit
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="/applicant/edit/${user.email}">Edit profile</a></li>
+                        <li><a class="dropdown-item" href="/applicant/changePassword/${user.email}">Change password</a></li>
+                        <li><a class="dropdown-item" href="/applicant/uploadImage/${user.email}">Set a new image</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
         <div class="col-md">
