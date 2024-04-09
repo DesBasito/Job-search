@@ -60,18 +60,4 @@
     </main>
 </div>
 
-<script>
-    document.getElementById('password-form').addEventListener('submit', function (event) {
-        event.preventDefault();
-
-        const newPassword = document.getElementById('newPassword').value;
-        const confirmPassword = document.getElementById('confirm-password').value;
-
-        if (newPassword !== confirmPassword) {
-            document.getElementById('error-message').textContent = "New password and confirm password do not match.";
-            return;
-        }
-
-        document.getElementById('error-message').textContent = "";
-    });</script>
     </@main.layout>
