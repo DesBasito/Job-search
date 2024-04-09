@@ -30,7 +30,7 @@
                         </ul>
                             <#else >
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="/application/edit">Edit profile</a></li>
+                                    <li><a class="dropdown-item" href="/applicant/edit">Edit profile</a></li>
                                     <li><a class="dropdown-item" href="/applicant/changePassword">Change password</a></li>
                                     <li><a class="dropdown-item" href="/applicant/uploadImage">Set a new image</a></li>
                                 </ul>
@@ -98,7 +98,7 @@
                         </div>
                         <div class="card-footer d-flex justify-content-between gx-2 my-2">
                             <button type="button" class="btn btn-primary col-6">Update</button>
-                            <button type="button" class="btn btn-success col-6">Edit</button>
+                            <button type="button" class="btn btn-success col-6" onclick="window.location.href='/resume/update?id=${resume.id}'">Edit</button>
                         </div>
                     </div>
                 </#list>

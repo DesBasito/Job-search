@@ -1,11 +1,14 @@
 package kg.attractor.ht49.controllers;
 
+import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
+import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
+import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
@@ -79,5 +82,24 @@ public class ResumeViewController {
         List<CategoryDto> categories = categoryService.getCategories();
         model.addAttribute("categories",categories);
         return "resume/filteredResumes";
+    }
+
+    @PreAuthorize("(hasAuthority('employee'))")
+    @GetMapping("/update")
+    public String getResumeEditPage(Model model, @RequestParam Long id){
+        List<CategoryDto> categories = categoryService.getCategories();
+        model.addAttribute("categories",categories);
+        ResumeDto resume = service.getResumeById(id);
+        model.addAttribute("resume",resume);
+        return "resume/editResume";
+    }
+
+    @PreAuthorize("(hasAuthority('employee'))")
+    @PostMapping("/update")
+    public String updateResume(@RequestParam Long id, Model model, @Valid EditResumeDto editDto, Authentication authentication){
+        editDto.setId(id);
+        service.editResume(editDto,authentication);
+        model.addAttribute("user",userService.getUserByEmail(authentication.getName()));
+        return "redirect:/profile";
     }
 }

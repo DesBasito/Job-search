@@ -20,7 +20,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Filter Vacancy</h5>
-                    <form action="/vacancy/filter" method="get">
+                    <form action="/vacancies/filter" method="get">
                         <div class="mb-3">
                             <label for="category" class="form-label">Category:</label>
                             <input type="text" list="datalistOptions" class="form-control" id="category" name="category"
