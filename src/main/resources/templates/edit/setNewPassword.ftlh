@@ -47,7 +47,11 @@
 <div class="password-field">
     <h1>Change Your Password</h1>
     <main>
+        <#if accType == 'employee'>
         <form id="password-form" action="/applicant/changePassword" method="post">
+            <#else>
+        <form id="password-form" action="/employer/changePassword" method="post">
+        </#if>
             <input type="password" class="form-control" id="current-password" placeholder="Current Password"
                    name="oldPassword" required>
             <input type="email" class="form-control" id="current-email" placeholder="Current Email" name="email"
@@ -59,5 +63,4 @@
         </form>
     </main>
 </div>
-
     </@main.layout>
