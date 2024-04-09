@@ -2,7 +2,7 @@
 <@main.layout>
     <div class="row">
         <div class="col-md-8">
-            <#list vacancies.content as vacancy>
+            <#list vacancies as vacancy>
                 <div class="card mb-3">
                     <div class="card-body">
                         <a href="#" class="text-decoration-none text-dark">${vacancy.authorEmail}</a>
@@ -15,21 +15,12 @@
                     </div>
                 </div>
             </#list>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=${page - 1}">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=1">1</a></li>
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=2">2</a></li>
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=3">3</a></li>
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=${page + 1}">Next</a></li>
-                </ul>
-            </nav>
         </div>
         <div class="col-md-4 h-100">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Filter Vacancies</h5>
-                    <form action="/vacancies/filter" method="get">
+                    <h5 class="card-title">Filter Vacancy</h5>
+                    <form action="/vacancy/filter" method="get">
                         <div class="mb-3">
                             <label for="category" class="form-label">Category:</label>
                             <input type="text" list="datalistOptions" class="form-control" id="category" name="category"

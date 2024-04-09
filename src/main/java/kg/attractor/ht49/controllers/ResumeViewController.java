@@ -1,14 +1,17 @@
 package kg.attractor.ht49.controllers;
 
+import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -51,5 +54,30 @@ public class ResumeViewController {
         service.createResume(createDto,authentication);
         model.addAttribute("user",userService.getUserByEmail(authentication.getName()));
         return "redirect:/applicant/profile";
+    }
+
+
+    @PreAuthorize("(hasAuthority('employer'))")
+    @GetMapping()
+    public String getResumes(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){
+        if (page < 0){
+            page = 0;
+        }
+        model.addAttribute("page", page);
+        Page<ResumeDto> resumes = service.getResumesPage(page);
+        model.addAttribute("resumes",resumes);
+        List<CategoryDto> categories = categoryService.getCategories();
+        model.addAttribute("categories",categories);
+        return "resume/resumeList";
+    }
+
+    @PreAuthorize("(hasAuthority('employer'))")
+    @GetMapping("/filter")
+    public String getVacancyByCategory(@RequestParam String category, Model model, Authentication authentication){
+        List<ResumeDto> resumes = service.getResumeByCategory(category);
+        model.addAttribute("resumes", resumes);
+        List<CategoryDto> categories = categoryService.getCategories();
+        model.addAttribute("categories",categories);
+        return "resume/filteredResumes";
     }
 }

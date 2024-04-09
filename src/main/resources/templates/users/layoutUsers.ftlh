@@ -1,4 +1,4 @@
-<#macro layout>
+<#macro layoutUsers>
     <!doctype html>
     <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
@@ -16,8 +16,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
                 crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
         <style>
             body {
                 font-family: 'Raleway', sans-serif;
@@ -68,10 +66,10 @@
                 font-weight: 600;
             }
 
-            .card img {
+            .card img{
                 max-width: 212px;
                 height: auto;
-                margin: 60px auto 15px auto;
+                margin: 60px  auto 15px auto;
             }
 
             .logo {
@@ -91,7 +89,7 @@
                 background: #F05A00;
             }
 
-            .res-btn {
+            .res-btn{
                 max-width: 170px;
                 height: 85px;
             }
@@ -129,34 +127,38 @@
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="/vacancies"><img src="../../static/images/logo.png" alt="Job search"></a>
+                <a class="navbar-brand" href="/vacancies"><img src="/images/logo.png" width="130px" alt="Job search"></a>
                 <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <i class="bi bi-list-nested"></i>
                 </button>
-                <button type="button"
-                        class="btn btn-link btn-user bg-orange rounded-1 text-light bg-orange order-md-1 ms-3"
-                        onclick="window.location.href='/applicant/profile'"
+                <button type="button" class="btn btn-link btn-user bg-orange rounded-1 text-light bg-orange order-md-1 ms-3"
+                        onclick="window.location.href='/profile'"
                         data-bs-toggle="tooltip" data-bs-placement="left" title="Profile">
                     <i class="bi bi-person-circle"></i>
                 </button>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav fw-medium mx-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/vacancies">Вакансии
+                        <#if user.accType == 'employee'>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/vacancies">Вакансии
+                                </a>
+                            </li>
+                            <li class="mx-3 nav-item">
+                                <a class="nav-link " href="#">Компании</a>
+                            </li>
+                            <li class="mx-3 nav-item">
+                                <a class="nav-link" href="/techSupport">связатся с тех-поддержкой</a>
+                            </li>
+                        <#else>
+                            <a class="nav-link active" aria-current="page" href="/resume">Поиск сотрудников
                             </a>
-                        </li>
-                        <li class="mx-3 nav-item">
-                            <a class="nav-link " href="#">Компании</a>
-                        </li>
-                        <li class="mx-3 nav-item">
-                            <a class="nav-link" href="#">связатся с тех-поддержкой</a>
-                        </li>
-                        <li class="mx-3 nav-item">
-                            <a class="nav-link" href="/register">Регистрироваться</a>
-                        </li>
+                            <li class="mx-3 nav-item">
+                                <a class="nav-link" href="/techSupport">связатся с тех-поддержкой</a>
+                            </li>
+                        </#if>
                     </ul>
                 </div>
             </div>
@@ -169,6 +171,8 @@
             <#nested>
         </div>
     </div>
+
+
 
 
     </body>

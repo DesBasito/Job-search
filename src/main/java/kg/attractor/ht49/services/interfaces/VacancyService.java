@@ -4,6 +4,7 @@ package kg.attractor.ht49.services.interfaces;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public interface VacancyService {
 
     void editVacancy(VacancyEditDto vacancy, Authentication authentication);
 
-    List<VacancyDto> getAllVacanciesByCompany(Long id);
+    List<VacancyDto> getAllVacanciesByCompany(String email);
 
     List<VacancyDto> getActiveVacanciesByCompany(String email);
 
@@ -32,4 +33,6 @@ public interface VacancyService {
     Long createVacancyAndReturnId(VacancyCreateDto vacancyDto, Authentication auth);
 
     void changeVacancyState(Long id);
+
+    Page<VacancyDto> getActiveVacanciesPage(Integer page);
 }

@@ -14,6 +14,10 @@ import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
@@ -190,5 +194,29 @@ public class ResumeServiceImpl implements ResumeService {
         resume.getWorkExpInfo().forEach(e -> weiService.createWorkExpInfo(e, id));
         resume.getContacts().forEach(e -> contacts.createNewContactsInfo(e, id));
         return id;
+    }
+
+    @Override
+    public Page<ResumeDto> getResumesPage(Integer page) {
+        List<ResumeDto> resumes = getResumeDtos(dao.getAllResumes());
+        return toPage(resumes, PageRequest.of(page, 5));
+
+    }
+
+    @Override
+    public Page<ResumeDto> getFilteredResumesPage(Integer page,String category) {
+        List<ResumeDto> resumes = getResumeDtos(dao.getAllResumesByCategory(category));
+        return toPage(resumes, PageRequest.of(page, 5));
+    }
+
+    private Page<ResumeDto> toPage(List<ResumeDto> resumes, Pageable pageable){
+        if (pageable.getOffset() >= resumes.size()){
+            return Page.empty();
+        }
+        int startIndex = (int) pageable.getOffset();
+        int endIndex = (int) ((pageable.getOffset() + pageable.getPageSize() > resumes.size() ?
+                resumes.size() : pageable.getOffset() + pageable.getPageSize()));
+        List<ResumeDto> subList = resumes.subList(startIndex, endIndex);
+        return new PageImpl<>(subList, pageable, resumes.size());
     }
 }

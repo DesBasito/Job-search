@@ -7,6 +7,7 @@ import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.models.Resume;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 
 import java.util.List;
@@ -34,4 +35,8 @@ public interface ResumeService {
     List<EducationInfoForFrontDto> getEducationInfoByResumeId(Long id);
 
     UserDto getUserByResumesAuthorEmail(String userEmail);
+
+    Page<ResumeDto> getResumesPage(Integer page);
+
+    Page<ResumeDto> getFilteredResumesPage(Integer page,String category);
 }

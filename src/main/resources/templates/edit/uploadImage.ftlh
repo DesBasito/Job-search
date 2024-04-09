@@ -1,4 +1,4 @@
-<#import "../layouts/layout.ftlh" as main>
+<#import "../layout.ftlh" as main>
 <@main.layout>
     <style>
         body {
@@ -49,17 +49,17 @@
 <div class="container">
     <h1>Change Your Avatar</h1>
     <main>
-        <form id="avatar-form" action="http://localhost:9785/applicant/uploadImage" method="post" enctype="multipart/form-data">
+        <#if accType = 'employee'>
+        <form id="avatar-form" action="/applicant/uploadImage" method="post" enctype="multipart/form-data">
+
+        <#else>
+            <form id="avatar-form" action="/employer/uploadImage" method="post" enctype="multipart/form-data">
+        </#if>
             <fieldset>
                 <img id="avatar-img" src="default-avatar.jpg" alt="Current Avatar">
                 <div class="mb-3">
                     <label for="avatar-input" class="avatar-input-label">set image</label>
                     <input name="file" class="avatar-input" type="file" id="avatar-input">
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="current-email" placeholder="Current Email" name="email"
-                           required>
                 </div>
                 <br>
                 <button type="submit"> change ava</button>

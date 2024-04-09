@@ -1,4 +1,4 @@
-<#import "../layouts/layout.ftlh" as register>
+<#import "../layout.ftlh" as register>
 <@register.layout>
     <main>
         <#if accType == 'employee'>

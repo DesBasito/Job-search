@@ -1,6 +1,5 @@
 package kg.attractor.ht49.controllers;
 
-import jakarta.validation.constraints.Email;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
@@ -21,17 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApplicantController {
     private final UserService service;
-    private final ResumeService resumeService;
-
-    @PreAuthorize("hasAuthority('employee')")
-    @GetMapping("/profile")
-    public String applicantInfo(Model model, Authentication authentication) {
-        UserDto user = service.getUserByEmail(authentication.getName());
-        model.addAttribute("user", user);
-        List<ResumeDto> resumes = resumeService.getResumesByUserEmail(authentication.getName());
-        model.addAttribute("resumes", resumes);
-        return "users/layoutApplicant";
-    }
 
     @PreAuthorize("hasAuthority('employee')")
     @GetMapping("/edit")
@@ -58,9 +46,9 @@ public class ApplicantController {
 
     @PreAuthorize("hasAuthority('employee')")
     @PostMapping("/uploadImage")
-    public String uploadImageProfile(Model model, String email, MultipartFile file) {
-        UserDto user = service.getUserByEmail(email);
-        service.uploadImage(file, email);
+    public String uploadImageProfile(Model model, Authentication authentication, MultipartFile file) {
+        UserDto user = service.getUserByEmail(authentication.getName());
+        service.uploadImage(file, authentication.getName());
         model.addAttribute("accType", user.getAccType());
         return "redirect:/profile";
     }

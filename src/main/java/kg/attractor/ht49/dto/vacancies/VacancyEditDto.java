@@ -19,7 +19,6 @@ public class VacancyEditDto {
     private String description;
     @NotBlank @Size(max = 30)
     private String category;
-    @Pattern(regexp = "^\\d+$",message = "enter only digits characters")
     private Double salary;
     @Max(value = 40)
     @Min(value = 0)

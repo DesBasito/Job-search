@@ -1,7 +1,7 @@
-<#import "../layouts/layout.ftlh" as register>
+<#import "../layout.ftlh" as register>
 <@register.layout>
     <main>
-        <form action="login" method="post">
+        <form action="/login" method="post">
             <fieldset>
                 <p>Registration</p>
                 <div class="form-element mb-5">

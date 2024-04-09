@@ -35,6 +35,15 @@ public class ResumeDao {
         return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), id);
     }
 
+    public List<Resume> getAllResumesByCategory(String category) {
+        String sql = """
+                select * from RESUMES
+                inner join PUBLIC.CATEGORIES C on C.ID = RESUMES.CATEGORY_ID
+                where c.NAME = ?
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), category);
+    }
+
     public List<Resume> getAllResumes() {
         String sql = """
                 select * from RESUMES

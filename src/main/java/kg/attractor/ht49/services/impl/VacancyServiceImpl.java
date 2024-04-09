@@ -14,11 +14,17 @@ import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -98,16 +104,14 @@ public class VacancyServiceImpl implements VacancyService {
 
         Long id = userService.getUserByEmail(authentication.getName()).getId();
         List<Vacancy> vacancyList = dao.getVacanciesOfCompany(id);
-        if (!vacancyList.contains(vac)) {
-            throw new VacancyNotFoundException("vacancy do not belong to employer by email: " + authentication.getName());
-        }
         dao.editVacancy(vac);
     }
 
     @Override
-    public List<VacancyDto> getAllVacanciesByCompany(Long id) {
-        List<Vacancy> vacancies = dao.getVacanciesOfCompany(id);
-        return getVacancyDtos(id, vacancies);
+    public List<VacancyDto> getAllVacanciesByCompany(String email) {
+        UserDto userDto = userService.getUserByEmail(email);
+        List<Vacancy> vacancies = dao.getVacanciesOfCompany(userDto.getId());
+        return getVacancyDtos(userDto.getId(), vacancies);
     }
 
     @Override
@@ -162,6 +166,24 @@ public class VacancyServiceImpl implements VacancyService {
         }
         boolean b = !getVacancyById(id).getIsActive();
         dao.changeVacancyState(id, b);
+    }
+
+    @Override
+    public Page<VacancyDto> getActiveVacanciesPage(Integer pageNumber) {
+        List<VacancyDto> vacancies = dao.getActiveVacancies().stream().map(this::getVacancyDto).toList();
+        return toPage(vacancies, PageRequest.of(pageNumber, 5));
+
+    }
+
+    private Page<VacancyDto> toPage(List<VacancyDto> vacncies, Pageable pageable) {
+        if (pageable.getOffset() >= vacncies.size()) {
+            return Page.empty();
+        }
+        int startIndex = (int) pageable.getOffset();
+        int endIndex = (int) ((pageable.getOffset() + pageable.getPageSize() > vacncies.size() ?
+                vacncies.size() : pageable.getOffset() + pageable.getPageSize()));
+        List<VacancyDto> subList = vacncies.subList(startIndex, endIndex);
+        return new PageImpl<>(subList, pageable, vacncies.size());
     }
 
     private VacancyDto getVacancyDto(Vacancy e) {

@@ -2,7 +2,6 @@ package kg.attractor.ht49.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
@@ -10,8 +9,6 @@ import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,15 +24,14 @@ public class VacancyController {
         return ResponseEntity.ok(service.getAllVacancies());
     }
 
-    @GetMapping("/active")
+//    @GetMapping("/active")
+//    public ResponseEntity<List<VacancyDto>> getActiveVacancies() {
+//        return ResponseEntity.ok(service.getActiveVacancies());
+//    }
 
-    public ResponseEntity<List<VacancyDto>> getActiveVacancies() {
-        return ResponseEntity.ok(service.getActiveVacancies());
-    }
-
-    @GetMapping("company/{id}")
-    public ResponseEntity<List<VacancyDto>> getVacanciesByCompanyId(@Valid @Pattern(regexp = "^\\d+$", message = "only numbers") @PathVariable(name = "id") Long id) {
-        List<VacancyDto> vacancies = service.getAllVacanciesByCompany(id);
+    @GetMapping("company/{email}")
+    public ResponseEntity<List<VacancyDto>> getVacanciesByCompanyId(@PathVariable String email) {
+        List<VacancyDto> vacancies = service.getAllVacanciesByCompany(email);
         return ResponseEntity.ok(vacancies);
     }
 

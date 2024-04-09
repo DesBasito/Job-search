@@ -1,4 +1,4 @@
-<#import "../layouts/layout.ftlh" as main>
+<#import "../layout.ftlh" as main>
 <@main.layout>
     <h1 class="mb-4">Create Resume</h1>
 
