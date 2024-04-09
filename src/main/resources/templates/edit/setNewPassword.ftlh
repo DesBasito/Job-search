@@ -54,8 +54,6 @@
                    required>
             <input type="password" class="form-control" id="newPassword" placeholder="New Password"
                    name="newPassword" required>
-            <input type="password" class="form-control" id="confirm-password" placeholder="Confirm New Password"
-                   name="confirmPassword" required>
             <button type="submit">Change Password</button>
             <p class="error-message" id="error-message"></p>
         </form>
@@ -74,7 +72,6 @@
             return;
         }
 
-        this.reset();
         document.getElementById('error-message').textContent = "";
-    });
+    });</script>
     </@main.layout>

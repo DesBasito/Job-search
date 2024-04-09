@@ -204,11 +204,11 @@ public class UserDao {
     public void setNewPassword(String newPassword, String email) {
         String sql = """
                 UPDATE USERS
-                SET PASSWORD = :password
+                SET PASSWORD = :newPassword
                 WHERE EMAIL = :email;
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
-                .addValue("password", newPassword)
+                .addValue("newPassword", newPassword)
                 .addValue("email", email)
         );
     }
