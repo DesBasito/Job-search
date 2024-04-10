@@ -8,6 +8,6 @@
     <title>Supports</title>
 </head>
 <body>
-<img src="/images/Optimus.jpeg">
+<img src="/api/users/image/Optimus.jpeg">
 </body>
 </html>

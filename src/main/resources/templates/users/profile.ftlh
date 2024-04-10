@@ -4,7 +4,7 @@
         <div class="row g-2 my-3 py-3">
             <div class="col-md-3">
                 <div class="card border-0">
-                    <img src="/images/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%;
+                    <img src="api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%;
                 width: 300px;
                 height: 250px;
                 object-fit: cover;

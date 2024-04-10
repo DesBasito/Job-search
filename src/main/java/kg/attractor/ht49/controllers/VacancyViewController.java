@@ -67,7 +67,7 @@ public class VacancyViewController {
 
     @PreAuthorize("(hasAuthority('employer'))")
     @PostMapping("/create")
-    public String createVacancy(Model model, @Valid VacancyCreateDto createDto, Authentication authentication){
+    public String createVacancy(Model model,@RequestBody @Valid VacancyCreateDto createDto, Authentication authentication){
         service.createVacancyAndReturnId(createDto,authentication);
         model.addAttribute("user",uService.getUserByEmail(authentication.getName()));
         return "redirect:/profile";

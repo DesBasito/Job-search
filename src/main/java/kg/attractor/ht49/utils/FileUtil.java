@@ -2,6 +2,12 @@ package kg.attractor.ht49.utils;
 
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +22,7 @@ import java.util.UUID;
 @Slf4j
 public class FileUtil {
 
-    private static final String UPLOAD_DIR = "src/main/resources/static";
+    private static final String UPLOAD_DIR = "data/";
 
     @SneakyThrows
     public String saveUploadedFile(MultipartFile file, String subDir) {
@@ -36,5 +42,20 @@ public class FileUtil {
             log.error(e.getMessage());
         }
         return resultFileName;
+    }
+
+    public ResponseEntity<?> getOutputFile(String fileName, String subDir, MediaType mediaType) {
+        try {
+            byte[] image = Files.readAllBytes(Paths.get(UPLOAD_DIR + subDir + "/" + fileName));
+            Resource resource = new ByteArrayResource(image);
+            return ResponseEntity.ok()
+                    .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                    .contentLength(resource.contentLength())
+                    .contentType(mediaType)
+                    .body(resource);
+        } catch (IOException e) {
+            log.error("No file found:", e);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Image not found");
+        }
     }
 }

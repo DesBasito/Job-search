@@ -11,6 +11,8 @@ import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -69,7 +71,7 @@ public class UserServiceImpl implements UserService {
                 .roleId(roleId)
                 .build();
         userDao.createUser(userModel);
-        userDao.createUserAuthority(getUserId(userModel.getEmail()),userModel.getRoleId());
+        userDao.createUserAuthority(getUserId(userModel.getEmail()), userModel.getRoleId());
     }
 
     @Override
@@ -93,55 +95,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void uploadImage(MultipartFile avatar,Authentication authentication){
-        UserModel user =  userDao.getUserByEmail(authentication.getName()).orElseThrow(()->new NoSuchElementException("user not found: "+authentication.getName()));
-        String fileName = user.getAvatar();
-        if (avatar!=null ) {
+    public void uploadImage(MultipartFile avatar, Authentication authentication) {
+        if (avatar != null) {
             if (Objects.requireNonNull(avatar.getContentType()).matches("png|jpeg|jpg")) {
                 throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
             }
-            fileName = util.saveUploadedFile(avatar, "/images");
+            String fileName = util.saveUploadedFile(avatar, "/images");
+            userDao.setImage(fileName, authentication.getName());
         }
-        userDao.setImage(fileName,authentication.getName());
     }
 
-    @Override
-    public void uploadImage(MultipartFile avatar, String email) {
-        UserModel user =  userDao.getUserByEmail(email).orElseThrow(()->new NoSuchElementException("user not found: "+email));
-        String fileName = user.getAvatar();
-        if (avatar!=null ) {
-            if (Objects.requireNonNull(avatar.getContentType()).matches("png|jpeg|jpg")) {
-                throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
-            }
-            fileName = util.saveUploadedFile(avatar, "/images");
-        }
-        userDao.setImage(fileName,email);
-    }
 
     @Override
     public void editUser(EditUserDto user, Authentication auth) {
-       UserModel userModel1 = UserModel.builder()
+        UserModel userModel1 = UserModel.builder()
                 .name(user.getName())
                 .surname(user.getSurname())
                 .age(user.getAge())
                 .phoneNumber(user.getPhoneNumber())
                 .build();
-        userDao.editUser(userModel1,auth.getName());
-    }
-
-    @Override
-    public void changePassword(String oldPassword, String newPassword, Authentication auth){
-        UserModel user = userDao.getUserByEmail(auth.getName()).orElseThrow(()->new UserNotFoundException("User by email: "+auth.getName()+"not registered"));
-        if (user.getPassword().equals(oldPassword)){
-            userDao.setNewPassword(newPassword, auth.getName());
-        }
+        userDao.editUser(userModel1, auth.getName());
     }
 
     @Override
     public void changePassword(String oldPassword, String newPassword, String email) {
-        UserModel user = userDao.getUserByEmail(email).orElseThrow(()->new UserNotFoundException("User by email: "+email+"not registered"));
+        UserModel user = userDao.getUserByEmail(email).orElseThrow(() -> new UserNotFoundException("User by email: " + email + "not registered"));
         String oldPass = passwordEncoder.encode(oldPassword);
-        if (user.getPassword().equals(oldPass)){
+        if (user.getPassword().equals(oldPass)) {
             String pass = passwordEncoder.encode(newPassword);
             userDao.setNewPassword(pass, email);
         }
@@ -177,15 +157,19 @@ public class UserServiceImpl implements UserService {
         return getUserDto(userModel);
     }
 
+
     @Override
-    public void editUserTest(EditUserDto user, String email) {
-        UserModel userModel1 = UserModel.builder()
-                .name(user.getName())
-                .surname(user.getSurname())
-                .age(user.getAge())
-                .phoneNumber(user.getPhoneNumber())
-                .build();
-        userDao.editUser(userModel1,email);
+    public ResponseEntity<?> downloadImage(String name) {
+        String image = userDao.getAvatarByName(name).orElse(null);
+        if (image == null) {
+            image = "anon.jpeg";
+        }
+        return util.getOutputFile(image, "/images", MediaType.IMAGE_JPEG);
+    }
+
+    @Override
+    public ResponseEntity<?> downloadPng(String name) {
+        return util.getOutputFile(name, "/images", MediaType.IMAGE_PNG);
     }
 
 

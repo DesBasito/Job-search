@@ -12,6 +12,10 @@ spring:
   h2:
     console:
       enabled: false
+  security:
+    user:
+      name: email
+      password: password
 logging:
   level:
     root: info

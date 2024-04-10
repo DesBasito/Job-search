@@ -127,7 +127,7 @@
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="/vacancies"><img src="/images/logo.png" width="130px" alt="Job search"></a>
+                <a class="navbar-brand" href="/vacancies"><img src="/api/users/png/logo.png" width="130px" alt="Job search"></a>
                 <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -138,6 +138,7 @@
                         data-bs-toggle="tooltip" data-bs-placement="left" title="Profile">
                     <i class="bi bi-person-circle"></i>
                 </button>
+
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav fw-medium mx-auto">

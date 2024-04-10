@@ -7,6 +7,7 @@ import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -48,4 +49,14 @@ public class UserController {
         service.createUser(user);
         return ResponseEntity.ok(user);
     }
+
+    @GetMapping("png/{name}")
+    public ResponseEntity<?> downloadPng(@PathVariable("name") String name){
+        return service.downloadPng(name);
+    }
+    @GetMapping("image/{name}")
+    public ResponseEntity<?> downloadJpeg(@PathVariable("name") String name){
+        return service.downloadImage(name);
+    }
+
 }

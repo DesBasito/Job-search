@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class EmployerController {
     @PostMapping("/uploadImage")
     public String uploadImageProfile(Model model, Authentication authentication, MultipartFile file) {
         UserDto user = service.getUserByEmail(authentication.getName());
-        service.uploadImage(file, authentication.getName());
+        service.uploadImage(file, authentication);
         model.addAttribute("accType", user.getAccType());
         return "redirect:/vacancies";
     }
@@ -66,9 +67,9 @@ public class EmployerController {
 
     @PreAuthorize("hasAuthority('employer')")
     @PostMapping("/changePassword")
-    public String SetNewPassword(Model model, String email, String oldPassword, String newPassword) {
-        UserDto user = service.getUserByEmail(email);
-        service.changePassword(oldPassword,newPassword,email);
+    public String SetNewPassword(Model model, Authentication authentication, @RequestParam String oldPassword, @RequestParam String newPassword) {
+        UserDto user = service.getUserByEmail(authentication.getName());
+        service.changePassword(oldPassword,newPassword,authentication.getName());
         model.addAttribute("accType", user.getAccType());
         return "redirect:/vacancies";
     }

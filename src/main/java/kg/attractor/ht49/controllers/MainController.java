@@ -25,28 +25,31 @@ public class MainController {
     private final UserService service;
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
+    @GetMapping("login")
+    public String login() {
+        return "login/login";
+    }
+
     @GetMapping("/profile")
     public String applicantInfo(Model model, Authentication authentication) {
         UserDto user = service.getUserByEmail(authentication.getName());
         model.addAttribute("user", user);
         List<ResumeDto> resumes = resumeService.getResumesByUserEmail(authentication.getName());
         List<VacancyDto> vacancies = vacancyService.getAllVacanciesByCompany(authentication.getName());
-        model.addAttribute("resumes",resumes);
-        model.addAttribute("vacancies",vacancies);
+        model.addAttribute("resumes", resumes);
+        model.addAttribute("vacancies", vacancies);
         return "/users/profile";
     }
+
     @GetMapping("register")
     public String create() {
         return "login/register";
     }
 
-    @GetMapping("login")
-    public String login() {
-        return "login/login";
-    }
 
     @PostMapping("register")
     public String create(UserCreationDto newUser, Model model) {
+        service.createUser(newUser);
         return passToProfile(newUser, model);
     }
 
@@ -56,23 +59,14 @@ public class MainController {
         model.addAttribute("user", user);
         List<ResumeDto> resumes = resumeService.getResumesByUserEmail(newUser.getEmail());
         List<VacancyDto> vacancies = vacancyService.getAllVacanciesByCompany(newUser.getEmail());
-        model.addAttribute("resumes",resumes);
-        model.addAttribute("vacancies",vacancies);
-        if (user.getAccType().equals("employee")){
-        return "redirect:/applicant/profile";
-        }
-        else {
-            return "redirect:/employer/profile";
-        }
-    }
+        model.addAttribute("resumes", resumes);
+        model.addAttribute("vacancies", vacancies);
 
-    @PostMapping("login")
-    public String login(UserCreationDto newUser, Model model) {
-        return passToProfile(newUser, model);
+        return "redirect:/profile";
     }
 
     @GetMapping("techSupport")
-    public String techSupport(){
+    public String techSupport() {
         return "/techSupports";
     }
 }
