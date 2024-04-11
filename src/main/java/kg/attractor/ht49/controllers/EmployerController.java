@@ -54,7 +54,7 @@ public class EmployerController {
         UserDto user = service.getUserByEmail(authentication.getName());
         service.uploadImage(file, authentication);
         model.addAttribute("accType", user.getAccType());
-        return "redirect:/vacancies";
+        return "redirect:/profile";
     }
 
     @PreAuthorize("hasAuthority('employer')")
@@ -71,6 +71,6 @@ public class EmployerController {
         UserDto user = service.getUserByEmail(authentication.getName());
         service.changePassword(oldPassword,newPassword,authentication.getName());
         model.addAttribute("accType", user.getAccType());
-        return "redirect:/vacancies";
+        return "redirect:/profile";
     }
 }

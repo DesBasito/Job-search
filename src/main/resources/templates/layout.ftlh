@@ -129,7 +129,7 @@
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="/vacancies"><img src="/images/logo.png" width="120px" alt="Job search"></a>
+                <a class="navbar-brand" href="/vacancies"><img src="/api/users/image/logo.png" width="120px" alt="Job search"></a>
                 <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -152,7 +152,7 @@
                             <a class="nav-link " href="#">Компании</a>
                         </li>
                         <li class="mx-3 nav-item">
-                            <a class="nav-link" href="/techSupport">связатся с тех-поддержкой</a>
+                            <a class="nav-link" href="/api/users/image/Prime.jpeg">связатся с тех-поддержкой</a>
                         </li>
                         <li class="mx-3 nav-item">
                             <a class="nav-link" href="/register">Регистрироваться</a>

@@ -38,7 +38,7 @@
 
             <!-- Card for Work Experience Section -->
             <div class="card mb-4">
-                <div class="card-body">
+                <div class="card-body" id="workExp">
                     <h5 class="card-title">Work Experience</h5>
                     <div class="mb-3">
                         <label for="workPosition" class="form-label">Work Position</label>
@@ -57,10 +57,13 @@
                         <input type="number" class="form-control" id="yearsOfWork" name="years">
                     </div>
                 </div>
+                <div id="work">
+                    <input id="add-work-btn" type="button" value="+">
+                </div>
             </div>
 
             <!-- Card for Education Section -->
-            <div class="card mb-4">
+            <div class="card mb-4" id="education">
                 <div class="card-body">
                     <h5 class="card-title">Education</h5>
                     <div class="mb-3">
@@ -86,23 +89,29 @@
                         </div>
                     </div>
                 </div>
+                <div id="educationInfo">
+                    <input id="add-education-btn" type="button" value="+">
+                </div>
             </div>
 
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Contacts info</h5>
                     <div class="mb-3">
-                        <label for="degree" class="form-label">Instagram</label>
+                        <label for="instagram" class="form-label">Instagram</label>
                         <input type="text" class="form-control" id="instagram" name="Instagram">
                     </div>
                     <div class="mb-3">
-                        <label for="institution" class="form-label">Facebook</label>
+                        <label for="facebook" class="form-label">Facebook</label>
                         <input type="text" class="form-control" id="facebook" name="Facebook">
                     </div>
                     <div class="mb-3">
-                        <label for="program" class="form-label">Telegram</label>
+                        <label for="telegram" class="form-label">Telegram</label>
                         <input type="text" class="form-control" id="telegram" name="Telegram">
                     </div>
+                </div>
+                <div id="contacts">
+                    <input id="add-contacts-btn" type="button" value="+">
                 </div>
             </div>
 
@@ -114,5 +123,7 @@
     </main>
 
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/js/createResume.js"></script>
 </@main.layout>
 

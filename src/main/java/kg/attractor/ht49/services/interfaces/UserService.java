@@ -4,6 +4,7 @@ import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
@@ -33,7 +34,5 @@ public interface UserService {
 
     UserDto getEmplByPhone(String strip, AccountTypes accountTypes);
 
-    ResponseEntity<?> downloadImage(String name);
-
-    ResponseEntity<?> downloadPng(String name);
+    ResponseEntity<InputStreamResource> downloadImage(String name);
 }

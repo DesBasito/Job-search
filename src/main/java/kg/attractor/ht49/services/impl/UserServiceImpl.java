@@ -11,6 +11,7 @@ import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -37,7 +38,6 @@ public class UserServiceImpl implements UserService {
         userModels.forEach(e -> dtos.add(getUserDto(e)));
         return dtos;
     }
-
 
     @Override
     public UserDto getUserByEmail(String email) {
@@ -157,19 +157,9 @@ public class UserServiceImpl implements UserService {
         return getUserDto(userModel);
     }
 
-
     @Override
-    public ResponseEntity<?> downloadImage(String name) {
-        String image = userDao.getAvatarByName(name).orElse(null);
-        if (image == null) {
-            image = "anon.jpeg";
-        }
-        return util.getOutputFile(image, "/images", MediaType.IMAGE_JPEG);
-    }
-
-    @Override
-    public ResponseEntity<?> downloadPng(String name) {
-        return util.getOutputFile(name, "/images", MediaType.IMAGE_PNG);
+    public ResponseEntity<InputStreamResource> downloadImage(String name) {
+        return util.getOutputFile(name,"/images");
     }
 
 

@@ -13,9 +13,12 @@ import org.springframework.security.core.Authentication;
 import java.util.List;
 
 public interface ResumeService {
-    List<ResumeDto> getResumeByCategory(String name) ;
+    List<ResumeDto> getResumeByCategory(String name);
+
     List<ResumeDto> getResumes();
+
     List<ResumeDto> getResumesByUserEmail(String user);
+
     ResumeDto getResumeById(Long id);
 
     Long createResume(ResumeCreateDto resume, Authentication auth);
@@ -34,9 +37,6 @@ public interface ResumeService {
 
     List<EducationInfoForFrontDto> getEducationInfoByResumeId(Long id);
 
-    UserDto getUserByResumesAuthorEmail(String userEmail);
-
     Page<ResumeDto> getResumesPage(Integer page);
-
-    Page<ResumeDto> getFilteredResumesPage(Integer page,String category);
 }
+

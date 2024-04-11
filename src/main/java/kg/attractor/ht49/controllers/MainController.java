@@ -65,8 +65,8 @@ public class MainController {
         return "redirect:/profile";
     }
 
-    @GetMapping("techSupport")
-    public String techSupport() {
-        return "/techSupports";
+    @GetMapping("scriptTask")
+    public String scriptTask() {
+        return "main/script";
     }
 }

@@ -4,7 +4,7 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-md-4">
-                <img src="" class="img-fluid rounded-circle shadow-lg mb-3" alt="Applicant image">
+                <img src="api/users/image/${user.avatar}" class="img-fluid rounded-circle shadow-lg mb-3" alt="Applicant image">
                 <div class="user-info">
                     <h4>${user.name} ${user.surname}</h4>
                     <p class="text-muted"><strong>Age:</strong> ${user.age}</p>
