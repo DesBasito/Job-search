@@ -34,16 +34,7 @@ public class ResumeViewController {
 
     @GetMapping("/{id}")
     public String getResumeById(@PathVariable Long id, Model model){
-        ResumeDto resume = service.getResumeById(id);
-        model.addAttribute("resume",resume);
-        UserDto user = userService.getUserByEmail(resume.getUserEmail());
-        model.addAttribute("user",user);
-        List<WorkExpInfoForFrontDto> workExpInfos = service.getWorkExpInfoByResumeId(id);
-        model.addAttribute("works",workExpInfos);
-        List<EducationInfoForFrontDto> educationInfo = service.getEducationInfoByResumeId(id);
-        model.addAttribute("educations",educationInfo);
-        List<ContactsInfoWithIdDto> contacts = contactsInfoService.getContactsByResumeId(id);
-        model.addAttribute("contacts",contacts);
+        resume(model, id);
         return "resume/resumesInfo";
     }
 
@@ -84,19 +75,30 @@ public class ResumeViewController {
     }
 
     @GetMapping("/update")
-    public String getResumeEditPage(Model model, @RequestParam Long id){
+    public String getResumeEditPage(Model model, @RequestParam Long id, Authentication authentication){
         List<CategoryDto> categories = categoryService.getCategories();
         model.addAttribute("categories",categories);
-        ResumeDto resume = service.getResumeById(id);
-        model.addAttribute("resume",resume);
+        UserDto user = userService.getUserByEmail(authentication.getName());
+        model.addAttribute("user",user);
+        resume(model, id);
         return "resume/editResume";
     }
 
+    private void resume(Model model, @RequestParam Long id) {
+        EditResumeDto resume = service.getResumeForEdit(id);
+        model.addAttribute("resume",resume);
+        List<WorkExpInfoForFrontDto> workExpInfos = service.getWorkExpInfoByResumeId(id);
+        model.addAttribute("works",workExpInfos);
+        List<EducationInfoForFrontDto> educationInfo = service.getEducationInfoByResumeId(id);
+        model.addAttribute("educations",educationInfo);
+        List<ContactsInfoWithIdDto> contacts = contactsInfoService.getContactsByResumeId(id);
+        model.addAttribute("contacts",contacts);
+    }
+
     @PostMapping("/update")
-    public String updateResume(@RequestParam Long id, Model model, @Valid EditResumeDto editDto, Authentication authentication){
-        editDto.setId(id);
+    public String updateResume(Model model, @Valid EditResumeDto editDto, Authentication authentication){
         service.editResume(editDto,authentication);
         model.addAttribute("user",userService.getUserByEmail(authentication.getName()));
-        return "redirect:/profile";
+        return "redirect:/resume/"+editDto.getId();
     }
 }

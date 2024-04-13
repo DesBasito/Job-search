@@ -53,4 +53,18 @@ public class WorkExpInfoImpl implements WorkExperienceInfoService {
                 .build()));
         return dtos;
     }
+
+    @Override
+    public List<WorkExpInfoEditDto> getWorkExperiencesForEditByResumeId(Long id) {
+        List<WorkExperienceInfo> infos = dao.getListWorkExpByResumeId(id);
+        List<WorkExpInfoEditDto> dtos = new ArrayList<>();
+        infos.forEach( e -> dtos.add(WorkExpInfoEditDto.builder()
+                .id(e.getId())
+                .companyName(e.getCompanyName())
+                .position(e.getPosition())
+                .responsibilities(e.getResponsibilities())
+                .years(e.getYears())
+                .build()));
+        return dtos;
+    }
 }

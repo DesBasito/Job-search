@@ -1,111 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edit Resume</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+<#import "../layout.ftlh" as main>
+<@main.layout>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="/api/users/image/${user.avatar}" class="img-fluid rounded-circle shadow-lg mb-3"
+                     alt="Applicant image">
+                <div class="user-info">
+                    <h4>${user.name} ${user.surname}</h4>
+                    <p class="text-muted"><strong>Age:</strong> ${user.age}</p>
+                    <p class="text-muted"><strong>Phone Number:</strong> ${user.phoneNumber}</p>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="card border-0 shadow-lg">
+                    <main>
+                        <form action="resume/update" method="post">
+                            <div class="card-body">
+                                <h3 class="card-title mb-4">
+                                    <label>
+                                        <input type="text" class="form-control" name="title" value="${resume.title}"
+                                               placeholder="Resume Name">
+                                    </label></h3>
+                                <p class="card-text text-muted">
+                                    <strong>Category:</strong>
+                                    <label>
+                                        <input type="text"
+                                               name="categoryName"
+                                               list="datalistOptions"
+                                               value="${resume.categoryName}"
+                                               placeholder="Category">
+                                    </label>
+                                    <datalist id="datalistOptions">
+                                        <#list categories as category>
+                                        <option value=${category.name}>
+                                            </#list>
+                                    </datalist>
+                                </p>
+                                <p class="card-text text-muted"><strong>Salary:</strong> <label>
+                                        <input type="text"
+                                               name="salary"
+                                               value="${resume.salary}"
+                                               placeholder="Salary">
+                                    </label>
+                                </p>
 
-        main {
-            width: 100%;
-            max-width: 600px;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+                                <hr class="my-4"> <!-- Horizontal line -->
 
-        h1 {
-            color: #333;
-            text-align: center;
-            margin-bottom: 30px;
-        }
+                                <h5 class="card-subtitle mb-3 text-muted">Work Experience</h5>
+                                <div class="work-experience">
+                                    <#list works as work>
+                                        <div class="mb-5">
+                                            <h6><label>
+                                                    <input type="text" name="position" value="${work.position}"
+                                                           placeholder="Position">
+                                                </label> - <label>
+                                                    <input type="text" name="companyName"
+                                                           value="${work.companyName}"
+                                                           placeholder="Company Name">
+                                                </label></h6>
+                                            <p><label>
+                                                    <textarea name="responsibilities"
+                                                              value="${work.responsibilities}"
+                                                              placeholder="Responsibilities"></textarea>
+                                                </label>
+                                            </p>
+                                            <p class="text-muted">Worked: <label>
+                                                    <input type="text" name="years"
+                                                           placeholder="Years">
+                                                </label> years</p>
+                                        </div>
+                                    </#list>
+                                </div>
+                                <div id="work" class="d-flex justify-content-center my-4">
+                                    <input id="add-work-btn" class="btn btn-success my-3" type="button"
+                                           value="Add work experience">
+                                </div>
+                                <hr class="my-4"> <!-- Horizontal line -->
 
-        form {
-            margin-bottom: 20px;
-        }
+                                <h5 class="card-subtitle mb-3 text-muted">Education</h5>
+                                <div class="education">
+                                    <#list educations as edu>
+                                        <div class="mb-3">
+                                            <h6><label>
+                                                    <input type="text" name="degree" value="${edu.degree}"
+                                                           placeholder="Degree">
+                                                </label>, <label>
+                                                    <input type="text" name="institution"
+                                                           placeholder="Institution">
+                                                </label></h6>
+                                            <p><label>
+<textarea name="program" value="${edu.program}"
+          placeholder="Program"></textarea>
+                                                </label></p>
+                                            <p class="text-muted"><label>
+                                                    <input type="text" name="startDate"
+                                                           value="${edu.startDate}"
+                                                           placeholder="Start Date">
+                                                </label> - <label>
+                                                    <input type="text"
+                                                           name="endDate"
+                                                           value="${edu.endDate}"
+                                                           placeholder="End Date">
+                                                </label>
+                                            </p>
+                                        </div>
+                                    </#list>
+                                </div>
 
-        label {
-            font-weight: bold;
-        }
+                                <hr class="my-4"> <!-- Horizontal line -->
 
-        textarea,
-        input[type="text"],
-        input[type="number"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            resize: vertical; /* Allow vertical resizing of textarea */
-        }
+                                <h5 class="card-subtitle mb-3 text-muted">Contacts</h5>
+                                <div class="work-experience">
+                                    <#list contacts as contact>
+                                        <div class="mb-3">
+                                            <h6><label>
+                                                    <input type="text" name="contactType" value="${contact.type}"
+                                                           placeholder="Contact Type">
+                                                </label> : <label>
+                                                    <input type="text" name="infoValue"
+                                                           value="${contact.infoValue}"
+                                                           placeholder="Info Value">
+                                                </label>
+                                            </h6>
+                                        </div>
+                                    </#list>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary btn-md">Edit</button>
+                                </div>
+                            </div>
+                        </form>
+                    </main>
 
-        button[type="submit"],
-        button {
-            display: inline-block;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            text-align: center;
-            background-color: #007bff;
-            color: #fff;
-            transition: background-color 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        .action-buttons {
-            display: flex;
-            justify-content: space-between;
-        }
-
-        @media (max-width: 768px) {
-            main {
-                padding: 20px;
-            }
-        }
-    </style>
-</head>
-<body>
-<main>
-    <h1>Edit Resume</h1>
-    <form action="/resume/update?id=${resume.id}" method="post">
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required maxlength="245">${resume.name}</textarea>
-
-        <label for="category">Category:</label>
-        <input type="text" list="datalistOptions" id="category" name="category" value="${resume.category}" required maxlength="30">
-        <datalist id="datalistOptions">
-            <#list categories as category>
-            <option value="${category.name}">
-                </#list>
-        </datalist>
-
-        <label for="salary">Salary:</label>
-        <input type="text" id="salary" name="salary" pattern="^\d+$" title="Please enter only digits" value="${resume.salary}" required>
-
-        <button type="submit">Update Resume</button>
-    </form>
-
-    <div class="action-buttons">
-        <button <#--onclick="window.location.href = 'infos/addWorkExperience'"  --> >Add Work Experience</button>
-        <button <#--onclick="window.location.href = 'infos/addEducation'"--> >Add Education Info</button>
+                </div>
+            </div>
+        </div>
     </div>
-</main>
-</body>
-</html>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="/js/editResume.js"></script>
+
+    <link rel="stylesheet" href="/resumeInfo.css">
+</@main.layout>

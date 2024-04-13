@@ -60,6 +60,20 @@ public class EducationInfoServiceImpl implements EducationInfoService {
         return dtos;
     }
 
+    @Override
+    public List<EducationInfoEditDto> getEducationsInfoForEditByResumeId(Long id) {
+        List<EducationInfoEditDto> dtos = new ArrayList<>();
+        dao.getEducationByResume(id).forEach(e -> dtos.add(EducationInfoEditDto.builder()
+                        .id(e.getId())
+                        .degree(e.getDegree())
+                        .institution(e.getInstitution())
+                        .program(e.getProgram())
+                        .startDate(Date.valueOf(e.getStartDate()))
+                        .endDate(Date.valueOf(e.getEndDate()))
+                .build()));
+        return dtos;
+    }
+
     private EducationInfoDto getEducationInfoDto(EducationInfo info) {
         return EducationInfoDto.builder()
                 .id(info.getId())

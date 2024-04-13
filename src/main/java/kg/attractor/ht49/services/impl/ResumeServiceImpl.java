@@ -109,8 +109,12 @@ public class ResumeServiceImpl implements ResumeService {
                 .salary(editDto.getSalary())
                 .build();
         dao.editResume(resume);
-        editDto.getEducationInfo().forEach(eiService::editInfo);
-        editDto.getWorkExpInfoEdit().forEach(weiService::editInfo);
+        if (editDto.getEducationInfo() != null) {
+            editDto.getEducationInfo().forEach(eiService::editInfo);
+        }
+        if (editDto.getWorkExpInfoEdit() != null) {
+            editDto.getWorkExpInfoEdit().forEach(weiService::editInfo);
+        }
     }
 
     @Override
@@ -203,6 +207,19 @@ public class ResumeServiceImpl implements ResumeService {
         List<ResumeDto> resumes = getResumeDtos(dao.getAllResumes());
         return toPage(resumes, PageRequest.of(page, 5));
 
+    }
+
+    @Override
+    public EditResumeDto getResumeForEdit(Long id) {
+        Resume r = dao.getResumeById(id).orElseThrow(() -> new ResumeNotFoundException("Resume by id " + id + " not found"));
+        return EditResumeDto.builder()
+                .id(r.getId())
+                .title(r.getName())
+                .categoryName(category.getCategoryById(r.getCategoryId()).getName())
+                .salary(r.getSalary())
+                .workExpInfoEdit(weiService.getWorkExperiencesForEditByResumeId(id))
+                .educationInfo(eiService.getEducationsInfoForEditByResumeId(id))
+                .build();
     }
 
     private Page<ResumeDto> toPage(List<ResumeDto> resumes, Pageable pageable) {

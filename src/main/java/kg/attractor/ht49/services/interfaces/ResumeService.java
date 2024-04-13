@@ -38,5 +38,7 @@ public interface ResumeService {
     List<EducationInfoForFrontDto> getEducationInfoByResumeId(Long id);
 
     Page<ResumeDto> getResumesPage(Integer page);
+
+    EditResumeDto getResumeForEdit(Long id);
 }
 

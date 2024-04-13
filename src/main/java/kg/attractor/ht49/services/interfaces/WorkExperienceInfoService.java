@@ -16,4 +16,5 @@ public interface WorkExperienceInfoService {
 
     List<WorkExperienceInfoDto> getWorkExperiencesByResumeId(Long resumeId);
 
+    List<WorkExpInfoEditDto> getWorkExperiencesForEditByResumeId(Long id);
 }

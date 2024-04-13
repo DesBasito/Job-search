@@ -16,4 +16,6 @@ public interface EducationInfoService {
     Long createAndReturnEduInfoId(CreateEducationInfoDto info);
 
     List<EducationInfoDto> getEducationsInfoByResumeId(Long id);
+
+    List<EducationInfoEditDto> getEducationsInfoForEditByResumeId(Long id);
 }

@@ -1,0 +1,36 @@
+.user-info h4 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.user-info p {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.work-experience h6,
+.education h6 {
+    color: #007bff;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.work-experience p,
+.education p {
+    font-size: 16px;
+    margin-bottom: 6px;
+}
+
+.card {
+    background-color: #f8f9fa;
+}
+
+.card-body {
+    font-size: 16px;
+}
+
+.card-subtitle {
+    font-size: 1.1rem;
+}
