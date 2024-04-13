@@ -9,14 +9,14 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Resume Details</h5>
-                    <div class="row">
-                        <div class="col-md-6">
+                        <div class="col">
                             <label for="resumeName" class="form-label">Resume Name</label>
                             <input type="text" class="form-control" id="resumeName" name="title" required>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col">
                             <label for="category" class="form-label">Category:</label>
-                            <input type="text" list="datalistOptions" class="form-control" id="category" name="categoryName"
+                            <input type="text" list="datalistOptions" class="form-control" id="category"
+                                   name="categoryName"
                                    placeholder="name of category">
                             <datalist id="datalistOptions">
                                 <#list categories as category>
@@ -24,77 +24,29 @@
                                     </#list>
                             </datalist>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col">
                             <label for="salary" class="form-label">Salary</label>
                             <input type="text" class="form-control" id="salary" name="salary" required>
                         </div>
-                        <div class="col-md-6">
-                            <label for="userEmail" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="userEmail" name="userEmail" required>
-                        </div>
                     </div>
+                </div>
+
+            <div class="card mb-4" id="workExp">
+                <h5 class="card-title text-center">Work Experience</h5>
+                <div id="work" class="d-flex justify-content-center">
+                    <input id="add-work-btn" class="btn btn-success my-3" type="button" value="Add work experience">
                 </div>
             </div>
 
-            <!-- Card for Work Experience Section -->
-            <div class="card mb-4">
-                <div class="card-body" id="workExp">
-                    <h5 class="card-title">Work Experience</h5>
-                    <div class="mb-3">
-                        <label for="workPosition" class="form-label">Work Position</label>
-                        <input type="text" class="form-control" id="workPosition" name="position">
-                    </div>
-                    <div class="mb-3">
-                        <label for="companyName" class="form-label">Company Name</label>
-                        <input type="text" class="form-control" id="companyName" name="companyName">
-                    </div>
-                    <div class="mb-3">
-                        <label for="responsibilities" class="form-label">Responsibilities</label>
-                        <textarea class="form-control" id="responsibilities" name="responsibilities"></textarea>
-                    </div>
-                    <div class="mb-3">
-                        <label for="yearsOfWork" class="form-label">Years of Work</label>
-                        <input type="number" class="form-control" id="yearsOfWork" name="years">
-                    </div>
-                </div>
-                <div id="work">
-                    <input id="add-work-btn" type="button" value="+">
-                </div>
-            </div>
 
-            <!-- Card for Education Section -->
             <div class="card mb-4" id="education">
-                <div class="card-body">
-                    <h5 class="card-title">Education</h5>
-                    <div class="mb-3">
-                        <label for="degree" class="form-label">Degree</label>
-                        <input type="text" class="form-control" id="degree" name="degree">
-                    </div>
-                    <div class="mb-3">
-                        <label for="institution" class="form-label">Institution</label>
-                        <input type="text" class="form-control" id="institution" name="institution">
-                    </div>
-                    <div class="mb-3">
-                        <label for="program" class="form-label">Program</label>
-                        <textarea class="form-control" id="program" name="program"></textarea>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="startDate" class="form-label">Start Date</label>
-                            <input type="date" class="form-control" id="startDate" name="startDate">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="endDate" class="form-label">End Date</label>
-                            <input type="date" class="form-control" id="endDate" name="endDate">
-                        </div>
-                    </div>
-                </div>
-                <div id="educationInfo">
-                    <input id="add-education-btn" type="button" value="+">
+                    <h5 class="card-title text-center">Education</h5>
+                <div id="educationInfo" class="d-flex justify-content-center">
+                    <input id="add-education-btn" class="btn btn-success my-3" type="button" value="Add education info">
                 </div>
             </div>
 
-            <div class="card mb-4">
+            <div class="card mb-4" id="addContacts">
                 <div class="card-body">
                     <h5 class="card-title">Contacts info</h5>
                     <div class="mb-3">
@@ -110,8 +62,8 @@
                         <input type="text" class="form-control" id="telegram" name="Telegram">
                     </div>
                 </div>
-                <div id="contacts">
-                    <input id="add-contacts-btn" type="button" value="+">
+                <div id="contacts" class="d-flex justify-content-center">
+                    <input id="add-contacts-btn" class="btn btn-success my-3" type="button" value="add phone number">
                 </div>
             </div>
 

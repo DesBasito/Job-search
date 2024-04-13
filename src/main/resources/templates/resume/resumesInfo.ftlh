@@ -1,10 +1,10 @@
 <#import "../layout.ftlh" as main>
 <@main.layout>
-
     <div class="container py-5">
         <div class="row">
             <div class="col-md-4">
-                <img src="api/users/image/${user.avatar}" class="img-fluid rounded-circle shadow-lg mb-3" alt="Applicant image">
+                <img src="/api/users/image/${user.avatar}" class="img-fluid rounded-circle shadow-lg mb-3"
+                     alt="Applicant image">
                 <div class="user-info">
                     <h4>${user.name} ${user.surname}</h4>
                     <p class="text-muted"><strong>Age:</strong> ${user.age}</p>
@@ -17,7 +17,6 @@
                         <h3 class="card-title mb-4">${resume.name}</h3>
                         <p class="card-text text-muted"><strong>Category:</strong> ${resume.category}</p>
                         <p class="card-text text-muted"><strong>Salary:</strong> ${resume.salary}</p>
-                        <p class="card-text text-muted"><strong>Created Date:</strong> ${resume.createdDate}</p>
                         <p class="card-text text-muted"><strong>Email:</strong> ${resume.userEmail}</p>
                         <p class="card-text text-muted">
                             <strong>Active:</strong> ${resume.isActive ? string('Yes', 'No')}</p>
@@ -47,6 +46,19 @@
                                 </div>
                             </#list>
                         </div>
+
+                        <hr class="my-4"> <!-- Horizontal line -->
+
+                        <h5 class="card-subtitle mb-3 text-muted">Contacts</h5>
+                        <div class="work-experience">
+                            <#list contacts as contact>
+                                <div class="mb-3">
+                                    <h6>${contact.type} : ${contact.infoValue}</h6>
+                                </div>
+                            </#list>
+                        </div>
+
+                        <hr class="my-4"> <!-- Horizontal line -->
                         <#if resume.updateDate.getYear() == 2024>
                             <p class="card-text mt-4 text-muted text-end">
                                 <small>Last

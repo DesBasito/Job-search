@@ -3,6 +3,7 @@ package kg.attractor.ht49.services.impl;
 import kg.attractor.ht49.dao.ContactsDao;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoDto;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoWithIdDto;
+import kg.attractor.ht49.models.ContactType;
 import kg.attractor.ht49.models.ContactsInfo;
 import kg.attractor.ht49.services.interfaces.ContactsInfoService;
 import kg.attractor.ht49.services.interfaces.ContactsTypeService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -34,14 +36,19 @@ public class ContactsInfoServiceImpl implements ContactsInfoService {
         dao.createNewContactsInfo(contactsInfo1);
     }
 
+    private String getContactType(ContactsInfo info){
+        return contacts.getContactTypeById(info.getTypeId()).getType();
+    }
+
     @Override
     public List<ContactsInfoWithIdDto> getContactsByResumeId(Long id) {
-        List<ContactsInfoWithIdDto> dtos = new ArrayList<>();
-        dao.getContactsInfoByResumeId(id).forEach(e -> dtos.add(ContactsInfoWithIdDto.builder()
-                        .id(e.getId())
-                        .type(contacts.getContactTypeById(e.getTypeId()).getType())
-                        .infoValue(e.getInfoValue())
+        List<ContactsInfoWithIdDto> contacts = new ArrayList<>();
+        dao.getContactsInfoByResumeId(id).forEach(c -> contacts.add(ContactsInfoWithIdDto.builder()
+                        .id(id)
+                        .type(getContactType(c))
+                        .infoValue(c.getInfoValue())
                 .build()));
-        return dtos;
+        return contacts;
     }
+
 }

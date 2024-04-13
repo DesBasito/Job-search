@@ -2,20 +2,20 @@ package kg.attractor.ht49.controllers;
 
 import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.CategoryDto;
+import kg.attractor.ht49.dto.ContactInfo.ContactsInfoDto;
+import kg.attractor.ht49.dto.ContactInfo.ContactsInfoWithIdDto;
 import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.dto.vacancies.VacancyDto;
-import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.services.interfaces.CategoryService;
+import kg.attractor.ht49.services.interfaces.ContactsInfoService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +30,7 @@ public class ResumeViewController {
     private final ResumeService service;
     private final UserService userService;
     private final CategoryService categoryService;
+    private final ContactsInfoService contactsInfoService;
 
     @GetMapping("/{id}")
     public String getResumeById(@PathVariable Long id, Model model){
@@ -41,26 +42,25 @@ public class ResumeViewController {
         model.addAttribute("works",workExpInfos);
         List<EducationInfoForFrontDto> educationInfo = service.getEducationInfoByResumeId(id);
         model.addAttribute("educations",educationInfo);
+        List<ContactsInfoWithIdDto> contacts = contactsInfoService.getContactsByResumeId(id);
+        model.addAttribute("contacts",contacts);
         return "resume/resumesInfo";
     }
 
-    @PreAuthorize("(hasAuthority('employee'))")
+
     @GetMapping("/create")
     public String getResumeCreatePage(Model model){
         model.addAttribute("categories",categoryService.getCategories());
         return "resume/resumeCreate";
     }
 
-    @PreAuthorize("(hasAuthority('employee'))")
     @PostMapping("/create")
-    public String createResume(Model model, @Valid ResumeCreateDto createDto, Authentication authentication){
-        service.createResume(createDto,authentication);
-        model.addAttribute("user",userService.getUserByEmail(authentication.getName()));
-        return "redirect:/applicant/profile";
+    public String createResume(ResumeCreateDto createDto, Authentication authentication){
+        Long id = service.createResume(createDto,authentication);
+        return "redirect:/resume/"+id;
     }
 
 
-    @PreAuthorize("(hasAuthority('employer'))")
     @GetMapping()
     public String getResumes(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){
         if (page < 0){
@@ -74,7 +74,6 @@ public class ResumeViewController {
         return "resume/resumeList";
     }
 
-    @PreAuthorize("(hasAuthority('employer'))")
     @GetMapping("/filter")
     public String getVacancyByCategory(@RequestParam String category, Model model, Authentication authentication){
         List<ResumeDto> resumes = service.getResumeByCategory(category);
@@ -84,7 +83,6 @@ public class ResumeViewController {
         return "resume/filteredResumes";
     }
 
-    @PreAuthorize("(hasAuthority('employee'))")
     @GetMapping("/update")
     public String getResumeEditPage(Model model, @RequestParam Long id){
         List<CategoryDto> categories = categoryService.getCategories();
@@ -94,7 +92,6 @@ public class ResumeViewController {
         return "resume/editResume";
     }
 
-    @PreAuthorize("(hasAuthority('employee'))")
     @PostMapping("/update")
     public String updateResume(@RequestParam Long id, Model model, @Valid EditResumeDto editDto, Authentication authentication){
         editDto.setId(id);
