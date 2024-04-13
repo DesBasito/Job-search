@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const yearsOfWorkInput = createInputField('number', `workExpInfo[${workExpCounter}].years`,'years');
             cardBody.appendChild(yearsOfWorkInput);
 
-            workExpCounter++; // Increment the work experience counter
+            workExpCounter++;
         } else if (container === educationContainer) {
             const degreeInput = createInputField('text', `educationInfo[${educationCounter}].degree`,'Degree');
             cardBody.appendChild(degreeInput);
@@ -40,7 +40,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const endDateInput = createInputField('date', `educationInfo[${educationCounter}].endDate`,'Ending date');
             cardBody.appendChild(endDateInput);
 
-            educationCounter++; // Increment the education counter
+            educationCounter++;
         } else if (container === contactsContainer) {
             const phone = createInputField('text', 'contacts.phone');
             cardBody.appendChild(phone);

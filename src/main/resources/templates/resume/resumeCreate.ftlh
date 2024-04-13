@@ -5,7 +5,6 @@
     <main>
 
         <form action="/resume/create" method="POST">
-            <!-- Card for Resume Details Section -->
             <div class="card mb-4">
                 <div class="card-body">
                     <h5 class="card-title">Resume Details</h5>
@@ -67,7 +66,6 @@
                 </div>
             </div>
 
-            <!-- Submit Button -->
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary btn-lg">Create</button>
             </div>
