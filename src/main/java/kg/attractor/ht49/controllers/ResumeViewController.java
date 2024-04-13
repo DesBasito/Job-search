@@ -35,7 +35,7 @@ public class ResumeViewController {
     public String getResumeById(@PathVariable Long id, Model model){
         ResumeDto resume = service.getResumeById(id);
         model.addAttribute("resume",resume);
-        UserDto user = service.getUserByResumesAuthorEmail(resume.getUserEmail());
+        UserDto user = userService.getUserByEmail(resume.getUserEmail());
         model.addAttribute("user",user);
         List<WorkExpInfoForFrontDto> workExpInfos = service.getWorkExpInfoByResumeId(id);
         model.addAttribute("works",workExpInfos);
@@ -53,7 +53,7 @@ public class ResumeViewController {
 
     @PreAuthorize("(hasAuthority('employee'))")
     @PostMapping("/create")
-    public String createResume(Model model, @RequestBody ResumeCreateDto createDto, Authentication authentication){
+    public String createResume(Model model, @Valid ResumeCreateDto createDto, Authentication authentication){
         service.createResume(createDto,authentication);
         model.addAttribute("user",userService.getUserByEmail(authentication.getName()));
         return "redirect:/applicant/profile";

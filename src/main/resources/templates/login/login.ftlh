@@ -1,7 +1,7 @@
-<#import "../layout.ftlh" as register>
-<@register.layout>
+<#import "../layout.ftlh" as login>
+<@login.layout>
     <main>
-        <form action="/login" method="post">
+        <form th:action="@{/authenticate}" method="post">
             <fieldset>
                 <p>Registration</p>
                 <div class="form-element mb-5">
@@ -25,4 +25,4 @@
             </fieldset>
         </form>
     </main>
-</@register.layout>
+</@login.layout>

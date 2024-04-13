@@ -4,7 +4,7 @@
         <div class="row g-2 my-3 py-3">
             <div class="col-md-3">
                 <div class="card border-0">
-                    <img src="/images/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%;
+                    <img src="api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%;
                 width: 300px;
                 height: 250px;
                 object-fit: cover;
@@ -47,7 +47,8 @@
             </div>
             <div class="col-md">
                 <div class="card border-0 align-items-center">
-                    <a href="#" class="btn btn-success res-btn text-decoration-none">Отклики </a>
+                    <a href="#" class="btn btn-success res-btn text-decoration-none text-center">Отклики </a>
+                    <span class="badge bg-warning rounded-pill position-absolute top-0 end-0 mt-5 me-2">14</span>
                 </div>
             </div>
         </div>

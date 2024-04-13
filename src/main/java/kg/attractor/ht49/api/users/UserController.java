@@ -6,7 +6,9 @@ import jakarta.validation.constraints.Pattern;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.services.interfaces.UserService;
+import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,5 +49,10 @@ public class UserController {
     public ResponseEntity<UserCreationDto> createUser(@Valid UserCreationDto user) {
         service.createUser(user);
         return ResponseEntity.ok(user);
+    }
+
+    @GetMapping(value = "image/{name}")
+    public ResponseEntity<InputStreamResource> get(@PathVariable  String name){
+        return service.downloadImage(name);
     }
 }

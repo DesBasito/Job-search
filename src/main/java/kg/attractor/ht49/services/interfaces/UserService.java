@@ -4,6 +4,8 @@ import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.enums.AccountTypes;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,11 +21,9 @@ public interface UserService {
     Long getUserId(String user);
 
     void uploadImage(MultipartFile avatar, Authentication authentication);
-    void uploadImage(MultipartFile avatar, String email);
 
     void editUser(EditUserDto user, Authentication auth);
 
-    void changePassword(String oldPassword, String newPassword, Authentication auth);
     void changePassword(String oldPassword, String newPassword, String email);
 
     List<UserDto> getUsersByType(String type);
@@ -34,6 +34,5 @@ public interface UserService {
 
     UserDto getEmplByPhone(String strip, AccountTypes accountTypes);
 
-    void editUserTest(EditUserDto userDto, String email);
-
+    ResponseEntity<InputStreamResource> downloadImage(String name);
 }

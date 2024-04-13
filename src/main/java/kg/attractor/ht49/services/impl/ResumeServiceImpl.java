@@ -97,10 +97,10 @@ public class ResumeServiceImpl implements ResumeService {
         if (dao.getResumeById(editDto.getId()).isEmpty()) {
             throw new IllegalArgumentException("Resume by id: " + editDto.getId() + " not found");
         }
-        Resume resum = dao.getResumeById(editDto.getId()).orElseThrow(()->new ResumeNotFoundException("resume by id:"+editDto.getId()+" not found"));
+        Resume resum = dao.getResumeById(editDto.getId()).orElseThrow(() -> new ResumeNotFoundException("resume by id:" + editDto.getId() + " not found"));
         UserDto dto = userService.getUserById(resum.getApplicantId());
-        if (!dto.getEmail().equals(auth.getName())){
-            throw new IllegalArgumentException("Resume not belong to user: "+ auth.getName()+". It belongs to: "+dto.getEmail());
+        if (!dto.getEmail().equals(auth.getName())) {
+            throw new IllegalArgumentException("Resume not belong to user: " + auth.getName() + ". It belongs to: " + dto.getEmail());
         }
         Resume resume = Resume.builder()
                 .id(editDto.getId())
@@ -150,13 +150,13 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<WorkExpInfoForFrontDto> getWorkExpInfoByResumeId(Long id) {
-        return  weiService.getWorkExperiencesByResumeId(id).stream().map(workExp -> WorkExpInfoForFrontDto.builder()
-       .id(workExp.getId())
-       .companyName(workExp.getCompanyName())
-       .position(workExp.getPosition())
-       .years(workExp.getYears())
-       .responsibilities(workExp.getResponsibilities())
-       .build()).collect(Collectors.toList());
+        return weiService.getWorkExperiencesByResumeId(id).stream().map(workExp -> WorkExpInfoForFrontDto.builder()
+                .id(workExp.getId())
+                .companyName(workExp.getCompanyName())
+                .position(workExp.getPosition())
+                .years(workExp.getYears())
+                .responsibilities(workExp.getResponsibilities())
+                .build()).collect(Collectors.toList());
     }
 
     @Override
@@ -171,10 +171,6 @@ public class ResumeServiceImpl implements ResumeService {
                 .build()).collect(Collectors.toList());
     }
 
-    @Override
-    public UserDto getUserByResumesAuthorEmail(String userEmail) {
-        return  userService.getUserByEmail(userEmail);
-    }
 
     @Override
     public Long createResume(ResumeCreateDto resume, Authentication auth) {
@@ -190,9 +186,15 @@ public class ResumeServiceImpl implements ResumeService {
                 .salary(resume.getSalary())
                 .build();
         Long id = dao.createAndReturnResumeId(resume1);
-        resume.getEducationInfo().forEach(e -> eiService.createEducationInfo(e, id));
-        resume.getWorkExpInfo().forEach(e -> weiService.createWorkExpInfo(e, id));
-        resume.getContacts().forEach(e -> contacts.createNewContactsInfo(e, id));
+        if (resume.getEducationInfo() != null) {
+            resume.getEducationInfo().forEach(e -> eiService.createEducationInfo(e, id));
+        }
+        if (resume.getWorkExpInfo() != null) {
+            resume.getWorkExpInfo().forEach(e -> weiService.createWorkExpInfo(e, id));
+        }
+        if (resume.getContacts() != null) {
+            resume.getContacts().forEach(e -> contacts.createNewContactsInfo(e, id));
+        }
         return id;
     }
 
@@ -203,14 +205,8 @@ public class ResumeServiceImpl implements ResumeService {
 
     }
 
-    @Override
-    public Page<ResumeDto> getFilteredResumesPage(Integer page,String category) {
-        List<ResumeDto> resumes = getResumeDtos(dao.getAllResumesByCategory(category));
-        return toPage(resumes, PageRequest.of(page, 5));
-    }
-
-    private Page<ResumeDto> toPage(List<ResumeDto> resumes, Pageable pageable){
-        if (pageable.getOffset() >= resumes.size()){
+    private Page<ResumeDto> toPage(List<ResumeDto> resumes, Pageable pageable) {
+        if (pageable.getOffset() >= resumes.size()) {
             return Page.empty();
         }
         int startIndex = (int) pageable.getOffset();

@@ -22,25 +22,6 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     private final DataSource dataSource;
     private final PasswordEncoder encoder;
-//    @Bean
-//    public InMemoryUserDetailsManager userDetailsService(){
-//        UserDetails admin = User.builder()
-//                .username("admin")
-//      .password(encoder.encode("admin"))
-//                .roles("ADMIN")
-//      .authorities("FULL")
-//                .build();
-//
-//        UserDetails guest = User.builder()
-//                .username("guest")
-//       .password(encoder.encode("qwe"))
-//                .roles("GUEST")
-//       .authorities("READ_ONLY")
-//                .build();
-//
-//        return new InMemoryUserDetailsManager(admin,guest);
-//}
-
     @Autowired
     public void configurerGlobal(AuthenticationManagerBuilder auth) throws Exception {
         String USER_QUERY = "select USERS.EMAIL, USERS.PASSWORD,USERS.ENABLED from USERS where EMAIL = ?";
@@ -67,7 +48,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET,"vacancies").permitAll()
-                        .requestMatchers(HttpMethod.GET,"employer/**","vacancies/create").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.GET,"resume/create","resume/update").hasAuthority("employee")
+                        .requestMatchers(HttpMethod.GET,"employer/**","vacancies/create","vacancies/update").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST,"/register","/login").permitAll()
                         .requestMatchers(HttpMethod.POST,"employer/*","/employer/**").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST,"employee/*","/employee/**").hasAuthority("employee")

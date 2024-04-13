@@ -1,8 +1,6 @@
 package kg.attractor.ht49.dao;
 
 import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
-import kg.attractor.ht49.dto.educations.EducationInfoDto;
-import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
 import kg.attractor.ht49.models.EducationInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
@@ -58,7 +56,7 @@ public class EducationInfoDao {
         template.update(sql,id);
     }
 
-    public void createEducationInfo(CreateEducationInfoDto info,Long resumeId) {
+    public void createEducationInfo(CreateEducationInfoDto info, Long resumeId) {
         String sql = """
                 insert into EDUCATION_INFO(institution, program, resume_id, start_date, end_date, degree)\s
                 values (:institution, :program, :resumeId, :startDate, :endDate, :degree);

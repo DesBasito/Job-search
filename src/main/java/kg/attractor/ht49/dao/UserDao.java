@@ -212,4 +212,15 @@ public class UserDao {
                 .addValue("email", email)
         );
     }
+
+    public Optional<String> getAvatarByName(String name) {
+        String sql = """
+                 select AVATAR from USERS\s
+                 where AVATAR = ?
+                """;
+        return Optional.ofNullable(
+                template.queryForObject(sql, String.class, name)
+        );
+
+    }
 }

@@ -48,7 +48,7 @@ public class ApplicantController {
     @PostMapping("/uploadImage")
     public String uploadImageProfile(Model model, Authentication authentication, MultipartFile file) {
         UserDto user = service.getUserByEmail(authentication.getName());
-        service.uploadImage(file, authentication.getName());
+        service.uploadImage(file, authentication);
         model.addAttribute("accType", user.getAccType());
         return "redirect:/profile";
     }
