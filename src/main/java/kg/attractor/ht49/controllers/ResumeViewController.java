@@ -10,6 +10,7 @@ import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.services.interfaces.CategoryService;
@@ -103,5 +104,11 @@ public class ResumeViewController {
         service.editResume(editDto,authentication);
         model.addAttribute("user",userService.getUserByEmail(authentication.getName()));
         return "redirect:/resume/"+editDto.getId();
+    }
+
+    @PostMapping("/changeState")
+    public String changeActivation(@RequestParam Long id){
+        service.changeResumeState(id);
+        return "redirect:/profile";
     }
 }

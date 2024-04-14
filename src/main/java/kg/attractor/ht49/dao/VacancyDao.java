@@ -172,11 +172,12 @@ public class VacancyDao {
     public void changeVacancyState(Long id, boolean b) {
         String sql = """
             UPDATE VACANCIES
-            SET IS_ACTIVE = :isActive
+            SET IS_ACTIVE = :isActive,UPDATE_DATE = :update_date
             WHERE id = :id;
             """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("isActive",b)
+                .addValue("update_date",LocalDateTime.now())
                 .addValue("id",id)
         );
     }

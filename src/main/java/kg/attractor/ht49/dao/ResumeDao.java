@@ -75,29 +75,29 @@ public class ResumeDao {
         String sql = """
                 DELETE FROM RESUMES WHERE id = ?;
                 """;
-        template.update(sql,id);
+        template.update(sql, id);
     }
 
     public void editResume(Resume resume) {
         String sql = """
-            UPDATE Resumes
-            SET name = :name, category_id = :categoryId, salary = :salary, update_date = :updateTime
-            WHERE id = :id;
-            """;
+                UPDATE Resumes
+                SET name = :name, category_id = :categoryId, salary = :salary, update_date = :updateTime
+                WHERE id = :id;
+                """;
         namedParameter.update(sql, new MapSqlParameterSource()
-                .addValue("name",resume.getName())
+                .addValue("name", resume.getName())
                 .addValue("categoryId", resume.getCategoryId())
                 .addValue("salary", resume.getSalary())
                 .addValue("updateTime", LocalDateTime.now())
-                .addValue("id",resume.getId())
+                .addValue("id", resume.getId())
         );
     }
 
     public List<Resume> getResumesByName(String rName) {
-       String sql = """
-               SELECT * FROM resumes WHERE name ilike  '%' || ? || '%';
-               """;
-      return template.query(sql, new BeanPropertyRowMapper<>(Resume.class),rName);
+        String sql = """
+                SELECT * FROM resumes WHERE name ilike  '%' || ? || '%';
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), rName);
     }
 
     public Long createAndReturnResumeId(Resume resume) {
@@ -107,12 +107,12 @@ public class ResumeDao {
                 """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
-            ps.setString(1,resume.getName());
-            ps.setLong(2,resume.getCategoryId());
-            ps.setLong(3,resume.getApplicantId());
-            ps.setDouble(4,resume.getSalary());
-            ps.setBoolean(5,true);
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, resume.getName());
+            ps.setLong(2, resume.getCategoryId());
+            ps.setLong(3, resume.getApplicantId());
+            ps.setDouble(4, resume.getSalary());
+            ps.setBoolean(5, true);
             ps.setDate(6, Date.valueOf(LocalDate.now()));
             ps.setDate(7, Date.valueOf(LocalDate.now()));
             return ps;
@@ -120,15 +120,16 @@ public class ResumeDao {
         return Objects.requireNonNull(keyHolder.getKey().longValue());
     }
 
-    public void changeResumeState(Long id,boolean b) {
+    public void changeResumeState(Long id, boolean b) {
         String sql = """
-            UPDATE RESUMES
-            SET IS_ACTIVE = :isActive
-            WHERE id = :id;
-            """;
+                UPDATE RESUMES
+                SET IS_ACTIVE = :isActive , UPDATE_DATE = :update_date
+                WHERE id = :id;
+                """;
         namedParameter.update(sql, new MapSqlParameterSource()
-                .addValue("isActive",b)
-                .addValue("id",id)
+                .addValue("isActive", b)
+                .addValue("update_date",LocalDateTime.now())
+                .addValue("id", id)
         );
     }
 }

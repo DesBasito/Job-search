@@ -91,4 +91,10 @@ public class VacancyViewController {
         model.addAttribute("user",uService.getUserByEmail(authentication.getName()));
         return "redirect:/profile";
     }
+
+    @PostMapping("/changeActivation")
+    public String changeActivation(@RequestParam Long id) {
+        service.changeVacancyState(id);
+        return "redirect:/profile";
+    }
 }

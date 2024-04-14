@@ -5,14 +5,14 @@
             <div class="col-md-3">
                 <div class="card border-0">
                     <#if user.avatar??>
-                    <img src="api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                        <img src="api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
                 height: 250px;
                 object-fit: cover;
                 cursor: pointer;
                 margin: 0 auto;
                 transition: transform 0.2s ease-in-out; ">
-                     <#else >
-                    <img src="api/users/image/anon.jpeg" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                    <#else >
+                        <img src="api/users/image/anon.jpeg" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
                 height: 250px;
                 object-fit: cover;
                 cursor: pointer;
@@ -31,17 +31,17 @@
                             Edit
                         </button>
                         <#if user.accType = 'employer'>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="/employer/edit">Edit profile</a></li>
-                            <li><a class="dropdown-item" href="/employer/changePassword">Change password</a></li>
-                            <li><a class="dropdown-item" href="/employer/uploadImage">Set a new image</a></li>
-                        </ul>
-                            <#else >
-                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="/applicant/edit">Edit profile</a></li>
-                                    <li><a class="dropdown-item" href="/applicant/changePassword">Change password</a></li>
-                                    <li><a class="dropdown-item" href="/applicant/uploadImage">Set a new image</a></li>
-                                </ul>
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="/employer/edit">Edit profile</a></li>
+                                <li><a class="dropdown-item" href="/employer/changePassword">Change password</a></li>
+                                <li><a class="dropdown-item" href="/employer/uploadImage">Set a new image</a></li>
+                            </ul>
+                        <#else >
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="/applicant/edit">Edit profile</a></li>
+                                <li><a class="dropdown-item" href="/applicant/changePassword">Change password</a></li>
+                                <li><a class="dropdown-item" href="/applicant/uploadImage">Set a new image</a></li>
+                            </ul>
                         </#if>
                     </div>
                 </div>
@@ -80,12 +80,32 @@
                                     <h5 class="card-title"><a href="/vacancies/info/${vacancy.id}"
                                                               class="text-decoration-none text-dark">${vacancy.name}</a>
                                     </h5>
-                                    <p class="card-text">${vacancy.updateTime}</p>
+                                    <p class="card-text">Last update: ${vacancy.getUpdateTime().getDayOfMonth()}
+                                        -${vacancy.updateTime.getMonth()} (${vacancy.getUpdateTime().getYear()})</p>
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                                <button type="button" class="btn btn-primary col-6" onclick="window.location.href='/vacancies/update?id=${vacancy.id}'">Update</button>
-                                <button type="button" class="btn btn-success col-6" onclick="window.location.href='/vacancies/update?id=${vacancy.id}'">Edit</button>
+                                <div>
+                                    <main>
+                                        <form action="/vacancies/changeActivation?id=${vacancy.id}" method="post">
+                                            <#if vacancy.isActive == true>
+                                                <button type="submit" class="btn btn-danger" style="width: 150px">Deactivate
+                                                </button>
+                                            <#else>
+                                                <button type="submit" class="btn btn-primary" style="width: 150px">
+                                                    Activate
+                                                </button>
+                                            </#if>
+                                        </form>
+                                    </main>
+                                </div>
+
+                                <div>
+                                    <button type="button" class="btn btn-success " style="width: 150px"
+                                            onclick="window.location.href='/vacancies/update?id=${vacancy.id}'">
+                                        Edit
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </#list>
@@ -102,12 +122,33 @@
                             <div class="card-body">
                                 <h5 class="card-title"><a href="/resume/${resume.id}"
                                                           class="text-decoration-none text-dark">${resume.name}</a></h5>
-                                <p class="card-text">${resume.updateDate}</p>
+                                <hr>
+                                <p class="card-text">Last update: ${resume.updateDate.getDayOfMonth()}
+                                    -${resume.updateDate.getMonth()} (${resume.updateDate.getYear()})</p>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                            <button type="button" class="btn btn-primary col-6">Update</button>
-                            <button type="button" class="btn btn-success col-6" onclick="window.location.href='/resume/update?id=${resume.id}'">Edit</button>
+                            <div>
+                                <main>
+                                    <form action="/resume/changeState?id=${resume.id}" method="post">
+                                        <#if resume.isActive == true>
+                                        <button type="submit" class="btn btn-danger" style="width: 150px">Deactivate
+                                        </button>
+                                    <#else>
+                                        <button type="submit" class="btn btn-primary" style="width: 150px">
+                                            Activate
+                                        </button>
+                                    </#if>
+                                    </form>
+                                </main>
+                            </div>
+
+                            <div>
+                                <button type="button" class="btn btn-success " style="width: 150px"
+                                        onclick="window.location.href='/resume/update?id=${resume.id}'">
+                                    Edit
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </#list>
