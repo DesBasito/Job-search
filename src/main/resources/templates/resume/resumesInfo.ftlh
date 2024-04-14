@@ -3,8 +3,21 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-md-4">
-                <img src="/api/users/image/${user.avatar}" class="img-fluid rounded-circle shadow-lg mb-3"
-                     alt="Applicant image">
+                <#if user.avatar??>
+                    <img src="api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                height: 250px;
+                object-fit: cover;
+                cursor: pointer;
+                margin: 0 auto;
+                transition: transform 0.2s ease-in-out; ">
+                <#else >
+                    <img src="api/users/image/anon.jpeg" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                height: 250px;
+                object-fit: cover;
+                cursor: pointer;
+                margin: 0 auto;
+                transition: transform 0.2s ease-in-out; ">
+                </#if>
                 <div class="user-info">
                     <h4>${user.name} ${user.surname}</h4>
                     <p class="text-muted"><strong>Age:</strong> ${user.age}</p>

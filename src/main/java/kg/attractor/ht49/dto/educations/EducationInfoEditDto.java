@@ -14,14 +14,13 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EducationInfoEditDto {
-    @Positive
     private Long id;
 
-    @Pattern(regexp = "^[a-zA-Z]+$")
-    @Size(max = 50)
+    @NotBlank
+    @Size(max = 200)
     private String institution;
 
-    @Size(max = 200)
+    @Size(max = 500)
     private String program;
 
     @Past

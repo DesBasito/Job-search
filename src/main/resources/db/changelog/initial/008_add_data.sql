@@ -8,15 +8,15 @@ VALUES ('employer'),
 
 INSERT INTO USERS (name, surname, age, email, password, phone_number, avatar, ENABLED)
 VALUES /* qwe */('John', 'Doe', 30, 'john.doe@example.com',
-                 '$2a$12$WB2YUbFcCN0tm44SBcKUjua9yiFBsfB3vW02IjuwzY7HGtlQIKzy2', '1234567890', 'avatar.jpg', true),
+                 '$2a$12$WB2YUbFcCN0tm44SBcKUjua9yiFBsfB3vW02IjuwzY7HGtlQIKzy2', '1234567890', null, true),
     /* password456 */('Jane', 'Smith', 25, 'jane.smith@example.com',
-                      '$2a$10$zLoPtjUjaZAcOPjEuFunnOS13swef0FFxo06ujuyobopYxwD5F/s2', '1987654321', 'avatar.png', true),
+                      '$2a$10$zLoPtjUjaZAcOPjEuFunnOS13swef0FFxo06ujuyobopYxwD5F/s2', '1987654321', null, true),
     /* password123 */('Michael', 'Johnson', 35, 'michael.johnson@example.com',
                       '$2a$10$VGkwdmvXTqgn6yfmdZ6w7.NdMDeSYTs4JcDdySZ.yMdQ4qzGH3At.', '1122334455', NULL, true),
     /* qwerty */('John', 'Jacobson', 30, 'johny@example.com',
-                 '$2a$10$UYXM0mgh1OLkf6r7Iq0kCe2KV/fZT/GB1SkbdddpjzXEHK8NOQomi', '763547234', 'avatar4.jpg', true),
+                 '$2a$10$UYXM0mgh1OLkf6r7Iq0kCe2KV/fZT/GB1SkbdddpjzXEHK8NOQomi', '763547234', null, true),
     /* qwerty */('John', 'Sina', 20, 'sina@example.com',
-                 '$2a$10$UYXM0mgh1OLkf6r7Iq0kCe2KV/fZT/GB1SkbdddpjzXEHK8NOQomi', '237644345', 'avatar5.jpg', true);
+                 '$2a$10$UYXM0mgh1OLkf6r7Iq0kCe2KV/fZT/GB1SkbdddpjzXEHK8NOQomi', '237644345', null, true);
 
 
 

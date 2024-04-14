@@ -1,11 +1,15 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dao.ResumeDao;
+import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
+import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
 import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.exceptions.ResumeNotFoundException;
@@ -109,11 +113,46 @@ public class ResumeServiceImpl implements ResumeService {
                 .salary(editDto.getSalary())
                 .build();
         dao.editResume(resume);
+
+
         if (editDto.getEducationInfo() != null) {
-            editDto.getEducationInfo().forEach(eiService::editInfo);
+            editEducation(editDto.getEducationInfo(), editDto.getId());
         }
         if (editDto.getWorkExpInfoEdit() != null) {
-            editDto.getWorkExpInfoEdit().forEach(weiService::editInfo);
+            editWorkExperience(editDto.getWorkExpInfoEdit(), editDto.getId());
+        }
+    }
+
+    private void editEducation(List<EducationInfoEditDto> info, Long resumeId) {
+        for (EducationInfoEditDto edit : info) {
+            if (edit.getId() != null) {
+                eiService.editInfo(edit);
+            } else {
+                CreateEducationInfoDto education = CreateEducationInfoDto.builder()
+                        .degree(edit.getDegree())
+                        .program(edit.getProgram())
+                        .institution(edit.getInstitution())
+                        .startDate(edit.getStartDate())
+                        .endDate(edit.getEndDate())
+                        .build();
+                eiService.createEducationInfo(education, resumeId);
+            }
+        }
+    }
+
+    private void editWorkExperience(List<WorkExpInfoEditDto> info, Long resumeId) {
+        for (WorkExpInfoEditDto edit : info) {
+            if (edit.getId() != null) {
+                weiService.editInfo(edit);
+            } else {
+                WorkExpInfoCreateDto work = WorkExpInfoCreateDto.builder()
+                        .companyName(edit.getCompanyName())
+                        .years(edit.getYears())
+                        .position(edit.getPosition())
+                        .responsibilities(edit.getResponsibilities())
+                        .build();
+                weiService.createWorkExpInfo(work, resumeId);
+            }
         }
     }
 

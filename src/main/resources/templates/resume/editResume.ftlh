@@ -3,8 +3,21 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-md-4">
-                <img src="/api/users/image/${user.avatar}" class="img-fluid rounded-circle shadow-lg mb-3"
-                     alt="Applicant image">
+                <#if user.avatar??>
+                    <img src="api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                height: 250px;
+                object-fit: cover;
+                cursor: pointer;
+                margin: 0 auto;
+                transition: transform 0.2s ease-in-out; ">
+                <#else >
+                    <img src="api/users/image/anon.jpeg" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                height: 250px;
+                object-fit: cover;
+                cursor: pointer;
+                margin: 0 auto;
+                transition: transform 0.2s ease-in-out; ">
+                </#if>
                 <div class="user-info">
                     <h4>${user.name} ${user.surname}</h4>
                     <p class="text-muted"><strong>Age:</strong> ${user.age}</p>
@@ -14,7 +27,7 @@
             <div class="col-md-8">
                 <div class="card border-0 shadow-lg">
                     <main>
-                        <form action="resume/update" method="post">
+                        <form action="/resume/update?id=${resume.id}" method="post">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">
                                     <label>
@@ -48,38 +61,45 @@
 
                                 <h5 class="card-subtitle mb-3 text-muted">Work Experience</h5>
                                 <div class="work-experience">
-                                    <#list works as work>
+                                    <#list resume.workExpInfoEdit as work>
                                         <div class="mb-5">
-                                            <h6><label>
-                                                    <input type="text" name="position" value="${work.position}"
+                                            <h6>
+                                                <label>
+                                                    <input name="workExpInfoEdit[${work_index}].id" value="${work.id}"
+                                                           placeholder="id" >
+                                                </label>
+                                                <label>
+                                                    <input type="text" name="workExpInfoEdit[${work_index}].position" value="${work.position}"
                                                            placeholder="Position">
                                                 </label> - <label>
-                                                    <input type="text" name="companyName"
+                                                    <input type="text" name="workExpInfoEdit[${work_index}].companyName"
                                                            value="${work.companyName}"
                                                            placeholder="Company Name">
                                                 </label></h6>
                                             <p><label>
-                                                    <textarea name="responsibilities"
-                                                              value="${work.responsibilities}"
-                                                              placeholder="Responsibilities"></textarea>
+                                                    <textarea name="workExpInfoEdit[${work_index}].responsibilities"
+                                                              placeholder="Responsibilities">${work.responsibilities}</textarea>
                                                 </label>
                                             </p>
                                             <p class="text-muted">Worked: <label>
-                                                    <input type="text" name="years"
+                                                    <input type="text" name="workExpInfoEdit[${work_index}].years"
                                                            placeholder="Years">
                                                 </label> years</p>
                                         </div>
                                     </#list>
+                                    <#assign workExpLastIndex = resume.workExpInfoEdit?size - 1>
                                 </div>
-                                <div id="work" class="d-flex justify-content-center my-4">
-                                    <input id="add-work-btn" class="btn btn-success my-3" type="button"
-                                           value="Add work experience">
+                                <div id="work">
+                                    <div class="d-flex justify-content-center my-4">
+                                        <input id="add-work-btn" class="btn btn-success mt-3 mb-1" type="button"
+                                               value="Add work experience">
+                                    </div>
                                 </div>
                                 <hr class="my-4"> <!-- Horizontal line -->
 
                                 <h5 class="card-subtitle mb-3 text-muted">Education</h5>
                                 <div class="education">
-                                    <#list educations as edu>
+                                    <#list resume.educationInfo as edu>
                                         <div class="mb-3">
                                             <h6><label>
                                                     <input type="text" name="degree" value="${edu.degree}"
@@ -89,8 +109,8 @@
                                                            placeholder="Institution">
                                                 </label></h6>
                                             <p><label>
-<textarea name="program" value="${edu.program}"
-          placeholder="Program"></textarea>
+<textarea name="program"
+          placeholder="Program">${edu.program}</textarea>
                                                 </label></p>
                                             <p class="text-muted"><label>
                                                     <input type="text" name="startDate"
@@ -102,29 +122,17 @@
                                                            value="${edu.endDate}"
                                                            placeholder="End Date">
                                                 </label>
-                                            </p>
                                         </div>
                                     </#list>
+                                    <#assign eduLastIndex = resume.educationInfo?size-1>
+                                </div>
+                                <div id="education">
+                                    <div id="educationInfo" class="d-flex justify-content-center my-4">
+                                        <input id="add-education-btn" class="btn btn-success my-3" type="button" value="Add education info">
+                                    </div>
                                 </div>
 
                                 <hr class="my-4"> <!-- Horizontal line -->
-
-                                <h5 class="card-subtitle mb-3 text-muted">Contacts</h5>
-                                <div class="work-experience">
-                                    <#list contacts as contact>
-                                        <div class="mb-3">
-                                            <h6><label>
-                                                    <input type="text" name="contactType" value="${contact.type}"
-                                                           placeholder="Contact Type">
-                                                </label> : <label>
-                                                    <input type="text" name="infoValue"
-                                                           value="${contact.infoValue}"
-                                                           placeholder="Info Value">
-                                                </label>
-                                            </h6>
-                                        </div>
-                                    </#list>
-                                </div>
                                 <div class="d-grid gap-2">
                                     <button type="submit" class="btn btn-primary btn-md">Edit</button>
                                 </div>
@@ -138,6 +146,10 @@
     </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var workExpLastIndex = ${workExpLastIndex};
+        var eduLastIndex = ${eduLastIndex};
+    </script>
     <script src="/js/editResume.js"></script>
 
     <link rel="stylesheet" href="/resumeInfo.css">

@@ -4,13 +4,21 @@
         <div class="row g-2 my-3 py-3">
             <div class="col-md-3">
                 <div class="card border-0">
-                    <img src="api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%;
-                width: 300px;
+                    <#if user.avatar??>
+                    <img src="api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
                 height: 250px;
                 object-fit: cover;
                 cursor: pointer;
                 margin: 0 auto;
                 transition: transform 0.2s ease-in-out; ">
+                     <#else >
+                    <img src="api/users/image/anon.jpeg" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                height: 250px;
+                object-fit: cover;
+                cursor: pointer;
+                margin: 0 auto;
+                transition: transform 0.2s ease-in-out; ">
+                    </#if>
                 </div>
             </div>
             <div class="col-md-6">
@@ -106,4 +114,9 @@
             </div>
         </#if>
     </div>
+
+<#--    <script>var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'))-->
+<#--        var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {-->
+<#--            return new bootstrap.Dropdown(dropdownToggleEl)-->
+<#--        })</script>-->
 </@main.layoutUsers>

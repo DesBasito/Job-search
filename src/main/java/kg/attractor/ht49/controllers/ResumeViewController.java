@@ -4,11 +4,13 @@ import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoDto;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoWithIdDto;
+import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
 import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.ContactsInfoService;
@@ -34,7 +36,16 @@ public class ResumeViewController {
 
     @GetMapping("/{id}")
     public String getResumeById(@PathVariable Long id, Model model){
-        resume(model, id);
+        ResumeDto resume = service.getResumeById(id);
+        UserDto user = userService.getUserByEmail(resume.getUserEmail());
+        List<WorkExpInfoForFrontDto> workExpInfos = service.getWorkExpInfoByResumeId(id);
+        List<EducationInfoForFrontDto> educationInfo = service.getEducationInfoByResumeId(id);
+        List<ContactsInfoWithIdDto> contacts = contactsInfoService.getContactsByResumeId(id);
+        model.addAttribute("user",user);
+        model.addAttribute("resume",resume);
+        model.addAttribute("works",workExpInfos);
+        model.addAttribute("educations",educationInfo);
+        model.addAttribute("contacts",contacts);
         return "resume/resumesInfo";
     }
 
@@ -80,23 +91,15 @@ public class ResumeViewController {
         model.addAttribute("categories",categories);
         UserDto user = userService.getUserByEmail(authentication.getName());
         model.addAttribute("user",user);
-        resume(model, id);
+        EditResumeDto resume = service.getResumeForEdit(id);
+        model.addAttribute("resume",resume);
         return "resume/editResume";
     }
 
-    private void resume(Model model, @RequestParam Long id) {
-        EditResumeDto resume = service.getResumeForEdit(id);
-        model.addAttribute("resume",resume);
-        List<WorkExpInfoForFrontDto> workExpInfos = service.getWorkExpInfoByResumeId(id);
-        model.addAttribute("works",workExpInfos);
-        List<EducationInfoForFrontDto> educationInfo = service.getEducationInfoByResumeId(id);
-        model.addAttribute("educations",educationInfo);
-        List<ContactsInfoWithIdDto> contacts = contactsInfoService.getContactsByResumeId(id);
-        model.addAttribute("contacts",contacts);
-    }
 
     @PostMapping("/update")
-    public String updateResume(Model model, @Valid EditResumeDto editDto, Authentication authentication){
+    public String updateResume(Model model,@RequestParam Long id ,@Valid EditResumeDto editDto, Authentication authentication){
+        editDto.setId(id);
         service.editResume(editDto,authentication);
         model.addAttribute("user",userService.getUserByEmail(authentication.getName()));
         return "redirect:/resume/"+editDto.getId();
