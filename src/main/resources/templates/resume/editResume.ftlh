@@ -4,7 +4,7 @@
         <div class="row">
             <div class="col-md-4">
                 <#if user.avatar??>
-                    <img src="api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                    <img src="/api/users/image/${user.avatar}" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
                 height: 250px;
                 object-fit: cover;
                 cursor: pointer;
