@@ -66,7 +66,7 @@
                                             <h6>
                                                 <label>
                                                     <input name="workExpInfoEdit[${work_index}].id" value="${work.id}"
-                                                           placeholder="id" >
+                                                           placeholder="id" disabled>
                                                 </label>
                                                 <label>
                                                     <input type="text" name="workExpInfoEdit[${work_index}].position" value="${work.position}"
@@ -101,24 +101,28 @@
                                 <div class="education">
                                     <#list resume.educationInfo as edu>
                                         <div class="mb-3">
+                                            <label>
+                                                <input name="educationInfo[${edu_index}].id" value="${edu.id}"
+                                                       placeholder="id" disabled>
+                                            </label>
                                             <h6><label>
-                                                    <input type="text" name="degree" value="${edu.degree}"
+                                                    <input type="text" name="educationInfo[${edu_index}].degree" value="${edu.degree}"
                                                            placeholder="Degree">
                                                 </label>, <label>
-                                                    <input type="text" name="institution"
+                                                    <input type="text" name="educationInfo[${edu_index}].institution"
                                                            placeholder="Institution">
                                                 </label></h6>
                                             <p><label>
-<textarea name="program"
+<textarea name="educationInfo[${edu_index}].program"
           placeholder="Program">${edu.program}</textarea>
                                                 </label></p>
                                             <p class="text-muted"><label>
-                                                    <input type="text" name="startDate"
+                                                    <input type="date" name="educationInfo[${edu_index}].startDate"
                                                            value="${edu.startDate}"
                                                            placeholder="Start Date">
                                                 </label> - <label>
-                                                    <input type="text"
-                                                           name="endDate"
+                                                    <input type="date"
+                                                           name="educationInfo[${edu_index}].endDate"
                                                            value="${edu.endDate}"
                                                            placeholder="End Date">
                                                 </label>
