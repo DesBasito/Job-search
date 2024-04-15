@@ -22,6 +22,7 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     private final DataSource dataSource;
     private final PasswordEncoder encoder;
+
     @Autowired
     public void configurerGlobal(AuthenticationManagerBuilder auth) throws Exception {
         String USER_QUERY = "select USERS.EMAIL, USERS.PASSWORD,USERS.ENABLED from USERS where EMAIL = ?";
@@ -47,19 +48,15 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET,"vacancies").permitAll()
-                        .requestMatchers(HttpMethod.GET,"resume/create","resume/update").hasAuthority("employee")
-                        .requestMatchers(HttpMethod.GET,"employer/**","vacancies/create","vacancies/update").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.POST,"/register","/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"employer/*","/employer/**").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.POST,"employee/*","/employee/**").hasAuthority("employee")
-//                        .requestMatchers("users/**").hasAuthority("admin")
-//                        .requestMatchers(HttpMethod.POST,"responses","resumes").hasAuthority("employee")
-//                        .requestMatchers(HttpMethod.PUT,"resumes").hasAuthority("employee")
-//                        .requestMatchers(HttpMethod.GET,"employee/**","resumes/**","responses").hasAuthority("employer")
-//                        .requestMatchers(HttpMethod.GET,"employer/**").hasAuthority("employee")
-//                        .requestMatchers(HttpMethod.DELETE,"responses","resumes").hasAuthority("employee")
-                        .anyRequest().authenticated());
+                        .requestMatchers(HttpMethod.GET, "vacancies").permitAll()
+                        .requestMatchers(HttpMethod.GET, "resume/create", "resume/update").hasAuthority("employee")
+                        .requestMatchers(HttpMethod.GET, "employer/**", "vacancies/create", "vacancies/update").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "employer/*", "/employer/**").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.POST, "employee/*", "/employee/**").hasAuthority("employee")
+                        .requestMatchers(HttpMethod.POST, "api/messages/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "api/messages/**").authenticated()
+                        .anyRequest().permitAll());
 
         return http.build();
     }

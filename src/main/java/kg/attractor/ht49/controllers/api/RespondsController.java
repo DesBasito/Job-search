@@ -1,4 +1,4 @@
-package kg.attractor.ht49.api;
+package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;

@@ -94,14 +94,10 @@ VALUES ((SELECT id FROM resumes WHERE name = 'John Doe Resume'), 6, 'Tech Compan
         'Developing marketing strategies and campaigns');
 
 
-INSERT INTO messages (responded_applicants, content, timestamp)
-VALUES ((SELECT id
-         FROM responded_applicants
-         WHERE vacancy_id = (SELECT id FROM vacancies WHERE name = 'Marketing Manager')
-           AND resume_id = (SELECT id FROM resumes WHERE name = 'John Jacobson Resume')), 'Thank you for applying.',
-        NOW()),
-       ((SELECT id
-         FROM responded_applicants
-         WHERE vacancy_id = (SELECT id FROM vacancies WHERE name = 'Data base architecture')
-           AND resume_id = (SELECT id FROM resumes WHERE name = 'John Doe Resume of php dev-op')),
-        'We are interested in your application. Can you come for an interview?', NOW());
+INSERT INTO messages (sender, recipient, content, timestamp)
+VALUES ((select id from users where email = 'jane.smith@example.com'),
+        (select id from users where email = 'john.doe@example.com'),
+        'We are interested in your application. Can you come for an interview?', NOW()),
+       ((select id from users where email = 'john.doe@example.com'),
+        (select id from users where email = 'jane.smith@example.com'), 'Thank you for applying.',
+        NOW())

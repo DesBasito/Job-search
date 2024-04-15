@@ -1,4 +1,4 @@
-package kg.attractor.ht49.api;
+package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -24,10 +24,6 @@ public class VacancyController {
         return ResponseEntity.ok(service.getAllVacancies());
     }
 
-//    @GetMapping("/active")
-//    public ResponseEntity<List<VacancyDto>> getActiveVacancies() {
-//        return ResponseEntity.ok(service.getActiveVacancies());
-//    }
 
     @GetMapping("company/{email}")
     public ResponseEntity<List<VacancyDto>> getVacanciesByCompanyId(@PathVariable String email) {

@@ -1,18 +1,19 @@
 package kg.attractor.ht49.models;
 
-import lombok.*;
 
-import java.time.LocalDateTime;
+import lombok.*;
 
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
-public class Message {
-    private Long id;
-    private Long sender;
-    private Long recipient;
+public class ChatMessage {
     private String content;
-    private LocalDateTime timestamp;
+    private String sender;
+    private MessageType type;
+
+    public enum MessageType {
+        CHAT, LEAVE, JOIN
+    }
 }
