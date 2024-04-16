@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Builder
 public class Message {
     private Long id;
-    private Long respondedApplicants;
+    private Long sender;
+    private Long recipient;
     private String content;
     private LocalDateTime timestamp;
 }

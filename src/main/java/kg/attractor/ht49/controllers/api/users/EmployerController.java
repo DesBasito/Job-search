@@ -1,4 +1,4 @@
-package kg.attractor.ht49.api.users;
+package kg.attractor.ht49.controllers.api.users;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;

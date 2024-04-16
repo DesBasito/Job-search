@@ -47,19 +47,15 @@ public class SecurityConfig {
                 .logout(AbstractHttpConfigurer::disable)
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET,"vacancies").permitAll()
-                        .requestMatchers(HttpMethod.GET,"resume/create","resume/update").hasAuthority("employee")
-                        .requestMatchers(HttpMethod.GET,"employer/**","vacancies/create","vacancies/update").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.POST,"/register","/login").permitAll()
-                        .requestMatchers(HttpMethod.POST,"employer/*","/employer/**").hasAuthority("employer")
-                        .requestMatchers(HttpMethod.POST,"employee/*","/employee/**").hasAuthority("employee")
-//                        .requestMatchers("users/**").hasAuthority("admin")
-//                        .requestMatchers(HttpMethod.POST,"responses","resumes").hasAuthority("employee")
-//                        .requestMatchers(HttpMethod.PUT,"resumes").hasAuthority("employee")
-//                        .requestMatchers(HttpMethod.GET,"employee/**","resumes/**","responses").hasAuthority("employer")
-//                        .requestMatchers(HttpMethod.GET,"employer/**").hasAuthority("employee")
-//                        .requestMatchers(HttpMethod.DELETE,"responses","resumes").hasAuthority("employee")
-                        .anyRequest().authenticated());
+                        .requestMatchers(HttpMethod.GET, "vacancies").permitAll()
+                        .requestMatchers(HttpMethod.GET, "resume/create", "resume/update").hasAuthority("employee")
+                        .requestMatchers(HttpMethod.GET, "employer/**", "vacancies/create", "vacancies/update").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "employer/*", "/employer/**").hasAuthority("employer")
+                        .requestMatchers(HttpMethod.POST, "employee/*", "/employee/**").hasAuthority("employee")
+                        .requestMatchers(HttpMethod.POST, "testChat/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "testChat/**").authenticated()
+                        .anyRequest().permitAll());
 
         return http.build();
     }
