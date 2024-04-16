@@ -54,8 +54,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "employer/*", "/employer/**").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST, "employee/*", "/employee/**").hasAuthority("employee")
-                        .requestMatchers(HttpMethod.POST, "api/messages/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "api/messages/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "testChat/**").authenticated()
+                        .requestMatchers(HttpMethod.GET, "testChat/**").authenticated()
                         .anyRequest().permitAll());
 
         return http.build();

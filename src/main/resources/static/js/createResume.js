@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let workExpCounter = 0;
     let educationCounter = 0;
+    let contactsCounter = 0;
 
     function createCard(container) {
         const cardBody = document.createElement('div');
@@ -42,8 +43,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
             educationCounter++;
         } else if (container === contactsContainer) {
-            const phone = createInputField('text', 'contacts.phone');
-            cardBody.appendChild(phone);
+            const type = createInputField('text', `contacts[${contactsCounter}].type`,'Contact type');
+            cardBody.appendChild(type);
+
+            const value = createInputField('text', `contacts[${contactsCounter}].infoValue`,'Contact value');
+            cardBody.appendChild(value);
+            contactsCounter++;
         }
         let closeButton = document.createElement('button');
         closeButton.className = 'btn btn-danger'

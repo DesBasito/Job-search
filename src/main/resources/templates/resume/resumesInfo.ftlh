@@ -66,7 +66,7 @@
                         <div class="work-experience">
                             <#list contacts as contact>
                                 <div class="mb-3">
-                                    <h6>${contact.type} : ${contact.infoValue}</h6>
+                                    <h6>${contact}</h6>
                                 </div>
                             </#list>
                         </div>
@@ -75,7 +75,7 @@
                         <#if resume.updateDate.getYear() == 2024>
                             <p class="card-text mt-4 text-muted text-end">
                                 <small>Last
-                                    updated: ${resume.updateDate.getDayOfMonth()}
+                                    update: ${resume.updateDate.getDayOfMonth()}
                                     - ${resume.updateDate.getMonth().name()}</small>
                             </p>
                         <#else>

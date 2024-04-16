@@ -49,20 +49,16 @@
                 <div class="card-body">
                     <h5 class="card-title">Contacts info</h5>
                     <div class="mb-3">
-                        <label for="instagram" class="form-label">Instagram</label>
-                        <input type="text" class="form-control" id="instagram" name="Instagram">
+                        <label for="instagram" class="form-label">Contact type: </label>
+                        <input type="text" value="Instagram" class="form-control" id="instagram" name="contacts[0].type">
                     </div>
                     <div class="mb-3">
-                        <label for="facebook" class="form-label">Facebook</label>
-                        <input type="text" class="form-control" id="facebook" name="Facebook">
-                    </div>
-                    <div class="mb-3">
-                        <label for="telegram" class="form-label">Telegram</label>
-                        <input type="text" class="form-control" id="telegram" name="Telegram">
+                        <label for="instagramValue" class="form-label">Contact Value</label>
+                        <input type="text" value="Instagram" class="form-control" id="instagramValue" name="contacts[0].infoValue">
                     </div>
                 </div>
                 <div id="contacts" class="d-flex justify-content-center">
-                    <input id="add-contacts-btn" class="btn btn-success my-3" type="button" value="add phone number">
+                    <input id="add-contacts-btn" class="btn btn-success my-3" type="button" value="add more">
                 </div>
             </div>
 

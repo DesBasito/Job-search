@@ -85,27 +85,12 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                                <div>
-                                    <main>
-                                        <form action="/vacancies/changeActivation?id=${vacancy.id}" method="post">
-                                            <#if vacancy.isActive == true>
-                                                <button type="submit" class="btn btn-danger" style="width: 150px">Deactivate
-                                                </button>
-                                            <#else>
-                                                <button type="submit" class="btn btn-primary" style="width: 150px">
-                                                    Activate
-                                                </button>
-                                            </#if>
-                                        </form>
-                                    </main>
-                                </div>
-
-                                <div>
-                                    <button type="button" class="btn btn-success " style="width: 150px"
-                                            onclick="window.location.href='/vacancies/update?id=${vacancy.id}'">
-                                        Edit
-                                    </button>
-                                </div>
+                                <button type="button" class="btn btn-primary col-6"
+                                        onclick="window.location.href='/vacancies/update?id=${vacancy.id}'">Update
+                                </button>
+                                <button type="button" class="btn btn-success col-6"
+                                        onclick="window.location.href='/vacancies/update?id=${vacancy.id}'">Edit
+                                </button>
                             </div>
                         </div>
                     </#list>
@@ -128,29 +113,17 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                            <div>
-                                <main>
-                                    <form action="/resume/changeState?id=${resume.id}" method="post">
-                                        <#if resume.isActive == true>
-                                        <button type="submit" class="btn btn-danger" style="width: 150px">Deactivate
-                                        </button>
-                                    <#else>
-                                        <button type="submit" class="btn btn-primary" style="width: 150px">
-                                            Activate
-                                        </button>
-                                    </#if>
-                                    </form>
-                                </main>
-                            </div>
-
-                            <div>
-                                <button type="button" class="btn btn-success " style="width: 150px"
-                                        onclick="window.location.href='/resume/update?id=${resume.id}'">
-                                    Edit
-                                </button>
-                            </div>
+                            <main>
+                                <form>
+                                    <button type="submit" class="btn btn-primary col-6">Update</button>
+                                </form>
+                            </main>
+                            <button type="button" class="btn btn-success col-6"
+                                    onclick="window.location.href='/resume/update?id=${resume.id}'">Edit
+                            </button>
                         </div>
                     </div>
+
                 </#list>
             </div>
         </#if>
