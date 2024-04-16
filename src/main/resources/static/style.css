@@ -2,7 +2,7 @@ body {
     font-family: 'Raleway', sans-serif;
     font-weight: 600;
     background: #e0e0e0;
-
+    height: 100vh;
 }
 
 .bg-orange {

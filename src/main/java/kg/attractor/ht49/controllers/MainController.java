@@ -8,7 +8,6 @@ import kg.attractor.ht49.services.interfaces.ResumeService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,7 +52,6 @@ public class MainController {
         return passToProfile(newUser, model);
     }
 
-    @NotNull
     private String passToProfile(UserCreationDto newUser, Model model) {
         UserDto user = service.getUserByEmail(newUser.getEmail());
         model.addAttribute("user", user);
@@ -65,8 +63,4 @@ public class MainController {
         return "redirect:/profile";
     }
 
-    @GetMapping("scriptTask")
-    public String scriptTask() {
-        return "main/script";
-    }
 }

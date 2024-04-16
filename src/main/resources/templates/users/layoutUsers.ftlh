@@ -21,13 +21,15 @@
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="/vacancies"><img src="/api/users/image/logo.png" width="130px" alt="Job search"></a>
+                <a class="navbar-brand" href="/vacancies"><img src="/api/users/image/logo.png" width="130px"
+                                                               alt="Job search"></a>
                 <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <i class="bi bi-list-nested"></i>
                 </button>
-                <button type="button" class="btn btn-link btn-user bg-orange rounded-1 text-light bg-orange order-md-1 ms-3"
+                <button type="button"
+                        class="btn btn-link btn-user bg-orange rounded-1 text-light bg-orange order-md-1 ms-3"
                         onclick="window.location.href='/profile'"
                         data-bs-toggle="tooltip" data-bs-placement="left" title="Profile">
                     <i class="bi bi-person-circle"></i>
@@ -61,18 +63,16 @@
     </header>
 
     <body>
-    <div class=" py-5">
+    <div>
+    <div class="py-5">
         <div class="container">
             <#nested>
         </div>
     </div>
-
-
-
-
+    </div>
     </body>
 
-    <footer class="py-5" style="background-color: #5d5d5d;">
+    <footer class="py-4" style="background-color: #5d5d5d;">
         <div class="container footer-container text-dark">
             <div class=" opacity-75">
                 <a href="#" class="text-decoration-none">Соглашение пользователя </a>

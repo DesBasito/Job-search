@@ -13,7 +13,6 @@ import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -121,7 +120,6 @@ public class VacancyServiceImpl implements VacancyService {
         return getVacancyDtos(id, vacancies);
     }
 
-    @NotNull
     private List<VacancyDto> getVacancyDtos(Long id, List<Vacancy> vacancies) {
         if (userService.getUserById(id) == null) {
             throw new UserNotFoundException("employer by id " + id + " not found");
