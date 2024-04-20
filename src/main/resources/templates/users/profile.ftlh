@@ -113,11 +113,9 @@
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                            <main>
-                                <form>
-                                    <button type="submit" class="btn btn-primary col-6">Update</button>
-                                </form>
-                            </main>
+                            <button type="button" class="btn btn-primary col-6"
+                                    onclick="window.location.href='#'">Update
+                            </button>
                             <button type="button" class="btn btn-success col-6"
                                     onclick="window.location.href='/resume/update?id=${resume.id}'">Edit
                             </button>

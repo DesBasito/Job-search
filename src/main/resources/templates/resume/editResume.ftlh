@@ -11,7 +11,7 @@
                 margin: 0 auto;
                 transition: transform 0.2s ease-in-out; ">
                 <#else >
-                    <img src="api/users/image/anon.jpeg" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                    <img src="/api/users/image/anon.jpeg" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
                 height: 250px;
                 object-fit: cover;
                 cursor: pointer;

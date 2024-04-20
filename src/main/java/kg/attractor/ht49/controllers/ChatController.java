@@ -6,7 +6,6 @@ import kg.attractor.ht49.models.ChatMessage;
 import kg.attractor.ht49.services.interfaces.MessagesService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.Banner;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -42,8 +41,6 @@ public class ChatController {
     @SendTo("/topic/public")
     public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
         Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", chatMessage.getSender());
-        System.out.println("headerAccessor = " + headerAccessor);
-        System.out.println("chatMessage = " + chatMessage);
         return chatMessage;
     }
 
@@ -51,8 +48,6 @@ public class ChatController {
     @SendTo("/topic/public")
     public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
         messageService.addMessage(chatMessage.getContent(),chatMessage.getSender(),chatMessage.getRecipient());
-        System.out.println("sender = " + chatMessage.getSender());
-        System.out.println("recipient = " + chatMessage.getRecipient());
         return chatMessage;
     }
 }
