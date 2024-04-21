@@ -86,7 +86,7 @@ public class ResumeViewController {
         return "resume/filteredResumes";
     }
 
-    @GetMapping("/update")
+    @GetMapping("/edit")
     public String getResumeEditPage(Model model, @RequestParam Long id, Authentication authentication){
         List<CategoryDto> categories = categoryService.getCategories();
         model.addAttribute("categories",categories);
@@ -98,7 +98,7 @@ public class ResumeViewController {
     }
 
 
-    @PostMapping("/update")
+    @PostMapping("/edit")
     public String updateResume(Model model,@RequestParam Long id ,@Valid EditResumeDto editDto, Authentication authentication){
         editDto.setId(id);
         service.editResume(editDto,authentication);
@@ -109,6 +109,12 @@ public class ResumeViewController {
     @PostMapping("/changeState")
     public String changeActivation(@RequestParam Long id){
         service.changeResumeState(id);
+        return "redirect:/profile";
+    }
+
+    @PostMapping("/updateResume")
+    public String update(@Valid @RequestParam Long id) {
+        service.updateResume(id);
         return "redirect:/profile";
     }
 }

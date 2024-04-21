@@ -181,4 +181,16 @@ public class VacancyDao {
                 .addValue("id",id)
         );
     }
+
+    public void updateVacancy(Long id) {
+        String sql = """
+            UPDATE VACANCIES
+            SET UPDATE_DATE = :update_date
+            WHERE id = :id;
+            """;
+        namedParameter.update(sql, new MapSqlParameterSource()
+                .addValue("update_date",LocalDateTime.now())
+                .addValue("id",id)
+        );
+    }
 }

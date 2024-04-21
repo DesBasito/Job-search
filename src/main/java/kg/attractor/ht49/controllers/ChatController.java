@@ -1,20 +1,19 @@
 package kg.attractor.ht49.controllers;
 
 
+import kg.attractor.ht49.dto.MessageDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.models.ChatMessage;
 import kg.attractor.ht49.services.interfaces.MessagesService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.messaging.handler.annotation.MessageMapping;
-import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.handler.annotation.SendTo;
-import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Objects;
 
 @Controller
@@ -24,30 +23,28 @@ public class ChatController {
     private final UserService service;
     private final MessagesService messageService;
 
-    @GetMapping()
-    public String chatPage(
-            @RequestParam String email,
-            Authentication authentication,
-            Model model) {
+    @GetMapping("/{respId}")
+    public String chatPage(@RequestParam("email") String email, Authentication authentication, Model model, @PathVariable Long respId) {
         UserDto sender = service.getUserByEmail(authentication.getName());
         UserDto recipient = service.getUserByEmail(email);
+        List<MessageDto> messages = messageService.getMessages(respId);
 
+        model.addAttribute("messages",messages);
         model.addAttribute("sender", sender);
         model.addAttribute("recipient", recipient);
-
+        model.addAttribute("respApplId",respId);
         return "chat";
     }
-    @MessageMapping("/chat.register")
-    @SendTo("/topic/public")
-    public ChatMessage register(@Payload ChatMessage chatMessage, SimpMessageHeaderAccessor headerAccessor) {
-        Objects.requireNonNull(headerAccessor.getSessionAttributes()).put("username", chatMessage.getSender());
-        return chatMessage;
+
+    @PostMapping("/send")
+    public ResponseEntity<?> sendMessage(MessageDto messageDto) {
+        try {
+            // Validate messageDto fields as needed
+            messageService.addMessage(messageDto);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error processing message: " + e.getMessage());
+        }
     }
 
-    @MessageMapping("/chat.send")
-    @SendTo("/topic/public")
-    public ChatMessage sendMessage(@Payload ChatMessage chatMessage) {
-        messageService.addMessage(chatMessage.getContent(),chatMessage.getSender(),chatMessage.getRecipient());
-        return chatMessage;
-    }
 }

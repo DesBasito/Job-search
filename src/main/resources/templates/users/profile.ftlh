@@ -85,12 +85,21 @@
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                                <button type="button" class="btn btn-primary col-6"
-                                        onclick="window.location.href='/vacancies/update?id=${vacancy.id}'">Update
-                                </button>
-                                <button type="button" class="btn btn-success col-6"
-                                        onclick="window.location.href='/vacancies/update?id=${vacancy.id}'">Edit
-                                </button>
+                                <div>
+                                    <main>
+                                        <form action="/vacancies/update?id=${vacancy.id}" method="post">
+                                            <button type="submit" class="btn btn-primary" style="width: 150px">Update
+                                            </button>
+                                        </form>
+                                    </main>
+                                </div>
+
+                                <div>
+                                    <button type="button" class="btn btn-success " style="width: 150px"
+                                            onclick="window.location.href='/vacancies/edit?id=${vacancy.id}'">
+                                        Edit
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </#list>
@@ -109,16 +118,25 @@
                                                           class="text-decoration-none text-dark">${resume.name}</a></h5>
                                 <hr>
                                 <p class="card-text">Last update: ${resume.updateDate.getDayOfMonth()}
-                                    -${resume.updateDate.getMonth()} (${resume.updateDate.getYear()})</p>
+                                    ${resume.updateDate.getMonth()} (${resume.updateDate.getYear()})</p>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                            <button type="button" class="btn btn-primary col-6"
-                                    onclick="window.location.href='#'">Update
-                            </button>
-                            <button type="button" class="btn btn-success col-6"
-                                    onclick="window.location.href='/resume/update?id=${resume.id}'">Edit
-                            </button>
+                            <div>
+                                <main>
+                                    <form action="/resume/updateResume?id=${resume.id}" method="post">
+                                        <button type="submit" class="btn btn-primary" style="width: 150px">update
+                                        </button>
+                                    </form>
+                                </main>
+                            </div>
+
+                            <div>
+                                <button type="button" class="btn btn-success " style="width: 150px"
+                                        onclick="window.location.href='/resume/edit/${resume.id}'">
+                                    Edit
+                                </button>
+                            </div>
                         </div>
                     </div>
 

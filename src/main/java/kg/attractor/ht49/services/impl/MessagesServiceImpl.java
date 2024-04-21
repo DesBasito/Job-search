@@ -9,8 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,22 +20,22 @@ public class MessagesServiceImpl implements MessagesService {
 
     @Override
     public List<MessageDto> getMessages(Long id) {
-        return dao.getMessagesByUserId(id).stream().map(this::getDto).collect(Collectors.toList());
+        return dao.getMessagesByRespApplId(id).stream().map(this::getDto).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public List<MessageDto> getNewMessagesBylastMessage(Long lastMessageId,Long respId) {
+        return dao.getNewMessages(lastMessageId,respId).stream().map(this::getDto).toList();
     }
 
     @Override
-    public MessageDto getNewMessages(Long id) {
-        Message message = dao.getNewMessageBySenderId(id).orElseThrow(()->new NoSuchElementException("message not found"));
-        return getDto(message);
-    }
-
-    @Override
-    public Long addMessage(String message, String sender,String recipient) {
-        return dao.createAndReturnId(Message.builder()
-                        .content(message)
+    public void addMessage(MessageDto messageDto) {
+         dao.createMessage(Message.builder()
+                        .content(messageDto.getContent())
+                        .respApplId(messageDto.getRespApplId())
                         .timestamp(LocalDateTime.now())
-                        .sender(service.getUserByEmail(sender).getId())
-                        .recipient(service.getUserByEmail(recipient).getId())
+                        .sender(service.getUserByEmail(messageDto.getSenderEmail()).getId())
                 .build());
     }
 
@@ -44,9 +43,8 @@ public class MessagesServiceImpl implements MessagesService {
 
     private MessageDto getDto(Message m){
         return MessageDto.builder()
-                .id(m.getId())
+                .respApplId(m.getRespApplId())
                 .senderEmail(service.getUserById(m.getSender()).getEmail())
-                .recipientEmail(service.getUserById(m.getRecipient()).getEmail())
                 .content(m.getContent())
                 .timestamp(m.getTimestamp())
                 .build();

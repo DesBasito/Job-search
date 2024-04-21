@@ -5,16 +5,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @Component
@@ -23,12 +18,20 @@ public class MessagesDao {
     private final JdbcTemplate template;
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public List<Message> getMessagesByUserId(Long id){
+    public List<Message> getMessagesByRespApplId(Long id){
         String sql= """
                 select * from MESSAGES
-                where SENDER = ?
+                where RESPONDED_APPLICANT_ID = ?
                 """;
         return template.query(sql, new BeanPropertyRowMapper<>(Message.class),id);
+    }
+
+    public List<Message> getNewMessages(Long lastMessage,Long respId){
+        String sql= """
+                select * from MESSAGES
+                where id > ? and RESPONDED_APPLICANT_ID = ?
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Message.class),lastMessage,respId);
     }
 
     public Optional<Message> getNewMessageBySenderId(Long id){
@@ -45,20 +48,16 @@ public class MessagesDao {
         );
     }
 
-    public Long createAndReturnId(Message build) {
+    public void createMessage(Message build) {
         String sql = """
-                insert into MESSAGES (SENDER,RECIPIENT, CONTENT, TIMESTAMP) \s
-                values (?,? ,?,?);
+                insert into MESSAGES (SENDER, CONTENT, TIMESTAMP,RESPONDED_APPLICANT_ID) \s
+                values (:sender,:recipient,:content ,:timestamp,:responded_applicant_id);
                 """;
-        KeyHolder keyHolder = new GeneratedKeyHolder();
-        template.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
-            ps.setLong(1,build.getSender());
-            ps.setLong(2,build.getRecipient());
-            ps.setString(3,build.getContent());
-            ps.setDate(4, Date.valueOf(LocalDate.now()));
-            return ps;
-        }, keyHolder);
-        return Objects.requireNonNull(keyHolder.getKey()).longValue();
+        namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource()
+                .addValue("sender",build.getSender())
+                .addValue("content",build.getContent())
+                .addValue("timestamp",build.getTimestamp())
+                .addValue("responded_applicant_id",build.getRespApplId())
+        );
     }
 }

@@ -14,6 +14,7 @@ import java.util.List;
 
 public interface ResumeService {
     List<ResumeDto> getResumeByCategory(String name);
+    List<ResumeDto> getResumeByCategory(String email,String name);
 
     List<ResumeDto> getResumes();
 
@@ -40,5 +41,7 @@ public interface ResumeService {
     Page<ResumeDto> getResumesPage(Integer page);
 
     EditResumeDto getResumeForEdit(Long id);
+
+    void updateResume(Long id);
 }
 

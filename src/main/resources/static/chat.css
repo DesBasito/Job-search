@@ -55,7 +55,6 @@ body:before {
     position: absolute;
     top: 0;
     left: 0;
-    background: url("images/maxresdefault.jpg");
     content: "";
     z-index: 0;
 }

@@ -35,6 +35,14 @@ public class ResumeDao {
         return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), id);
     }
 
+    public List<Resume> getAllResumesByCategoryId(Long userId,Long id) {
+        String sql = """
+                select * from RESUMES
+                where CATEGORY_ID = ? and APPLICANT_ID = ?
+                """;
+        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), id,userId);
+    }
+
     public List<Resume> getAllResumesByCategory(String category) {
         String sql = """
                 select * from RESUMES
@@ -128,6 +136,18 @@ public class ResumeDao {
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("isActive", b)
+                .addValue("update_date",LocalDateTime.now())
+                .addValue("id", id)
+        );
+    }
+
+    public void updateResume(Long id) {
+        String sql = """
+                UPDATE RESUMES
+                SET UPDATE_DATE = :update_date
+                WHERE id = :id;
+                """;
+        namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("update_date",LocalDateTime.now())
                 .addValue("id", id)
         );

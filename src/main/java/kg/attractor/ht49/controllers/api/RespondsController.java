@@ -29,9 +29,9 @@ public class RespondsController {
         return ResponseEntity.ok(dtos);
     }
 
-    @PostMapping("/applyToVacancy")
-    public ResponseEntity<?> applyToVacancy(@Valid @Pattern(regexp = "^\\d+$", message = "enter only digits") @RequestParam Long resumeId, Long vacancyId) {
-        Long id = service.ApplyAndReturnVacancyId(resumeId, vacancyId);
+    @PostMapping("/applyToVacancy/{id}")
+    public ResponseEntity<?> applyToVacancy(@Valid @Pattern(regexp = "^\\d+$", message = "enter only digits") @RequestParam Long resumeId, @PathVariable Long id) {
+        Long VacancyId = service.ApplyAndReturnVacancyId(resumeId, id);
         return ResponseEntity.ok(service.getAllRespondents());
     }
 }
