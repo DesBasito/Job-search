@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const inputElement = document.createElement('input');
         inputElement.type = type;
-        inputElement.name = name; // Use the provided name directly
+        inputElement.name = name;
         inputElement.className = 'form-control';
         container.appendChild(inputElement);
 

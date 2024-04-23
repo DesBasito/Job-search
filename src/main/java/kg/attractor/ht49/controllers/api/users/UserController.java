@@ -9,7 +9,9 @@ import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,6 +46,11 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PostMapping("/login")
+    public HttpStatus login(Authentication authentication) {
+        service.login(authentication);
+        return HttpStatus.OK;
+    }
 
     @PostMapping()
     public ResponseEntity<UserCreationDto> createUser(@Valid UserCreationDto user) {

@@ -25,7 +25,7 @@
             background-color: #ffffff;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
+            overflow: scroll;
         }
 
         .chat-message {
@@ -122,12 +122,12 @@
                             <div class="chat-message">${message.senderEmail}: ${message.content}</div>
                         </#list>
                     </div>
-                    <div class="chat-input">
-                        <input type="text" id="messageInput" placeholder="Type a message...">
-                        <button class="btn btn-primary" onclick="sendMessage()">Send</button>
-                    </div>
                 </div>
             </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="messageInput" placeholder="Type a message...">
+            <button class="btn btn-primary btn-send" type="submit">Send</button>
         </div>
     </div>
 </main>
@@ -138,74 +138,10 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="/js/chat.js/">
+</script>
 <script>
-    let lastMessageNum = ${lastMessageNum};
-    const respId = ${respApplId};
-    const senderEmail = "${sender.email}";
-
-    async function fetchMessages() {
-        try {
-            let response;
-            if (lastMessageNum === 0) {
-                response = await fetch(`/api/message/${respId}?lastMessageId=`+0);
-            } else {
-                response = await fetch(`/api/message/${respId}?lastMessageId=${lastMessageNum}`)
-            }
-            const messages = await response.json();
-            displayMessages(messages);
-        } catch (error) {
-            console.error('Error fetching messages:', error);
-        }
-    }
-
-    // Function to send a message
-    async function sendMessage() {
-        const messageInput = document.getElementById('messageInput');
-        const message = messageInput.value;
-
-        try {
-            await fetch(`/chat/send`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    respApplId: respId,
-                    senderEmail: senderEmail,
-                    content: message,
-                    timestamp: Date.now()
-                })
-            });
-
-            messageInput.value = '';
-            await fetchMessages(); // Refresh messages after sending
-        } catch (error) {
-            console.error('Error sending message:', error);
-        }
-    }
-
-    // Function to display messages
-    function displayMessages(messages) {
-        const chatBox = document.getElementById('chatMessages');
-        messages.forEach(message => {
-            const messageElement = document.createElement('div');
-            messageElement.classList.add('chat-message');
-            messageElement.textContent = message.senderEmail + ': ' + message.content;
-            chatBox.appendChild(messageElement);
-        });
-    }
-
-    // Set interval to fetch messages every 10 seconds
-    window.onload = () => {
-        fetchMessages(); // Initial fetch on page load
-
-        // Schedule fetchMessages to run every 10 seconds
-        setInterval(fetchMessages, 15000); // 10000 milliseconds = 10 seconds
-    };
-
-    // Event listener for send button
-    const sendButton = document.querySelector('.btn-primary');
-    sendButton.addEventListener('click', sendMessage);
+    let lastMessageNum = ${messages?size};
 </script>
 </body>
 </html>

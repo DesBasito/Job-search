@@ -11,6 +11,7 @@ import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
@@ -160,6 +162,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public ResponseEntity<InputStreamResource> downloadImage(String name) {
         return util.getOutputFile(name,"/images");
+    }
+
+    @Override
+    public void login(Authentication authentication) {
+        log.info(authentication.getPrincipal().toString());
     }
 
 

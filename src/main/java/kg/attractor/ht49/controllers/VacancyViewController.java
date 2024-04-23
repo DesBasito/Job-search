@@ -32,19 +32,6 @@ public class VacancyViewController {
    private final ResumeService resumeService;
    private final RespondedApplicantsService respondedApplicantsService;
 
-   @GetMapping()
-    public String getVacancies(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){
-       if (page < 0){
-           page = 0;
-       }
-       model.addAttribute("page", page);
-       Page<VacancyDto> vacancies = service.getActiveVacanciesPage(page);
-       model.addAttribute("vacancies",vacancies);
-       List<CategoryDto> categories = categoryService.getCategories();
-       model.addAttribute("categories",categories);
-       return "main/main";
-   }
-
    @GetMapping("/info/{vacancyId}")
     public String getVacancyById(@PathVariable Long vacancyId, Model model,Authentication authentication){
        VacancyDto vacancy = service.getVacancyById(vacancyId);

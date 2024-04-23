@@ -51,7 +51,7 @@ public class MessagesDao {
     public void createMessage(Message build) {
         String sql = """
                 insert into MESSAGES (SENDER, CONTENT, TIMESTAMP,RESPONDED_APPLICANT_ID) \s
-                values (:sender,:recipient,:content ,:timestamp,:responded_applicant_id);
+                values (:sender,:content ,:timestamp,:responded_applicant_id);
                 """;
         namedParameterJdbcTemplate.update(sql, new MapSqlParameterSource()
                 .addValue("sender",build.getSender())

@@ -42,7 +42,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
@@ -54,10 +54,9 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "employer/*", "/employer/**").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST, "employee/*", "/employee/**").hasAuthority("employee")
-                        .requestMatchers(HttpMethod.POST, "chat/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "chat/**").authenticated()
-                        .anyRequest().authenticated());
-
+                        .requestMatchers(HttpMethod.POST, "chat/**","/api/message").authenticated()
+                        .requestMatchers(HttpMethod.GET, "chat/**","/api/message/**").authenticated()
+                        .anyRequest().permitAll());
         return http.build();
     }
 }

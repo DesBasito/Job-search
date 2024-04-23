@@ -6,6 +6,7 @@ import kg.attractor.ht49.models.Message;
 import kg.attractor.ht49.services.interfaces.MessagesService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -30,12 +31,12 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public void addMessage(MessageDto messageDto) {
+    public void addMessage(MessageDto messageDto, Authentication authentication) {
          dao.createMessage(Message.builder()
                         .content(messageDto.getContent())
                         .respApplId(messageDto.getRespApplId())
                         .timestamp(LocalDateTime.now())
-                        .sender(service.getUserByEmail(messageDto.getSenderEmail()).getId())
+                        .sender(service.getUserByEmail(authentication.getName()).getId())
                 .build());
     }
 

@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,8 +29,7 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
 
     @Override
     public List<RespondedApplicantDto> getAllRespondents() {
-        List<RespondedApplicant> applicants = dao.getAllRespAppl();
-        return getRespondedApplicantDtos(applicants);
+        return dao.getAllRespAppl().stream().map(this::getRespondedApplicantDto).collect(Collectors.toList());
     }
 
     @Override
@@ -62,6 +63,12 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
         return dao.getAllRespAppl().stream().filter(res -> resumes.stream().anyMatch(resume -> Objects.equals(res.getResumeId(), resume.getId()) && Objects.equals(res.getVacancyId(), vacancyId))).findFirst().map(RespondedApplicant::getId).orElse(null);
     }
 
+    @Override
+    public RespondedApplicantDto getRespondedApplicantById(Long respId) {
+        RespondedApplicant responded = dao.getRespondedApplicantById(respId).orElseThrow(()->new NoSuchElementException("no responded applicant found by id: "+respId));
+        return getRespondedApplicantDto(responded);
+    }
+
     private void checkForExceptions(Long resumeId, Long vacancyId) {
         ResumeDto resume = resumeService.getResumeById(resumeId);
         VacancyDto vacancyDto = vacancyService.getVacancyById(vacancyId);
@@ -74,15 +81,15 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     }
 
 
-    private List<RespondedApplicantDto> getRespondedApplicantDtos(List<RespondedApplicant> applicants) {
+    private RespondedApplicantDto getRespondedApplicantDto(RespondedApplicant e) {
         List<RespondedApplicantDto> dtos = new ArrayList<>();
-        applicants.forEach(e -> dtos.add(RespondedApplicantDto.builder()
+        return  RespondedApplicantDto.builder()
                 .id(e.getId())
                 .resume(resumeService.getResumeById(e.getResumeId()))
                 .vacancy(vacancyService.getVacancyById(e.getVacancyId()))
                 .confirmation(e.getConfirmation())
-                .build()));
-        return dtos;
+                .build();
+
     }
 
 

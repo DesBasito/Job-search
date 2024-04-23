@@ -31,7 +31,7 @@
                         </div>
                         <#if respId??>
                             <button type="button" class="btn btn-success mt-3"
-                                    onclick="window.location.href='/chat/${respId}?email=${vacancy.authorEmail}'">
+                                    onclick="window.location.href='/chat/${respId}'">
                                 write a message to company
                             </button>
                         </#if>

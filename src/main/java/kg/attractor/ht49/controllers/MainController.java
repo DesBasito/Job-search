@@ -1,20 +1,20 @@
 package kg.attractor.ht49.controllers;
 
+import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
+import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,11 +25,31 @@ public class MainController {
     private final UserService service;
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
-    @GetMapping("login")
+    private final CategoryService categoryService;
+    @GetMapping("/login")
     public String login() {
         return "login/login";
     }
 
+//    @PostMapping("/login")
+//    public String login(Authentication authentication) {
+//        service.login(authentication.getPrincipal());
+//        return "redirect:/";
+//    }
+
+
+    @GetMapping()
+    public String getVacancies(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){
+        if (page < 0){
+            page = 0;
+        }
+        model.addAttribute("page", page);
+        Page<VacancyDto> vacancies = vacancyService.getActiveVacanciesPage(page);
+        model.addAttribute("vacancies",vacancies);
+        List<CategoryDto> categories = categoryService.getCategories();
+        model.addAttribute("categories",categories);
+        return "main/main";
+    }
     @GetMapping("/profile")
     public String applicantInfo(Model model, Authentication authentication) {
         UserDto user = service.getUserByEmail(authentication.getName());
@@ -41,13 +61,13 @@ public class MainController {
         return "/users/profile";
     }
 
-    @GetMapping("register")
+    @GetMapping("/register")
     public String create() {
         return "login/register";
     }
 
 
-    @PostMapping("register")
+    @PostMapping("/register")
     public String create(UserCreationDto newUser, Model model) {
         service.createUser(newUser);
         return passToProfile(newUser, model);

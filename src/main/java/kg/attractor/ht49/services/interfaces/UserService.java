@@ -35,4 +35,6 @@ public interface UserService {
     UserDto getEmplByPhone(String strip, AccountTypes accountTypes);
 
     ResponseEntity<InputStreamResource> downloadImage(String name);
+
+    void login(Authentication authentication);
 }
