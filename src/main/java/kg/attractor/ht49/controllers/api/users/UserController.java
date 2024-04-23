@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("resUser")
+@RestController("restUser")
 @RequestMapping("api/users")
 @RequiredArgsConstructor
 public class UserController {
@@ -50,6 +50,12 @@ public class UserController {
     public HttpStatus login(Authentication authentication) {
         service.login(authentication);
         return HttpStatus.OK;
+    }
+
+    @GetMapping("/checkLogin")
+    public ResponseEntity<Boolean> loginCheck(@RequestParam String email, @RequestParam String password) {
+        boolean isValidLogin = service.loginCheck(email, password);
+        return ResponseEntity.ok(isValidLogin);
     }
 
     @PostMapping()

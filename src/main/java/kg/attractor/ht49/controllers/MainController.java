@@ -31,13 +31,6 @@ public class MainController {
         return "login/login";
     }
 
-//    @PostMapping("/login")
-//    public String login(Authentication authentication) {
-//        service.login(authentication.getPrincipal());
-//        return "redirect:/";
-//    }
-
-
     @GetMapping()
     public String getVacancies(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){
         if (page < 0){
@@ -68,19 +61,8 @@ public class MainController {
 
 
     @PostMapping("/register")
-    public String create(UserCreationDto newUser, Model model) {
+    public String create(UserCreationDto newUser) {
         service.createUser(newUser);
-        return passToProfile(newUser, model);
-    }
-
-    private String passToProfile(UserCreationDto newUser, Model model) {
-        UserDto user = service.getUserByEmail(newUser.getEmail());
-        model.addAttribute("user", user);
-        List<ResumeDto> resumes = resumeService.getResumesByUserEmail(newUser.getEmail());
-        List<VacancyDto> vacancies = vacancyService.getAllVacanciesByCompany(newUser.getEmail());
-        model.addAttribute("resumes", resumes);
-        model.addAttribute("vacancies", vacancies);
-
-        return "redirect:/profile";
+        return "redirect:/";
     }
 }

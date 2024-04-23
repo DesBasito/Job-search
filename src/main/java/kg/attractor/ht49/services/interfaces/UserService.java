@@ -37,4 +37,6 @@ public interface UserService {
     ResponseEntity<InputStreamResource> downloadImage(String name);
 
     void login(Authentication authentication);
+
+    Boolean loginCheck(String email, String password);
 }

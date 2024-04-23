@@ -1,5 +1,6 @@
 document.getElementById('login-form').addEventListener('submit', onLoginHandler);
 let user = {}
+const errorInput =  document.getElementById('error-input')
 const requestSettings = {
     method: 'GET',
     headers: makeHeaders()
@@ -10,9 +11,33 @@ function onLoginHandler(e) {
     const form = e.target;
     const userFormData = new FormData(form);
     user = Object.fromEntries(userFormData);
+    console.log(user.email)
     const userJson = JSON.stringify(user)
-    localStorage.setItem('user', userJson);
-    fetchAuthorized()
+
+    errorInput.innerHTML = ' ';
+    fetch(`/api/users/checkLogin?email=`+user.email+`&password=`+user.password)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Boolean value received:', data);
+
+            if (data === true) {
+                console.log('Status is true!');
+                localStorage.setItem('user', userJson);
+                fetchAuthorized()
+            } else {
+                console.log('Status is false or not received as expected.');
+                return errorInput.textContent = 'incorrect email or password'
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
 }
 
 function restoreUser() {
@@ -55,9 +80,11 @@ function updateOptions(options) {
     return update
 }
 
-function fetchAuthorized() {
-    makeRequest('/api/users/login',updateOptions({method: 'post'}))
+async function fetchAuthorized() {
+    try {
+        errorInput.innerHTML = ' '
+        await makeRequest('/api/users/login', updateOptions({method: 'post'}))
+    } catch (error){
+        return errorInput.textContent = 'incorrect email or password try again'
+    }
 }
-
-
-

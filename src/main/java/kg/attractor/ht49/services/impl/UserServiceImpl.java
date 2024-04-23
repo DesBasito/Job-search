@@ -13,9 +13,9 @@ import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -165,9 +165,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void login(Authentication authentication) {
-        log.info(authentication.getPrincipal().toString());
+    public void login(Authentication authenticationa) {
+        log.info("get user: "+ authenticationa.getPrincipal().toString());
+
     }
+
+    @Override
+    public Boolean loginCheck(String email, String password) {
+        return userDao.getAllUsers().stream()
+                .anyMatch(userModel ->
+                        userModel.getEmail().equals(email) && passwordEncoder.matches(password,userModel.getPassword()));
+    }
+
 
 
     private UserDto getUserDto(UserModel userModel) {
