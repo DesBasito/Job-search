@@ -7,7 +7,7 @@
                    aria-label="Email">
             <input name="password" type="password" class="form-control mb-3" placeholder="Password"
                    aria-label="Password">
-        <div id="error-input" style="color: darkred"></div>
+        <div id="error-input" style="color: red"></div>
         </div>
 
         <button class="btn btn-primary" type="submit">Login!</button>

@@ -66,12 +66,12 @@
                         <div class="work-experience">
                             <#list contacts as contact>
                                 <div class="mb-3">
-                                    <h6>${contact}</h6>
+                                    <h6>${contact.type}: ${contact.infoValue} </h6>
                                 </div>
                             </#list>
                         </div>
 
-                        <hr class="my-4"> <!-- Horizontal line -->
+                        <hr class="my-4">
                         <#if resume.updateDate.getYear() == 2024>
                             <p class="card-text mt-4 text-muted text-end">
                                 <small>Last

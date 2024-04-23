@@ -5,7 +5,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let workExpCounter = 0;
     let educationCounter = 0;
-    let contactsCounter = 0;
 
     function createCard(container) {
         const cardBody = document.createElement('div');
@@ -42,26 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cardBody.appendChild(endDateInput);
 
             educationCounter++;
-        } else if (container === contactsContainer) {
-            const type = createInputField('text', `contacts[${contactsCounter}].type`,'Contact type');
-            cardBody.appendChild(type);
-
-            const value = createInputField('text', `contacts[${contactsCounter}].infoValue`,'Contact value');
-            cardBody.appendChild(value);
-            contactsCounter++;
         }
-        let closeButton = document.createElement('button');
-        closeButton.className = 'btn btn-danger'
-        closeButton.classList.add('card-close');
-        closeButton.textContent = 'удалить';
-        closeButton.addEventListener('click', () => {
-        cardBody.remove();
-        });
-
-        cardBody.appendChild(closeButton);
-
-        container.appendChild(cardBody);
-        container.appendChild(cardBody);
     }
 
     function createInputField(type, name, label) {
@@ -81,6 +61,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return container;
     }
+
+
 
     function createTextarea(name,label) {
         const container = document.createElement('div');
