@@ -1,4 +1,6 @@
 <#import "layoutUsers.ftlh" as main>
+
+
 <@main.layoutUsers>
     <div class="container my-5 mx-auto" style="max-width: 1100px; background: white; border-radius: 15px">
         <div class="row g-2 my-3 py-3">
@@ -56,7 +58,9 @@
             <div class="col-md">
                 <div class="card border-0 align-items-center">
                     <a href="#" class="btn btn-success res-btn text-decoration-none text-center">Отклики </a>
-                    <span class="badge bg-warning rounded-pill position-absolute top-0 end-0 mt-5 me-2">14</span>
+                    <#if respondents??>
+                        <span class="badge bg-warning rounded-pill position-absolute top-0 end-0 mt-5 me-2">${respondents}</span>
+                    </#if>
                 </div>
             </div>
         </div>

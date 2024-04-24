@@ -108,4 +108,10 @@ public class VacancyViewController {
         service.updateVacancy(id);
         return "redirect:/profile";
     }
+
+    @GetMapping("/responds")
+    public String viewResponds(Authentication authentication,Model model){
+       model.addAttribute("email", authentication.getName());
+       return "vacancy/respondentsPage";
+    }
 }

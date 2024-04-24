@@ -8,6 +8,7 @@ import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.services.interfaces.RespondedApplicantsService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
@@ -67,6 +68,16 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     public RespondedApplicantDto getRespondedApplicantById(Long respId) {
         RespondedApplicant responded = dao.getRespondedApplicantById(respId).orElseThrow(()->new NoSuchElementException("no responded applicant found by id: "+respId));
         return getRespondedApplicantDto(responded);
+    }
+
+    @Override
+    public Integer getRespondentsSizeByEmployer(String email) {
+       List<VacancyDto> vacancies=  vacancyService.getAllVacanciesByCompany(email);
+       List<Resume> resumes = new ArrayList<>();
+       for (VacancyDto vacancy : vacancies){
+          resumes.addAll(dao.getAllRespApplByVacancyId(vacancy.getId()));
+       }
+        return resumes.size();
     }
 
     private void checkForExceptions(Long resumeId, Long vacancyId) {

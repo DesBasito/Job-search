@@ -1,14 +1,12 @@
 package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.CategoryDto;
+import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
-import kg.attractor.ht49.services.interfaces.CategoryService;
-import kg.attractor.ht49.services.interfaces.ResumeService;
-import kg.attractor.ht49.services.interfaces.UserService;
-import kg.attractor.ht49.services.interfaces.VacancyService;
+import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
@@ -26,6 +24,7 @@ public class MainController {
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
     private final CategoryService categoryService;
+    private final RespondedApplicantsService respondedApplicantsService;
     @GetMapping("/login")
     public String login() {
         return "login/login";
@@ -49,8 +48,10 @@ public class MainController {
         model.addAttribute("user", user);
         List<ResumeDto> resumes = resumeService.getResumesByUserEmail(authentication.getName());
         List<VacancyDto> vacancies = vacancyService.getAllVacanciesByCompany(authentication.getName());
+        Integer size = respondedApplicantsService.getRespondentsSizeByEmployer(user.getEmail());
         model.addAttribute("resumes", resumes);
         model.addAttribute("vacancies", vacancies);
+        model.addAttribute("respondents", size);
         return "/users/profile";
     }
 

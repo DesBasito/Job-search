@@ -19,4 +19,6 @@ public interface RespondedApplicantsService {
     Long ifThereResumeIdAndVacancyId(List<ResumeDto> resume,Long vacancyId);
 
     RespondedApplicantDto getRespondedApplicantById(Long respId);
+
+    Integer getRespondentsSizeByEmployer(String email);
 }
