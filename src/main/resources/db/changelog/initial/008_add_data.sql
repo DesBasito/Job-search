@@ -77,7 +77,7 @@ VALUES ('john.doe@example.com', (SELECT id FROM contact_types WHERE type = 'Emai
 INSERT INTO responded_applicants (vacancy_id, resume_id, confirmation)
 VALUES ((SELECT id FROM vacancies WHERE name = 'Marketing Manager'),
         (SELECT id FROM resumes WHERE name = 'John Jacobson Resume'), 0),
-       ((SELECT id FROM vacancies WHERE name = 'Data base architecture'),
+       ((SELECT id FROM vacancies WHERE name = 'Software Engineer'),
         (SELECT id FROM resumes WHERE name = 'John Doe Resume of php dev-op'), 0);
 
 
@@ -94,10 +94,9 @@ VALUES ((SELECT id FROM resumes WHERE name = 'John Doe Resume'), 6, 'Tech Compan
         'Developing marketing strategies and campaigns');
 
 
-INSERT INTO messages (sender, recipient, content, timestamp)
-VALUES ((select id from users where email = 'jane.smith@example.com'),
-        (select id from users where email = 'john.doe@example.com'),
+INSERT INTO messages (responded_applicant_id, sender, content, timestamp)
+VALUES (2,
+        (select id from users where email = 'jane.smith@example.com'),
         'We are interested in your application. Can you come for an interview?', NOW()),
-       ((select id from users where email = 'john.doe@example.com'),
-        (select id from users where email = 'jane.smith@example.com'), 'Thank you for applying.',
+       (2,(select id from users where email = 'john.doe@example.com'), 'Thank you for applying.',
         NOW())

@@ -11,7 +11,7 @@
                 margin: 0 auto;
                 transition: transform 0.2s ease-in-out; ">
                 <#else >
-                    <img src="api/users/image/anon.jpeg" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
+                    <img src="/api/users/image/anon.jpeg" class="avatar-img" alt="User image" style="border-radius: 30%; width: 300px;
                 height: 250px;
                 object-fit: cover;
                 cursor: pointer;
@@ -151,8 +151,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
-        var workExpLastIndex = ${workExpLastIndex};
-        var eduLastIndex = ${eduLastIndex};
+        const workExpLastIndex = ${workExpLastIndex};
+        const eduLastIndex = ${eduLastIndex};
     </script>
     <script src="/js/editResume.js"></script>
 

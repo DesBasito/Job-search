@@ -1,28 +1,20 @@
 <#import "../layout.ftlh" as login>
 <@login.layout>
-    <main>
-        <form th:action="@{/authenticate}" method="post">
-            <fieldset>
-                <p>Registration</p>
-                <div class="form-element mb-5">
-                    <div class="row ">
-                        <div class="col">
-                            <input name="email" type="email" class="form-control" placeholder="Email"
-                                   aria-label="Email">
-                        </div>
-                        <div class="col">
-                            <input name="password" type="password" class="form-control" placeholder="Password"
-                                   aria-label="Password">
-                        </div>
-                    </div>
-                </div>
+    <form id="login-form">
+        <p>Registration</p>
+        <div class="form-element mb-5">
+            <input  name="email" type="email" class="form-control mb-3" placeholder="Email"
+                   aria-label="Email">
+            <input name="password" type="password" class="form-control mb-3" placeholder="Password"
+                   aria-label="Password">
+        <div id="error-input" style="color: red"></div>
+        </div>
 
-                <button class="btn btn-primary" type="submit">Login!</button>
+        <button class="btn btn-primary" type="submit">Login!</button>
 
-                <a class="btn btn-warning btn-link text-decoration-none text-dark" onclick="window.location.href='/register'">
-                    Have an account?
-                </a>
-            </fieldset>
-        </form>
-    </main>
+        <a class="btn btn-warning btn-link text-decoration-none text-dark" onclick="window.location.href='/register'">
+            Have an account?
+        </a>
+    </form>
+    <script src="/js/login.js"></script>
 </@login.layout>

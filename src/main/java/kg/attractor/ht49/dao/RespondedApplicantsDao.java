@@ -4,6 +4,7 @@ package kg.attractor.ht49.dao;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -17,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -37,7 +39,7 @@ public class RespondedApplicantsDao {
                 inner join RESPONDED_APPLICANTS RA on RESUMES.ID = RA.RESUME_ID
                 where RA.VACANCY_ID = ?
                 """;
-        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class),id);
+        return template.query(sql, new BeanPropertyRowMapper<>(Resume.class), id);
     }
 
     public void createRespAppl(Long resumeId, Long vacancyId) {
@@ -46,9 +48,9 @@ public class RespondedApplicantsDao {
                 values (:vacancyId,:resumeId,:confirmation)
                 """;
         namedParam.update(sql, new MapSqlParameterSource()
-                .addValue("vacancyId",vacancyId)
-                .addValue("resumeId",resumeId)
-                .addValue("confirmation",false));
+                .addValue("vacancyId", vacancyId)
+                .addValue("resumeId", resumeId)
+                .addValue("confirmation", false));
     }
 
     public Long createAndReturnRespApplId(Long resumeId, Long vacancyId) {
@@ -58,15 +60,24 @@ public class RespondedApplicantsDao {
                 """;
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
-            ps.setLong(1,vacancyId);
-            ps.setLong(2,resumeId);
-            ps.setBoolean(3,false);
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setLong(1, vacancyId);
+            ps.setLong(2, resumeId);
+            ps.setBoolean(3, false);
             return ps;
         }, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey().longValue());
     }
 
 
-
+    public Optional<RespondedApplicant> getRespondedApplicantById(Long respId) {
+        String sql = """
+                select * from RESPONDED_APPLICANTS
+                where ID = ?;
+                """;
+        return Optional.ofNullable(
+                DataAccessUtils.singleResult(
+                        template.query(sql, new BeanPropertyRowMapper<>(RespondedApplicant.class), respId)
+                ));
+    }
 }

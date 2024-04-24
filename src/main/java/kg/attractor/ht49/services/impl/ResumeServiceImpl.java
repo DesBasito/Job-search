@@ -50,6 +50,14 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public List<ResumeDto> getResumeByCategory(String email, String categoryName) {
+        Category categoryId = category.getCategoryByName(categoryName);
+        UserDto user = userService.getUserByEmail(email);
+        List<Resume> resumes = dao.getAllResumesByCategoryId(user.getId(),categoryId.getId());
+        return getResumeDtos(resumes);
+    }
+
+    @Override
     public List<ResumeDto> getResumes() {
         List<Resume> resumes = dao.getAllResumes();
         return getResumeDtos(resumes);
@@ -259,6 +267,11 @@ public class ResumeServiceImpl implements ResumeService {
                 .workExpInfoEdit(weiService.getWorkExperiencesForEditByResumeId(id))
                 .educationInfo(eiService.getEducationsInfoForEditByResumeId(id))
                 .build();
+    }
+
+    @Override
+    public void updateResume(Long id) {
+        dao.updateResume(id);
     }
 
     private Page<ResumeDto> toPage(List<ResumeDto> resumes, Pageable pageable) {

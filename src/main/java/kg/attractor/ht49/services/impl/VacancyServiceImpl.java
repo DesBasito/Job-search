@@ -173,6 +173,11 @@ public class VacancyServiceImpl implements VacancyService {
 
     }
 
+    @Override
+    public void updateVacancy(Long id) {
+        dao.updateVacancy(id);
+    }
+
     private Page<VacancyDto> toPage(List<VacancyDto> vacncies, Pageable pageable) {
         if (pageable.getOffset() >= vacncies.size()) {
             return Page.empty();

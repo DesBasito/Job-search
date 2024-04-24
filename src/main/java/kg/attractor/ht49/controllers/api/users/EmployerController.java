@@ -20,8 +20,8 @@ import java.util.List;
 public class EmployerController {
     private final UserService service;
     @GetMapping()
-    public ResponseEntity<List<UserDto>> getEmployees(Authentication autho){
-        return ResponseEntity.ok(service.getEmpl(autho));
+    public ResponseEntity<List<UserDto>> getEmployees(Authentication authentication){
+        return ResponseEntity.ok(service.getEmpl(authentication));
     }
     @GetMapping("/{name}")
     public ResponseEntity<List<UserDto>> getEmployeesByName(@Valid @Pattern(regexp = "^[a-zA-Z]+$", message = "Input should contain only letters") @PathVariable(name = "name") String name) {
@@ -33,7 +33,6 @@ public class EmployerController {
         UserDto user = service.getEmplByPhone(phone.strip(),AccountTypes.APPLICANT);
         return ResponseEntity.ok(user);
     }
-
 
     @GetMapping("/email")
     public ResponseEntity<UserDto> getEmployeeByEmail(@Valid @Email @RequestParam(name = "email", defaultValue = "example@example.com") String email) {

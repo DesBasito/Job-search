@@ -15,4 +15,10 @@ public interface RespondedApplicantsService {
     void ApplyToVacancy(Long resumeId, Long vacancyId);
 
     Long ApplyAndReturnVacancyId(Long resumeId, Long vacancyId);
+
+    Long ifThereResumeIdAndVacancyId(List<ResumeDto> resume,Long vacancyId);
+
+    RespondedApplicantDto getRespondedApplicantById(Long respId);
+
+    Integer getRespondentsSizeByEmployer(String email);
 }

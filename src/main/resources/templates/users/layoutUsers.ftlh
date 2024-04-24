@@ -21,7 +21,7 @@
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="/vacancies"><img src="/api/users/image/logo.png" width="130px"
+                <a class="navbar-brand" href="/"><img src="/api/users/image/logo.png" width="130px"
                                                                alt="Job search"></a>
                 <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
@@ -40,7 +40,7 @@
                     <ul class="navbar-nav fw-medium mx-auto">
                         <#if user.accType == 'employee'>
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/vacancies">Вакансии
+                                <a class="nav-link active" aria-current="page" href="/">Вакансии
                                 </a>
                             </li>
                             <li class="mx-3 nav-item">

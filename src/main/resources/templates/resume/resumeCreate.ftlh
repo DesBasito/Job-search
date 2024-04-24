@@ -49,14 +49,38 @@
                 <div class="card-body">
                     <h5 class="card-title">Contacts info</h5>
                     <div class="mb-3">
-                        <label for="instagram" class="form-label">Contact type: </label>
-                        <input type="text" value="Instagram" class="form-control" id="instagram" name="contacts[0].type">
+                        <input type="hidden" value="Instagram" name="contacts[0].type">
+                        <div class="mb-3">
+                            <label for="inst" class="form-label">Instagram </label>
+                            <input type="text"  class="form-control" id="inst" name="contacts[0].infoValue">
+                        </div>
                     </div>
+
                     <div class="mb-3">
-                        <label for="instagramValue" class="form-label">Contact Value</label>
-                        <input type="text" value="Instagram" class="form-control" id="instagramValue" name="contacts[0].infoValue">
+                        <input type="hidden" value="Telegram" name="contacts[1].type">
+                        <div class="mb-3">
+                            <label for="telega" class="form-label">Instagram </label>
+                            <input type="text"  class="form-control" id="telega" name="contacts[1].infoValue">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="hidden" value="Facebook" name="contacts[2].type">
+                        <div class="mb-3">
+                            <label for="face" class="form-label">Instagram </label>
+                            <input type="text"  class="form-control" id="face" name="contacts[2].infoValue">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="hidden" value="LinkedIn" name="contacts[3].type">
+                        <div class="mb-3">
+                            <label for="face" class="form-label">Linked In </label>
+                            <input type="text"  class="form-control" id="face" name="contacts[3].infoValue">
+                        </div>
                     </div>
                 </div>
+
                 <div id="contacts" class="d-flex justify-content-center">
                     <input id="add-contacts-btn" class="btn btn-success my-3" type="button" value="add more">
                 </div>

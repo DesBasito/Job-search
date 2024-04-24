@@ -57,18 +57,18 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
+                  name: responded_applicant_id
+                  type: Long
+                  constraints:
+                    foreignKeyName: fk_responded_applicant_id_message
+                    references: responded_applicants
+                    nullable: false
+                    deleteCascade: true
+              - column:
                   name: sender
                   type: integer
                   constraints:
                     foreignKeyName: fk_messages_sender
-                    references: users(id)
-                    nullable: false
-                    deleteCascade: true
-              - column:
-                  name: recipient
-                  type: integer
-                  constraints:
-                    foreignKeyName: fk_messages_recipient
                     references: users(id)
                     nullable: false
                     deleteCascade: true

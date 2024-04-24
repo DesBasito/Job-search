@@ -42,7 +42,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+        http.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.ALWAYS))
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(AbstractHttpConfigurer::disable)
                 .logout(AbstractHttpConfigurer::disable)
@@ -52,12 +52,12 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "resume/create", "resume/update").hasAuthority("employee")
                         .requestMatchers(HttpMethod.GET, "employer/**", "vacancies/create", "vacancies/update").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()
+                        .requestMatchers( "/api/users/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "employer/*", "/employer/**").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST, "employee/*", "/employee/**").hasAuthority("employee")
-                        .requestMatchers(HttpMethod.POST, "testChat/**").authenticated()
-                        .requestMatchers(HttpMethod.GET, "testChat/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "chat/**","/api/message").authenticated()
+                        .requestMatchers(HttpMethod.GET, "chat/**","/api/message/**").authenticated()
                         .anyRequest().permitAll());
-
         return http.build();
     }
 }

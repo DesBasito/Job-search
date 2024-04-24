@@ -9,12 +9,14 @@ import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("resUser")
+@RestController("restUser")
 @RequestMapping("api/users")
 @RequiredArgsConstructor
 public class UserController {
@@ -44,6 +46,17 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
+    @PostMapping("/login")
+    public HttpStatus login(Authentication authentication) {
+        service.login(authentication);
+        return HttpStatus.OK;
+    }
+
+    @GetMapping("/checkLogin")
+    public ResponseEntity<Boolean> loginCheck(@RequestParam String email, @RequestParam String password) {
+        boolean isValidLogin = service.loginCheck(email, password);
+        return ResponseEntity.ok(isValidLogin);
+    }
 
     @PostMapping()
     public ResponseEntity<UserCreationDto> createUser(@Valid UserCreationDto user) {

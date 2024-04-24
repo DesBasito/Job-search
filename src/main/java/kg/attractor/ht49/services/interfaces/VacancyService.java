@@ -35,4 +35,6 @@ public interface VacancyService {
     void changeVacancyState(Long id);
 
     Page<VacancyDto> getActiveVacanciesPage(Integer page);
+
+    void updateVacancy(Long id);
 }

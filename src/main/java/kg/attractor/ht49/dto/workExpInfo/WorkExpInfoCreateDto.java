@@ -20,7 +20,7 @@ public class WorkExpInfoCreateDto {
     @Size(max = 255)
     private String companyName;
 
-    @Size(max = 255)
+    @Size(max = 255,min = 1)
     private String position;
 
     @Size(max = 355)
