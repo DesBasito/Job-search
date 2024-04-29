@@ -48,6 +48,9 @@ public class UserController {
 
     @PostMapping("/login")
     public HttpStatus login(Authentication authentication) {
+        if (authentication == null) {
+                return HttpStatus.CONFLICT;
+        }
         service.login(authentication);
         return HttpStatus.OK;
     }
