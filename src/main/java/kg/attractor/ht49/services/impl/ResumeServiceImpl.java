@@ -16,6 +16,7 @@ import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,6 +39,7 @@ public class ResumeServiceImpl implements ResumeService {
     private final EducationInfoService eiService;
     private final WorkExperienceInfoService weiService;
     private final ContactsInfoService contacts;
+    private final AuthAdapter adapter;
 
     @Override
     public List<ResumeDto> getResumeByCategory(String categoryName) {
@@ -111,6 +113,7 @@ public class ResumeServiceImpl implements ResumeService {
         }
         Resume resum = dao.getResumeById(editDto.getId()).orElseThrow(() -> new ResumeNotFoundException("resume by id:" + editDto.getId() + " not found"));
         UserDto dto = userService.getUserById(resum.getApplicantId());
+        UserDto usr = adapter.getAuthUser();
         if (!dto.getEmail().equals(auth.getName())) {
             throw new IllegalArgumentException("Resume not belong to user: " + auth.getName() + ". It belongs to: " + dto.getEmail());
         }

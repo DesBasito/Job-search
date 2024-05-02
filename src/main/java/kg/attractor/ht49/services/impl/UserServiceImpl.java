@@ -165,8 +165,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void login(Authentication authenticationa) {
-        log.info("get user: "+ authenticationa.getPrincipal().toString());
+    public void login(Authentication authentication) {
+        log.info("get user: "+ authentication.getPrincipal().toString());
 
     }
 
