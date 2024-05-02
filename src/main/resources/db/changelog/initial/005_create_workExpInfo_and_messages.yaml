@@ -8,14 +8,14 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: resume_id
-                  type: integer
+                  type: long
                   constraints:
                     foreignKeyName: fk_work_experience_info_resume_id
                     references: resumes(id)
@@ -23,7 +23,7 @@ databaseChangeLog:
                     deleteCascade: true
               - column:
                   name: years
-                  type: integer
+                  type: tinyint
                   constraints:
                     nullable: false
               - column:
@@ -51,14 +51,14 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: responded_applicant_id
-                  type: Long
+                  type: long
                   constraints:
                     foreignKeyName: fk_responded_applicant_id_message
                     references: responded_applicants
@@ -66,7 +66,7 @@ databaseChangeLog:
                     deleteCascade: true
               - column:
                   name: sender
-                  type: integer
+                  type: long
                   constraints:
                     foreignKeyName: fk_messages_sender
                     references: users(id)

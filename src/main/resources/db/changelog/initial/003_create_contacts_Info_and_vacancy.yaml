@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: Long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -20,7 +20,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: type_id
-                  type: integer
+                  type: long
                   constraints:
                     foreignKeyName: fk_contacts_info_type_id
                     references: contact_types(id)
@@ -28,7 +28,7 @@ databaseChangeLog:
                     deleteCascade: true
               - column:
                   name: resume_id
-                  type: integer
+                  type: Long
                   constraints:
                     foreignKeyName: fk_contacts_info_resume_id
                     references: resumes(id)
@@ -44,7 +44,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -61,7 +61,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: category_id
-                  type: integer
+                  type: long
                   constraints:
                     foreignKeyName: fk_vacancies_category_id
                     references: categories(id)
@@ -69,7 +69,7 @@ databaseChangeLog:
                     deleteCascade: true
               - column:
                   name: salary
-                  type: real
+                  type: Double
                   constraints:
                     nullable: false
               - column:
@@ -89,7 +89,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: author_id
-                  type: integer
+                  type: long
                   constraints:
                     nullable: false
                     foreignKeyName: fk_vacancies_author_id

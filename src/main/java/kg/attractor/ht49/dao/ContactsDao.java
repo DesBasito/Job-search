@@ -19,12 +19,12 @@ public class ContactsDao {
 
     public void createNewContactsInfo(ContactsInfo contactsInfo) {
         String sql = """
-                insert into CONTACTS_INFO(infovalue, type_id, resume_id) VALUES ( :infoValue,:typeId, :resumeId )
+                insert into CONTACTS_INFO(info_value, type_id, resume_id) VALUES ( :infoValue,:typeId, :resumeId )
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("infoValue",contactsInfo.getInfoValue())
 //                .addValue("typeId",contactsInfo.getTypeId())
-                .addValue("resumeId",contactsInfo.getResumeId()));
+                .addValue("resumeId",contactsInfo.getResume().getId()));
     }
 
     public List<ContactsInfo> getContactsInfoByResumeId(Long id) {

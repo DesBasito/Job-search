@@ -25,6 +25,7 @@ public class Message {
     @JoinColumn(name = "sender")
     private UserModel sender;
 
+    @Lob
     @Column(name = "content")
     private String content;
 

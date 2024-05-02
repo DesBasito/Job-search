@@ -3,6 +3,8 @@ package kg.attractor.ht49.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -15,6 +17,9 @@ public class ContactType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "type")
+    @Lob
     private String type;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "type")
+    List<ContactsInfo> contactsInfoList;
 }

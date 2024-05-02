@@ -20,7 +20,7 @@ public class UserCreationDto {
     private String surname;
 
     @Min(value = 14, message = "The age must be over 18")
-    private Byte age;
+    private Integer age;
 
     @NotBlank
     @Email

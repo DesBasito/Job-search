@@ -25,7 +25,6 @@ public class RespondedApplicant {
     @JoinColumn(name = "vacancy_id")
     private Vacancy vacancy;
 
-    @Column(name = "confirmation")
     private Boolean confirmation;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "respApplId")

@@ -17,24 +17,25 @@ public class UserModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "name")
+
+    @Lob
     private String name;
 
-    @Column(name = "surname")
+    @Lob
     private String surname;
 
-    @Column(name = "age")
-    private Byte age;
+    private Integer age;
 
-    @Column(name = "email")
+    @Lob
     private String email;
 
-    @Column(name = "password")
+    @Lob
     private String password;
 
     @Column(name = "phone_number")
     private String phoneNumber;
 
+    @Lob
     @Column(name = "avatar")
     private String avatar;
 

@@ -19,7 +19,7 @@ public class Resume {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Lob
     private String name;
 
     @Column(name = "category_id")
@@ -29,7 +29,6 @@ public class Resume {
     @JoinColumn(name = "applicant_id")
     private UserModel applicantId;
 
-    @Column(name = "salary")
     private Double salary;
 
     @Column(name = "is_active")

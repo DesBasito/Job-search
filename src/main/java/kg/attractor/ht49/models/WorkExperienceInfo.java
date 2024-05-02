@@ -19,15 +19,15 @@ public class WorkExperienceInfo {
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
-    @Column(name = "years")
     private Byte years;
 
+    @Lob
     @Column(name = "company_name")
     private String companyName;
 
-    @Column(name = "position")
+    @Lob
     private String position;
 
-    @Column(name = "responsibilities")
+    @Lob
     private String responsibilities;
 }

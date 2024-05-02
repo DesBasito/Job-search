@@ -18,10 +18,10 @@ public class Vacancy {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Lob
     private String name;
 
-    @Column(name = "description")
+    @Lob
     private String description;
 
     @Column(name = "category_id")
@@ -31,7 +31,6 @@ public class Vacancy {
     @JoinColumn(name = "author_id")
     private UserModel authorId;
 
-    @Column(name = "salary")
     private Double salary;
 
     @Column(name = "exp_from")

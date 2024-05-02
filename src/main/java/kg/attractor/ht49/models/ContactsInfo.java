@@ -21,8 +21,9 @@ public class ContactsInfo {
 
     @ManyToOne
     @JoinColumn(name = "resume_id")
-    private Resume resumeId;
+    private Resume resume;
 
+    @Lob
     @Column(name = "info_value")
     private String infoValue;
 }

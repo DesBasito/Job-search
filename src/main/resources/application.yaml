@@ -16,6 +16,9 @@ spring:
     user:
       name: email
       password: password
+  jpa:
+    hibernate:
+      ddl-auto: validate
 logging:
   level:
     root: info

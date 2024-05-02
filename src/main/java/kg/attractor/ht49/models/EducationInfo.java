@@ -21,10 +21,10 @@ public class EducationInfo {
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
-    @Column(name = "institution")
+    @Lob
     private String institution;
 
-    @Column(name = "program")
+    @Lob
     private String program;
 
     @Column(name = "start_date")
@@ -33,6 +33,6 @@ public class EducationInfo {
     @Column(name = "end_date")
     private LocalDate endDate;
 
-    @Column(name = "degree")
+    @Lob
     private String degree;
 }
