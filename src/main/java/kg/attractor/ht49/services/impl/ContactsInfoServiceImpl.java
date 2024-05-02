@@ -29,15 +29,16 @@ public class ContactsInfoServiceImpl implements ContactsInfoService {
             contactTypeId = contacts.getContactTypeByName(contactsInfo.getType()).getId();
         }
         ContactsInfo contactsInfo1 = ContactsInfo.builder()
-                .typeId(contactTypeId)
-                .resumeId(id)
+//                .typeId(contactTypeId)
+//                .resumeId(id)
                 .infoValue(contactsInfo.getInfoValue())
                 .build();
         dao.createNewContactsInfo(contactsInfo1);
     }
 
     private String getContactType(ContactsInfo info){
-        return contacts.getContactTypeById(info.getTypeId()).getType();
+//        return contacts.getContactTypeById(info.getTypeId()).getType();
+        return null;
     }
 
     @Override

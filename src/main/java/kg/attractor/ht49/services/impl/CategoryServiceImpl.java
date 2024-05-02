@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
         return CategoryDto.builder()
                 .name(category.getName())
                 .id(category.getId())
-                .category(dao.getCategoryById(category.getParentId()).orElse(null))
+//                .category(dao.getCategoryById(category.getParentId()).orElse(null))
                 .build();
     }
 }

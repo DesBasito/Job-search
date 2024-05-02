@@ -82,7 +82,7 @@ public class ResumeServiceImpl implements ResumeService {
                 .id(r.getId())
                 .name(r.getName())
                 .category(category.getCategoryById(r.getCategoryId()).getName())
-                .userEmail(userService.getUserById(r.getApplicantId()).getEmail())
+//                .userEmail(userService.getUserById(r.getApplicantId()).getEmail())
                 .salary(r.getSalary())
                 .isActive(r.getIsActive())
                 .createdDate(r.getCreatedDate())
@@ -112,11 +112,11 @@ public class ResumeServiceImpl implements ResumeService {
             throw new IllegalArgumentException("Resume by id: " + editDto.getId() + " not found");
         }
         Resume resum = dao.getResumeById(editDto.getId()).orElseThrow(() -> new ResumeNotFoundException("resume by id:" + editDto.getId() + " not found"));
-        UserDto dto = userService.getUserById(resum.getApplicantId());
+//        UserDto dto = userService.getUserById(resum.getApplicantId());
         UserDto usr = adapter.getAuthUser();
-        if (!dto.getEmail().equals(auth.getName())) {
-            throw new IllegalArgumentException("Resume not belong to user: " + auth.getName() + ". It belongs to: " + dto.getEmail());
-        }
+//        if (!dto.getEmail().equals(auth.getName())) {
+//            throw new IllegalArgumentException("Resume not belong to user: " + auth.getName() + ". It belongs to: " + dto.getEmail());
+//        }
         Resume resume = Resume.builder()
                 .id(editDto.getId())
                 .name(editDto.getTitle())
@@ -174,7 +174,7 @@ public class ResumeServiceImpl implements ResumeService {
                 .id(r.getId())
                 .name(r.getName())
                 .category(category.getCategoryById(r.getCategoryId()).getName())
-                .userEmail(userService.getUserById(r.getApplicantId()).getEmail())
+//                .userEmail(userService.getUserById(r.getApplicantId()).getEmail())
                 .salary(r.getSalary())
                 .isActive(r.getIsActive())
                 .createdDate(r.getCreatedDate())
@@ -235,7 +235,7 @@ public class ResumeServiceImpl implements ResumeService {
         UserDto dto = userService.getUserByEmail(auth.getName());
         Resume resume1 = Resume.builder()
                 .name(resume.getTitle())
-                .applicantId(dto.getId())
+//                .applicantId(dto.getId())
                 .categoryId(category1.getId())
                 .salary(resume.getSalary())
                 .build();

@@ -34,9 +34,9 @@ public class MessagesServiceImpl implements MessagesService {
     public void addMessage(MessageDto messageDto, Authentication authentication) {
          dao.createMessage(Message.builder()
                         .content(messageDto.getContent())
-                        .respApplId(messageDto.getRespApplId())
+//                        .respApplId(messageDto.getRespApplId())
                         .timestamp(LocalDateTime.now())
-                        .sender(service.getUserByEmail(authentication.getName()).getId())
+//                        .sender(service.getUserByEmail(authentication.getName()).getId())
                 .build());
     }
 
@@ -44,8 +44,8 @@ public class MessagesServiceImpl implements MessagesService {
 
     private MessageDto getDto(Message m){
         return MessageDto.builder()
-                .respApplId(m.getRespApplId())
-                .senderEmail(service.getUserById(m.getSender()).getEmail())
+//                .respApplId(m.getRespApplId())
+//                .senderEmail(service.getUserById(m.getSender()).getEmail())
                 .content(m.getContent())
                 .timestamp(m.getTimestamp())
                 .build();

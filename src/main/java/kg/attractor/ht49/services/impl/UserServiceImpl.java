@@ -70,10 +70,10 @@ public class UserServiceImpl implements UserService {
                 .phoneNumber(dto.getPhoneNumber())
                 .enabled(true)
                 .avatar(null)
-                .roleId(roleId)
+//                .roleId(roleId)
                 .build();
         userDao.createUser(userModel);
-        userDao.createUserAuthority(getUserId(userModel.getEmail()), userModel.getRoleId());
+//        userDao.createUserAuthority(getUserId(userModel.getEmail()), userModel.getRoleId());
     }
 
     @Override

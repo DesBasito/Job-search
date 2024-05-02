@@ -19,7 +19,7 @@ public class Message {
 
     @ManyToOne
     @JoinColumn(name = "responded_applicant_id")
-    private UserModel respApplId;
+    private RespondedApplicant respApplId;
 
     @ManyToOne
     @JoinColumn(name = "sender")

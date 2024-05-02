@@ -1,14 +1,24 @@
 package kg.attractor.ht49.models;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "categories")
 public class Category {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "name")
     private String name;
-    private Long parentId;
+
+    @ManyToOne
+    @JoinColumn(name = "parent_id")
+    private Category parentCategory;
 }

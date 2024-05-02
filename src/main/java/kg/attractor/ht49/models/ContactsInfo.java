@@ -1,15 +1,28 @@
 package kg.attractor.ht49.models;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
+@Entity
+@Table(name = "contacts_info")
 public class ContactsInfo {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long typeId;
-    private Long resumeId;
+
+    @ManyToOne
+    @JoinColumn(name = "type_id")
+    private ContactType type;
+
+    @ManyToOne
+    @JoinColumn(name = "resume_id")
+    private Resume resumeId;
+
+    @Column(name = "info_value")
     private String infoValue;
 }

@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -47,4 +48,7 @@ public class Vacancy {
 
     @Column(name = "update_date")
     private LocalDateTime updateDate;
+
+    @OneToMany(mappedBy = "vacancy")
+    private Set<RespondedApplicant> respondedApplicants;
 }

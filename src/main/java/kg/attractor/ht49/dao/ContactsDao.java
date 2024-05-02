@@ -23,7 +23,7 @@ public class ContactsDao {
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("infoValue",contactsInfo.getInfoValue())
-                .addValue("typeId",contactsInfo.getTypeId())
+//                .addValue("typeId",contactsInfo.getTypeId())
                 .addValue("resumeId",contactsInfo.getResumeId()));
     }
 

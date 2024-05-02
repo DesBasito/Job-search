@@ -14,7 +14,7 @@ databaseChangeLog:
                     primaryKey: true
                     nullable: false
               - column:
-                  name: infoValue
+                  name: info_value
                   type: text
                   constraints:
                     nullable: false

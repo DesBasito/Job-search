@@ -118,7 +118,7 @@ public class ResumeDao {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setString(1, resume.getName());
             ps.setLong(2, resume.getCategoryId());
-            ps.setLong(3, resume.getApplicantId());
+//            ps.setLong(3, resume.getApplicantId());
             ps.setDouble(4, resume.getSalary());
             ps.setBoolean(5, true);
             ps.setDate(6, Date.valueOf(LocalDate.now()));

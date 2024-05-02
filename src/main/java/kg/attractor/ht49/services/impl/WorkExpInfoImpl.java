@@ -19,19 +19,12 @@ public class WorkExpInfoImpl implements WorkExperienceInfoService {
 
     @Override
     public void editInfo(WorkExpInfoEditDto info) {
-        WorkExperienceInfo info2 = WorkExperienceInfo.builder()
-                .id(info.getId())
-                .companyName(info.getCompanyName())
-                .position(info.getPosition())
-                .responsibilities(info.getResponsibilities())
-                .years(info.getYears())
-                .build();
-        dao.editInfo(info2);
+
     }
 
     @Override
     public void createWorkExpInfo(WorkExpInfoCreateDto info, Long id) {
-        dao.createWorkInfo(info,id);
+
     }
 
     @Override
@@ -41,30 +34,62 @@ public class WorkExpInfoImpl implements WorkExperienceInfoService {
 
     @Override
     public List<WorkExperienceInfoDto> getWorkExperiencesByResumeId(Long resumeId) {
-        List<WorkExperienceInfo> infos = dao.getListWorkExpByResumeId(resumeId);
-        List<WorkExperienceInfoDto> dtos = new ArrayList<>();
-        infos.forEach( e -> dtos.add(WorkExperienceInfoDto.builder()
-                        .id(e.getId())
-                        .companyName(e.getCompanyName())
-                        .resumeId(e.getResumeId())
-                        .position(e.getPosition())
-                        .responsibilities(e.getResponsibilities())
-                        .years(e.getYears())
-                .build()));
-        return dtos;
+        return null;
     }
 
     @Override
     public List<WorkExpInfoEditDto> getWorkExperiencesForEditByResumeId(Long id) {
-        List<WorkExperienceInfo> infos = dao.getListWorkExpByResumeId(id);
-        List<WorkExpInfoEditDto> dtos = new ArrayList<>();
-        infos.forEach( e -> dtos.add(WorkExpInfoEditDto.builder()
-                .id(e.getId())
-                .companyName(e.getCompanyName())
-                .position(e.getPosition())
-                .responsibilities(e.getResponsibilities())
-                .years(e.getYears())
-                .build()));
-        return dtos;
+        return null;
     }
+
+//    @Override
+//    public void editInfo(WorkExpInfoEditDto info) {
+//        WorkExperienceInfo info2 = WorkExperienceInfo.builder()
+//                .id(info.getId())
+//                .companyName(info.getCompanyName())
+//                .position(info.getPosition())
+//                .responsibilities(info.getResponsibilities())
+//                .years(info.getYears())
+//                .build();
+//        dao.editInfo(info2);
+//    }
+//
+//    @Override
+//    public void createWorkExpInfo(WorkExpInfoCreateDto info, Long id) {
+//        dao.createWorkInfo(info,id);
+//    }
+//
+//    @Override
+//    public Long createAndReturnWorkExpInfoId(WorkExperienceInfoDto info) {
+//        return null;
+//    }
+//
+//    @Override
+//    public List<WorkExperienceInfoDto> getWorkExperiencesByResumeId(Long resumeId) {
+//        List<WorkExperienceInfo> infos = dao.getListWorkExpByResumeId(resumeId);
+//        List<WorkExperienceInfoDto> dtos = new ArrayList<>();
+//        infos.forEach( e -> dtos.add(WorkExperienceInfoDto.builder()
+//                        .id(e.getId())
+//                        .companyName(e.getCompanyName())
+//                        .resumeId(e.getResumeId())
+//                        .position(e.getPosition())
+//                        .responsibilities(e.getResponsibilities())
+//                        .years(e.getYears())
+//                .build()));
+//        return dtos;
+//    }
+//
+//    @Override
+//    public List<WorkExpInfoEditDto> getWorkExperiencesForEditByResumeId(Long id) {
+//        List<WorkExperienceInfo> infos = dao.getListWorkExpByResumeId(id);
+//        List<WorkExpInfoEditDto> dtos = new ArrayList<>();
+//        infos.forEach( e -> dtos.add(WorkExpInfoEditDto.builder()
+//                .id(e.getId())
+//                .companyName(e.getCompanyName())
+//                .position(e.getPosition())
+//                .responsibilities(e.getResponsibilities())
+//                .years(e.getYears())
+//                .build()));
+//        return dtos;
+//    }
 }

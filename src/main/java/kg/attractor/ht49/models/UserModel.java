@@ -49,7 +49,4 @@ public class UserModel {
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "sender")
     List<Message> messages;
-
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "respApplId")
-    List<Message> messageList;
 }

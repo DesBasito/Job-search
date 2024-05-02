@@ -46,9 +46,9 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     public void ApplyToVacancy(Long resumeId, Long vacancyId) {
         checkForExceptions(resumeId, vacancyId);
         for (RespondedApplicant res : dao.getAllRespAppl()) {
-            if (Objects.equals(res.getVacancyId(), vacancyId) && Objects.equals(res.getResumeId(), resumeId)) {
-                return;
-            }
+//            if (Objects.equals(res.getVacancyId(), vacancyId) && Objects.equals(res.getResumeId(), resumeId)) {
+//                return;
+//            }
         }
         dao.createRespAppl(resumeId, vacancyId);
     }
@@ -61,7 +61,8 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
 
     @Override
     public Long ifThereResumeIdAndVacancyId(List<ResumeDto> resumes, Long vacancyId) {
-        return dao.getAllRespAppl().stream().filter(res -> resumes.stream().anyMatch(resume -> Objects.equals(res.getResumeId(), resume.getId()) && Objects.equals(res.getVacancyId(), vacancyId))).findFirst().map(RespondedApplicant::getId).orElse(null);
+//        return dao.getAllRespAppl().stream().filter(res -> resumes.stream().anyMatch(resume -> Objects.equals(res.getResumeId(), resume.getId()) && Objects.equals(res.getVacancyId(), vacancyId))).findFirst().map(RespondedApplicant::getId).orElse(null);
+        return vacancyId;
     }
 
     @Override
@@ -96,8 +97,8 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
         List<RespondedApplicantDto> dtos = new ArrayList<>();
         return  RespondedApplicantDto.builder()
                 .id(e.getId())
-                .resume(resumeService.getResumeById(e.getResumeId()))
-                .vacancy(vacancyService.getVacancyById(e.getVacancyId()))
+//                .resume(resumeService.getResumeById(e.getResumeId()))
+//                .vacancy(vacancyService.getVacancyById(e.getVacancyId()))
                 .confirmation(e.getConfirmation())
                 .build();
 

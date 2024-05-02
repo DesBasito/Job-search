@@ -80,7 +80,7 @@ public class EducationInfoServiceImpl implements EducationInfoService {
                 .degree(info.getDegree())
                 .program(info.getProgram())
                 .institution(info.getInstitution())
-                .resumeId(info.getResumeId())
+//                .resumeId(info.getResumeId())
                 .startDate(Date.valueOf(info.getStartDate()))
                 .endDate(Date.valueOf(info.getEndDate()))
                 .build();

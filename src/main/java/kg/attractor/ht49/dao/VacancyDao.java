@@ -159,7 +159,7 @@ public class VacancyDao {
             ps.setInt(5,vacancy.getExpFrom());
             ps.setInt(6,vacancy.getExpTo());
             ps.setBoolean(7,true);
-            ps.setLong(8,vacancy.getAuthorId());
+//            ps.setLong(8,vacancy.getAuthorId());
             ps.setDate(9, Date.valueOf(LocalDate.now()));
             ps.setDate(10, Date.valueOf(LocalDate.now()));
             return ps;
