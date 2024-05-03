@@ -3,6 +3,8 @@ package kg.attractor.ht49.models;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,7 +19,12 @@ public class Category {
 
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Category parentCategory;
+    @Column(name = "parent_id")
+    private Long parentCategory;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "category")
+    List<Resume> resumes;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "category")
+    List<Vacancy> vacancies;
 }

@@ -37,4 +37,6 @@ public interface VacancyService {
     Page<VacancyDto> getActiveVacanciesPage(Integer page);
 
     void updateVacancy(Long id);
+
+    boolean existsById(Long id);
 }

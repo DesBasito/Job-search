@@ -1,55 +1,61 @@
 package kg.attractor.ht49.services.impl;
 
-import kg.attractor.ht49.dao.ContactsDao;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoDto;
 import kg.attractor.ht49.dto.ContactInfo.ContactsInfoWithIdDto;
-import kg.attractor.ht49.models.ContactType;
+import kg.attractor.ht49.dto.ContactType.ContactsTypeWithIdDto;
 import kg.attractor.ht49.models.ContactsInfo;
+import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.repositories.ContactInfoRepository;
 import kg.attractor.ht49.services.interfaces.ContactsInfoService;
 import kg.attractor.ht49.services.interfaces.ContactsTypeService;
+import kg.attractor.ht49.services.interfaces.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class ContactsInfoServiceImpl implements ContactsInfoService {
-    private final ContactsDao dao;
-    private final ContactsTypeService contacts;
+    private final ContactInfoRepository contactInfoRepository;
+    private final ContactsTypeService contactsTypeService;
 
     @Override
-    public void createNewContactsInfo(ContactsInfoDto contactsInfo, Long id) {
+    public void createNewContactsInfo(ContactsInfoDto contactsInfo, Resume resume) {
         Long contactTypeId;
-        if (contacts.getContactTypeByName(contactsInfo.getType()) == null) {
-            contactTypeId = contacts.createNewContacts(contactsInfo.getType());
-        }else {
-            contactTypeId = contacts.getContactTypeByName(contactsInfo.getType()).getId();
+        if (contactsTypeService.getContactTypeByName(contactsInfo.getType()) == null) {
+            contactTypeId = contactsTypeService.createNewContacts(contactsInfo.getType());
+        } else {
+            ContactsTypeWithIdDto type = contactsTypeService.getContactTypeByName(contactsInfo.getType());
+            contactTypeId = type.getId();
         }
         ContactsInfo contactsInfo1 = ContactsInfo.builder()
-//                .typeId(contactTypeId)
-//                .resumeId(id)
+                .type(contactsTypeService.getTypeWithId(contactTypeId))
+                .resume(resume)
                 .infoValue(contactsInfo.getInfoValue())
                 .build();
-        dao.createNewContactsInfo(contactsInfo1);
+        contactInfoRepository.save(contactsInfo1);
     }
 
-    private String getContactType(ContactsInfo info){
-//        return contacts.getContactTypeById(info.getTypeId()).getType();
-        return null;
+    private String getContactType(ContactsInfo info) {
+        return contactInfoRepository.findById(info.getType().getId()).orElseThrow(NoSuchElementException::new).getType().getType();
     }
 
     @Override
-    public List<ContactsInfoWithIdDto> getContactsByResumeId(Long id) {
-        List<ContactsInfoWithIdDto> contacts = new ArrayList<>();
-        dao.getContactsInfoByResumeId(id).forEach(c -> contacts.add(ContactsInfoWithIdDto.builder()
-                        .id(id)
-                        .type(getContactType(c))
-                        .infoValue(c.getInfoValue())
+    public List<ContactsInfoWithIdDto> getContactsByResumeId(Resume resume) {
+        List<ContactsInfo> contacts;
+        List<ContactsInfoWithIdDto> contactsList = new ArrayList<>();
+        contacts = contactInfoRepository.findByResume(resume);
+
+        contacts.forEach(e -> contactsList.add(ContactsInfoWithIdDto.builder()
+                .id(resume.getId())
+                .infoValue(e.getInfoValue())
+                .type(e.getType().getType())
                 .build()));
-        return contacts;
+        return contactsList;
+
     }
 
 }

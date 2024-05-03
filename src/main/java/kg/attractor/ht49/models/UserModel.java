@@ -42,10 +42,10 @@ public class UserModel {
     @Column(name = "enabled")
     private Boolean enabled;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "applicantId")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "applicant")
     List<Resume> resumes;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "authorId")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "author")
     List<Vacancy> vacancies;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "sender")

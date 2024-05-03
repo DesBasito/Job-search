@@ -24,12 +24,13 @@ public class Vacancy {
     @Lob
     private String description;
 
-    @Column(name = "category_id")
-    private Long categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
-    private UserModel authorId;
+    private UserModel author;
 
     private Double salary;
 

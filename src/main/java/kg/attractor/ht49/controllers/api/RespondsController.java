@@ -31,7 +31,7 @@ public class RespondsController {
 
     @PostMapping("/applyToVacancy/{id}")
     public ResponseEntity<?> applyToVacancy(@Valid @Pattern(regexp = "^\\d+$", message = "enter only digits") @RequestParam Long resumeId, @PathVariable Long id) {
-        Long VacancyId = service.ApplyAndReturnVacancyId(resumeId, id);
+        service.applyToVacancy(resumeId, id);
         return ResponseEntity.ok(service.getAllRespondents());
     }
 }

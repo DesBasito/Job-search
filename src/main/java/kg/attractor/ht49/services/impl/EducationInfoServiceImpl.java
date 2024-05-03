@@ -1,22 +1,23 @@
 package kg.attractor.ht49.services.impl;
 
-import kg.attractor.ht49.dao.EducationInfoDao;
 import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
 import kg.attractor.ht49.dto.educations.EducationInfoDto;
 import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
 import kg.attractor.ht49.models.EducationInfo;
+import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.repositories.EducationInfoRepository;
 import kg.attractor.ht49.services.interfaces.EducationInfoService;
+import kg.attractor.ht49.services.interfaces.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class EducationInfoServiceImpl implements EducationInfoService {
-    private final EducationInfoDao dao;
+    private final EducationInfoRepository educationInfoRepository;
 
 
     @Override
@@ -25,51 +26,52 @@ public class EducationInfoServiceImpl implements EducationInfoService {
                 .id(info.getId())
                 .institution(info.getInstitution())
                 .program(info.getProgram())
-                .startDate(info.getStartDate().toLocalDate())
-                .endDate(info.getEndDate().toLocalDate())
+                .startDate(info.getStartDate())
+                .endDate(info.getEndDate())
                 .degree(info.getDegree())
                 .build();
-        dao.editInfo(edu);
+        educationInfoRepository.save(edu);
     }
 
     @Override
     public boolean deleteEducationInfoById(Long id) {
-        if (dao.getEducationById(id).isPresent()) {
-            dao.deleteEducationInfoById(id);
+        if (educationInfoRepository.findById(id).isPresent()) {
+            educationInfoRepository.deleteById(id);
             return true;
         }
         return false;
     }
 
     @Override
-    public void createEducationInfo(CreateEducationInfoDto info, Long id) {
-           dao.createEducationInfo(info,id);
+    public void createEducationInfo(CreateEducationInfoDto info, Resume resume) {
+        EducationInfo educationInfo = EducationInfo.builder()
+                .institution(info.getInstitution())
+                .degree(info.getDegree())
+                .resume(resume)
+                .program(info.getProgram())
+                .startDate(info.getStartDate())
+                .build();
+           educationInfoRepository.save(educationInfo);
     }
 
 
     @Override
-    public Long createAndReturnEduInfoId(CreateEducationInfoDto info) {
-//        return dao.createAndReturnId(info);
-        return null;
-    }
-
-    @Override
-    public List<EducationInfoDto> getEducationsInfoByResumeId(Long id) {
+    public List<EducationInfoDto> getEducationsInfoByResumeId(Resume resume) {
         List<EducationInfoDto> dtos = new ArrayList<>();
-        dao.getEducationByResume(id).forEach(e -> dtos.add(getEducationInfoDto(e)));
+        educationInfoRepository.findByResume(resume).forEach(e -> dtos.add(getEducationInfoDto(e)));
         return dtos;
     }
 
     @Override
-    public List<EducationInfoEditDto> getEducationsInfoForEditByResumeId(Long id) {
+    public List<EducationInfoEditDto> getEducationsInfoForEditByResumeId(Resume resume) {
         List<EducationInfoEditDto> dtos = new ArrayList<>();
-        dao.getEducationByResume(id).forEach(e -> dtos.add(EducationInfoEditDto.builder()
+        educationInfoRepository.findByResume(resume).forEach(e -> dtos.add(EducationInfoEditDto.builder()
                         .id(e.getId())
                         .degree(e.getDegree())
                         .institution(e.getInstitution())
                         .program(e.getProgram())
-                        .startDate(Date.valueOf(e.getStartDate()))
-                        .endDate(Date.valueOf(e.getEndDate()))
+                        .startDate(e.getStartDate())
+                        .endDate(e.getEndDate())
                 .build()));
         return dtos;
     }
@@ -80,9 +82,9 @@ public class EducationInfoServiceImpl implements EducationInfoService {
                 .degree(info.getDegree())
                 .program(info.getProgram())
                 .institution(info.getInstitution())
-//                .resumeId(info.getResumeId())
-                .startDate(Date.valueOf(info.getStartDate()))
-                .endDate(Date.valueOf(info.getEndDate()))
+                .resumeId(info.getResume().getId())
+                .startDate(info.getStartDate())
+                .endDate(info.getEndDate())
                 .build();
     }
 }

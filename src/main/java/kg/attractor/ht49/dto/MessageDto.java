@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MessageDto {
-    private RespondedApplicantDto respApplId;
-    private UserDto senderEmail;
+    private Long respApplId;
+    private String senderEmail;
     private String content;
     private LocalDateTime timestamp;
 }

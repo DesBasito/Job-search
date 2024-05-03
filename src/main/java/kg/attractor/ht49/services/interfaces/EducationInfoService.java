@@ -3,6 +3,7 @@ package kg.attractor.ht49.services.interfaces;
 import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
 import kg.attractor.ht49.dto.educations.EducationInfoDto;
 import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
+import kg.attractor.ht49.models.Resume;
 
 import java.util.List;
 
@@ -11,11 +12,10 @@ public interface EducationInfoService {
 
     boolean deleteEducationInfoById(Long id);
 
-    void createEducationInfo(CreateEducationInfoDto info, Long id);
+    void createEducationInfo(CreateEducationInfoDto info, Resume resume);
 
-    Long createAndReturnEduInfoId(CreateEducationInfoDto info);
 
-    List<EducationInfoDto> getEducationsInfoByResumeId(Long id);
+    List<EducationInfoDto> getEducationsInfoByResumeId(Resume resume);
 
-    List<EducationInfoEditDto> getEducationsInfoForEditByResumeId(Long id);
+    List<EducationInfoEditDto> getEducationsInfoForEditByResumeId(Resume resume);
 }

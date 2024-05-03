@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-    private final CategoryDao dao;
     private final CategoryRepository categoryRepository;
     @Override
     public Category getCategoryByName(String category){
@@ -34,11 +33,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private CategoryDto getDto(Category category){
-        Category category1 = categoryRepository.findById(category.getParentCategory().getId()).orElseThrow(()->new CategoryNotFoundException("category: "+category.getParentCategory().getName()+" not found"));
         return CategoryDto.builder()
                 .name(category.getName())
                 .id(category.getId())
-                .category(category1.getName())
+                .categoryParent(category.getParentCategory())
                 .build();
     }
 }

@@ -22,12 +22,13 @@ public class Resume {
     @Lob
     private String name;
 
-    @Column(name = "category_id")
-    private Long categoryId;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @ManyToOne
     @JoinColumn(name = "applicant_id")
-    private UserModel applicantId;
+    private UserModel applicant;
 
     private Double salary;
 

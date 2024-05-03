@@ -94,7 +94,7 @@ public class ResumeDao {
                 """;
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", resume.getName())
-                .addValue("categoryId", resume.getCategoryId())
+                .addValue("categoryId", resume.getCategory().getId())
                 .addValue("salary", resume.getSalary())
                 .addValue("updateTime", LocalDateTime.now())
                 .addValue("id", resume.getId())
@@ -117,7 +117,7 @@ public class ResumeDao {
         template.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setString(1, resume.getName());
-            ps.setLong(2, resume.getCategoryId());
+            ps.setLong(2, resume.getCategory().getId());
 //            ps.setLong(3, resume.getApplicantId());
             ps.setDouble(4, resume.getSalary());
             ps.setBoolean(5, true);

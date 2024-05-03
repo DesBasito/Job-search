@@ -1,9 +1,7 @@
 package kg.attractor.ht49.controllers;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.Pattern;
 import kg.attractor.ht49.dto.CategoryDto;
-import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
@@ -11,9 +9,6 @@ import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -99,7 +94,7 @@ public class VacancyViewController {
 
     @PostMapping("/applyToVacancy/{id}")
     public String applyToVacancy(@RequestParam Long resumeId, @PathVariable Long id) {
-       respondedApplicantsService.ApplyToVacancy(resumeId, id);
+       respondedApplicantsService.applyToVacancy(resumeId, id);
         return "redirect:/vacancies/info/"+id;
     }
 

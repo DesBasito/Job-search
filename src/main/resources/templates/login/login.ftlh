@@ -1,9 +1,9 @@
 <#import "../layout.ftlh" as login>
 <@login.layout>
-    <form id="login-form">
+    <form id="login-form" action="/login" method="post">
         <p>Registration</p>
         <div class="form-element mb-5">
-            <input  name="email" type="email" class="form-control mb-3" placeholder="Email"
+            <input  name="username" type="email" id="username" class="form-control mb-3" placeholder="Email"
                    aria-label="Email">
             <input name="password" type="password" class="form-control mb-3" placeholder="Password"
                    aria-label="Password">
