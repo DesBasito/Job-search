@@ -5,6 +5,8 @@ import kg.attractor.ht49.models.RespondedApplicant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -24,5 +26,8 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             insert into MESSAGES(responded_applicant_id, sender, content, timestamp)\s
             values ( :respApplId, :sender, :content,:timestamp )
             """, nativeQuery = true)
-    void createMessage(String content, Long respApplId, LocalDateTime timestamp, String sender);
+    void createMessage(@Param("content") String content,
+                       @Param("respApplId") Long respApplId,
+                       @Param("timestamp") LocalDateTime timestamp,
+                       @Param("sender") String sender);
 }
