@@ -13,6 +13,7 @@ import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
+import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.ContactsInfoService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
@@ -37,11 +38,11 @@ public class ResumeViewController {
 
     @GetMapping("/{id}")
     public String getResumeById(@PathVariable Long id, Model model){
-        ResumeDto resume = service.getResumeById(id);
-        UserDto user = userService.getUserByEmail(resume.getUserEmail());
+        Resume resume = service.getResumeModel(id);
+        UserDto user = userService.getUserByEmail(resume.getApplicant().getEmail());
         List<WorkExpInfoForFrontDto> workExpInfos = service.getWorkExpInfoByResumeId(id);
         List<EducationInfoForFrontDto> educationInfo = service.getEducationInfoByResumeId(id);
-        List<ContactsInfoWithIdDto> contacts = contactsInfoService.getContactsByResumeId(id);
+        List<ContactsInfoWithIdDto> contacts = contactsInfoService.getContactsByResumeId(resume);
         model.addAttribute("user",user);
         model.addAttribute("resume",resume);
         model.addAttribute("works",workExpInfos);

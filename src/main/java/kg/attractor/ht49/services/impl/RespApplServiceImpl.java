@@ -1,6 +1,5 @@
 package kg.attractor.ht49.services.impl;
 
-import kg.attractor.ht49.dao.RespondedApplicantsDao;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
@@ -8,12 +7,18 @@ import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.models.Vacancy;
+import kg.attractor.ht49.repositories.RespondedApplicantRepository;
+import kg.attractor.ht49.repositories.ResumeRepository;
+import kg.attractor.ht49.repositories.VacancyRepository;
 import kg.attractor.ht49.services.interfaces.RespondedApplicantsService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
+import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,83 +29,72 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class RespApplServiceImpl implements RespondedApplicantsService {
-    private final RespondedApplicantsDao dao;
+    private final RespondedApplicantRepository respondedApplicantRepository;
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
 
     @Override
     public List<RespondedApplicantDto> getAllRespondents() {
-        return dao.getAllRespAppl().stream().map(this::getRespondedApplicantDto).collect(Collectors.toList());
+        return respondedApplicantRepository.findAll().stream().map(this::getRespondedApplicantDto).collect(Collectors.toList());
     }
 
     @Override
     public List<ResumeDto> getRespondedApplicantsByVacancyId(Long id) {
-        if (vacancyService.getVacancyById(id) == null) {
+        if (vacancyService.existsById(id)) {
             throw new VacancyNotFoundException("Vacancy by id: " + id + " not found");
         }
-        List<Resume> applicants = dao.getAllRespApplByVacancyId(id);
-        return resumeService.getResumeDtos(applicants);
+        List<RespondedApplicant> applicants = respondedApplicantRepository.findByVacancyId(id);
+        List<Resume> resumes = new ArrayList<>();
+        applicants.forEach(a -> resumes.add(a.getResume()));
+        return resumeService.getResumeDtos(resumes);
     }
 
     @Override
-    public void ApplyToVacancy(Long resumeId, Long vacancyId) {
-        checkForExceptions(resumeId, vacancyId);
-        for (RespondedApplicant res : dao.getAllRespAppl()) {
-            if (Objects.equals(res.getVacancyId(), vacancyId) && Objects.equals(res.getResumeId(), resumeId)) {
+    public void applyToVacancy(Long resumeId, Long vacancyId) {
+        Assert.notNull(resumeId,"resume id must not be null");
+        Assert.notNull(vacancyId,"vacancy id must not be null");
+        for (RespondedApplicant res : respondedApplicantRepository.findAll()) {
+            if (Objects.equals(res.getVacancy().getId(), vacancyId) && Objects.equals(res.getResume().getId(), resumeId)) {
                 return;
             }
         }
-        dao.createRespAppl(resumeId, vacancyId);
+        respondedApplicantRepository.createRespond(resumeId,vacancyId);
     }
 
-    @Override
-    public Long ApplyAndReturnVacancyId(Long resumeId, Long vacancyId) {
-        checkForExceptions(resumeId, vacancyId);
-        return dao.createAndReturnRespApplId(resumeId, vacancyId);
-    }
+
 
     @Override
     public Long ifThereResumeIdAndVacancyId(List<ResumeDto> resumes, Long vacancyId) {
-        return dao.getAllRespAppl().stream().filter(res -> resumes.stream().anyMatch(resume -> Objects.equals(res.getResumeId(), resume.getId()) && Objects.equals(res.getVacancyId(), vacancyId))).findFirst().map(RespondedApplicant::getId).orElse(null);
+        return respondedApplicantRepository.findAll().stream().filter(res -> resumes.stream().anyMatch(resume -> Objects.equals(res.getResume().getId(), resume.getId()) && Objects.equals(res.getVacancy().getId(), vacancyId))).findFirst().map(RespondedApplicant::getId).orElse(null);
     }
 
     @Override
     public RespondedApplicantDto getRespondedApplicantById(Long respId) {
-        RespondedApplicant responded = dao.getRespondedApplicantById(respId).orElseThrow(()->new NoSuchElementException("no responded applicant found by id: "+respId));
+        RespondedApplicant responded = respondedApplicantRepository.findById(respId).orElseThrow(()->new NoSuchElementException("no responded applicant found by id: "+respId));
         return getRespondedApplicantDto(responded);
     }
 
     @Override
     public Integer getRespondentsSizeByEmployer(String email) {
-       List<VacancyDto> vacancies=  vacancyService.getAllVacanciesByCompany(email);
+
+       List<VacancyDto> vacancies=  vacancyService.getActiveVacanciesByCompany(email);
        List<Resume> resumes = new ArrayList<>();
        for (VacancyDto vacancy : vacancies){
-          resumes.addAll(dao.getAllRespApplByVacancyId(vacancy.getId()));
+           List<RespondedApplicant> respondedApplicants = respondedApplicantRepository.findByVacancyId(vacancy.getId());
+          respondedApplicants.forEach(r -> resumes.add(r.getResume()));
        }
         return resumes.size();
     }
 
-    private void checkForExceptions(Long resumeId, Long vacancyId) {
-        ResumeDto resume = resumeService.getResumeById(resumeId);
-        VacancyDto vacancyDto = vacancyService.getVacancyById(vacancyId);
-        if (resume == null || !resume.getIsActive()) {
-            throw new ResumeNotFoundException("resume by id " + resumeId + " not found");
-        }
-        if (vacancyDto == null || !vacancyDto.getIsActive()) {
-            throw new VacancyNotFoundException("vacancy by id " + resumeId + " not found");
-        }
-    }
 
 
     private RespondedApplicantDto getRespondedApplicantDto(RespondedApplicant e) {
-        List<RespondedApplicantDto> dtos = new ArrayList<>();
         return  RespondedApplicantDto.builder()
                 .id(e.getId())
-                .resume(resumeService.getResumeById(e.getResumeId()))
-                .vacancy(vacancyService.getVacancyById(e.getVacancyId()))
+                .resume(resumeService.getResumeById(e.getResume().getId()))
+                .vacancy(vacancyService.getVacancyById(e.getVacancy().getId()))
                 .confirmation(e.getConfirmation())
                 .build();
-
     }
 
 

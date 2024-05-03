@@ -1,9 +1,9 @@
 package kg.attractor.ht49.models;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.*;
-
-import java.util.List;
 
 @Getter
 @Setter
@@ -11,15 +11,13 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "contact_types")
-public class ContactType {
+@Table(name = "AUTHORITIES")
+public class Authority {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
-    private String type;
+    @Column(name = "ROLE")
+    private String role;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "type")
-    List<ContactsInfo> contactsInfoList;
 }

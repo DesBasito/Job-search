@@ -21,7 +21,7 @@ public class EditUserDto {
 
     @Min(value = 18, message = "The age must be over 18")
     @Max(value = 70,message = "Enter rational age")
-    private Byte age;
+    private Integer age;
 
     @Size(max = 25)
     private String phoneNumber;

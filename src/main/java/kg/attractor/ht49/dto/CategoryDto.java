@@ -13,5 +13,5 @@ import lombok.NoArgsConstructor;
 public class CategoryDto {
     private Long id;
     private String name;
-    private Category category;
+    private Long categoryParent;
 }

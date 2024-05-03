@@ -1,10 +1,11 @@
 package kg.attractor.ht49.services.impl;
 
-import kg.attractor.ht49.dao.WorkExpInfoDao;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExperienceInfoDto;
+import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.WorkExperienceInfo;
+import kg.attractor.ht49.repositories.WorkExperienceInfoRepository;
 import kg.attractor.ht49.services.interfaces.WorkExperienceInfoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class WorkExpInfoImpl implements WorkExperienceInfoService {
-    private final WorkExpInfoDao dao;
-
+    private final WorkExperienceInfoRepository workExperienceInfoRepository;
     @Override
     public void editInfo(WorkExpInfoEditDto info) {
         WorkExperienceInfo info2 = WorkExperienceInfo.builder()
@@ -26,27 +26,29 @@ public class WorkExpInfoImpl implements WorkExperienceInfoService {
                 .responsibilities(info.getResponsibilities())
                 .years(info.getYears())
                 .build();
-        dao.editInfo(info2);
+        workExperienceInfoRepository.save(info2);
     }
 
     @Override
-    public void createWorkExpInfo(WorkExpInfoCreateDto info, Long id) {
-        dao.createWorkInfo(info,id);
+    public void createWorkExpInfo(WorkExpInfoCreateDto info, Resume resume) {
+        WorkExperienceInfo info2 = WorkExperienceInfo.builder()
+                .companyName(info.getCompanyName())
+                .resume(resume)
+                .position(info.getPosition())
+                .responsibilities(info.getResponsibilities())
+                .years(info.getYears())
+                .build();
+        workExperienceInfoRepository.save(info2);
     }
 
     @Override
-    public Long createAndReturnWorkExpInfoId(WorkExperienceInfoDto info) {
-        return null;
-    }
-
-    @Override
-    public List<WorkExperienceInfoDto> getWorkExperiencesByResumeId(Long resumeId) {
-        List<WorkExperienceInfo> infos = dao.getListWorkExpByResumeId(resumeId);
+    public List<WorkExperienceInfoDto> getWorkExperiencesByResumeId(Resume resume) {
+        List<WorkExperienceInfo> infos = workExperienceInfoRepository.findByResume(resume);
         List<WorkExperienceInfoDto> dtos = new ArrayList<>();
         infos.forEach( e -> dtos.add(WorkExperienceInfoDto.builder()
                         .id(e.getId())
                         .companyName(e.getCompanyName())
-                        .resumeId(e.getResumeId())
+                        .resumeId(e.getResume().getId())
                         .position(e.getPosition())
                         .responsibilities(e.getResponsibilities())
                         .years(e.getYears())
@@ -55,8 +57,8 @@ public class WorkExpInfoImpl implements WorkExperienceInfoService {
     }
 
     @Override
-    public List<WorkExpInfoEditDto> getWorkExperiencesForEditByResumeId(Long id) {
-        List<WorkExperienceInfo> infos = dao.getListWorkExpByResumeId(id);
+    public List<WorkExpInfoEditDto> getWorkExperiencesForEditByResumeId(Resume resume) {
+        List<WorkExperienceInfo> infos = workExperienceInfoRepository.findByResume(resume);
         List<WorkExpInfoEditDto> dtos = new ArrayList<>();
         infos.forEach( e -> dtos.add(WorkExpInfoEditDto.builder()
                 .id(e.getId())

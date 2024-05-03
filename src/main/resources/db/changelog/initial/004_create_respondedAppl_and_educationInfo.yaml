@@ -8,14 +8,14 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
                     nullable: false
               - column:
                   name: vacancy_id
-                  type: integer
+                  type: long
                   constraints:
                     foreignKeyName: fk_responded_applicants_vacancy_id
                     references: vacancies(id)
@@ -23,7 +23,7 @@ databaseChangeLog:
                     deleteCascade: true
               - column:
                   name: resume_id
-                  type: integer
+                  type: long
                   constraints:
                     foreignKeyName: fk_responded_applicants_resume_id
                     references: resumes(id)
@@ -44,7 +44,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -61,7 +61,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: resume_id
-                  type: integer
+                  type: long
                   constraints:
                     foreignKeyName: fk_education_info_resume_id
                     references: resumes(id)

@@ -1,13 +1,14 @@
 package kg.attractor.ht49.dto.educations;
 
 import jakarta.validation.constraints.*;
-import kg.attractor.ht49.dto.resumes.ResumeDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.time.LocalDate;
+import java.util.Date;
+import java.util.Locale;
 
 @Data
 @Builder
@@ -24,10 +25,10 @@ public class EducationInfoEditDto {
     private String program;
 
     @Past
-    private Date startDate;
+    private LocalDate startDate;
 
     @Past
-    private Date endDate;
+    private LocalDate endDate;
 
     @Pattern(regexp = "^[a-zA-Z]+$")
     private String degree;

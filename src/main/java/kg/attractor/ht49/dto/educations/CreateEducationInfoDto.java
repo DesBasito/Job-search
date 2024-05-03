@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -22,10 +23,10 @@ public class CreateEducationInfoDto {
     private String program;
 
     @Past
-    private Date startDate;
+    private LocalDate startDate;
 
     @Past
-    private Date endDate;
+    private LocalDate endDate;
 
     @Size(max = 100)
     private String degree;

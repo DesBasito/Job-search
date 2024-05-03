@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @Builder
@@ -22,9 +23,9 @@ public class EducationInfoForFrontDto {
     @NotBlank @Size(max = 200)
     private String program;
     @Past
-    private Date startDate;
+    private LocalDate startDate;
     @Past
-    private Date endDate;
+    private LocalDate endDate;
     @Pattern(regexp = "^[a-zA-Z]+$")
     @NotBlank
     private String degree;

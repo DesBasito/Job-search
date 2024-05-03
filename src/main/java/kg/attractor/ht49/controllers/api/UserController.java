@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers.api.users;
+package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
@@ -34,10 +34,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/getByType/{type}")
-    public ResponseEntity<List<UserDto>> getUsersByType(@Valid@Pattern(regexp = "^[a-zA-Z]+$",message = "enter a type: 1.employee, 2.employer")@PathVariable(name = "type") String type) {
-            return ResponseEntity.ok(service.getUsersByType(type));
-    }
 
 
     @GetMapping("/email")
@@ -46,14 +42,6 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/login")
-    public HttpStatus login(Authentication authentication) {
-        if (authentication == null) {
-                return HttpStatus.CONFLICT;
-        }
-        service.login(authentication);
-        return HttpStatus.OK;
-    }
 
     @GetMapping("/checkLogin")
     public ResponseEntity<Boolean> loginCheck(@RequestParam String email, @RequestParam String password) {

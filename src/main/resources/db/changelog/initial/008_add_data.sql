@@ -66,7 +66,7 @@ VALUES ('John Doe Resume', (SELECT id FROM categories WHERE name = 'Software Dev
         (SELECT id FROM USERS WHERE EMAIL = 'johny@example.com'), 70000, 1, '2024-01-23 12:34:09',
         '2024-03-02 18:12:39');
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('john.doe@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'John Doe Resume')),
        ('+1234567890', (SELECT id FROM contact_types WHERE type = 'Phone'),

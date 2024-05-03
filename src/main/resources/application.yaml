@@ -1,5 +1,5 @@
 server:
-  port: 9888
+  port: 9889
 
 spring:
   datasource:
@@ -16,6 +16,9 @@ spring:
     user:
       name: email
       password: password
+  jpa:
+    hibernate:
+      ddl-auto: validate
 logging:
   level:
     root: info

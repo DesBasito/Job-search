@@ -3,6 +3,7 @@ package kg.attractor.ht49.services.interfaces;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExperienceInfoDto;
+import kg.attractor.ht49.models.Resume;
 
 import java.util.List;
 
@@ -10,11 +11,10 @@ public interface WorkExperienceInfoService {
     void editInfo(WorkExpInfoEditDto info);
 
 
-    void createWorkExpInfo(WorkExpInfoCreateDto info, Long id);
+    void createWorkExpInfo(WorkExpInfoCreateDto info, Resume resume);
 
-    Long createAndReturnWorkExpInfoId(WorkExperienceInfoDto info);
 
-    List<WorkExperienceInfoDto> getWorkExperiencesByResumeId(Long resumeId);
+    List<WorkExperienceInfoDto> getWorkExperiencesByResumeId(Resume resume);
 
-    List<WorkExpInfoEditDto> getWorkExperiencesForEditByResumeId(Long id);
+    List<WorkExpInfoEditDto> getWorkExperiencesForEditByResumeId(Resume resume);
 }

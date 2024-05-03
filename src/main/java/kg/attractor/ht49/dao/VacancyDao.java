@@ -72,12 +72,12 @@ public class VacancyDao {
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", vacancy.getName())
                 .addValue("description", vacancy.getDescription())
-                .addValue("categoryId", vacancy.getCategoryId())
+                .addValue("categoryId", vacancy.getCategory().getId())
                 .addValue("salary", vacancy.getSalary())
                 .addValue("expFrom", vacancy.getExpFrom())
                 .addValue("expTo", vacancy.getExpTo())
                 .addValue("isActive", true)
-                .addValue("authorId", vacancy.getAuthorId())
+                .addValue("authorId", vacancy.getAuthor().getId())
                 .addValue("createdDate", LocalDateTime.now())
                 .addValue("updateDate", LocalDateTime.now())
         );
@@ -99,7 +99,7 @@ public class VacancyDao {
         namedParameter.update(sql, new MapSqlParameterSource()
                 .addValue("name", vacancy.getName())
                 .addValue("description", vacancy.getDescription())
-                .addValue("categoryId", vacancy.getCategoryId())
+                .addValue("categoryId", vacancy.getCategory().getId())
                 .addValue("salary", vacancy.getSalary())
                 .addValue("expFrom", vacancy.getExpFrom())
                 .addValue("expTo", vacancy.getExpTo())
@@ -154,12 +154,12 @@ public class VacancyDao {
             PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
             ps.setString(1,vacancy.getName());
             ps.setString(2,vacancy.getDescription());
-            ps.setLong(3,vacancy.getCategoryId());
+            ps.setLong(3,vacancy.getCategory().getId());
             ps.setDouble(4,vacancy.getSalary());
             ps.setInt(5,vacancy.getExpFrom());
             ps.setInt(6,vacancy.getExpTo());
             ps.setBoolean(7,true);
-            ps.setLong(8,vacancy.getAuthorId());
+//            ps.setLong(8,vacancy.getAuthorId());
             ps.setDate(9, Date.valueOf(LocalDate.now()));
             ps.setDate(10, Date.valueOf(LocalDate.now()));
             return ps;

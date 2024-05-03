@@ -90,7 +90,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Alice Johnson Resume', (SELECT id FROM categories WHERE name = 'Software Development'),
         (SELECT id FROM USERS WHERE name = 'Alice' AND surname = 'Johnson'), 75000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('alice.johnson@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Alice Johnson Resume')),
        ('9876543210', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -112,7 +112,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Bob Anderson Resume', (SELECT id FROM categories WHERE name = 'Finance'),
         (SELECT id FROM USERS WHERE name = 'Bob' AND surname = 'Anderson'), 85000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('bob.anderson@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Bob Anderson Resume')),
        ('7654321987', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -134,7 +134,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Eva Garcia Resume', (SELECT id FROM categories WHERE name = 'Marketing'),
         (SELECT id FROM USERS WHERE name = 'Eva' AND surname = 'Garcia'), 70000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('eva.garcia@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Eva Garcia Resume')),
        ('1122334455', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -155,7 +155,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('David Brown Resume', (SELECT id FROM categories WHERE name = 'Engineering'),
         (SELECT id FROM USERS WHERE name = 'David' AND surname = 'Brown'), 80000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('david.brown@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'David Brown Resume')),
        ('763547234', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -177,7 +177,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Sophia Miller Resume', (SELECT id FROM categories WHERE name = 'Design'),
         (SELECT id FROM USERS WHERE name = 'Sophia' AND surname = 'Miller'), 70000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('sophia.miller@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Sophia Miller Resume')),
        ('237644345', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -199,7 +199,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Max Wang Resume', (SELECT id FROM categories WHERE name = 'Finance'),
         (SELECT id FROM USERS WHERE name = 'Max' AND surname = 'Wang'), 90000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('max.wang@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Max Wang Resume')),
        ('9988776655', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -221,7 +221,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Lily Chen Resume', (SELECT id FROM categories WHERE name = 'Marketing'),
         (SELECT id FROM USERS WHERE name = 'Lily' AND surname = 'Chen'), 70000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('lily.chen@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Lily Chen Resume')),
        ('1234432156', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -243,7 +243,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Ryan Lee Resume', (SELECT id FROM categories WHERE name = 'Finance'),
         (SELECT id FROM USERS WHERE name = 'Ryan' AND surname = 'Lee'), 90000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('ryan.lee@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Ryan Lee Resume')),
        ('9876543210', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -265,7 +265,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Emily Gonzalez Resume', (SELECT id FROM categories WHERE name = 'Software Development'),
         (SELECT id FROM USERS WHERE name = 'Emily' AND surname = 'Gonzalez'), 80000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('emily.gonzalez@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Emily Gonzalez Resume')),
        ('7654321987', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -287,7 +287,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Sam Kim Resume', (SELECT id FROM categories WHERE name = 'Software Development'),
         (SELECT id FROM USERS WHERE name = 'Sam' AND surname = 'Kim'), 75000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('sam.kim@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Sam Kim Resume')),
        ('1122334455', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -313,7 +313,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Olivia Park Resume', (SELECT id FROM categories WHERE name = 'Marketing'),
         (SELECT id FROM USERS WHERE name = 'Olivia' AND surname = 'Park'), 70000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('olivia.park@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Olivia Park Resume')),
        ('9988776655', (SELECT id FROM contact_types WHERE type = 'Phone'),
@@ -339,7 +339,7 @@ INSERT INTO resumes (name, category_id, applicant_id, salary, is_active, created
 VALUES ('Daniel Liu Resume', (SELECT id FROM categories WHERE name = 'Finance'),
         (SELECT id FROM USERS WHERE name = 'Daniel' AND surname = 'Liu'), 85000, 1, NOW(), NOW());
 
-INSERT INTO contacts_info (infoValue, type_id, resume_id)
+INSERT INTO contacts_info (info_value, type_id, resume_id)
 VALUES ('daniel.liu@example.com', (SELECT id FROM contact_types WHERE type = 'Email'),
         (SELECT id FROM resumes WHERE name = 'Daniel Liu Resume')),
        ('1234432156', (SELECT id FROM contact_types WHERE type = 'Phone'),

@@ -43,5 +43,7 @@ public interface ResumeService {
     EditResumeDto getResumeForEdit(Long id);
 
     void updateResume(Long id);
+
+    Resume getResumeModel(Long id);
 }
 

@@ -8,19 +8,19 @@ databaseChangeLog:
               columns:
                 - column:
                     name: id
-                    type: integer
+                    type: long
                     autoIncrement: true
                     constraints:
                       primaryKey: true
                       nullable: false
                 - column:
                     name: name
-                    type: text
+                    type: varchar(255)
                     constraints:
                       nullable: false
                 - column:
                     name: parent_id
-                    type: integer
+                    type: long
                     constraints:
                       foreignKeyName: fk_categories_parent_id
                       references: categories(id)
@@ -34,7 +34,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: id
-                  type: integer
+                  type: long
                   autoIncrement: true
                   constraints:
                     primaryKey: true
@@ -46,7 +46,7 @@ databaseChangeLog:
                     nullable: false
               - column:
                   name: category_id
-                  type: integer
+                  type: long
                   constraints:
                     foreignKeyName: fk_resumes_category_id
                     references: categories(id)
@@ -54,7 +54,7 @@ databaseChangeLog:
                     deleteCascade: true
               - column:
                   name: applicant_id
-                  type: integer
+                  type: long
                   constraints:
                     foreignKeyName: fk_resumes_applicant_id
                     references: users(id)

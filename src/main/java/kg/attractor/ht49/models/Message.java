@@ -1,18 +1,34 @@
 package kg.attractor.ht49.models;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "messages")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long respApplId;
-    private Long sender;
+
+    @ManyToOne
+    @JoinColumn(name = "responded_applicant_id")
+    private RespondedApplicant respApplId;
+
+    @ManyToOne
+    @JoinColumn(name = "sender")
+    private UserModel sender;
+
+    @Lob
+    @Column(name = "content")
     private String content;
+
+    @Column(name = "timestamp")
     private LocalDateTime timestamp;
 }
