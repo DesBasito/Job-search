@@ -1,5 +1,6 @@
 package kg.attractor.ht49.services.impl;
 
+import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
@@ -31,23 +32,27 @@ import java.util.stream.StreamSupport;
 public class UserServiceImpl implements UserService {
     private final UserModelRepository userModelRepository;
     private final AuthorityRepository authorityRepository;
+    private final UserDao dao;
     private final FileUtil util;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<UserDto> getUsers() {
-        return userModelRepository.findAll().stream().map(this::getUserDto).collect(Collectors.toList());
+        return null;
     }
 
     @Override
     public UserDto getUserByEmail(String email) {
-        return getUserDto(userModelRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists")));
+        String accType = dao.getRoleByUserEmail(email);
+        return getUserDto(userModelRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists")), accType);
     }
 
 
     @Override
     public UserDto getUserById(Long id) {
-        return getUserDto(userModelRepository.findById(id).orElseThrow(() -> new UserNotFoundException("user with id: " + id + " does not exists")));
+        UserModel user = userModelRepository.findById(id).orElseThrow(() -> new UserNotFoundException("user with id: " + id + " does not exists"));
+        String accType = dao.getRoleByUserEmail(user.getEmail());
+        return getUserDto(user, accType);
     }
 
     @Override
@@ -73,7 +78,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserByPhone(String phone) {
         UserModel userModel = userModelRepository.findByPhoneNumber(phone).orElseThrow(() -> new UserNotFoundException("User by phone num: " + phone + " not found"));
-        return getUserDto(userModel);
+        String accType = dao.getRoleByUserEmail(userModel.getEmail());
+        return getUserDto(userModel,accType);
     }
 
     @Override
@@ -109,7 +115,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(String oldPassword, String newPassword, String email) {
         UserModel user = userModelRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User by email: " + email + "not registered"));
-        if (passwordEncoder.matches(user.getPassword(),oldPassword)) {
+        if (passwordEncoder.matches(user.getPassword(), oldPassword)) {
             user.setPassword(newPassword);
             userModelRepository.save(user);
         }
@@ -118,7 +124,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<InputStreamResource> downloadImage(String name) {
-        return util.getOutputFile(name,"/images");
+        return util.getOutputFile(name, "/images");
     }
 
 
@@ -126,7 +132,7 @@ public class UserServiceImpl implements UserService {
     public Boolean loginCheck(String email, String password) {
         return userModelRepository.findAll().stream()
                 .anyMatch(userModel ->
-                        userModel.getEmail().equals(email) && passwordEncoder.matches(password,userModel.getPassword()));
+                        userModel.getEmail().equals(email) && passwordEncoder.matches(password, userModel.getPassword()));
     }
 
     @Override
@@ -135,13 +141,13 @@ public class UserServiceImpl implements UserService {
     }
 
 
-    private UserDto getUserDto(UserModel userModel) {
+    private UserDto getUserDto(UserModel userModel, String accType) {
         return UserDto.builder()
                 .id(userModel.getId())
                 .name(userModel.getName())
                 .surname(userModel.getSurname())
                 .age(userModel.getAge())
-//                .accType(accType)
+                .accType(accType)
                 .email(userModel.getEmail())
                 .phoneNumber(userModel.getPhoneNumber())
                 .avatar(userModel.getAvatar())
