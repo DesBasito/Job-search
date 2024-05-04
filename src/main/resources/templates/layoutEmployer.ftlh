@@ -16,25 +16,16 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
                 crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-                integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
-                crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-                integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
-                crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
                 crossorigin="anonymous"></script>
     </head>
-    <#assign known = SPRING_SECURITY_CONTEXT??>
-    <#if known>
-        <#assign authorizedUserEmail = SPRING_SECURITY_CONTEXT.authentication.name>
-    </#if>
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="/"><img src="/api/users/image/logo.png" width="120px"
-                                                      alt="Job search"></a>
+                <a class="navbar-brand" href="/"><img src="/api/users/image/logo.png" width="120px" alt="Job search"></a>
                 <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -49,13 +40,9 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav fw-medium mx-auto">
-                        <li class="nav-item" id="userAuthority">
-                            <a class="nav-link active" aria-current="page" href="/">Вакансии
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/resume">Резюме
                             </a>
-                        </li>
-
-                        <li class="mx-3 nav-item">
-                            <a class="nav-link " href="#">Компании</a>
                         </li>
                         <li class="mx-3 nav-item">
                             <a class="nav-link" href="/api/users/image/Prime.jpeg">связатся с тех-поддержкой</a>
@@ -93,23 +80,4 @@
         </div>
     </footer>
     </html>
-
-    <script>
-        <#if authorizedUserEmail??>
-        const liElement = document.getElementById('userAuthority');
-        window.onload = async ()=> {
-            const authUser = '${authorizedUserEmail}';
-            const url = await fetch(`api/users?email=`+authUser);
-            const data = await url.json();
-            if (data.accType === 'employer') {
-                liElement.innerHTML = ' ';
-                liElement.innerHTML = `
-                    <li class="nav-item" id="userAuthority">
-                        <a class="nav-link active" aria-current="page" href="/resume">Список резюме</a>
-                    </li>
-                `;
-            }
-        }
-        </#if>
-    </script>
 </#macro>

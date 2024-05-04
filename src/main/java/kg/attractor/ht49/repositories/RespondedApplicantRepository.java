@@ -11,7 +11,4 @@ import java.util.List;
 public interface RespondedApplicantRepository extends JpaRepository<RespondedApplicant,Long> {
     List<RespondedApplicant> findByVacancyId(Long id);
 
-    @Modifying
-    @Query(nativeQuery = true, value = "INSERT INTO RESPONDED_APPLICANTS(vacancy_id, resume_id, CONFIRMATION) values ( :resumeId, :vacancyId, false ) ")
-    void createRespond(Long resumeId, Long vacancyId);
 }

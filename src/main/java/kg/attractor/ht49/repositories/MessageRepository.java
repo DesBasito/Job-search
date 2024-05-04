@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    List<Message> findMessageByRespApplId_Id(Long respApplId);
+    List<Message> findMessageByRespApplicant_Id(Long respApplId);
 
     @Query(value = """ 
             select * from MESSAGES
@@ -26,8 +26,8 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             insert into MESSAGES(responded_applicant_id, sender, content, timestamp)\s
             values ( :respApplId, :sender, :content,:timestamp )
             """, nativeQuery = true)
-    void createMessage(@Param("content") String content,
-                       @Param("respApplId") Long respApplId,
-                       @Param("timestamp") LocalDateTime timestamp,
-                       @Param("sender") String sender);
+    void createMessage( String content,
+                        Long respApplId,
+                        LocalDateTime timestamp,
+                       String sender);
 }

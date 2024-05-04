@@ -8,7 +8,7 @@ import kg.attractor.ht49.models.Resume;
 import java.util.List;
 
 public interface WorkExperienceInfoService {
-    void editInfo(WorkExpInfoEditDto info);
+    void editInfo(WorkExpInfoEditDto info,Resume resume);
 
 
     void createWorkExpInfo(WorkExpInfoCreateDto info, Resume resume);

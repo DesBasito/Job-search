@@ -23,8 +23,8 @@ public class UserController {
     private final UserService service;
 
     @GetMapping()
-    public ResponseEntity<List<UserDto>> getUsers() {
-        return ResponseEntity.ok(service.getUsers());
+    public ResponseEntity<UserDto> getUser(@RequestParam String email) {
+        return ResponseEntity.ok(service.getUser(email));
     }
 
 

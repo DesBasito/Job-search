@@ -27,7 +27,7 @@
             <div class="col-md-8">
                 <div class="card border-0 shadow-lg">
                     <main>
-                        <form action="/resume/update?id=${resume.id}" method="post">
+                        <form action="/resume/edit/${resume.id}" method="post">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">
                                     <label>
@@ -66,7 +66,7 @@
                                             <h6>
                                                 <label>
                                                     <input name="workExpInfoEdit[${work_index}].id" value="${work.id}"
-                                                           placeholder="id" disabled>
+                                                           placeholder="id" hidden="hidden">
                                                 </label>
                                                 <label>
                                                     <input type="text" name="workExpInfoEdit[${work_index}].position" value="${work.position}"

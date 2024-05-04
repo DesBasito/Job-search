@@ -80,10 +80,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div id="contacts" class="d-flex justify-content-center">
-                    <input id="add-contacts-btn" class="btn btn-success my-3" type="button" value="add more">
-                </div>
             </div>
 
             <div class="d-grid gap-2">

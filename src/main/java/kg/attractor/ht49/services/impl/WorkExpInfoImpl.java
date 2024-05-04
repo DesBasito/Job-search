@@ -18,13 +18,14 @@ import java.util.List;
 public class WorkExpInfoImpl implements WorkExperienceInfoService {
     private final WorkExperienceInfoRepository workExperienceInfoRepository;
     @Override
-    public void editInfo(WorkExpInfoEditDto info) {
+    public void editInfo(WorkExpInfoEditDto info,Resume resume) {
         WorkExperienceInfo info2 = WorkExperienceInfo.builder()
                 .id(info.getId())
                 .companyName(info.getCompanyName())
                 .position(info.getPosition())
                 .responsibilities(info.getResponsibilities())
                 .years(info.getYears())
+                .resume(resume)
                 .build();
         workExperienceInfoRepository.save(info2);
     }

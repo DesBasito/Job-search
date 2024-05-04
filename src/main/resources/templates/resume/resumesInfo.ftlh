@@ -30,7 +30,7 @@
                         <h3 class="card-title mb-4">${resume.name}</h3>
                         <p class="card-text text-muted"><strong>Category:</strong> ${resume.category}</p>
                         <p class="card-text text-muted"><strong>Salary:</strong> ${resume.salary}</p>
-                        <p class="card-text text-muted"><strong>Email:</strong> ${resume.userEmail}</p>
+                        <p class="card-text text-muted"><strong>Email:</strong> ${resume.applicant.email}</p>
                         <p class="card-text text-muted">
                             <strong>Active:</strong> ${resume.isActive ? string('Yes', 'No')}</p>
 

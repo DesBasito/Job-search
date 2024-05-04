@@ -8,7 +8,7 @@ import kg.attractor.ht49.models.Resume;
 import java.util.List;
 
 public interface EducationInfoService {
-    void editInfo(EducationInfoEditDto info);
+    void editInfo(EducationInfoEditDto info,Resume resume);
 
     boolean deleteEducationInfoById(Long id);
 

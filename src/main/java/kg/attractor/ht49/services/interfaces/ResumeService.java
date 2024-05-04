@@ -20,6 +20,8 @@ public interface ResumeService {
 
     List<ResumeDto> getResumesByUserEmail(String user);
 
+    ResumeDto getResumeDto(Resume r);
+
     ResumeDto getResumeById(Long id);
 
     Long createResume(ResumeCreateDto resume, Authentication auth);
@@ -27,8 +29,6 @@ public interface ResumeService {
     Boolean deleteResumeById(Long id);
 
     void editResume(EditResumeDto editDto, Authentication auth);
-
-    List<ResumeDto> getResumeDtos(List<Resume> resumes);
 
     List<ResumeDto> getResumeByName(String rName);
 

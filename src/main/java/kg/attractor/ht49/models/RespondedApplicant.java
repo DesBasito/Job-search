@@ -27,6 +27,6 @@ public class RespondedApplicant {
 
     private Boolean confirmation;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "respApplId")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "respApplicant")
     List<Message> messages;
 }

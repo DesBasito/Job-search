@@ -8,7 +8,6 @@ import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.repositories.ContactInfoRepository;
 import kg.attractor.ht49.services.interfaces.ContactsInfoService;
 import kg.attractor.ht49.services.interfaces.ContactsTypeService;
-import kg.attractor.ht49.services.interfaces.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
