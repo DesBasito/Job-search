@@ -21,6 +21,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,6 +150,9 @@ public class VacancyServiceImpl implements VacancyService {
                 .salary(vacancy1.getSalary())
                 .expFrom(vacancy1.getExpFrom())
                 .expTo(vacancy1.getExpTo())
+                .isActive(true)
+                .createdDate(LocalDateTime.now())
+                .updateDate(LocalDateTime.now())
                 .build();
         return vacancyRepository.save(vacancy).getId();
     }
@@ -176,6 +181,11 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public boolean existsById(Long id) {
         return vacancyRepository.existsById(id);
+    }
+
+    @Override
+    public Vacancy getVacancyModelById(Long vacancyId) {
+        return vacancyRepository.findById(vacancyId).orElseThrow(() -> new VacancyNotFoundException("vacancy by id: "+vacancyId+" not found"));
     }
 
     private Page<VacancyDto> toPage(List<VacancyDto> vacncies, Pageable pageable) {

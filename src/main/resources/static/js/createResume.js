@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
     const workExpContainer = document.getElementById('workExp');
     const educationContainer = document.getElementById('education');
-    const contactsContainer = document.getElementById('addContacts');
 
     let workExpCounter = 0;
     let educationCounter = 0;
@@ -42,6 +41,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
             educationCounter++;
         }
+        let closeButton = document.createElement('button');
+        closeButton.className = 'btn btn-danger'
+        closeButton.classList.add('card-close');
+        closeButton.textContent = 'удалить';
+        closeButton.addEventListener('click', () => {
+            cardBody.remove();
+        });
+
+        cardBody.appendChild(closeButton);
+
+        container.appendChild(cardBody);
+        container.appendChild(cardBody);
     }
 
     function createInputField(type, name, label) {
@@ -61,8 +72,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         return container;
     }
-
-
 
     function createTextarea(name,label) {
         const container = document.createElement('div');

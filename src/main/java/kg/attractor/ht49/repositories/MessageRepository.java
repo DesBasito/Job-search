@@ -13,7 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Long> {
-    List<Message> findMessageByRespApplId_Id(Long respApplId);
+    List<Message> findMessageByRespApplicant_Id(Long respApplId);
 
     @Query(value = """ 
             select * from MESSAGES

@@ -4,6 +4,7 @@ package kg.attractor.ht49.services.interfaces;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
+import kg.attractor.ht49.models.Vacancy;
 import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 
@@ -39,4 +40,6 @@ public interface VacancyService {
     void updateVacancy(Long id);
 
     boolean existsById(Long id);
+
+    Vacancy getVacancyModelById(Long vacancyId);
 }

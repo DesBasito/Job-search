@@ -91,7 +91,7 @@
                             <div class="card-footer d-flex justify-content-between gx-2 my-2">
                                 <div>
                                     <main>
-                                        <form action="/vacancies/update?id=${vacancy.id}" method="post">
+                                        <form action="/vacancies/edit?id=${vacancy.id}" method="post">
                                             <button type="submit" class="btn btn-primary" style="width: 150px">Update
                                             </button>
                                         </form>

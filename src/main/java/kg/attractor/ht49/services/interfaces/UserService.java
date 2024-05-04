@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 public interface UserService {
-    List<UserDto> getUsers();
+    UserDto getUser(String email);
     UserDto getUserByEmail(String email) ;
     UserDto getUserById(Long id);
     void createUser(UserCreationDto user);

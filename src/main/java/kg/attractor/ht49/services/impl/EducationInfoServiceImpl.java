@@ -21,7 +21,7 @@ public class EducationInfoServiceImpl implements EducationInfoService {
 
 
     @Override
-    public void editInfo(EducationInfoEditDto info) {
+    public void editInfo(EducationInfoEditDto info,Resume resume) {
         EducationInfo edu = EducationInfo.builder()
                 .id(info.getId())
                 .institution(info.getInstitution())
@@ -29,6 +29,7 @@ public class EducationInfoServiceImpl implements EducationInfoService {
                 .startDate(info.getStartDate())
                 .endDate(info.getEndDate())
                 .degree(info.getDegree())
+                .resume(resume)
                 .build();
         educationInfoRepository.save(edu);
     }
@@ -50,6 +51,7 @@ public class EducationInfoServiceImpl implements EducationInfoService {
                 .resume(resume)
                 .program(info.getProgram())
                 .startDate(info.getStartDate())
+                .endDate(info.getEndDate())
                 .build();
            educationInfoRepository.save(educationInfo);
     }

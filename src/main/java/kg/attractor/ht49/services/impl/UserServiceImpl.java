@@ -37,8 +37,10 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<UserDto> getUsers() {
-        return null;
+    public UserDto getUser(String email) {
+        UserModel userModel = userModelRepository.findByEmail(email).orElseThrow();
+        String accType = dao.getRoleByUserEmail(email);
+        return getUserDto(userModel,accType);
     }
 
     @Override
@@ -115,8 +117,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public void changePassword(String oldPassword, String newPassword, String email) {
         UserModel user = userModelRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User by email: " + email + "not registered"));
-        if (passwordEncoder.matches(user.getPassword(), oldPassword)) {
-            user.setPassword(newPassword);
+        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(newPassword));
             userModelRepository.save(user);
         }
     }

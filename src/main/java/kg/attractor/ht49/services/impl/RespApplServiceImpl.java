@@ -3,18 +3,12 @@ package kg.attractor.ht49.services.impl;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
-import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.Resume;
-import kg.attractor.ht49.models.UserModel;
-import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.repositories.RespondedApplicantRepository;
-import kg.attractor.ht49.repositories.ResumeRepository;
-import kg.attractor.ht49.repositories.VacancyRepository;
 import kg.attractor.ht49.services.interfaces.RespondedApplicantsService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
-import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -44,9 +38,7 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
             throw new VacancyNotFoundException("Vacancy by id: " + id + " not found");
         }
         List<RespondedApplicant> applicants = respondedApplicantRepository.findByVacancyId(id);
-        List<Resume> resumes = new ArrayList<>();
-        applicants.forEach(a -> resumes.add(a.getResume()));
-        return resumeService.getResumeDtos(resumes);
+        return applicants.stream().map(a -> resumeService.getResumeDto(a.getResume())).collect(Collectors.toList());
     }
 
     @Override
@@ -58,7 +50,12 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
                 return;
             }
         }
-        respondedApplicantRepository.createRespond(resumeId,vacancyId);
+        RespondedApplicant respondedApplicant = RespondedApplicant.builder()
+                .resume(resumeService.getResumeModel(resumeId))
+                .vacancy(vacancyService.getVacancyModelById(vacancyId))
+                .confirmation(false)
+                .build();
+        respondedApplicantRepository.save(respondedApplicant);
     }
 
 
@@ -86,6 +83,10 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
         return resumes.size();
     }
 
+    @Override
+    public RespondedApplicant getRespondedApplicantModelById(Long respApplId) {
+        return respondedApplicantRepository.findById(respApplId).orElseThrow(NoSuchElementException::new);
+    }
 
 
     private RespondedApplicantDto getRespondedApplicantDto(RespondedApplicant e) {

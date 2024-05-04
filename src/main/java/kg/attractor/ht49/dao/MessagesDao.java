@@ -57,7 +57,7 @@ public class MessagesDao {
                 .addValue("sender",build.getSender())
                 .addValue("content",build.getContent())
                 .addValue("timestamp",build.getTimestamp())
-                .addValue("responded_applicant_id",build.getRespApplId())
+//                .addValue("responded_applicant_id",build.getRespApplId())
         );
     }
 }

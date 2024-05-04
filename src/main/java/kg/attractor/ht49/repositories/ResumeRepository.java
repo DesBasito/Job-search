@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ResumeRepository extends JpaRepository<Resume,Long> {
@@ -28,8 +29,9 @@ public interface ResumeRepository extends JpaRepository<Resume,Long> {
     @Modifying
     @Query(nativeQuery = true,value = """
             UPDATE RESUMES
-            SET UPDATE_DATE = now()
+            SET UPDATE_DATE = :updateDate
             WHERE id = :id;
             """)
-    void updateResume(Long id);
+    void updateResumeByIdAndUpdateDate(Long id, LocalDateTime updateDate);
+
 }

@@ -16,6 +16,8 @@ spring:
     user:
       name: email
       password: password
+  freemarker:
+    expose-session-attributes: true
   jpa:
     hibernate:
       ddl-auto: validate
