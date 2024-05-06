@@ -15,6 +15,9 @@
                     </div>
                 </div>
             </#list>
+            <#if page - 1 == 0>
+                <#assign page= 2>
+            </#if>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item"><a class="page-link" href="/resume?page=${page - 1}">Previous</a></li>

@@ -17,11 +17,14 @@
             </#list>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=${page - 1}">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=1">1</a></li>
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=2">2</a></li>
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=3">3</a></li>
-                    <li class="page-item"><a class="page-link" href="/vacancies?page=${page + 1}">Next</a></li>
+                    <#if page - 1 == 0>
+                        <#assign page=2>
+                    </#if>
+                    <li class="page-item"><a class="page-link" href="/?page=${page - 1}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="/?page=1">1</a></li>
+                    <li class="page-item"><a class="page-link" href="/?page=2">2</a></li>
+                    <li class="page-item"><a class="page-link" href="/?page=3">3</a></li>
+                    <li class="page-item"><a class="page-link" href="/?page=${page + 1}">Next</a></li>
                 </ul>
             </nav>
         </div>

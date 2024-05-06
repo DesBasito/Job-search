@@ -104,9 +104,7 @@
             if (data.accType === 'employer') {
                 liElement.innerHTML = ' ';
                 liElement.innerHTML = `
-                    <li class="nav-item" id="userAuthority">
                         <a class="nav-link active" aria-current="page" href="/resume">Список резюме</a>
-                    </li>
                 `;
             }
         }

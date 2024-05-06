@@ -32,9 +32,6 @@ public class MainController {
 
     @GetMapping()
     public String getVacancies(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){
-        if (page < 0){
-            page = 0;
-        }
         model.addAttribute("page", page);
         Page<VacancyDto> vacancies = vacancyService.getActiveVacanciesPage(page);
         model.addAttribute("vacancies",vacancies);
