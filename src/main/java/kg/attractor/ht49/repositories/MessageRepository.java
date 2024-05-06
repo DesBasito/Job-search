@@ -20,14 +20,4 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
             where id > ? and RESPONDED_APPLICANT_ID = ?
             """, nativeQuery = true)
     List<Message> findMessageByIdAndRespApplId(Long id, Long respondedApplicant);
-
-    @Modifying
-    @Query(value = """
-            insert into MESSAGES(responded_applicant_id, sender, content, timestamp)\s
-            values ( :respApplId, :sender, :content,:timestamp )
-            """, nativeQuery = true)
-    void createMessage( String content,
-                        Long respApplId,
-                        LocalDateTime timestamp,
-                       String sender);
 }

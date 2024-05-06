@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -36,10 +37,10 @@ public class UserModel {
     private String phoneNumber;
 
     @Lob
-    @Column(name = "avatar")
+    @Column
     private String avatar;
 
-    @Column(name = "enabled")
+    @Column
     private Boolean enabled;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "applicant")
@@ -50,4 +51,11 @@ public class UserModel {
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "sender")
     List<Message> messages;
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "user_authority",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_id"))
+    Set<Authority> roles;
 }

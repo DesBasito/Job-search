@@ -1,6 +1,7 @@
 package kg.attractor.ht49.services;
 
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,6 +25,6 @@ public class AuthAdapter {
         }
         String name = authentication.getName();
         return service.getUserByEmail(name);
-
     }
+
 }

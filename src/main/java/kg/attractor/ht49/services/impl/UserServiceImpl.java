@@ -1,11 +1,11 @@
 package kg.attractor.ht49.services.impl;
 
-import kg.attractor.ht49.dao.UserDao;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.exceptions.AlreadyExistsException;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
+import kg.attractor.ht49.models.Authority;
 import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.repositories.AuthorityRepository;
 import kg.attractor.ht49.repositories.UserModelRepository;
@@ -20,11 +20,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
+import java.util.HashSet;
 import java.util.NoSuchElementException;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -32,20 +31,38 @@ import java.util.stream.StreamSupport;
 public class UserServiceImpl implements UserService {
     private final UserModelRepository userModelRepository;
     private final AuthorityRepository authorityRepository;
-    private final UserDao dao;
     private final FileUtil util;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public UserDto getUser(String email) {
-        UserModel userModel = userModelRepository.findByEmail(email).orElseThrow();
-        String accType = dao.getRoleByUserEmail(email);
+        UserModel userModel = userModelRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        String accType = getAccTypeByUserEmail(email);
         return getUserDto(userModel,accType);
+    }
+
+    private String getAccTypeByUserEmail(String email) {
+        UserModel user = userModelRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
+        String accType = null;
+        Set<Authority> authorities = user.getRoles();
+
+        for (Authority authority : authorities) {
+            if ("admin".equals(authority.getRole())) {
+                accType = "admin";
+                break;
+            }
+        }
+
+        if (accType == null && !authorities.isEmpty()) {
+            accType = authorities.iterator().next().getRole();
+        }
+
+        return accType;
     }
 
     @Override
     public UserDto getUserByEmail(String email) {
-        String accType = dao.getRoleByUserEmail(email);
+        String accType = getAccTypeByUserEmail(email);
         return getUserDto(userModelRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("user with email: " + email + " does not exists")), accType);
     }
 
@@ -53,17 +70,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserById(Long id) {
         UserModel user = userModelRepository.findById(id).orElseThrow(() -> new UserNotFoundException("user with id: " + id + " does not exists"));
-        String accType = dao.getRoleByUserEmail(user.getEmail());
+        String accType = getAccTypeByUserEmail(user.getEmail());
         return getUserDto(user, accType);
     }
 
     @Override
     public void createUser(UserCreationDto dto) {
-        if (!userModelRepository.existsByEmail(dto.getEmail())) {
+        if (userModelRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException("User with email:" + dto.getEmail() + " already exists.");
         }
-        Long roleId = authorityRepository.findByRole(dto.getAccType()).orElseThrow(NoSuchElementException::new).getId();
-
         UserModel userModel = UserModel.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
@@ -72,6 +87,9 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .enabled(true)
+                .roles(new HashSet<>(
+                        Set.of(authorityRepository.findById(dto.getAccType()).orElseThrow(NoSuchElementException::new))
+                ))
                 .avatar(null)
                 .build();
         userModelRepository.save(userModel);
@@ -80,7 +98,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getUserByPhone(String phone) {
         UserModel userModel = userModelRepository.findByPhoneNumber(phone).orElseThrow(() -> new UserNotFoundException("User by phone num: " + phone + " not found"));
-        String accType = dao.getRoleByUserEmail(userModel.getEmail());
+        String accType = getAccTypeByUserEmail(userModel.getEmail());
         return getUserDto(userModel,accType);
     }
 

@@ -15,8 +15,8 @@
                     </div>
                 </div>
             </#list>
-            <#if page - 1 == 0>
-                <#assign page= 2>
+            <#if page - 1 < 0>
+                <#assign page = 1>
             </#if>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">

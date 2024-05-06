@@ -33,6 +33,6 @@ public class UserCreationDto {
     @Size(max = 25)
     private String phoneNumber;
 
-    @NotBlank @Pattern(regexp = "^(?=.*[a-z])(?=.*[a-zA-Z]).+$", message = "Should contain only letters")
-    private String accType;
+    @NotNull
+    private Long accType;
 }

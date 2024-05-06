@@ -26,9 +26,9 @@ public class Message {
     private UserModel sender;
 
     @Lob
-    @Column(name = "content")
+    @Column
     private String content;
 
-    @Column(name = "timestamp")
+    @Column
     private LocalDateTime timestamp;
 }

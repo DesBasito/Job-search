@@ -1,6 +1,5 @@
 package kg.attractor.ht49.services.impl;
 
-import kg.attractor.ht49.dao.CategoryDao;
 import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.exceptions.CategoryNotFoundException;
 import kg.attractor.ht49.models.Category;

@@ -17,8 +17,8 @@
             </#list>
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                    <#if page - 1 == 0>
-                        <#assign page=2>
+                    <#if page - 1 < 0>
+                        <#assign page = 1>
                     </#if>
                     <li class="page-item"><a class="page-link" href="/?page=${page - 1}">Previous</a></li>
                     <li class="page-item"><a class="page-link" href="/?page=1">1</a></li>
