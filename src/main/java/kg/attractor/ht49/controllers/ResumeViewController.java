@@ -66,7 +66,7 @@ public class ResumeViewController {
 
 
     @GetMapping()
-    public String getResumes(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){
+    public String getResumes(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){om
         model.addAttribute("page", page);
         Page<ResumeDto> resumes = service.getResumesPage(page);
         model.addAttribute("resumes",resumes);
