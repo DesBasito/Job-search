@@ -7,21 +7,20 @@ import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.Category;
-import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.models.Vacancy;
+import kg.attractor.ht49.repositories.RespondedApplicantRepository;
 import kg.attractor.ht49.repositories.VacancyRepository;
 import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +112,7 @@ public class VacancyServiceImpl implements VacancyService {
     @Override
     public List<VacancyDto> getActiveVacanciesByCompany(String email) {
         Long id = userService.getUserByEmail(email).getId();
-        List<Vacancy> vacancies = vacancyRepository.findByAuthor_EmailAndIsActive(email,true);
+        List<Vacancy> vacancies = vacancyRepository.findByAuthor_EmailAndIsActive(email, true);
         return getVacancyDtos(id, vacancies);
     }
 
@@ -167,10 +166,33 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public Page<VacancyDto> getActiveVacanciesPage(Integer pageNumber) {
-        List<VacancyDto> vacancies = vacancyRepository.findByIsActive(true).stream().map(this::getVacancyDto).toList();
-        return toPage(vacancies, PageRequest.of(pageNumber, 5));
+    public Page<VacancyDto> getActiveVacanciesPage(Integer pageNumber, String filter) {
+        final int count = 5;
+        Pageable pageable ;
+        Page<Vacancy> vacancies;
+        if (filter != null) {
+            if (filter.contains("Date")) {
+                pageable = getPageableBySort(filter, pageNumber,"updateDate");
+            } else {
+                pageable = getPageableBySort(filter,pageNumber,"respondedApplicants");
+            }
+        } else {
+            pageable = PageRequest.of(pageNumber,count);
+        }
+        vacancies = vacancyRepository.findAll(pageable);
+        return vacancies.map(this::getVacancyDto);
+    }
 
+
+    private Pageable getPageableBySort(String filter, int pageNumber,String sort) {
+        Sort sortBy;
+        if (filter.contains("asc")) {
+            sortBy = Sort.by(Sort.Order.asc(sort));
+            return PageRequest.of(pageNumber, 5, sortBy);
+        } else {
+            sortBy = Sort.by(Sort.Order.desc(sort));
+            return PageRequest.of(pageNumber, 5, sortBy);
+        }
     }
 
     @Override
@@ -185,18 +207,15 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public Vacancy getVacancyModelById(Long vacancyId) {
-        return vacancyRepository.findById(vacancyId).orElseThrow(() -> new VacancyNotFoundException("vacancy by id: "+vacancyId+" not found"));
+        return vacancyRepository.findById(vacancyId).orElseThrow(() -> new VacancyNotFoundException("vacancy by id: " + vacancyId + " not found"));
     }
 
-    private Page<VacancyDto> toPage(List<VacancyDto> vacncies, Pageable pageable) {
-        if (pageable.getOffset() >= vacncies.size()) {
-            return Page.empty();
-        }
-        int startIndex = (int) pageable.getOffset();
-        int endIndex = (int) ((pageable.getOffset() + pageable.getPageSize() > vacncies.size() ?
-                vacncies.size() : pageable.getOffset() + pageable.getPageSize()));
-        List<VacancyDto> subList = vacncies.subList(startIndex, endIndex);
-        return new PageImpl<>(subList, pageable, vacncies.size());
+    @Override
+    public Page<VacancyDto> getActiveVacanciesPageByEmail(Integer page, String email) {
+        final int count = 5;
+        Pageable pageable =PageRequest.of(page, 5);
+        Page<Vacancy> vacancies= vacancyRepository.findByAuthor_EmailAndIsActive(pageable);
+        return vacancies.map(this::getVacancyDto);
     }
 
     private VacancyDto getVacancyDto(Vacancy e) {

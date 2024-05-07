@@ -7,6 +7,7 @@ import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
@@ -15,14 +16,15 @@ import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.UserModel;
+import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.repositories.ResumeRepository;
 import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -246,10 +248,30 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public Page<ResumeDto> getResumesPage(Integer page) {
-        List<ResumeDto> resumes = resumeRepository.findAll().stream().map(this::getResumeDto).collect(Collectors.toList());
-        return toPage(resumes, PageRequest.of(page, 5));
+    public Page<ResumeDto> getResumesPage(Integer page,String filter) {
+        final int count = 5;
+        Pageable pageable ;
+        Page<Resume> resumes;
+        if (filter != null) {
+                pageable = getPageableByDate(filter, page);
+        } else {
+            pageable = PageRequest.of(page,count);
+        }
+        resumes = resumeRepository.findAll(pageable);
+        return resumes.map(this::getResumeDto);
+    }
 
+
+
+    private Pageable getPageableByDate(String filter, int pageNumber) {
+        Sort sortBy;
+        if (filter.contains("asc")) {
+            sortBy = Sort.by(Sort.Order.asc("updateDate"));
+            return PageRequest.of(pageNumber, 5, sortBy);
+        } else {
+            sortBy = Sort.by(Sort.Order.desc("updateDate"));
+            return PageRequest.of(pageNumber, 5, sortBy);
+        }
     }
 
     @Override
@@ -274,16 +296,5 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public Resume getResumeModel(Long id) {
         return resumeRepository.findById(id).orElseThrow(() -> new ResumeNotFoundException("REsume by id " + id + " not found"));
-    }
-
-    private Page<ResumeDto> toPage(List<ResumeDto> resumes, Pageable pageable) {
-        if (pageable.getOffset() >= resumes.size()) {
-            return Page.empty();
-        }
-        int startIndex = (int) pageable.getOffset();
-        int endIndex = (int) ((pageable.getOffset() + pageable.getPageSize() > resumes.size() ?
-                resumes.size() : pageable.getOffset() + pageable.getPageSize()));
-        List<ResumeDto> subList = resumes.subList(startIndex, endIndex);
-        return new PageImpl<>(subList, pageable, resumes.size());
     }
 }

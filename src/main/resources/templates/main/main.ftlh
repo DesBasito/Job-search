@@ -2,30 +2,9 @@
 <@main.layout>
     <div class="row">
         <div class="col-md-8">
-            <#list vacancies.content as vacancy>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <a href="#" class="text-decoration-none text-dark">${vacancy.authorEmail}</a>
-                        <h3 class="mt-2 mb-5"><a href="vacancies/info/${vacancy.id}"
-                                                 class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${vacancy.name}</a>
-                        </h3>
-                        <h5 class="card-title">${vacancy.description}</h5>
-                        <p class="card-text">salary<br>${vacancy.salary}</p>
-                        <p class="text-end">${vacancy.updateTime.getDayOfMonth()} - ${vacancy.updateTime.getMonth()}</p>
-                    </div>
-                </div>
-            </#list>
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <#if page - 1 < 0>
-                        <#assign page = 1>
-                    </#if>
-                    <li class="page-item"><a class="page-link" href="/?page=${page - 1}">Previous</a></li>
-                    <li class="page-item"><a class="page-link" href="/?page=1">1</a></li>
-                    <li class="page-item"><a class="page-link" href="/?page=2">2</a></li>
-                    <li class="page-item"><a class="page-link" href="/?page=3">3</a></li>
-                    <li class="page-item"><a class="page-link" href="/?page=${page + 1}">Next</a></li>
-                </ul>
+            <div id="page-list">
+            </div>
+            <nav aria-label="Page navigation example" id="paging-buttons">
             </nav>
         </div>
         <div class="col-md-4 h-100">
@@ -47,6 +26,41 @@
                     </form>
                 </div>
             </div>
+            <div class="card card-body mt-2">
+                <form action="/" method="get">
+                    <h5 class="card-title">Sort Vacancies</h5>
+                    <div class="my-3">
+                        <select class="form-select" name="filter" aria-label="Default select example">
+                            <option value="ascDate">date ascending</option>
+                            <option value="descDate">date descending</option>
+                            <option value="ascApplies">applies ascending</option>
+                            <option value="descApplies">applies descending</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Filter</button>
+                </form>
+            </div>
         </div>
     </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        const sortingBy = '${filter}'
+            <#if authorizedUserEmail??>
+            window.addEventListener('load', async () => {
+                const authUser = '${authorizedUserEmail}';
+                const url =  fetch(`api/users?email=` + authUser);
+                const data =  await url.json();
+                const liElement = document.getElementById('userAuthority');
+                if (data.accType === 'employer') {
+                    liElement.innerHTML = ' ';
+                    liElement.innerHTML = `
+                    <a class="nav-link active" aria-current="page" href="/resume">Список резюме</a>
+                `;
+                }
+            });
+</#if>
+    </script>
+
+    <script src="/js/main.js"></script>
 </@main.layout>

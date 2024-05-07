@@ -1,14 +1,17 @@
 package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
+import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.services.interfaces.ResumeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +25,14 @@ public class ResumeController {
     @GetMapping()
     public ResponseEntity<List<ResumeDto>> getResumes() {
         var resumes = service.getResumes();
+        return ResponseEntity.ok(resumes);
+    }
+
+    @GetMapping("/paging")
+    public ResponseEntity<Page<ResumeDto>> getResumes(@RequestParam(name = "page", defaultValue = "0") Integer page,
+                             @RequestParam(name = "filter", defaultValue = "null") String filter){
+        page = page > 0 ? page - 1 : 0;
+        Page<ResumeDto> resumes = service.getResumesPage(page,filter);
         return ResponseEntity.ok(resumes);
     }
 

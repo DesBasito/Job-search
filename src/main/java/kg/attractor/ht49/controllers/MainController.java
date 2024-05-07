@@ -1,7 +1,6 @@
 package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.CategoryDto;
-import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
@@ -25,23 +24,22 @@ public class MainController {
     private final VacancyService vacancyService;
     private final CategoryService categoryService;
     private final RespondedApplicantsService respondedApplicantsService;
+
     @GetMapping("/login")
     public String login() {
         return "login/login";
     }
 
     @GetMapping()
-    public String getVacancies(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){
-        if (page < 0){
-            page = 0;
-        }
-        model.addAttribute("page", page);
-        Page<VacancyDto> vacancies = vacancyService.getActiveVacanciesPage(page);
-        model.addAttribute("vacancies",vacancies);
+    public String getVacancies(Model model ,@RequestParam(name = "filter", defaultValue = "null") String filter) {
+        Page<VacancyDto> vacancies = vacancyService.getActiveVacanciesPage(0, filter);
+        model.addAttribute("vacancies", vacancies);
         List<CategoryDto> categories = categoryService.getCategories();
-        model.addAttribute("categories",categories);
+        model.addAttribute("categories", categories);
+        model.addAttribute("filter", filter);
         return "main/main";
     }
+
     @GetMapping("/profile")
     public String applicantInfo(Model model, Authentication authentication) {
         UserDto user = service.getUserByEmail(authentication.getName());

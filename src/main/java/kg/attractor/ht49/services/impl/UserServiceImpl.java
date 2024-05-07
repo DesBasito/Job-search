@@ -43,19 +43,10 @@ public class UserServiceImpl implements UserService {
 
     private String getAccTypeByUserEmail(String email) {
         UserModel user = userModelRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
-        String accType = null;
+        String accType;
         Set<Authority> authorities = user.getRoles();
 
-        for (Authority authority : authorities) {
-            if ("admin".equals(authority.getRole())) {
-                accType = "admin";
-                break;
-            }
-        }
-
-        if (accType == null && !authorities.isEmpty()) {
-            accType = authorities.iterator().next().getRole();
-        }
+        accType = authorities.stream().anyMatch(authority -> "admin".equals(authority.getRole())) ? "admin" :  authorities.iterator().next().getRole();
 
         return accType;
     }

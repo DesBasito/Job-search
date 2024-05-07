@@ -2,13 +2,16 @@ package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -40,6 +43,20 @@ public class VacancyController {
     @GetMapping("/vacancy")
     public ResponseEntity<List<VacancyDto>> getVacanciesOfRespondedApplicantEmail(@Valid @Email @RequestParam(name = "email", defaultValue = "") String email) {
         return ResponseEntity.ok(service.getVacanciesByRespondedApplicant(email.strip()));
+    }
+
+    @GetMapping("/paging")
+    public ResponseEntity<Page<VacancyDto>> getVacancies(@RequestParam(name = "page", defaultValue = "0") Integer page, @RequestParam(name = "filter",defaultValue = "null") String filter){
+        page = page > 0 ? page - 1 : 0;
+        Page<VacancyDto> vacancies = service.getActiveVacanciesPage(page, filter);
+        return ResponseEntity.ok(vacancies);
+    }
+
+    @GetMapping("/{email}/paging")
+    public ResponseEntity<Page<VacancyDto>> getVacanciesByProfile(@RequestParam(name = "page", defaultValue = "0") Integer page, @PathVariable String email){
+        page = page > 0 ? page - 1 : 0;
+        Page<VacancyDto> vacancies = service.getActiveVacanciesPageByEmail(page,email);
+        return ResponseEntity.ok(vacancies);
     }
 
     @GetMapping("/category")

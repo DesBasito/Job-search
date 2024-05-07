@@ -66,13 +66,8 @@ public class ResumeViewController {
 
 
     @GetMapping()
-    public String getResumes(Model model, @RequestParam(name = "page", defaultValue = "0") Integer page){
-        if (page < 0){
-            page = 0;
-        }
-        model.addAttribute("page", page);
-        Page<ResumeDto> resumes = service.getResumesPage(page);
-        model.addAttribute("resumes",resumes);
+    public String getResumes(Model model, @RequestParam(name = "filter", defaultValue = "null") String filter){
+        model.addAttribute("filter",filter);
         List<CategoryDto> categories = categoryService.getCategories();
         model.addAttribute("categories",categories);
         return "resume/resumeList";

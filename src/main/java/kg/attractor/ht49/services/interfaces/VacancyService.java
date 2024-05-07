@@ -35,11 +35,13 @@ public interface VacancyService {
 
     void changeVacancyState(Long id);
 
-    Page<VacancyDto> getActiveVacanciesPage(Integer page);
+    Page<VacancyDto> getActiveVacanciesPage(Integer page,String byUpdate);
 
     void updateVacancy(Long id);
 
     boolean existsById(Long id);
 
     Vacancy getVacancyModelById(Long vacancyId);
+
+    Page<VacancyDto> getActiveVacanciesPageByEmail(Integer page, String email);
 }

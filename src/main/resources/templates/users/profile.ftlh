@@ -76,7 +76,7 @@
         <#if user.accType=='employer'>
             <#if vacancies?has_content>
                 <h6 class="mt-5">Вакансии :</h6>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="row row-cols-1 row-cols-md-3 g-4" id="employer">
                     <#list vacancies as vacancy>
                         <div class="col mb-3">
                             <div class="card">
@@ -107,6 +107,9 @@
                             </div>
                         </div>
                     </#list>
+
+                    <nav aria-label="Page navigation example" id="employer-pageButtons">
+                    </nav>
                 </div>
             </#if>
         <#else>

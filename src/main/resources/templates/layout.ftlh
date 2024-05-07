@@ -42,7 +42,11 @@
                 </button>
                 <button type="button"
                         class="btn btn-link btn-user bg-orange rounded-1 text-light bg-orange order-md-1 ms-3"
-                        onclick="window.location.href='/profile'"
+                        <#if authorizedUserEmail??>
+                            onclick="window.location.href='/profile'"
+                        <#else>
+                            onclick="window.location.href='/login'"
+                        </#if>
                         data-bs-toggle="tooltip" data-bs-placement="left" title="Profile">
                     <i class="bi bi-person-circle"></i>
                 </button>
@@ -94,20 +98,20 @@
     </footer>
     </html>
 
-    <script>
-        <#if authorizedUserEmail??>
-        const liElement = document.getElementById('userAuthority');
-        window.onload = async ()=> {
-            const authUser = '${authorizedUserEmail}';
-            const url = await fetch(`api/users?email=`+authUser);
-            const data = await url.json();
-            if (data.accType === 'employer') {
-                liElement.innerHTML = ' ';
-                liElement.innerHTML = `
-                        <a class="nav-link active" aria-current="page" href="/resume">Список резюме</a>
-                `;
-            }
-        }
-        </#if>
-    </script>
+<#--    <#if authorizedUserEmail??>-->
+<#--        <script>-->
+<#--            const liElement = document.getElementById('userAuthority');-->
+<#--            window.onload =  () => {-->
+<#--                const authUser = '${authorizedUserEmail}';-->
+<#--                const url =  fetch(`api/users?email=` + authUser);-->
+<#--                const data =  url.json();-->
+<#--                if (data.accType === 'employer') {-->
+<#--                    liElement.innerHTML = ' ';-->
+<#--                    liElement.innerHTML = `-->
+<#--                        <a class="nav-link active" aria-current="page" href="/resume">Список резюме</a>-->
+<#--                `;-->
+<#--                }-->
+<#--            }-->
+<#--        </script>-->
+<#--    </#if>-->
 </#macro>

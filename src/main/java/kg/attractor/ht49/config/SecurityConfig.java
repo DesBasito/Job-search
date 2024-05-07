@@ -56,7 +56,7 @@ public class SecurityConfig {
                         .permitAll())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.GET, "vacancies").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/","api/vacancies/paging").permitAll()
                         .requestMatchers(HttpMethod.GET, "resume/create", "resume/update").hasAuthority("employee")
                         .requestMatchers(HttpMethod.GET, "employer/**", "vacancies/create", "vacancies/update").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST, "/register", "/login").permitAll()

@@ -16,8 +16,6 @@ public interface ResumeService {
     List<ResumeDto> getResumeByCategory(String name);
     List<ResumeDto> getResumeByCategory(String email,String name);
 
-    List<ResumeDto> getResumes();
-
     List<ResumeDto> getResumesByUserEmail(String user);
 
     ResumeDto getResumeDto(Resume r);
@@ -38,12 +36,14 @@ public interface ResumeService {
 
     List<EducationInfoForFrontDto> getEducationInfoByResumeId(Long id);
 
-    Page<ResumeDto> getResumesPage(Integer page);
+    Page<ResumeDto> getResumesPage(Integer page,String filter);
 
     EditResumeDto getResumeForEdit(Long id);
 
     void updateResume(Long id);
 
     Resume getResumeModel(Long id);
+
+    List<ResumeDto> getResumes();
 }
 
