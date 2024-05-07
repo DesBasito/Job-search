@@ -90,14 +90,19 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public void editVacancy(VacancyEditDto vacancy, Authentication authentication) {
+        Vacancy vacancy1 = vacancyRepository.findById(vacancy.getId()).orElseThrow(VacancyNotFoundException::new);
         Vacancy vac = Vacancy.builder()
                 .id(vacancy.getId())
                 .name(vacancy.getName())
                 .description(vacancy.getDescription())
                 .category(categoryService.getCategoryByName(vacancy.getCategory()))
                 .salary(vacancy.getSalary())
+                .author(vacancy1.getAuthor())
                 .expFrom(vacancy.getExpFrom())
                 .expTo(vacancy.getExpTo())
+                .updateDate(LocalDateTime.now())
+                .createdDate(vacancy1.getCreatedDate())
+                .isActive(true)
                 .build();
         vacancyRepository.save(vac);
     }

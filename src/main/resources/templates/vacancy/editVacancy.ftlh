@@ -57,7 +57,7 @@
 <body>
 <h1>Edit Vacancy</h1>
 <main>
-    <form action="/vacancies/update?id=${vacancy.id}" method="post">
+    <form action="/vacancies/edit?id=${vacancy.id}" method="post">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name" value="${vacancy.name}" required maxlength="30"><br>
 
