@@ -2,6 +2,9 @@ package kg.attractor.ht49.repositories;
 
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.models.Vacancy;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -34,4 +37,5 @@ public interface ResumeRepository extends JpaRepository<Resume,Long> {
             """)
     void updateResumeByIdAndUpdateDate(Long id, LocalDateTime updateDate);
 
+    Page<Resume> findByApplicant_EmailAndIsActive(String applicant_email, boolean b, Pageable pageable);
 }

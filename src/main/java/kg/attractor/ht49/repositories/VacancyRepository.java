@@ -28,7 +28,8 @@ public interface VacancyRepository extends JpaRepository<Vacancy,Long> {
     List<Vacancy> findByCategory(Category category);
 
     List<Vacancy> findByAuthor_EmailAndIsActive(String author_email, Boolean isActive);
-    Page<Vacancy> findByAuthor_EmailAndIsActive(Pageable pageable);
+    Page<Vacancy> findByAuthor_EmailAndIsActive(String author_email, Boolean isActive, Pageable pageable);
+
 
     List<Vacancy> findByIsActive(Boolean isActive);
 

@@ -212,9 +212,9 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public Page<VacancyDto> getActiveVacanciesPageByEmail(Integer page, String email) {
-        final int count = 5;
-        Pageable pageable =PageRequest.of(page, 5);
-        Page<Vacancy> vacancies= vacancyRepository.findByAuthor_EmailAndIsActive(pageable);
+        final int count = 3;
+        Pageable pageable =PageRequest.of(page,3);
+        Page<Vacancy> vacancies= vacancyRepository.findByAuthor_EmailAndIsActive(email,true,pageable);
         return vacancies.map(this::getVacancyDto);
     }
 

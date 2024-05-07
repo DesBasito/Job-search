@@ -77,7 +77,7 @@
             <#if vacancies?has_content>
                 <h6 class="mt-5">Вакансии :</h6>
                 <div class="row row-cols-1 row-cols-md-3 g-4" id="employer">
-                    <#list vacancies as vacancy>
+                    <#list vacancies.content as vacancy>
                         <div class="col mb-3">
                             <div class="card">
                                 <div class="card-body">
@@ -91,7 +91,7 @@
                             <div class="card-footer d-flex justify-content-between gx-2 my-2">
                                 <div>
                                     <main>
-                                        <form action="/vacancies/edit?id=${vacancy.id}" method="post">
+                                        <form action="/vacancies/updateVacancy?id=${vacancy.id}" method="post">
                                             <button type="submit" class="btn btn-primary" style="width: 150px">Update
                                             </button>
                                         </form>
@@ -107,49 +107,76 @@
                             </div>
                         </div>
                     </#list>
-
                     <nav aria-label="Page navigation example" id="employer-pageButtons">
+                        <ul class="pagination">
+                            <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">Previous</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="/profile?page=1">1</a></li>
+                            <li class="page-item"><a class="page-link" href="/profile?page=2">2</a></li>
+                            <li class="page-item"><a class="page-link" href="/profile?page=3">3</a></li>
+                            <li class="page-item"><a class="page-link" href="/profile?page=${page + 1}">Next</a></li>
+                        </ul>
                     </nav>
                 </div>
             </#if>
         <#else>
 
-        </#if> <#if resumes?has_content>
-            <h6 class="mt-5">резюме :</h6>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <#list resumes as resume>
-                    <div class="col mb-3">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title"><a href="/resume/${resume.id}"
-                                                          class="text-decoration-none text-dark">${resume.name}</a></h5>
-                                <hr>
-                                <p class="card-text">Last update: ${resume.updateDate.getDayOfMonth()}
-                                    ${resume.updateDate.getMonth()} (${resume.updateDate.getYear()})</p>
+            <#if resumes?has_content>
+                <h6 class="mt-5">резюме :</h6>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <#list resumes.content as resume>
+                        <div class="col mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="/resume/${resume.id}"
+                                                              class="text-decoration-none text-dark">${resume.name}</a>
+                                    </h5>
+                                    <hr>
+                                    <p class="card-text">Last update: ${resume.updateDate.getDayOfMonth()}
+                                        ${resume.updateDate.getMonth()} (${resume.updateDate.getYear()})</p>
+                                </div>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between gx-2 my-2">
+                                <div>
+                                    <main>
+                                        <form action="/resume/updateResume?id=${resume.id}" method="post">
+                                            <button type="submit" class="btn btn-primary" style="width: 150px">update
+                                            </button>
+                                        </form>
+                                    </main>
+                                </div>
+
+                                <div>
+                                    <button type="button" class="btn btn-success " style="width: 150px"
+                                            onclick="window.location.href='/resume/edit/${resume.id}'">
+                                        Edit
+                                    </button>
+                                </div>
                             </div>
                         </div>
-                        <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                            <div>
-                                <main>
-                                    <form action="/resume/updateResume?id=${resume.id}" method="post">
-                                        <button type="submit" class="btn btn-primary" style="width: 150px">update
-                                        </button>
-                                    </form>
-                                </main>
-                            </div>
 
-                            <div>
-                                <button type="button" class="btn btn-success " style="width: 150px"
-                                        onclick="window.location.href='/resume/edit/${resume.id}'">
-                                    Edit
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    </#list>
 
-                </#list>
-            </div>
+                </div>
+                <nav aria-label="Page navigation example" id="applicant-pageButtons">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="/profile?page=1">1</a></li>
+                        <li class="page-item"><a class="page-link" href="/profile?page=2">2</a></li>
+                        <li class="page-item"><a class="page-link" href="/profile?page=3">3</a></li>
+                        <li class="page-item"><a class="page-link" href="/profile?page=${page + 1}">Next</a></li>
+                    </ul>
+                </nav>
+            </#if>
         </#if>
     </div>
+<#--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<#--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>-->
+<#--    <script>-->
+<#--        const userEmail = ${user.email};-->
+<#--    </script>-->
+<#--    <#if user.accType == 'employer'>-->
+<#--        <script src="/js/employer.js"></script>-->
+<#--    </#if>-->
 
 </@main.layoutUsers>

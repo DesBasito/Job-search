@@ -41,17 +41,22 @@ public class MainController {
     }
 
     @GetMapping("/profile")
-    public String applicantInfo(Model model, Authentication authentication) {
+    public String applicantInfo(@RequestParam(name = "page",defaultValue = "0") int page, Model model, Authentication authentication) {
+        if (page-1<1){
+            page = 0;
+        }
         UserDto user = service.getUserByEmail(authentication.getName());
         model.addAttribute("user", user);
-        List<ResumeDto> resumes = resumeService.getResumesByUserEmail(authentication.getName());
-        List<VacancyDto> vacancies = vacancyService.getAllVacanciesByCompany(authentication.getName());
+        Page<ResumeDto> resumes = resumeService.getResumesByAuthorEmail(authentication.getName(),page);
+        Page<VacancyDto> vacancies = vacancyService.getActiveVacanciesPageByEmail(page,authentication.getName());
         Integer size = respondedApplicantsService.getRespondentsSizeByEmployer(user.getEmail());
         model.addAttribute("resumes", resumes);
         model.addAttribute("vacancies", vacancies);
         model.addAttribute("respondents", size);
+        model.addAttribute("page",page);
         return "/users/profile";
     }
+
 
     @GetMapping("/register")
     public String create() {

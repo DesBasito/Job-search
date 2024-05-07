@@ -1,71 +1,90 @@
-const employerCardElement = document.getElementById('employer');
-const employerPagingButtons = document.getElementById('employer-pageButtons');
-const urlVacancies = `api/vacancies/paging`;
-let pageNum = 0;
-let sortingBy1 = sortingBy
-window.onload = async () => {
-    await fetchAndRender(urlVacancies);
-    pagingButtons.innerHTML = `
-       <ul class="pagination">
-            <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(pageNum - 1, sortingBy1, 'previous')">Previous</li>
-            <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(1, sortingBy1, '1')">1</a></li>
-            <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(2, sortingBy1, '2')">2</a></li>
-            <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(3, sortingBy1, '3')">3</a></li>
-            <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(pageNum + 1, sortingBy1, 'next')">Next</li>
-        </ul>
-    `
-};
-
-async function fetchAndRender(url) {
-    try {
-        const response = await fetch(url);
-        const dataVacancies = await response.json();
-        console.log(dataVacancies)
-
-        if (dataVacancies && Array.isArray(dataVacancies.content)) {
-            renderVacancies(dataVacancies.content);
-        } else {
-            console.error('Invalid data format received from the server');
-        }
-    } catch (error) {
-        console.error('Error fetching or processing data:', error);
-    }
-}
-
-function renderVacancies(vacancies) {
-    cardElement.innerHTML = '';
-    vacancies.forEach(vacancy => {
-        const card = createVacancyCard(vacancy);
-        cardElement.innerHTML += card;
-    });
-}
-
-function createVacancyCard(vacancy) {
-    return `
-        <div class="card mb-3">
-            <div class="card-body">
-                <a href="#" class="text-decoration-none text-dark">${vacancy.authorEmail}</a>
-                <h3 class="mt-2 mb-5"><a href="vacancies/info/${vacancy.id}" class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${vacancy.name}</a></h3>
-                <h5 class="card-title">${vacancy.description}</h5>
-                <p class="card-text">Salary: ${vacancy.salary}</p>
-                <p class="text-end">${vacancy.updateTime}</p>
-            </div>
-        </div>
-    `;
-}
-
-async function switchPage(pageNumber, sortingBy, pageFunc) {
-    switch (pageFunc) {
-        case 'previous':
-            pageNum = Math.max(0, pageNum - 1);
-            break;
-        case 'next':
-            pageNum++;
-            break;
-        default:
-            pageNum = parseInt(pageFunc);
-            break;
-    }
-    const url = `${urlVacancies}?page=${pageNum}&filter=${sortingBy}`;
-    await fetchAndRender(url);
-}
+// const employerCardElement = document.getElementById('employer');
+// const employerPagingButtons = document.getElementById('employer-pageButtons');
+// const urlEmployerVacancies = `api/vacancies/`;
+// let employerPageNum = 0;
+// window.onload = async () => {
+//     await fetchAndRenderVacancies(urlEmployerVacancies);
+//     employerPagingButtons.innerHTML = `
+//        <ul class="pagination">
+//             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageEmployer(pageNum - 1, 'previous')">Previous</li>
+//             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageEmployer(1, '1')">1</a></li>
+//             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageEmployer(2, '2')">2</a></li>
+//             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageEmployer(3, '3')">3</a></li>
+//             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageEmployer(pageNum + 1, 'next')">Next</li>
+//         </ul>
+//     `
+// };
+//
+// async function fetchAndRenderVacancies(url) {
+//     const email = userEmail;
+//     try {
+//         const response = await fetch(url+email+`/paging`);
+//         const dataVacancies = await response.json();
+//         console.log(dataVacancies)
+//
+//         if (dataVacancies && Array.isArray(dataVacancies.content)) {
+//             renderVacancies(dataVacancies.content);
+//         } else {
+//             console.error('Invalid data format received from the server');
+//         }
+//     } catch (error) {
+//         console.error('Error fetching or processing data:', error);
+//     }
+// }
+//
+// function renderVacancies(vacancies) {
+//     employerCardElement.innerHTML = '';
+//     vacancies.forEach(vacancy => {
+//         const card = createVacancyCard(vacancy);
+//         employerCardElement.innerHTML += card;
+//     });
+// }
+//
+// function createVacancyCard(vacancy) {
+//     return `
+//         <div class="col mb-3">
+//                             <div class="card">
+//                                 <div class="card-body">
+//                                     <h5 class="card-title"><a href="/vacancies/info/${vacancy.id}"
+//                                                               class="text-decoration-none text-dark">${vacancy.name}</a>
+//                                     </h5>
+//                                     <p class="card-text">Last update: ${vacancy.updateTime})</p>
+//                                 </div>
+//                             </div>
+//                             <div class="card-footer d-flex justify-content-between gx-2 my-2">
+//                                 <div>
+//                                     <main>
+//                                         <form action="/vacancies/edit?id=${vacancy.id}" method="post">
+//                                             <button type="submit" class="btn btn-primary" style="width: 150px">Update
+//                                             </button>
+//                                         </form>
+//                                     </main>
+//                                 </div>
+//
+//                                 <div>
+//                                     <button type="button" class="btn btn-success " style="width: 150px"
+//                                             onclick="window.location.href='/vacancies/edit?id=${vacancy.id}'">
+//                                         Edit
+//                                     </button>
+//                                 </div>
+//                             </div>
+//                         </div>
+//
+//     `;
+// }
+//
+// async function switchPageEmployer(pageNumber, sortingBy, pageFunc) {
+//     switch (pageFunc) {
+//         case 'previous':
+//             employerPageNum = Math.max(0, pageNum - 1);
+//             break;
+//         case 'next':
+//             employerPageNum++;
+//             break;
+//         default:
+//             employerPageNum = parseInt(pageFunc);
+//             break;
+//     }
+//     const url = `${urlEmployerVacancies}?page=${employerPageNum}&filter=${sortingBy}`;
+//     await fetchAndRenderVacancies(url);
+// }

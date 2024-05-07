@@ -72,6 +72,13 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
+    public Page<ResumeDto> getResumesByAuthorEmail(String user,int page) {
+        Pageable pageable =PageRequest.of(page,3);
+        Page<Resume> resumes= resumeRepository.findByApplicant_EmailAndIsActive(user,true,pageable);
+        return resumes.map(this::getResumeDto);
+    }
+
+    @Override
     public ResumeDto getResumeDto(Resume r) {
         return ResumeDto.builder()
                 .id(r.getId())
