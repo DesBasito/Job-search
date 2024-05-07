@@ -42,7 +42,7 @@ public class MainController {
 
     @GetMapping("/profile")
     public String applicantInfo(@RequestParam(name = "page",defaultValue = "0") int page, Model model, Authentication authentication) {
-        if (page-1<1){
+        if (page-1<=-1){
             page = 0;
         }
         UserDto user = service.getUserByEmail(authentication.getName());
