@@ -1,35 +1,47 @@
 <#import "../layout.ftlh" as register>
-<@register.layout>
+<@register.layout ; spring>
     <main>
         <#if _csrf??>
-            <form action="register" method="post">
+            <form action="/register" method="post">
                 <fieldset>
                     <p>Registration</p>
                     <div class="form-element">
                         <div class="row gx-5 gy-3">
                             <div class="col-6">
-                                <input name="name" type="text" class="form-control" placeholder="First name"
-                                       aria-label="First name">
+                                <@spring.formInput "userCreationDto.name" 'class="form-control" placeholder="First name" aria-label="First name"'/>
+                                <@spring.showErrors "<br><hr>" "error text-danger"/>
+<#--                                <input name="name" type="text" class="form-control" placeholder="First name"-->
+<#--                                       aria-label="First name">-->
                             </div>
                             <div class="col-6">
-                                <input name="surname" type="text" class="form-control" placeholder="Last name"
-                                       aria-label="Last name">
+                                <@spring.formInput "userCreationDto.surname" 'class="form-control" placeholder="Surname" aria-label="surname"'/>
+                                <@spring.showErrors "<br><hr>" "error text-danger"/>
+                                <#--<input name="surname" type="text" class="form-control" placeholder="Last name"-->
+<#--                                       aria-label="Last name">-->
                             </div>
                             <div class="col-6">
-                                <input name="email" type="email" class="form-control" placeholder="Email"
-                                       aria-label="Email">
-                            </div>
+                                <@spring.formInput "userCreationDto.email" 'class="form-control" placeholder="email" aria-label="Email"'/>
+                                <@spring.showErrors "<br><hr>" "error text-danger"/>
+<#--                                <input name="email" type="email" class="form-control" placeholder="Email"-->
+<#--                                       aria-label="Email">-->
+                            </div>x
                             <div class="col-6">
-                                <input name="password" type="password" class="form-control" placeholder="Password"
-                                       aria-label="Password">
+                                <@spring.formPasswordInput "userCreationDto.password" 'class="form-control" placeholder="password" aria-label="password"'/>
+                                <@spring.showErrors "<br><hr>" "error text-danger"/>
+<#--                                <input name="password" type="password" class="form-control" placeholder="Password"-->
+<#--                                       aria-label="Password">-->
                             </div>
                             <div class="col-3">
-                                <input name="age" type="number" class="form-control" placeholder="Age"
-                                       aria-label="age">
+                                <@spring.formInput "userCreationDto.age" 'class="form-control" placeholder="age" aria-label="age"'/>
+                                <@spring.showErrors "<br><hr>" "error text-danger"/>
+<#--                                <input name="age" type="number" class="form-control" placeholder="Age"-->
+<#--                                       aria-label="age">-->
                             </div>
                             <div class="col-9">
-                                <input name="phoneNumber" type="tel" class="form-control" placeholder="Phone number"
-                                       aria-label="phoneNumber">
+                                <@spring.formInput "userCreationDto.phoneNumber" 'class="form-control" placeholder="phone number" aria-label="phoneNumber"'/>
+                                <@spring.showErrors "<br><hr>" "error text-danger"/>
+<#--                                <input name="phoneNumber" type="tel" class="form-control" placeholder="Phone number"-->
+<#--                                       aria-label="phoneNumber">-->
                             </div>
                         </div>
                     </div>

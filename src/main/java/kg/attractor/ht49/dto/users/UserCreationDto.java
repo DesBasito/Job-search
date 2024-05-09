@@ -19,7 +19,7 @@ public class UserCreationDto {
     @NotBlank @Size(max = 30)
     private String surname;
 
-    @Min(value = 14, message = "The age must be over 18")
+    @Min(value = 14, message = "The age must be over 13")
     private Integer age;
 
     @NotBlank

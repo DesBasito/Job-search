@@ -1,3 +1,4 @@
+<#import "spring.ftl" as spring>
 <#macro layout>
     <!doctype html>
     <html lang="en" xmlns:th="http://www.thymeleaf.org">
@@ -93,7 +94,7 @@
     <body style=" height: 100vh;">
     <div class=" py-5">
         <div class="container">
-            <#nested>
+            <#nested spring>
         </div>
     </div>
 

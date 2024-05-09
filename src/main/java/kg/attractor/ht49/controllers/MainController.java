@@ -1,5 +1,6 @@
 package kg.attractor.ht49.controllers;
 
+import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
@@ -10,9 +11,9 @@ import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -70,14 +71,20 @@ public class MainController {
 
 
     @GetMapping("/register")
-    public String create() {
+    public String create(Model model) {
+        UserCreationDto userCreationDto = new UserCreationDto();
+        model.addAttribute("userCreationDto",userCreationDto);
         return "login/register";
     }
 
 
     @PostMapping("/register")
-    public String create(UserCreationDto newUser) {
-        service.createUser(newUser);
+    public String create(@Valid UserCreationDto userCreationDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()){
+            model.addAttribute("userCreationDto",userCreationDto);
+            return "redirect:/register";
+        }
+        service.createUser(userCreationDto);
         return "redirect:/login";
     }
 }

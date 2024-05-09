@@ -2,15 +2,12 @@ package kg.attractor.ht49.services;
 
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
-import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
-import java.util.NoSuchElementException;
 
 @Component
 @RequiredArgsConstructor
@@ -22,7 +19,7 @@ public class AuthAdapter {
             throw new UserNotFoundException("user not authorized");
         }
         if (authentication instanceof AnonymousAuthenticationToken){
-            throw new IllegalArgumentException("user by email: "+ authentication.getName() +" not authorized");
+            throw new IllegalArgumentException("user not authorized");
         }
         String name = authentication.getName();
         return service.getUserByEmail(name);

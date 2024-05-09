@@ -5,12 +5,13 @@ const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 const csrfToken = document.querySelector("meta[name='_csrf_token']").content;
 const headers = {};
 headers[csrfHeader] = csrfToken;
+let lastNum = lastMessageNum;
 
 async function fetchMessages() {
     try {
         let response;
         const getMessagesUrl = `/api/message/${id}?lastMessageId=`
-        response = await fetch(`${getMessagesUrl}${lastMessageNum}`)
+        response = await fetch(`${getMessagesUrl}${lastNum}`)
         const messages = await response.json();
         displayMessages(messages);
     } catch (error) {
@@ -36,10 +37,10 @@ async function sendMessage() {
        messageInput.value = '';
        if (urlFetch.ok){
            await fetchMessages();
-           lastMessageNum++;
+           lastNum++;
        }
     } catch (error) {
-        lastMessageNum--;
+        lastNum--;
         console.error('Error sending message:', error);
     }
 }
@@ -53,7 +54,7 @@ function displayMessages(messages) {
         messageElement.classList.add('chat-message');
         messageElement.textContent = `${message.senderEmail}: ${message.content}`;
         chatBox.appendChild(messageElement);
-        lastMessageNum++;
+        lastNum++;
     });
 
     if (shouldScrollToBottom) {
