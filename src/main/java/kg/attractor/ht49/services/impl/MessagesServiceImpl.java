@@ -36,8 +36,8 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public void addMessage(MessageDto messageDto, Authentication authentication) {
-        UserModel user = userService.getUserModelByEmail(authentication.getName());
+    public void addMessage(MessageDto messageDto, String email) {
+        UserModel user = userService.getUserModelByEmail(email);
         RespondedApplicant respondedApplicant = respondedApplicantsService.getRespondedApplicantModelById(messageDto.getRespApplId());
         Message message = Message.builder()
                 .sender(user)

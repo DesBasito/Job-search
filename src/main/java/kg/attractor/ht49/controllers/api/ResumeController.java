@@ -5,6 +5,7 @@ import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequestMapping("api/resumes")
 public class ResumeController {
     private final ResumeService service;
+    private final AuthAdapter adapter;
 
     @GetMapping()
     public ResponseEntity<List<ResumeDto>> getResumes() {
@@ -61,8 +63,9 @@ public class ResumeController {
     }
 
     @PostMapping()
-    public ResponseEntity<ResumeDto> createResume(@Valid @RequestBody ResumeCreateDto resume, Authentication auth) {
-        Long id = service.createResume(resume,auth);
+    public ResponseEntity<ResumeDto> createResume(@Valid @RequestBody ResumeCreateDto resume) {
+        String email = adapter.getAuthUser().getEmail();
+        Long id = service.createResume(resume,email);
         return ResponseEntity.ok(service.getResumeById(id));
     }
 
@@ -76,8 +79,9 @@ public class ResumeController {
     }
 
     @PutMapping()
-    public ResponseEntity<ResumeDto> editResume(@Valid @RequestBody EditResumeDto resume, Authentication auth) {
-        service.editResume(resume,auth);
+    public ResponseEntity<ResumeDto> editResume(@Valid @RequestBody EditResumeDto resume) {
+        String email = adapter.getAuthUser().getEmail();
+        service.editResume(resume,email);
         return ResponseEntity.ok(service.getResumeById(resume.getId()));
     }
 

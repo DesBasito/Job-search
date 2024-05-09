@@ -5,6 +5,7 @@ import kg.attractor.ht49.dto.MessageDto;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.models.RespondedApplicant;
+import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,11 +24,13 @@ import java.util.Objects;
 public class ChatController {
     private final UserService service;
     private final MessagesService messageService;
+    private final AuthAdapter adapter;
     private final RespondedApplicantsService respService;
 
     @GetMapping("/{respId}")
-    public String chatPage(Authentication authentication, Model model, @PathVariable Long respId) {
-        UserDto sender = service.getUserByEmail(authentication.getName());
+    public String chatPage( Model model, @PathVariable Long respId) {
+        String email = adapter.getAuthUser().getEmail();
+        UserDto sender = service.getUserByEmail(email);
         RespondedApplicantDto dto = respService.getRespondedApplicantById(respId);
         UserDto recipient = service.getUserByEmail(dto.getVacancy().getAuthorEmail());
         List<MessageDto> messages = messageService.getMessages(respId);

@@ -10,5 +10,5 @@ public interface MessagesService {
 
     List<MessageDto> getNewMessagesBylastMessage(Long lastMessageId,Long respId);
 
-    void addMessage(MessageDto messageDto, Authentication authentication);
+    void addMessage(MessageDto messageDto, String email);
 }

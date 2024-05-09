@@ -14,6 +14,7 @@ import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.models.Resume;
+import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.ContactsInfoService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
@@ -34,6 +35,7 @@ public class ResumeViewController {
     private final ResumeService service;
     private final UserService userService;
     private final CategoryService categoryService;
+    private final AuthAdapter adapter;
     private final ContactsInfoService contactsInfoService;
 
     @GetMapping("/{id}")
@@ -59,22 +61,15 @@ public class ResumeViewController {
     }
 
     @PostMapping("/create")
-    public String createResume(ResumeCreateDto createDto, Authentication authentication){
-        Long id = service.createResume(createDto,authentication);
+    public String createResume(ResumeCreateDto createDto){
+        String email = adapter.getAuthUser().getEmail();
+        Long id = service.createResume(createDto,email);
         return "redirect:/resume/"+id;
     }
 
 
-//    @GetMapping()
-//    public String getResumes(Model model, @RequestParam(name = "filter", defaultValue = "null") String filter){
-//        model.addAttribute("filter",filter);
-//        List<CategoryDto> categories = categoryService.getCategories();
-//        model.addAttribute("categories",categories);
-//        return "resume/resumeList";
-//    }
-
     @GetMapping("/filter")
-    public String getVacancyByCategory(@RequestParam String category, Model model, Authentication authentication){
+    public String getVacancyByCategory(@RequestParam String category, Model model){
         List<ResumeDto> resumes = service.getResumeByCategory(category);
         model.addAttribute("resumes", resumes);
         List<CategoryDto> categories = categoryService.getCategories();
@@ -83,10 +78,11 @@ public class ResumeViewController {
     }
 
     @GetMapping("/edit/{id}")
-    public String getResumeEditPage(Model model, @PathVariable Long id, Authentication authentication){
+    public String getResumeEditPage(Model model, @PathVariable Long id){
+        String email = adapter.getAuthUser().getEmail();
         List<CategoryDto> categories = categoryService.getCategories();
         model.addAttribute("categories",categories);
-        UserDto user = userService.getUserByEmail(authentication.getName());
+        UserDto user = userService.getUserByEmail(email);
         model.addAttribute("user",user);
         EditResumeDto resume = service.getResumeForEdit(id);
         model.addAttribute("resume",resume);
@@ -95,10 +91,11 @@ public class ResumeViewController {
 
 
     @PostMapping("/edit/{id}")
-    public String updateResume(Model model,@PathVariable Long id ,@Valid EditResumeDto editDto, Authentication authentication){
+    public String updateResume(Model model,@PathVariable Long id ,@Valid EditResumeDto editDto){
+        String email = adapter.getAuthUser().getEmail();
         editDto.setId(id);
-        service.editResume(editDto,authentication);
-        model.addAttribute("user",userService.getUserByEmail(authentication.getName()));
+        service.editResume(editDto,email);
+        model.addAttribute("user",userService.getUserByEmail(email));
         return "redirect:/resume/"+editDto.getId();
     }
 

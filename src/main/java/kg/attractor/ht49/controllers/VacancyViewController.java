@@ -83,10 +83,11 @@ public class VacancyViewController {
     }
 
     @PostMapping("/edit")
-    public String updateVacancy(@RequestParam Long id,Model model, @Valid VacancyEditDto editDto, Authentication authentication){
+    public String updateVacancy(@RequestParam Long id,Model model, @Valid VacancyEditDto editDto){
+       String email = authAdapter.getAuthUser().getEmail();
        editDto.setId(id);
-       service.editVacancy(editDto,authentication);
-        model.addAttribute("user",uService.getUserByEmail(authentication.getName()));
+       service.editVacancy(editDto);
+        model.addAttribute("user",uService.getUserByEmail(email));
         return "redirect:/profile";
     }
 
@@ -109,8 +110,9 @@ public class VacancyViewController {
     }
 
     @GetMapping("/responds")
-    public String viewResponds(Authentication authentication,Model model){
-       model.addAttribute("email", authentication.getName());
+    public String viewResponds(Model model){
+       String email = authAdapter.getAuthUser().getEmail();
+       model.addAttribute("email", email);
        return "vacancy/respondentsPage";
     }
 }

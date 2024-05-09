@@ -3,6 +3,7 @@ package kg.attractor.ht49.controllers;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.ResumeService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,50 +21,57 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApplicantController {
     private final UserService service;
+    private final AuthAdapter adapter;
 
     @PreAuthorize("hasAuthority('employee')")
     @GetMapping("/edit")
-    public String employerInfo(Model model, Authentication auth) {
-        UserDto user = service.getUserByEmail(auth.getName());
+    public String employerInfo(Model model) {
+        String email = adapter.getAuthUser().getEmail();
+        UserDto user = service.getUserByEmail(email);
         model.addAttribute("accType", user.getAccType());
         return "edit/editUser";
     }
 
     @PreAuthorize("hasAuthority('employee')")
     @PostMapping("/edit")
-    public String editProfile(EditUserDto userDto, Authentication auth) {
-        service.editUser(userDto,auth);
+    public String editProfile(EditUserDto userDto) {
+        String email = adapter.getAuthUser().getEmail();
+        service.editUser(userDto, email);
         return "redirect:/profile";
     }
 
     @PreAuthorize("hasAuthority('employee')")
     @GetMapping("/uploadImage")
-    public String uploadImageToProfile(Model model, Authentication authentication) {
-        UserDto user = service.getUserByEmail(authentication.getName());
+    public String uploadImageToProfile(Model model) {
+        String email = adapter.getAuthUser().getEmail();
+        UserDto user = service.getUserByEmail(email);
         model.addAttribute("accType", user.getAccType());
         return "edit/uploadImage";
     }
 
     @PreAuthorize("hasAuthority('employee')")
     @PostMapping("/uploadImage")
-    public String uploadImageProfile(Model model, Authentication authentication, MultipartFile file) {
-        UserDto user = service.getUserByEmail(authentication.getName());
-        service.uploadImage(file, authentication);
+    public String uploadImageProfile(Model model, MultipartFile file) {
+        String email = adapter.getAuthUser().getEmail();
+        UserDto user = service.getUserByEmail(email);
+        service.uploadImage(file, email);
         model.addAttribute("accType", user.getAccType());
         return "redirect:/profile";
     }
 
     @PreAuthorize("hasAuthority('employee')")
     @GetMapping("/changePassword")
-    public String changePassword(Model model, Authentication authentication) {
-        UserDto user = service.getUserByEmail(authentication.getName());
+    public String changePassword(Model model) {
+        String email = adapter.getAuthUser().getEmail();
+        UserDto user = service.getUserByEmail(email);
         model.addAttribute("accType", user.getAccType());
         return "edit/setNewPassword";
     }
 
     @PreAuthorize("hasAuthority('employee')")
     @PostMapping("/changePassword")
-    public String SetNewPassword(Model model, String email, String oldPassword, String newPassword) {
+    public String SetNewPassword(Model model, String oldPassword, String newPassword) {
+        String email = adapter.getAuthUser().getEmail();
         UserDto user = service.getUserByEmail(email);
         service.changePassword(oldPassword,newPassword,email);
         model.addAttribute("accType", user.getAccType());

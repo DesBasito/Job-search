@@ -100,13 +100,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void uploadImage(MultipartFile avatar, Authentication authentication) {
+    public void uploadImage(MultipartFile avatar, String email) {
         if (avatar != null) {
             if (Objects.requireNonNull(avatar.getContentType()).matches("png|jpeg|jpg")) {
                 throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
             }
             String fileName = util.saveUploadedFile(avatar, "/images");
-            UserModel user = userModelRepository.findByEmail(authentication.getName()).orElseThrow(() -> new UserNotFoundException("User by email " + authentication.getName() + " not found"));
+            UserModel user = userModelRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User by email " + email + " not found"));
             user.setAvatar(fileName);
             userModelRepository.save(user);
         }
@@ -114,8 +114,8 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public void editUser(EditUserDto user, Authentication auth) {
-        UserModel userModel = userModelRepository.findByEmail(auth.getName()).orElseThrow(() -> new UserNotFoundException("User by email " + auth.getName() + " not found"));
+    public void editUser(EditUserDto user, String email) {
+        UserModel userModel = userModelRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User by email " + email + " not found"));
         userModel.setName(user.getName());
         userModel.setSurname(user.getSurname());
         userModel.setPhoneNumber(user.getPhoneNumber());

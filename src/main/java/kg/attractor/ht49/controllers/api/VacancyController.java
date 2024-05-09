@@ -2,7 +2,6 @@ package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
@@ -11,8 +10,6 @@ import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -83,8 +80,9 @@ public class VacancyController {
     }
 
     @PutMapping()
-    public ResponseEntity<VacancyDto> editVacancy(@RequestBody VacancyEditDto vacancy,Authentication auth) {
-        service.editVacancy(vacancy,auth);
+    public ResponseEntity<VacancyDto> editVacancy(@RequestBody VacancyEditDto vacancy) {
+        String email = adapter.getAuthUser().getEmail();
+        service.editVacancy(vacancy);
         return ResponseEntity.ok(service.getVacancyById(vacancy.getId()));
     }
 

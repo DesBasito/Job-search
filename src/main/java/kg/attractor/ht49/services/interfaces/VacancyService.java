@@ -21,7 +21,7 @@ public interface VacancyService {
 
     Boolean deleteVacancyById(Long id);
 
-    void editVacancy(VacancyEditDto vacancy, Authentication authentication);
+    void editVacancy(VacancyEditDto vacancy);
 
     List<VacancyDto> getAllVacanciesByCompany(String email);
 

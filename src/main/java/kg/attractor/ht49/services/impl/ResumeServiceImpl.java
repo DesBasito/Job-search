@@ -110,7 +110,7 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public void editResume(EditResumeDto editDto, Authentication auth) {
+    public void editResume(EditResumeDto editDto, String email) {
         Category category1 = categoryService.getCategoryByName(editDto.getCategoryName());
         if (category1 == null) {
             throw new CategoryNotFoundException("Error with filling category object");
@@ -122,8 +122,8 @@ public class ResumeServiceImpl implements ResumeService {
         UserDto dto = userService.getUserById(resum.getApplicant().getId());
         UserDto usr = adapter.getAuthUser();
         UserModel userModel = userService.getUserModelByEmail(usr.getEmail());
-        if (!dto.getEmail().equals(auth.getName())) {
-            throw new IllegalArgumentException("Resume not belong to user: " + auth.getName() + ". It belongs to: " + dto.getEmail());
+        if (!dto.getEmail().equals(email)) {
+            throw new IllegalArgumentException("Resume not belong to user: " + email + ". It belongs to: " + dto.getEmail());
         }
         Resume resume = Resume.builder()
                 .id(editDto.getId())
@@ -224,12 +224,12 @@ public class ResumeServiceImpl implements ResumeService {
 
 
     @Override
-    public Long createResume(ResumeCreateDto resume, Authentication auth) {
+    public Long createResume(ResumeCreateDto resume, String email) {
         Category category1 = categoryService.getCategoryByName(resume.getCategoryName());
         if (category1 == null) {
             throw new CategoryNotFoundException();
         }
-        UserModel user = userService.getUserModelByEmail(auth.getName());
+        UserModel user = userService.getUserModelByEmail(email);
         Resume resume1 = Resume.builder()
                 .name(resume.getTitle())
                 .applicant(user)

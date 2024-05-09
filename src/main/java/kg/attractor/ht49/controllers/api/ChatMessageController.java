@@ -1,6 +1,7 @@
 package kg.attractor.ht49.controllers.api;
 
 import kg.attractor.ht49.dto.MessageDto;
+import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.MessagesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,8 @@ import java.util.List;
 @RequestMapping("api/message")
 public class ChatMessageController {
     private final MessagesService service;
+    private final AuthAdapter adapter;
+
 
     @GetMapping("/{respondedId}")
     public ResponseEntity<List<MessageDto>> getNewMessage(@RequestParam Long lastMessageId, @PathVariable Long respondedId) {
@@ -22,8 +25,9 @@ public class ChatMessageController {
     }
 
     @PostMapping
-    public HttpStatus sendMessage(@RequestBody MessageDto messageDto, Authentication authentication) {
-        service.addMessage(messageDto, authentication);
+    public HttpStatus sendMessage(@RequestBody MessageDto messageDto) {
+        String email = adapter.getAuthUser().getEmail();
+        service.addMessage(messageDto, email);
         return HttpStatus.OK;
     }
 }

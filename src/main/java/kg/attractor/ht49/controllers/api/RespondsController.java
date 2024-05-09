@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("api/responses")
 public class RespondsController {
     private final RespondedApplicantsService service;
-    private final ResumeService resumeService;
 
     @GetMapping()
     public ResponseEntity<List<RespondedApplicantDto>> getAllRespondedApplicants() {

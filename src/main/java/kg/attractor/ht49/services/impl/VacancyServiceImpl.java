@@ -77,7 +77,7 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public void editVacancy(VacancyEditDto vacancy, Authentication authentication) {
+    public void editVacancy(VacancyEditDto vacancy) {
         Vacancy vacancy1 = vacancyRepository.findById(vacancy.getId()).orElseThrow(VacancyNotFoundException::new);
         Vacancy vac = Vacancy.builder()
                 .id(vacancy.getId())

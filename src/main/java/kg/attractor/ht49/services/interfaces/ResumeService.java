@@ -23,11 +23,11 @@ public interface ResumeService {
 
     ResumeDto getResumeById(Long id);
 
-    Long createResume(ResumeCreateDto resume, Authentication auth);
+    Long createResume(ResumeCreateDto resume, String email);
 
     Boolean deleteResumeById(Long id);
 
-    void editResume(EditResumeDto editDto, Authentication auth);
+    void editResume(EditResumeDto editDto, String email);
 
     List<ResumeDto> getResumeByName(String rName);
 
