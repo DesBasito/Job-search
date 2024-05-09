@@ -19,12 +19,16 @@
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                 <#list resumes as resume>
                                     <li>
+                                        <#if _csrf??>
                                         <form action="/vacancies/applyToVacancy/${vacancy.id}?resumeId=${resume.id}"
                                               method="post">
+                                            <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                                                   value="${(_csrf.token)!'--no-token--'}"/>
                                             <button type="submit" class="dropdown-item">
                                                 ${resume.name} (${resume.category})
                                             </button>
                                         </form>
+                                        </#if>
                                     </li>
                                 </#list>
                             </ul>
@@ -36,7 +40,7 @@
                             </button>
                         </#if>
                     </#if>
-                    <p class="text-end">${vacancy.updateTime.getDayOfMonth()} - ${vacancy.updateTime.getMonth()}</p>
+                    <p class="text-end">${vacancy.updateTime}</p>
                 </div>
             </div>
         </div>

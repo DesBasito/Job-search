@@ -27,6 +27,7 @@
             <div class="col-md-8">
                 <div class="card border-0 shadow-lg">
                     <main>
+                        <#if _csrf??>
                         <form action="/resume/edit/${resume.id}" method="post">
                             <div class="card-body">
                                 <h3 class="card-title mb-4">
@@ -138,18 +139,21 @@
 
                                 <hr class="my-4"> <!-- Horizontal line -->
                                 <div class="d-grid gap-2">
+                                    <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                                           value="${(_csrf.token)!'--no-token--'}"/>
                                     <button type="submit" class="btn btn-primary btn-md">Edit</button>
                                 </div>
                             </div>
                         </form>
+                        </#if>
                     </main>
 
                 </div>
             </div>
         </div>
     </div>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
         const workExpLastIndex = ${workExpLastIndex};
         const eduLastIndex = ${eduLastIndex};

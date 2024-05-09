@@ -11,7 +11,8 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Filter Vacancies</h5>
-                    <form action="/vacancies/filter" method="get">
+                    <#if _csrf??>
+                        <form action="/vacancies/filter" method="get">
                         <div class="mb-3">
                             <label for="category" class="form-label">Category:</label>
                             <input type="text" list="datalistOptions" class="form-control" id="category" name="category"
@@ -22,12 +23,16 @@
                                     </#list>
                             </datalist>
                         </div>
+                        <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                               value="${(_csrf.token)!'--no-token--'}"/>
                         <button type="submit" class="btn btn-primary">Filter</button>
                     </form>
+                    </#if>
                 </div>
             </div>
             <div class="card card-body mt-2">
-                <form action="/" method="get">
+                <#if _csrf??>
+                    <form action="/" method="get">
                     <h5 class="card-title">Sort Vacancies</h5>
                     <div class="my-3">
                         <select class="form-select" name="filter" aria-label="Default select example">
@@ -37,8 +42,11 @@
                             <option value="descApplies">applies descending</option>
                         </select>
                     </div>
+                    <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                           value="${(_csrf.token)!'--no-token--'}"/>
                     <button type="submit" class="btn btn-primary">Filter</button>
                 </form>
+                </#if>
             </div>
         </div>
     </div>
@@ -46,20 +54,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
         const sortingBy = '${filter}'
-            <#if authorizedUserEmail??>
-            window.addEventListener('load', async () => {
-                const authUser = '${authorizedUserEmail}';
-                const url =  fetch(`api/users?email=` + authUser);
-                const data =  await url.json();
-                const liElement = document.getElementById('userAuthority');
-                if (data.accType === 'employer') {
-                    liElement.innerHTML = ' ';
-                    liElement.innerHTML = `
-                    <a class="nav-link active" aria-current="page" href="/resume">Список резюме</a>
-                `;
-                }
-            });
-</#if>
     </script>
 
     <script src="/js/main.js"></script>

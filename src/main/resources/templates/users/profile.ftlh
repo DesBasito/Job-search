@@ -1,7 +1,5 @@
-<#import "layoutUsers.ftlh" as main>
-
-
-<@main.layoutUsers>
+<#import "../layout.ftlh" as main>
+<@main.layout>
     <div class="container my-5 mx-auto" style="max-width: 1100px; background: white; border-radius: 15px">
         <div class="row g-2 my-3 py-3">
             <div class="col-md-3">
@@ -84,8 +82,7 @@
                                     <h5 class="card-title"><a href="/vacancies/info/${vacancy.id}"
                                                               class="text-decoration-none text-dark">${vacancy.name}</a>
                                     </h5>
-                                    <p class="card-text">Last update: ${vacancy.getUpdateTime().getDayOfMonth()}
-                                        -${vacancy.updateTime.getMonth()} (${vacancy.getUpdateTime().getYear()})</p>
+                                    <p class="card-text">Last update: ${vacancy.getUpdateTime()}</p>
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between gx-2 my-2">
@@ -107,16 +104,6 @@
                             </div>
                         </div>
                     </#list>
-                    <nav aria-label="Page navigation example" id="employer-pageButtons">
-                        <ul class="pagination">
-                            <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">Previous</a>
-                            </li>
-                            <li class="page-item"><a class="page-link" href="/profile?page=1">1</a></li>
-                            <li class="page-item"><a class="page-link" href="/profile?page=2">2</a></li>
-                            <li class="page-item"><a class="page-link" href="/profile?page=3">3</a></li>
-                            <li class="page-item"><a class="page-link" href="/profile?page=${page + 1}">Next</a></li>
-                        </ul>
-                    </nav>
                 </div>
             </#if>
         <#else>
@@ -132,8 +119,7 @@
                                                               class="text-decoration-none text-dark">${resume.name}</a>
                                     </h5>
                                     <hr>
-                                    <p class="card-text">Last update: ${resume.updateDate.getDayOfMonth()}
-                                        ${resume.updateDate.getMonth()} (${resume.updateDate.getYear()})</p>
+                                    <p class="card-text">Last update: ${resume.updateDate}</p>
                                 </div>
                             </div>
                             <div class="card-footer d-flex justify-content-between gx-2 my-2">
@@ -158,17 +144,17 @@
                     </#list>
 
                 </div>
-                <nav aria-label="Page navigation example" id="applicant-pageButtons">
-                    <ul class="pagination">
-                        <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">Previous</a></li>
-                        <li class="page-item"><a class="page-link" href="/profile?page=1">1</a></li>
-                        <li class="page-item"><a class="page-link" href="/profile?page=2">2</a></li>
-                        <li class="page-item"><a class="page-link" href="/profile?page=3">3</a></li>
-                        <li class="page-item"><a class="page-link" href="/profile?page=${page + 1}">Next</a></li>
-                    </ul>
-                </nav>
             </#if>
         </#if>
+        <div class="mb-2" id="pagination-profile">
+            <nav class="mb-2" aria-label="Page navigation example" id="applicant-pageButtons">
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">Previous</a></li>
+                    <li class="page-item page-link">${page}</li>
+                    <li class="page-item"><a class="page-link" href="/profile?page=${page + 1}">Next</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
 <#--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
 <#--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>-->
@@ -179,4 +165,4 @@
 <#--        <script src="/js/employer.js"></script>-->
 <#--    </#if>-->
 
-</@main.layoutUsers>
+</@main.layout>

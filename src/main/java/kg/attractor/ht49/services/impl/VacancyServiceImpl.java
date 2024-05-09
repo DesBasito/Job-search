@@ -8,7 +8,6 @@ import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Vacancy;
-import kg.attractor.ht49.repositories.RespondedApplicantRepository;
 import kg.attractor.ht49.repositories.VacancyRepository;
 import kg.attractor.ht49.services.interfaces.CategoryService;
 import kg.attractor.ht49.services.interfaces.UserService;
@@ -22,6 +21,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,18 +66,6 @@ public class VacancyServiceImpl implements VacancyService {
         return getVacancyDto(e);
     }
 
-    public void createVacancy(VacancyDto vacancy1) {
-        Vacancy vacancy = Vacancy.builder()
-                .name(vacancy1.getName())
-                .description(vacancy1.getDescription())
-                .category(categoryService.getCategoryByName(vacancy1.getCategory()))
-                .author(userService.getUserModelByEmail(vacancy1.getAuthorEmail()))
-                .salary(vacancy1.getSalary())
-                .expFrom(vacancy1.getExpFrom())
-                .expTo(vacancy1.getExpTo())
-                .build();
-        vacancyRepository.save(vacancy);
-    }
 
     @Override
     public Boolean deleteVacancyById(Long id) {
@@ -145,12 +133,12 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public Long createVacancyAndReturnId(VacancyCreateDto vacancy1, Authentication auth) {
+    public Long createVacancyAndReturnId(VacancyCreateDto vacancy1, String email) {
         Vacancy vacancy = Vacancy.builder()
                 .name(vacancy1.getName())
                 .description(vacancy1.getDescription())
                 .category(categoryService.getCategoryByName(vacancy1.getCategory()))
-                .author(userService.getUserModelByEmail(auth.getName()))
+                .author(userService.getUserModelByEmail(email))
                 .salary(vacancy1.getSalary())
                 .expFrom(vacancy1.getExpFrom())
                 .expTo(vacancy1.getExpTo())
@@ -233,7 +221,7 @@ public class VacancyServiceImpl implements VacancyService {
                 .expFrom(e.getExpFrom())
                 .isActive(e.getIsActive())
                 .salary(e.getSalary())
-                .updateTime(e.getUpdateDate())
+                .updateTime(e.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .name(e.getName())
                 .authorEmail(userService.getUserById(e.getAuthor().getId()).getEmail())
                 .build();

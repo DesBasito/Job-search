@@ -7,6 +7,7 @@ let resumeSorting = resumeSortingBy
 window.onload = async() =>{
     await fetchAndRenderResume(urlResumes);
     resPagingButtons.innerHTML = `
+    <div class="my-2 text-success">page: <span id="resume-pagination-number">${resumePageNum}</span></div>
        <ul class="pagination">
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageResume(resumePageNum - 1, resumeSorting, 'previous')">Previous</li>
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageResume(1, resumeSorting, '1')">1</a></li>
@@ -48,7 +49,7 @@ function createResumeCard(resume) {
         <div class="card mb-3">
             <div class="card-body">
                 <a href="#" class="text-decoration-none text-dark">${resume.userEmail}</a>
-                <h3 class="mt-2 mb-5"><a href="vacancies/info/${resume.id}" class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${resume.name}</a></h3>
+                <h3 class="mt-2 mb-5"><a href="resume/${resume.id}" class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${resume.name}</a></h3>
                 <h5 class="card-title">${resume.description}</h5>
                 <p class="card-text">Salary: ${resume.salary}</p>
                 <p class="text-end">${resume.updateDate}</p>
@@ -58,6 +59,7 @@ function createResumeCard(resume) {
 }
 
 async function switchPageResume(pageNumber, sortingBy, pageFunc) {
+    const pag =document.getElementById('resume-pagination-number')
     switch (pageFunc) {
         case 'previous':
             resumePageNum = Math.max(0, resumePageNum - 1);
@@ -69,6 +71,8 @@ async function switchPageResume(pageNumber, sortingBy, pageFunc) {
             resumePageNum = parseInt(pageFunc);
             break;
     }
+    pag.innerHTML = ''
+    pag.innerHTML = resumePageNum
     const url = `${urlResumes}?page=${resumePageNum}&filter=${sortingBy}`;
     await fetchAndRenderResume(url);
 }

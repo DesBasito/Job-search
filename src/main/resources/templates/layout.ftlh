@@ -3,6 +3,8 @@
     <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <meta charset="UTF-8">
+        <meta name="_csrf_header" content="${_csrf.headerName}"/>
+        <meta name="_csrf_token" content="${_csrf.token}"/>
         <meta name="viewport"
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -28,7 +30,8 @@
     </head>
     <#assign known = SPRING_SECURITY_CONTEXT??>
     <#if known>
-        <#assign authorizedUserEmail = SPRING_SECURITY_CONTEXT.authentication.name>
+        <#assign authorizedUserEmail = SPRING_SECURITY_CONTEXT.authentication.principal>
+        <#assign role = authorizedUserEmail.authorities[0]>
     </#if>
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
@@ -53,10 +56,24 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav fw-medium mx-auto">
-                        <li class="nav-item" id="userAuthority">
-                            <a class="nav-link active" aria-current="page" href="/">Вакансии
-                            </a>
-                        </li>
+                        <#if role??>
+                            <#if role = 'employer'>
+                                <li class="nav-item" id="userAuthority">
+                                    <a class="nav-link active" aria-current="page" href="/resume">Резюме
+                                    </a>
+                                </li>
+                                <#else >
+                                    <li class="nav-item" id="userAuthority">
+                                        <a class="nav-link active" aria-current="page" href="/">Вакансии
+                                        </a>
+                                    </li>
+                            </#if>
+                        <#else >
+                            <li class="nav-item" id="userAuthority">
+                                <a class="nav-link active" aria-current="page" href="/">Вакансии
+                                </a>
+                            </li>
+                        </#if>
 
                         <li class="mx-3 nav-item">
                             <a class="nav-link " href="#">Компании</a>
@@ -97,21 +114,4 @@
         </div>
     </footer>
     </html>
-
-<#--    <#if authorizedUserEmail??>-->
-<#--        <script>-->
-<#--            const liElement = document.getElementById('userAuthority');-->
-<#--            window.onload =  () => {-->
-<#--                const authUser = '${authorizedUserEmail}';-->
-<#--                const url =  fetch(`api/users?email=` + authUser);-->
-<#--                const data =  url.json();-->
-<#--                if (data.accType === 'employer') {-->
-<#--                    liElement.innerHTML = ' ';-->
-<#--                    liElement.innerHTML = `-->
-<#--                        <a class="nav-link active" aria-current="page" href="/resume">Список резюме</a>-->
-<#--                `;-->
-<#--                }-->
-<#--            }-->
-<#--        </script>-->
-<#--    </#if>-->
 </#macro>

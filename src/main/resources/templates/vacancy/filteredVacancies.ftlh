@@ -11,7 +11,7 @@
                         </h3>
                         <h5 class="card-title">${vacancy.description}</h5>
                         <p class="card-text">salary<br>${vacancy.salary}</p>
-                        <p class="text-end">${vacancy.updateTime.getDayOfMonth()} - ${vacancy.updateTime.getMonth()}</p>
+                        <p class="text-end">${vacancy.updateTime}</p>
                     </div>
                 </div>
             </#list>

@@ -1,6 +1,10 @@
 const path = window.location.pathname;
 const segments = path.split('/');
 const id = segments[segments.length - 1];
+const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+const csrfToken = document.querySelector("meta[name='_csrf_token']").content;
+const headers = {};
+headers[csrfHeader] = csrfToken;
 
 async function fetchMessages() {
     try {
@@ -17,11 +21,11 @@ async function fetchMessages() {
 async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value;
-
     try {
        const urlFetch = await fetch(`/api/message`, {
             method: 'POST',
             headers: {
+                ...headers,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -59,7 +63,7 @@ function displayMessages(messages) {
 
 window.onload = () => {
     fetchMessages();
-    setInterval(fetchMessages, 10000);
+    setInterval(fetchMessages, 7000);
 };
 
 const sendButton = document.querySelector('.btn-send');

@@ -31,7 +31,7 @@ public interface VacancyService {
 
     VacancyDto getVacancyByName(String name);
 
-    Long createVacancyAndReturnId(VacancyCreateDto vacancyDto, Authentication auth);
+    Long createVacancyAndReturnId(VacancyCreateDto vacancyDto, String email);
 
     void changeVacancyState(Long id);
 

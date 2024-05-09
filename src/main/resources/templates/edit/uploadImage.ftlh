@@ -49,6 +49,7 @@
 <div class="container">
     <h1>Change Your Avatar</h1>
     <main>
+        <#if _csrf??>
         <#if accType = 'employee'>
         <form id="avatar-form" action="/applicant/uploadImage" method="post" enctype="multipart/form-data">
 
@@ -62,9 +63,12 @@
                     <input name="file" class="avatar-input" type="file" id="avatar-input">
                 </div>
                 <br>
+                <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                       value="${(_csrf.token)!'--no-token--'}"/>
                 <button type="submit"> change ava</button>
             </fieldset>
         </form>
+        </#if>
     </main>
 </div>
 

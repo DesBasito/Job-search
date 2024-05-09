@@ -3,7 +3,7 @@
     <h1 class="mb-4">Create Resume</h1>
 
     <main>
-
+<#if _csrf??>
         <form action="/resume/create" method="POST">
             <div class="card mb-4">
                 <div class="card-body">
@@ -81,11 +81,13 @@
                     </div>
                 </div>
             </div>
-
+            <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                   value="${(_csrf.token)!'--no-token--'}"/>
             <div class="d-grid gap-2">
                 <button type="submit" class="btn btn-primary btn-lg">Create</button>
             </div>
         </form>
+</#if>
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

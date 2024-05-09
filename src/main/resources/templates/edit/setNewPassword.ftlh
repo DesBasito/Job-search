@@ -47,6 +47,7 @@
     <div class="password-field">
         <h1>Change Your Password</h1>
         <main>
+            <#if _csrf??>
             <#if accType == 'employee'>
             <form id="password-form" action="/applicant/changePassword" method="post">
                 <#else>
@@ -58,9 +59,12 @@
                            required>
                     <input type="password" class="form-control" id="newPassword" placeholder="New Password"
                            name="newPassword" required>
+                    <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                           value="${(_csrf.token)!'--no-token--'}"/>
                     <button type="submit">Change Password</button>
                     <p class="error-message" id="error-message"></p>
                 </form>
+                </#if>
         </main>
     </div>
 </@main.layout>

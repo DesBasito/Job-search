@@ -6,6 +6,7 @@ import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
+import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.List;
 @RequestMapping("api/vacancies")
 public class VacancyController {
     private final VacancyService service;
+    private final AuthAdapter adapter;
 
     @GetMapping()
     public ResponseEntity<List<VacancyDto>> getVacancies() {
@@ -66,8 +68,9 @@ public class VacancyController {
     }
 
     @PostMapping()
-    public ResponseEntity<VacancyDto> createVacancy(@Valid VacancyCreateDto vacancy, Authentication auth) {
-        Long id = service.createVacancyAndReturnId(vacancy,auth);
+    public ResponseEntity<VacancyDto> createVacancy(@Valid VacancyCreateDto vacancy) {
+        String email = adapter.getAuthUser().getEmail();
+        Long id = service.createVacancyAndReturnId(vacancy,email);
         return ResponseEntity.ok(service.getVacancyById(id));
     }
 

@@ -23,7 +23,7 @@ public class ResumeDto {
     private Double salary;
     private Boolean isActive;
     private LocalDateTime createdDate;
-    private LocalDateTime updateDate;
+    private String updateDate;
     private List<WorkExperienceInfoDto> workExpInfo;
     private List<EducationInfoDto> educationInfo;
     private List<ContactsInfoWithIdDto> contacts;

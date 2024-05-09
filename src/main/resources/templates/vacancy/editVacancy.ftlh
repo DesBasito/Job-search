@@ -57,6 +57,7 @@
 <body>
 <h1>Edit Vacancy</h1>
 <main>
+    <#if _csrf??>
     <form action="/vacancies/edit?id=${vacancy.id}" method="post">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name" value="${vacancy.name}" required maxlength="30"><br>
@@ -81,8 +82,11 @@
         <label for="expTo">Maximum Experience:</label><br>
         <input type="number" id="expTo" name="expTo" min="0" max="50" value="${vacancy.expTo}" required><br>
 
+        <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+               value="${(_csrf.token)!'--no-token--'}"/>
         <button type="submit">Update Vacancy</button>
     </form>
+    </#if>
 </main>
 </body>
 </html>

@@ -7,7 +7,6 @@ import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
@@ -16,7 +15,6 @@ import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.UserModel;
-import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.repositories.ResumeRepository;
 import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
@@ -30,6 +28,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,9 +54,9 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<ResumeDto> getResumeByCategory(String email, String categoryName) {
-        Category categoryId = categoryService.getCategoryByName(categoryName);
-        UserDto user = userService.getUserByEmail(email);
-        return resumeRepository.findByCategory_IdAndApplicant_Id(user.getId(), categoryId.getId()).stream().map(this::getResumeDto).collect(Collectors.toList());
+        Category category = categoryService.getCategoryByName(categoryName);
+        UserModel user = userService.getUserModelByEmail(email);
+        return resumeRepository.findByCategoryAndApplicant(category,user).stream().map(this::getResumeDto).collect(Collectors.toList());
     }
 
     @Override
@@ -88,7 +87,7 @@ public class ResumeServiceImpl implements ResumeService {
                 .salary(r.getSalary())
                 .isActive(r.getIsActive())
                 .createdDate(r.getCreatedDate())
-                .updateDate(r.getUpdateDate())
+                .updateDate(r.getUpdateDate().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")))
                 .workExpInfo(weiService.getWorkExperiencesByResumeId(r))
                 .educationInfo(eiService.getEducationsInfoByResumeId(r))
                 .contacts(contacts.getContactsByResumeId(r))

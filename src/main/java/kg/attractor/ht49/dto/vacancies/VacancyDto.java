@@ -1,7 +1,5 @@
 package kg.attractor.ht49.dto.vacancies;
 
-import kg.attractor.ht49.dto.CategoryDto;
-import kg.attractor.ht49.dto.users.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,5 +22,5 @@ public class VacancyDto {
     private Integer expTo;
     private Boolean isActive;
     private LocalDateTime createdDate;
-    private LocalDateTime updateTime;
+    private String updateTime;
 }

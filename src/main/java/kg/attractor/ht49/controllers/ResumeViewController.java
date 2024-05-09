@@ -65,13 +65,13 @@ public class ResumeViewController {
     }
 
 
-    @GetMapping()
-    public String getResumes(Model model, @RequestParam(name = "filter", defaultValue = "null") String filter){
-        model.addAttribute("filter",filter);
-        List<CategoryDto> categories = categoryService.getCategories();
-        model.addAttribute("categories",categories);
-        return "resume/resumeList";
-    }
+//    @GetMapping()
+//    public String getResumes(Model model, @RequestParam(name = "filter", defaultValue = "null") String filter){
+//        model.addAttribute("filter",filter);
+//        List<CategoryDto> categories = categoryService.getCategories();
+//        model.addAttribute("categories",categories);
+//        return "resume/resumeList";
+//    }
 
     @GetMapping("/filter")
     public String getVacancyByCategory(@RequestParam String category, Model model, Authentication authentication){

@@ -1,6 +1,7 @@
 package kg.attractor.ht49.services;
 
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,7 @@ public class AuthAdapter {
     public UserDto getAuthUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null) {
-            throw new NoSuchElementException("user not authorized");
+            throw new UserNotFoundException("user not authorized");
         }
         if (authentication instanceof AnonymousAuthenticationToken){
             throw new IllegalArgumentException("user by email: "+ authentication.getName() +" not authorized");

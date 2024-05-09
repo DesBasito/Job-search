@@ -1,11 +1,12 @@
 const cardElement = document.getElementById('page-list');
 const pagingButtons = document.getElementById('paging-buttons');
 const urlVacancies = `api/vacancies/paging`;
-let pageNum = 0;
+let pageNum = 1;
 let sortingBy1 = sortingBy
 window.onload = async () => {
     await fetchAndRender(urlVacancies);
     pagingButtons.innerHTML = `
+    <div class="my-2 text-success">page: <span id="pagination-number">${pageNum}</span></div>
        <ul class="pagination">
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(pageNum - 1, sortingBy1, 'previous')">Previous</li>
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(1, sortingBy1, '1')">1</a></li>
@@ -55,9 +56,10 @@ function createVacancyCard(vacancy) {
 }
 
 async function switchPage(pageNumber, sortingBy, pageFunc) {
+    const pag =document.getElementById('pagination-number')
     switch (pageFunc) {
         case 'previous':
-            pageNum = Math.max(0, pageNum - 1);
+            pageNum = Math.max(1, pageNum - 1);
             break;
         case 'next':
             pageNum++;
@@ -66,6 +68,8 @@ async function switchPage(pageNumber, sortingBy, pageFunc) {
             pageNum = parseInt(pageFunc);
             break;
     }
+    pag.innerHTML = ''
+    pag.innerHTML = pageNum
     const url = `${urlVacancies}?page=${pageNum}&filter=${sortingBy}`;
     await fetchAndRender(url);
 }
