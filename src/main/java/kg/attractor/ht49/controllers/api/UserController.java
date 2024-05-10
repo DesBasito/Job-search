@@ -6,15 +6,10 @@ import jakarta.validation.constraints.Pattern;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.services.interfaces.UserService;
-import kg.attractor.ht49.utils.FileUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController("restUser")
 @RequestMapping("api/users")

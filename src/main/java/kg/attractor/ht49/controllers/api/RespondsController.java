@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Pattern;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.services.interfaces.RespondedApplicantsService;
-import kg.attractor.ht49.services.interfaces.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

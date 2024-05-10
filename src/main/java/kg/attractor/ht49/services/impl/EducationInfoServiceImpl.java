@@ -7,7 +7,6 @@ import kg.attractor.ht49.models.EducationInfo;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.repositories.EducationInfoRepository;
 import kg.attractor.ht49.services.interfaces.EducationInfoService;
-import kg.attractor.ht49.services.interfaces.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

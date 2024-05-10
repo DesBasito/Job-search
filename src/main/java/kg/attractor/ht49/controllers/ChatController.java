@@ -4,19 +4,18 @@ package kg.attractor.ht49.controllers;
 import kg.attractor.ht49.dto.MessageDto;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.services.AuthAdapter;
-import kg.attractor.ht49.services.interfaces.*;
+import kg.attractor.ht49.services.interfaces.MessagesService;
+import kg.attractor.ht49.services.interfaces.RespondedApplicantsService;
+import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
-import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor

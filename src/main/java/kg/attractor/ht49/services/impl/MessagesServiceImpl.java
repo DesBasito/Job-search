@@ -1,7 +1,6 @@
 package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dto.MessageDto;
-import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.models.Message;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.UserModel;
@@ -10,12 +9,10 @@ import kg.attractor.ht49.services.interfaces.MessagesService;
 import kg.attractor.ht49.services.interfaces.RespondedApplicantsService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
