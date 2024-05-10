@@ -50,7 +50,6 @@ function createResumeCard(resume) {
             <div class="card-body">
                 <a href="#" class="text-decoration-none text-dark">${resume.userEmail}</a>
                 <h3 class="mt-2 mb-5"><a href="resume/${resume.id}" class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${resume.name}</a></h3>
-                <h5 class="card-title">${resume.description}</h5>
                 <p class="card-text">Salary: ${resume.salary}</p>
                 <p class="text-end">${resume.updateDate}</p>
             </div>

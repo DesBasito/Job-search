@@ -64,7 +64,10 @@ public class ResumeViewController {
     }
 
     @PostMapping("/create")
-    public String createResume(ResumeCreateDto createDto){
+    public String createResume(ResumeCreateDto createDto,Model model, BindingResult bindingResult,ResumeCreateDto resumeCreateDto){
+        if (bindingResult.hasErrors()){
+            model.addAttribute("resumeCreateDto",resumeCreateDto);
+        }
         String email = adapter.getAuthUser().getEmail();
         Long id = service.createResume(createDto,email);
         return "redirect:/resume/"+id;
