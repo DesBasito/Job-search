@@ -1,0 +1,37 @@
+databaseChangeLog:
+  - changeSet:
+      id: add-account-type-column
+      author: Abu
+      changes:
+        - addColumn:
+            tableName: users
+            columns:
+              - column:
+                  name: role_id
+                  type: long
+                  constraints:
+                    foreignKeyName: fk_account_type_id
+                    references: authorities(id)
+                    nullable: true
+  - changeSet:
+      id: update-account-type
+      author: Abu
+      changes:
+        - sql:
+            sql:
+              update users us
+              set us.role_id = (select ua.AUTHORITY_ID
+              from USER_AUTHORITY ua,
+              USERS u,
+              AUTHORITIES a
+              where ua.AUTHORITY_ID = a.ID
+              and ua.USER_ID = u.ID
+              and us.ID = u.ID
+              )
+              where ROLE_ID is null
+  - changeSet:
+      id: drop-user-authorities-table
+      author: Abu
+      changes:
+        - dropTable:
+            tableName: user_authority

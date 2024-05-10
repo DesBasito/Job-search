@@ -49,6 +49,10 @@ public class UserModel implements UserDetails {
     @Column
     private Boolean enabled;
 
+    @ManyToOne
+    @JoinColumn(name = "role_id")
+    private Authority role;
+
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "applicant")
     List<Resume> resumes;
 
@@ -58,17 +62,12 @@ public class UserModel implements UserDetails {
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "sender")
     List<Message> messages;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id"))
-    Set<Authority> roles;
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Hibernate.initialize(roles);
-        String role = roles.stream().findFirst().orElseThrow(NoSuchElementException::new).getRole();
+        String role = getRole().getRole();
         return List.of(new SimpleGrantedAuthority(role));
     }
 

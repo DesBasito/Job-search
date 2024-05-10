@@ -33,13 +33,7 @@ public class GlobalExceptionHandler {
             model.addAttribute("message", e.getMessage());
         return "exceptions/error";
     }
-//
-//    @ExceptionHandler(MethodArgumentNotValidException.class)
-//    public ErrorResponse validationHandler(MethodArgumentNotValidException ex){
-//         log.error(ex.getMessage());
-//        return ErrorResponse.builder(ex,HttpStatus.BAD_REQUEST,ex.getMessage()).build();
-//    }
-//
+
     @ExceptionHandler(IllegalArgumentException.class)
     public String alreadyExistsException(IllegalArgumentException ex, Model model, HttpServletRequest request) {
         log.error(ex.getMessage());

@@ -24,6 +24,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,8 +56,10 @@ public class ResumeViewController {
 
 
     @GetMapping("/create")
-    public String getResumeCreatePage(Model model){
+    public String getResumeCreatePage(Model model ){
         model.addAttribute("categories",categoryService.getCategories());
+        ResumeCreateDto resumeCreateDto = new ResumeCreateDto();
+        model.addAttribute("resumeCreateDto",resumeCreateDto);
         return "resume/resumeCreate";
     }
 

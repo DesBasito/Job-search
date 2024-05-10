@@ -26,7 +26,6 @@ public class EmployerController {
     private final UserService service;
     private final AuthAdapter adapter;
 
-    @PreAuthorize("hasAuthority('employer')")
     @GetMapping("/edit")
     public String employerInfo(Model model) {
         String email = adapter.getAuthUser().getEmail();
@@ -35,7 +34,6 @@ public class EmployerController {
         return "edit/editUser";
     }
 
-    @PreAuthorize("hasAuthority('employer')")
     @PostMapping("/edit")
     public String editProfile(EditUserDto userDto) {
         String email = adapter.getAuthUser().getEmail();
@@ -43,7 +41,6 @@ public class EmployerController {
         return "redirect:/vacancies";
     }
 
-    @PreAuthorize("hasRole('employer')")
     @GetMapping("/uploadImage")
     public String uploadImageToProfile(Model model) {
         String email = adapter.getAuthUser().getEmail();
@@ -52,7 +49,6 @@ public class EmployerController {
         return "edit/uploadImage";
     }
 
-    @PreAuthorize("hasAuthority('employer')")
     @PostMapping("/uploadImage")
     public String uploadImageProfile(Model model, MultipartFile file) {
         String email = adapter.getAuthUser().getEmail();
@@ -62,7 +58,6 @@ public class EmployerController {
         return "redirect:/profile";
     }
 
-    @PreAuthorize("hasAuthority('employer')")
     @GetMapping("/changePassword")
     public String changePassword(Model model) {
         String email = adapter.getAuthUser().getEmail();
@@ -71,7 +66,6 @@ public class EmployerController {
         return "edit/setNewPassword";
     }
 
-    @PreAuthorize("hasAuthority('employer')")
     @PostMapping("/changePassword")
     public String SetNewPassword(Model model,@RequestParam String oldPassword, @RequestParam String newPassword) {
         String email = adapter.getAuthUser().getEmail();

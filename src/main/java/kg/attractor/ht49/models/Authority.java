@@ -22,6 +22,6 @@ public class Authority {
     @Column(name = "role")
     private String role;
 
-    @ManyToMany(mappedBy = "roles")
-    List<UserModel> users;
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "role")
+    List<UserModel> userModels;
 }

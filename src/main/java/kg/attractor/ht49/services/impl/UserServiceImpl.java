@@ -43,12 +43,7 @@ public class UserServiceImpl implements UserService {
 
     private String getAccTypeByUserEmail(String email) {
         UserModel user = userModelRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
-        String accType;
-        Set<Authority> authorities = user.getRoles();
-
-        accType = authorities.stream().anyMatch(authority -> "admin".equals(authority.getRole())) ? "admin" :  authorities.iterator().next().getRole();
-
-        return accType;
+        return user.getRole().getRole();
     }
 
     @Override
@@ -70,6 +65,7 @@ public class UserServiceImpl implements UserService {
         if (userModelRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException("User with email:" + dto.getEmail() + " already exists.");
         }
+        Authority authority = authorityRepository.findById(dto.getAccType()).orElseThrow(() ->new NoSuchElementException("authority not found"));
         UserModel userModel = UserModel.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
@@ -78,9 +74,7 @@ public class UserServiceImpl implements UserService {
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .phoneNumber(dto.getPhoneNumber())
                 .enabled(true)
-                .roles(new HashSet<>(
-                        Set.of(authorityRepository.findById(dto.getAccType()).orElseThrow(NoSuchElementException::new))
-                ))
+                .role(authority)
                 .avatar(null)
                 .build();
         userModelRepository.save(userModel);

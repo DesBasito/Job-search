@@ -1,5 +1,8 @@
 package kg.attractor.ht49.controllers;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
@@ -11,6 +14,12 @@ import kg.attractor.ht49.services.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -79,10 +88,11 @@ public class MainController {
 
 
     @PostMapping("/register")
-    public String create(@Valid UserCreationDto userCreationDto, BindingResult bindingResult, Model model) {
+    public String create(@Valid UserCreationDto userCreationDto, BindingResult bindingResult, Model model, HttpServletRequest request,
+                         HttpServletResponse response) {
         if (bindingResult.hasErrors()){
             model.addAttribute("userCreationDto",userCreationDto);
-            return "redirect:/register";
+            return "login/register";
         }
         service.createUser(userCreationDto);
         return "redirect:/login";
