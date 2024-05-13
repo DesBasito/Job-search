@@ -2,7 +2,7 @@ package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.services.AuthAdapter;
+import kg.attractor.ht49.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,7 +20,6 @@ public class ApplicantController {
     private final UserService service;
     private final AuthAdapter adapter;
 
-    @PreAuthorize("hasAuthority('employee')")
     @GetMapping("/edit")
     public String employerInfo(Model model) {
         String email = adapter.getAuthUser().getEmail();
@@ -29,7 +28,6 @@ public class ApplicantController {
         return "edit/editUser";
     }
 
-    @PreAuthorize("hasAuthority('employee')")
     @PostMapping("/edit")
     public String editProfile(EditUserDto userDto) {
         String email = adapter.getAuthUser().getEmail();
@@ -37,7 +35,6 @@ public class ApplicantController {
         return "redirect:/profile";
     }
 
-    @PreAuthorize("hasAuthority('employee')")
     @GetMapping("/uploadImage")
     public String uploadImageToProfile(Model model) {
         String email = adapter.getAuthUser().getEmail();
@@ -46,7 +43,6 @@ public class ApplicantController {
         return "edit/uploadImage";
     }
 
-    @PreAuthorize("hasAuthority('employee')")
     @PostMapping("/uploadImage")
     public String uploadImageProfile(Model model, MultipartFile file) {
         String email = adapter.getAuthUser().getEmail();

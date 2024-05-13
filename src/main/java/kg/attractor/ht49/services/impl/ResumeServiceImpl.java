@@ -16,7 +16,7 @@ import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.repositories.ResumeRepository;
-import kg.attractor.ht49.services.AuthAdapter;
+import kg.attractor.ht49.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -300,6 +300,6 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public Resume getResumeModel(Long id) {
-        return resumeRepository.findById(id).orElseThrow(() -> new ResumeNotFoundException("REsume by id " + id + " not found"));
+        return resumeRepository.findById(id).orElseThrow(() -> new ResumeNotFoundException("Resume by id " + id + " not found"));
     }
 }

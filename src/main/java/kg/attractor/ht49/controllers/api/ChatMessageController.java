@@ -1,7 +1,7 @@
 package kg.attractor.ht49.controllers.api;
 
 import kg.attractor.ht49.dto.MessageDto;
-import kg.attractor.ht49.services.AuthAdapter;
+import kg.attractor.ht49.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.MessagesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
