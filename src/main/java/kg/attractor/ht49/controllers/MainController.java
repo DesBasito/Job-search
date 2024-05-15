@@ -1,5 +1,7 @@
 package kg.attractor.ht49.controllers;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
@@ -10,6 +12,7 @@ import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/")
@@ -87,12 +91,19 @@ public class MainController {
 
 
     @PostMapping("/register")
-    public String create(@Valid UserCreationDto userCreationDto, BindingResult bindingResult, Model model) {
+    public String create(@Valid UserCreationDto userCreationDto, BindingResult bindingResult, Model model, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("userCreationDto", userCreationDto);
             return "login/register";
         }
         service.createUser(userCreationDto);
-        return "redirect:/login";
+        try {
+            request.login(userCreationDto.getEmail(), userCreationDto.getPassword());
+        } catch (ServletException e) {
+            log.error("Error while login ", e);
+            return "redirect:/login";
+        }
+        return "redirect:/";
+
     }
 }

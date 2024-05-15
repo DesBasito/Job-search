@@ -20,7 +20,7 @@ import java.util.Set;
 @Table(name = "users")
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserModel implements UserDetails {
+public class UserModel{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -60,39 +60,4 @@ public class UserModel implements UserDetails {
     List<Vacancy> vacancies;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "sender")
-    List<Message> messages;
-
-
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        String role = getRole().getRole();
-        return List.of(new SimpleGrantedAuthority(role));
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-}
+    List<Message> messages;}
