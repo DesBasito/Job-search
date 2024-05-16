@@ -37,7 +37,7 @@
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="/"><img src="/api/users/image/logo.png" width="120px"
+                <a class="navbar-brand" href="/"><img src="/api/users/image/logo.png" width="100px"
                                                       alt="Job search"></a>
                 <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
@@ -45,7 +45,7 @@
                     <i class="bi bi-list-nested"></i>
                 </button>
                 <button type="button"
-                        class="btn btn-link btn-user bg-orange rounded-1 text-light bg-orange order-md-1 ms-3"
+                        class="btn btn-user bg-orange rounded-1 text-light order-md-1 ms-3"
                         <#if authorizedUserEmail??>
                             onclick="window.location.href='/profile'"
                         <#else>
@@ -54,6 +54,13 @@
                         data-bs-toggle="tooltip" data-bs-placement="left" title="Profile">
                     <i class="bi bi-person-circle"></i>
                 </button>
+                <#if authorizedUserEmail??>
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                               value="${(_csrf.token)!'--no-token--'}"/>
+                        <button type="submit" class="btn btn-user bg-orange rounded-1 text-light fs-5 ms-3">logout</button>
+                    </form>
+                </#if>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav fw-medium mx-auto">
@@ -76,13 +83,13 @@
                             </li>
                         </#if>
 
-                        <li class="mx-3 nav-item">
+                        <li class="mx-2 nav-item">
                             <a class="nav-link " href="#">Компании</a>
                         </li>
-                        <li class="mx-3 nav-item">
+                        <li class="mx-2 nav-item">
                             <a class="nav-link" href="/api/users/image/Prime.jpeg">связатся с тех-поддержкой</a>
                         </li>
-                        <li class="mx-3 nav-item">
+                        <li class="mx-2 nav-item">
                             <a class="nav-link" href="/register">Регистрироваться</a>
                         </li>
                     </ul>

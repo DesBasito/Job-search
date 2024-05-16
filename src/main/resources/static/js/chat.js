@@ -22,8 +22,17 @@ async function fetchMessages() {
 async function sendMessage() {
     const messageInput = document.getElementById('messageInput');
     const message = messageInput.value;
+    if (!message) {
+        messageInput.placeholder = ''
+        messageInput.placeholder = 'Enter a message!'
+        return;
+    }else if (/^\s*$/.test(message)) {
+        messageInput.value = ''
+        messageInput.placeholder = 'Message cannot be blank!'
+        return;
+    }
     try {
-       const urlFetch = await fetch(`/api/message`, {
+        const urlFetch = await fetch(`/api/message`, {
             method: 'POST',
             headers: {
                 ...headers,
@@ -34,15 +43,16 @@ async function sendMessage() {
                 content: message,
             })
         });
-       messageInput.value = '';
-       if (urlFetch.ok){
-           await fetchMessages();
-           lastNum++;
-       }
+        messageInput.value = '';
+        if (urlFetch.ok) {
+            await fetchMessages();
+            messageInput.placeholder = 'Type a message';
+        }
     } catch (error) {
-        lastNum--;
+        messageInput.placeholder = 'u cannot enter empty message!';
         console.error('Error sending message:', error);
     }
+
 }
 
 function displayMessages(messages) {

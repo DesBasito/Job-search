@@ -1,7 +1,7 @@
 const resumeCardElement = document.getElementById('resume-pageList');
 const resPagingButtons = document.getElementById('resume-pageButtons');
 const urlResumes = `/api/resumes/paging`;
-let resumePageNum = 0;
+let resumePageNum = 1;
 let resumeSorting = resumeSortingBy
 
 window.onload = async() =>{
@@ -61,7 +61,7 @@ async function switchPageResume(pageNumber, sortingBy, pageFunc) {
     const pag =document.getElementById('resume-pagination-number')
     switch (pageFunc) {
         case 'previous':
-            resumePageNum = Math.max(0, resumePageNum - 1);
+            resumePageNum = Math.max(1, resumePageNum - 1);
             break;
         case 'next':
             resumePageNum++;

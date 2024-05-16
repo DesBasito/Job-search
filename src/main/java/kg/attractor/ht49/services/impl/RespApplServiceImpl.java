@@ -2,6 +2,7 @@ package kg.attractor.ht49.services.impl;
 
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
@@ -86,6 +87,20 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     @Override
     public RespondedApplicant getRespondedApplicantModelById(Long respApplId) {
         return respondedApplicantRepository.findById(respApplId).orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
+    public void checkUserByResume(RespondedApplicantDto respondedApplicant, UserDto sender) {
+        VacancyDto vacancy = respondedApplicant.getVacancy();
+        ResumeDto resume = respondedApplicant.getResume();
+
+        String resumeOwnerEmail = resume.getUserEmail();
+        String vacancyAuthorEmail = vacancy.getAuthorEmail();
+        String senderEmail = sender.getEmail();
+
+        if (!resumeOwnerEmail.equals(senderEmail) && !vacancyAuthorEmail.equals(senderEmail)) {
+            throw new IllegalArgumentException("This chat page is not available for you.");
+        }
     }
 
 

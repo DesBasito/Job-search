@@ -21,6 +21,18 @@ spring:
   jpa:
     hibernate:
       ddl-auto: validate
+  mail:
+    host: smtp.gmail.com
+    username: basit.03.kg@gmail.com
+    password: lppl cibr qxsm dmgd
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            required: true
+            enable: true
 logging:
   level:
     root: info

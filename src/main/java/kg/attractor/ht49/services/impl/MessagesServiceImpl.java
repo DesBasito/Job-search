@@ -28,26 +28,27 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public List<MessageDto> getNewMessagesBylastMessage(Long lastMessageId,Long respId) {
-        return messageRepository.findMessageByIdAndRespApplId(lastMessageId,respId).stream().map(this::getDto).collect(Collectors.toList());
+    public List<MessageDto> getNewMessagesBylastMessage(Long lastMessageId, Long respId) {
+        return messageRepository.findMessageByIdAndRespApplId(lastMessageId, respId).stream().map(this::getDto).collect(Collectors.toList());
     }
 
     @Override
     public void addMessage(MessageDto messageDto, String email) {
         UserModel user = userService.getUserModelByEmail(email);
         RespondedApplicant respondedApplicant = respondedApplicantsService.getRespondedApplicantModelById(messageDto.getRespApplId());
-        Message message = Message.builder()
-                .sender(user)
-                .content(messageDto.getContent())
-                .respApplicant(respondedApplicant)
-                .timestamp(LocalDateTime.now())
-                .build();
-         messageRepository.save(message);
+        if (!messageDto.getContent().isBlank()) {
+            Message message = Message.builder()
+                    .sender(user)
+                    .content(messageDto.getContent())
+                    .respApplicant(respondedApplicant)
+                    .timestamp(LocalDateTime.now())
+                    .build();
+            messageRepository.save(message);
+        }
     }
 
 
-
-    private MessageDto getDto(Message m){
+    private MessageDto getDto(Message m) {
         return MessageDto.builder()
                 .respApplId(m.getRespApplicant().getId())
                 .senderEmail(m.getSender().getEmail())

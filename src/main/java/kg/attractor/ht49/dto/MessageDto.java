@@ -1,5 +1,6 @@
 package kg.attractor.ht49.dto;
 
+import jakarta.validation.constraints.NotNull;
 import kg.attractor.ht49.dto.users.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +16,7 @@ import java.time.LocalDateTime;
 public class MessageDto {
     private Long respApplId;
     private String senderEmail;
+    @NotNull
     private String content;
     private LocalDateTime timestamp;
 }

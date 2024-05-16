@@ -53,6 +53,9 @@ public class UserModel{
     @JoinColumn(name = "role_id")
     private Authority role;
 
+    @Column(name = "reset_password_token")
+    private String resetPasswordToken;
+
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "applicant")
     List<Resume> resumes;
 

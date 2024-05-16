@@ -21,22 +21,19 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/chat")
 public class ChatController {
-    private final UserService service;
     private final MessagesService messageService;
     private final AuthAdapter adapter;
     private final RespondedApplicantsService respService;
 
     @GetMapping("/{respId}")
     public String chatPage( Model model, @PathVariable Long respId) {
-        String email = adapter.getAuthUser().getEmail();
-        UserDto sender = service.getUserByEmail(email);
-        RespondedApplicantDto dto = respService.getRespondedApplicantById(respId);
-        UserDto recipient = service.getUserByEmail(dto.getVacancy().getAuthorEmail());
+        UserDto sender = adapter.getAuthUser();
+        RespondedApplicantDto respondedApplicant = respService.getRespondedApplicantById(respId);
+        respService.checkUserByResume(respondedApplicant,sender);
         List<MessageDto> messages = messageService.getMessages(respId);
 
         model.addAttribute("messages",messages);
         model.addAttribute("sender", sender);
-        model.addAttribute("recipient", recipient);
         model.addAttribute("respApplId",respId);
         return "chat";
     }

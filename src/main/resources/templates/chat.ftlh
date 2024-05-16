@@ -66,7 +66,7 @@
             </div>
         </div>
         <div class="chat-input">
-            <input type="text" id="messageInput" placeholder="Type a message...">
+            <input type="text" id="messageInput" placeholder="Type a message">
             <button class="btn btn-primary btn-send" type="submit">Send</button>
         </div>
     </div>
@@ -77,10 +77,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-<script src="/js/chat.js/">
-</script>
 <script>
     let lastMessageNum = ${messages?size};
+    console.log(lastMessageNum)
+</script>
+<script src="/js/chat.js/">
 </script>
 </@main.layout>

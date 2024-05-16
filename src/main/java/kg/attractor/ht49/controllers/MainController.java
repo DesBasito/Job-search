@@ -1,5 +1,6 @@
 package kg.attractor.ht49.controllers;
 
+import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -10,10 +11,12 @@ import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.AuthAdapter;
+import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 @Slf4j
@@ -29,7 +33,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/")
 public class MainController {
-    private final UserService service;
+    private final UserService userService;
     private final ResumeService resumeService;
     private final VacancyService vacancyService;
     private final CategoryService categoryService;
@@ -64,7 +68,7 @@ public class MainController {
             page = 0;
         }
         String email = adapter.getAuthUser().getEmail();
-        UserDto user = service.getUserByEmail(email);
+        UserDto user = userService.getUserByEmail(email);
         model.addAttribute("user", user);
         model.addAttribute("page", page);
 
@@ -96,7 +100,7 @@ public class MainController {
             model.addAttribute("userCreationDto", userCreationDto);
             return "login/register";
         }
-        service.createUser(userCreationDto);
+        userService.createUser(userCreationDto);
         try {
             request.login(userCreationDto.getEmail(), userCreationDto.getPassword());
         } catch (ServletException e) {
@@ -104,6 +108,49 @@ public class MainController {
             return "redirect:/login";
         }
         return "redirect:/";
+    }
 
+    @GetMapping("forgot_password")
+    public String showForgetPasswordForm(){
+        return "login/forgot_password_form";
+    }
+
+    @PostMapping("/forgot_password")
+    public String processForgotPassword(HttpServletRequest request, Model model) {
+        try {
+            userService.makeResetPasswdLink(request);
+            model.addAttribute("message", "We have sent a reset password link to your email. Please check.");
+        } catch (UsernameNotFoundException | UnsupportedEncodingException ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
+        catch (MessagingException ex) {
+            model.addAttribute("error", "Error while sending email");
+        }
+        return "login/forgot_password_form";
+    }
+
+    @GetMapping("reset_password")
+    public String showResetPasswordForm(@RequestParam String token,Model model){
+        try {
+            userService.getByResetPasswordToken(token);
+            model.addAttribute("token", token);
+        } catch (UsernameNotFoundException ex) {
+            model.addAttribute("error", "Invalid token");
+        }
+        return "login/reset_password_form";
+    }
+
+    @PostMapping("/reset_password")
+    public String processResetPassword(HttpServletRequest request, Model model) {
+        String token = request.getParameter("token");
+        String password = request.getParameter("password");
+        try {
+            UserModel user = userService.getByResetPasswordToken(token);
+            userService.updatePassword(user, password);
+            model.addAttribute("message", "You have successfully changed your password.");
+        } catch (UsernameNotFoundException ex) {
+            model.addAttribute("message", "Invalid Token");
+        }
+        return "message";
     }
 }

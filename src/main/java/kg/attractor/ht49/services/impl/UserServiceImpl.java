@@ -1,5 +1,7 @@
 package kg.attractor.ht49.services.impl;
 
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
@@ -9,18 +11,23 @@ import kg.attractor.ht49.models.Authority;
 import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.repositories.AuthorityRepository;
 import kg.attractor.ht49.repositories.UserModelRepository;
+import kg.attractor.ht49.services.interfaces.EmailService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import kg.attractor.ht49.utils.FileUtil;
+import kg.attractor.ht49.utils.Utility;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.UnsupportedEncodingException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
+import java.util.UUID;
 
 @Slf4j
 @Service
@@ -28,14 +35,15 @@ import java.util.Objects;
 public class UserServiceImpl implements UserService {
     private final UserModelRepository userModelRepository;
     private final AuthorityRepository authorityRepository;
-    private final FileUtil util;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
+    private final FileUtil util;
 
     @Override
     public UserDto getUser(String email) {
         UserModel userModel = userModelRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
         String accType = getAccTypeByUserEmail(email);
-        return getUserDto(userModel,accType);
+        return getUserDto(userModel, accType);
     }
 
     private String getAccTypeByUserEmail(String email) {
@@ -62,7 +70,7 @@ public class UserServiceImpl implements UserService {
         if (userModelRepository.existsByEmail(dto.getEmail())) {
             throw new AlreadyExistsException("User with email:" + dto.getEmail() + " already exists.");
         }
-        Authority authority = authorityRepository.findById(dto.getAccType()).orElseThrow(() ->new NoSuchElementException("authority not found"));
+        Authority authority = authorityRepository.findById(dto.getAccType()).orElseThrow(() -> new NoSuchElementException("authority not found"));
         UserModel userModel = UserModel.builder()
                 .name(dto.getName())
                 .surname(dto.getSurname())
@@ -81,7 +89,7 @@ public class UserServiceImpl implements UserService {
     public UserDto getUserByPhone(String phone) {
         UserModel userModel = userModelRepository.findByPhoneNumber(phone).orElseThrow(() -> new UserNotFoundException("User by phone num: " + phone + " not found"));
         String accType = getAccTypeByUserEmail(userModel.getEmail());
-        return getUserDto(userModel,accType);
+        return getUserDto(userModel, accType);
     }
 
     @Override
@@ -155,4 +163,37 @@ public class UserServiceImpl implements UserService {
                 .avatar(userModel.getAvatar())
                 .build();
     }
+
+    @Override
+    public void updateResetPasswordToken(String token, String email) {
+        UserModel user = userModelRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Could not find any user with the email " + email));
+        user.setResetPasswordToken(token);
+        userModelRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public UserModel getByResetPasswordToken(String token) {
+        return userModelRepository.findByResetPasswordToken(token)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Override
+    public void updatePassword(UserModel user, String newPassword) {
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        user.setPassword(encodedPassword);
+        user.setResetPasswordToken(null);
+        userModelRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void makeResetPasswdLink(HttpServletRequest request) throws MessagingException, UnsupportedEncodingException {
+        String email = request.getParameter("email");
+        String token = UUID.randomUUID().toString();
+        updateResetPasswordToken(token, email);
+
+        String resetPasswordLnk = Utility.getSiteURL(request) + "/reset_password?token=" + token;
+        emailService.sendEmail(email,resetPasswordLnk);
+    }
+
 }
