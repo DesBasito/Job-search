@@ -6,7 +6,6 @@ import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.exceptions.VacancyNotFoundException;
 import kg.attractor.ht49.models.RespondedApplicant;
-import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.repositories.RespondedApplicantRepository;
 import kg.attractor.ht49.services.interfaces.RespondedApplicantsService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
@@ -15,7 +14,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -38,7 +36,7 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
         if (vacancyService.existsById(id)) {
             throw new VacancyNotFoundException("Vacancy by id: " + id + " not found");
         }
-        List<RespondedApplicant> applicants = respondedApplicantRepository.findByVacancyId(id);
+        List<RespondedApplicant> applicants = respondedApplicantRepository.findRespondedApplicantsByVacancy_Author_Id(id);
         return applicants.stream().map(a -> resumeService.getResumeDto(a.getResume())).collect(Collectors.toList());
     }
 
@@ -73,15 +71,13 @@ public class RespApplServiceImpl implements RespondedApplicantsService {
     }
 
     @Override
-    public Integer getRespondentsSizeByEmployer(String email) {
+    public List<RespondedApplicantDto> getRespondentsByEmployer(Long id) {
+      return respondedApplicantRepository.findRespondedApplicantsByVacancy_Author_Id(id).stream().map(this::getRespondedApplicantDto).collect(Collectors.toList());
+    }
 
-       List<VacancyDto> vacancies=  vacancyService.getActiveVacanciesByCompany(email);
-       List<Resume> resumes = new ArrayList<>();
-       for (VacancyDto vacancy : vacancies){
-           List<RespondedApplicant> respondedApplicants = respondedApplicantRepository.findByVacancyId(vacancy.getId());
-          respondedApplicants.forEach(r -> resumes.add(r.getResume()));
-       }
-        return resumes.size();
+    @Override
+    public List<RespondedApplicantDto> getRespondentsByApplicant(Long id) {
+        return respondedApplicantRepository.findByResume_Applicant_Id(id).stream().map(this::getRespondedApplicantDto).collect(Collectors.toList());
     }
 
     @Override

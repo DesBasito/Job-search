@@ -19,7 +19,9 @@ public interface RespondedApplicantsService {
 
     RespondedApplicantDto getRespondedApplicantById(Long respId);
 
-    Integer getRespondentsSizeByEmployer(String email);
+    List<RespondedApplicantDto> getRespondentsByEmployer(Long id);
+
+    List<RespondedApplicantDto> getRespondentsByApplicant(Long id);
 
     RespondedApplicant getRespondedApplicantModelById(Long respApplId);
 

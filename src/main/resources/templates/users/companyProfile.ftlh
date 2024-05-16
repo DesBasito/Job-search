@@ -1,5 +1,55 @@
 <#import "../layout.ftlh" as main>
 <@main.layout>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Отклики</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                        <tr class="table-active">
+                            <th scope="col">Vacancy</th>
+                            <th scope="col">Resume</th>
+                            <th scope="col">Chat</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <#list respondents as respondent>
+                            <tr>
+                                <th><a class="nav-link text-decoration-none text-dark"
+                                       href="/vacancies/info/${respondent.vacancy.id}">${respondent.vacancy.name}</a>
+                                </th>
+                                <td><a class="nav-link text-decoration-none text-dark"
+                                       href="/resume/${respondent.resume.id}">${respondent.resume.name}</a></td>
+                                <td>
+                                    <button type="button" class="btn btn-success"
+                                            onclick="window.location.href='/chat/${respondent.id}'">
+                                        reply to applicant
+                                    </button>
+                                </td>
+                            </tr>
+                        </#list>
+
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
     <div class="container my-5 mx-auto" style="max-width: 1100px; background: white; border-radius: 15px">
         <div class="row g-2 my-3 py-3">
             <div class="col-md-3">
@@ -30,11 +80,11 @@
                                 data-bs-toggle="dropdown" aria-expanded="false">
                             Edit
                         </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <li><a class="dropdown-item" href="/employer/edit">Edit profile</a></li>
-                                <li><a class="dropdown-item" href="/employer/changePassword">Change password</a></li>
-                                <li><a class="dropdown-item" href="/employer/uploadImage">Set a new image</a></li>
-                            </ul>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li><a class="dropdown-item" href="/employer/edit">Edit profile</a></li>
+                            <li><a class="dropdown-item" href="/employer/changePassword">Change password</a></li>
+                            <li><a class="dropdown-item" href="/employer/uploadImage">Set a new image</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -46,49 +96,48 @@
             </div>
             <div class="col-md">
                 <div class="card border-0 align-items-center">
-                    <a href="#" class="btn btn-success res-btn text-decoration-none text-center">Отклики </a>
+                    <button class="btn btn-success res-btn text-decoration-none text-center" data-bs-toggle="modal"
+                            data-bs-target="#exampleModal">Отклики
+                    </button>
                     <#if respondents??>
-                        <span class="badge bg-warning rounded-pill position-absolute top-0 end-0 mt-5 me-2">${respondents}</span>
+                        <span class="badge bg-warning rounded-pill position-absolute top-0 end-0 mt-5 me-2">${respondents?size}</span>
                     </#if>
                 </div>
             </div>
         </div>
 
 
-            <#if vacancies?has_content>
-                <h6 class="mt-5">Вакансии :</h6>
-                <div class="row row-cols-1 row-cols-md-3 g-4" id="employer">
-                    <#list vacancies.content as vacancy>
-                        <div class="col mb-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h5 class="card-title"><a href="/vacancies/info/${vacancy.id}"
-                                                              class="text-decoration-none text-dark">${vacancy.name}</a>
-                                    </h5>
-                                    <p class="card-text">Last update: ${vacancy.getUpdateTime()}</p>
-                                </div>
-                            </div>
-                            <div class="card-footer d-flex justify-content-between gx-2 my-2">
-                                <div>
-                                    <main>
-                                        <form action="/vacancies/updateVacancy?id=${vacancy.id}" method="post">
-                                            <button type="submit" class="btn btn-primary" style="width: 150px">Update
-                                            </button>
-                                        </form>
-                                    </main>
-                                </div>
-
-                                <div>
-                                    <button type="button" class="btn btn-success " style="width: 150px"
-                                            onclick="window.location.href='/vacancies/edit?id=${vacancy.id}'">
-                                        Edit
-                                    </button>
-                                </div>
+        <#if vacancies?has_content>
+            <h6 class="mt-5">Вакансии :</h6>
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="employer">
+                <#list vacancies.content as vacancy>
+                    <div class="col mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><a href="/vacancies/info/${vacancy.id}"
+                                                          class="text-decoration-none text-dark">${vacancy.name}</a>
+                                </h5>
+                                <p class="card-text">Last update: <span id="${vacancy.id}_last-update">${vacancy.getUpdateTime()}</span></p>
                             </div>
                         </div>
-                    </#list>
-                </div>
-            </#if>
+                        <div class="card-footer d-flex justify-content-between gx-2 my-2">
+                            <div>
+                                <button onclick="updateVacancy(${vacancy.id})" class="btn btn-primary" style="width: 150px">Update
+                                </button>
+
+                            </div>
+
+                            <div>
+                                <button type="button" class="btn btn-success " style="width: 150px"
+                                        onclick="window.location.href='/vacancies/edit?id=${vacancy.id}'">
+                                    Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </#list>
+            </div>
+        </#if>
 
 
         <div class="mb-2" id="pagination-profile">
@@ -101,5 +150,33 @@
             </nav>
         </div>
     </div>
+
+    <script>
+        const csrfToken = document.querySelector("meta[name='_csrf_token']").content;
+        const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
+        const headers = {
+            'Content-Type': 'application/json',
+            [csrfHeader]: csrfToken
+        };
+
+        async function updateVacancy(id) {
+            const lastUpdateElement = document.getElementById(id + '_last-update');
+            try {
+                const response = await fetch(`/api/vacancies/update/` + id, {
+                    method: 'PUT',
+                    headers: headers
+                });
+
+                if (response.ok) {
+                    const vacancy = await response.json();
+                    lastUpdateElement.textContent = vacancy.updateTime;
+                } else {
+                    console.error('Failed to update vacancy');
+                }
+            } catch (error) {
+                console.error('Error updating vacancy:', error);
+            }
+        }
+    </script>
 
 </@main.layout>

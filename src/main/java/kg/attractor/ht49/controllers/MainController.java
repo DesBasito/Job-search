@@ -5,6 +5,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.CategoryDto;
+import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
@@ -71,14 +72,17 @@ public class MainController {
         UserDto user = userService.getUserByEmail(email);
         model.addAttribute("user", user);
         model.addAttribute("page", page);
+        List<RespondedApplicantDto> respondedApplicants;
 
         if (user.getAccType().equals("employer")) {
             Page<VacancyDto> vacancies = vacancyService.getActiveVacanciesPageByEmail(page, email);
             model.addAttribute("vacancies", vacancies);
-            Integer size = respondedApplicantsService.getRespondentsSizeByEmployer(user.getEmail());
-            model.addAttribute("respondents", size);
+            respondedApplicants = respondedApplicantsService.getRespondentsByEmployer(user.getId());
+            model.addAttribute("respondents", respondedApplicants);
             return "/users/companyProfile";
         } else {
+            respondedApplicants = respondedApplicantsService.getRespondentsByApplicant(user.getId());
+            model.addAttribute("respondents", respondedApplicants);
             Page<ResumeDto> resumes = resumeService.getResumesByAuthorEmail(email, page);
             model.addAttribute("resumes", resumes);
             return "/users/profile";

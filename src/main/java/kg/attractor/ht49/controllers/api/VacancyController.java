@@ -2,6 +2,7 @@ package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
+import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
@@ -9,6 +10,7 @@ import kg.attractor.ht49.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +29,7 @@ public class VacancyController {
     }
 
 
-    @GetMapping("company/{email}")
+    @GetMapping("/company/{email}")
     public ResponseEntity<List<VacancyDto>> getVacanciesByCompanyId(@PathVariable String email) {
         List<VacancyDto> vacancies = service.getAllVacanciesByCompany(email);
         return ResponseEntity.ok(vacancies);
@@ -81,14 +83,13 @@ public class VacancyController {
 
     @PutMapping()
     public ResponseEntity<VacancyDto> editVacancy(@RequestBody VacancyEditDto vacancy) {
-        String email = adapter.getAuthUser().getEmail();
         service.editVacancy(vacancy);
         return ResponseEntity.ok(service.getVacancyById(vacancy.getId()));
     }
 
-    @PutMapping("/status/{id}")
-    public ResponseEntity<?> changeVacancyState(@PathVariable(name = "id") Long id) {
-        service.changeVacancyState(id);
+    @PutMapping("/update/{id}")
+    public ResponseEntity<VacancyDto> changeVacancyState(@PathVariable(name = "id") Long id) {
+        service.updateVacancy(id);
         return ResponseEntity.ok(service.getVacancyById(id));
     }
 }

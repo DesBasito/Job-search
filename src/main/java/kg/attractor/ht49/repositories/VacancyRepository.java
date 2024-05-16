@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -46,9 +47,9 @@ public interface VacancyRepository extends JpaRepository<Vacancy,Long> {
     @Modifying
     @Query(nativeQuery = true,value = """
             UPDATE VACANCIES
-            SET UPDATE_DATE = now()
+            SET UPDATE_DATE = :updateDate
             WHERE id = :id;
             """)
-    void updateVacancy(Long id);
+    void updateVacancyByIdAndUpdateDate(Long id, LocalDateTime updateDate);
 
 }

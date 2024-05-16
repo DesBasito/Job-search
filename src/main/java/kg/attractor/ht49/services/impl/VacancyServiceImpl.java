@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -187,9 +188,10 @@ public class VacancyServiceImpl implements VacancyService {
         }
     }
 
+    @Transactional
     @Override
     public void updateVacancy(Long id) {
-        vacancyRepository.updateVacancy(id);
+        vacancyRepository.updateVacancyByIdAndUpdateDate(id,LocalDateTime.now());
     }
 
     @Override
@@ -204,7 +206,6 @@ public class VacancyServiceImpl implements VacancyService {
 
     @Override
     public Page<VacancyDto> getActiveVacanciesPageByEmail(Integer page, String email) {
-        final int count = 3;
         Pageable pageable =PageRequest.of(page,3);
         Page<Vacancy> vacancies= vacancyRepository.findByAuthor_EmailAndIsActive(email,true,pageable);
         return vacancies.map(this::getVacancyDto);

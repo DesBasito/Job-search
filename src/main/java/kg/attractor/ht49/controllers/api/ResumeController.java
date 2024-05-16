@@ -82,9 +82,9 @@ public class ResumeController {
         return ResponseEntity.ok(service.getResumeById(resume.getId()));
     }
 
-    @PutMapping("/status/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<ResumeDto> changeResumeState(@Valid @PathVariable(name = "id") Long id) {
-        service.changeResumeState(id);
+        service.updateResume(id);
         return ResponseEntity.ok(service.getResumeById(id));
     }
 }

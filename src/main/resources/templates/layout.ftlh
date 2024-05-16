@@ -65,17 +65,15 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav fw-medium mx-auto">
                         <#if role??>
-                            <#if role = 'employer'>
                                 <li class="nav-item" id="userAuthority">
-                                    <a class="nav-link active" aria-current="page" href="/resume">Резюме
+                                    <a class="nav-link active" aria-current="page" href="/"><#if role = 'employer'>
+                                            Резюме
+                                        <#else >
+                                            Вакансии
+                                        </#if>
                                     </a>
                                 </li>
-                                <#else >
-                                    <li class="nav-item" id="userAuthority">
-                                        <a class="nav-link active" aria-current="page" href="/">Вакансии
-                                        </a>
-                                    </li>
-                            </#if>
+
                         <#else >
                             <li class="nav-item" id="userAuthority">
                                 <a class="nav-link active" aria-current="page" href="/">Вакансии
