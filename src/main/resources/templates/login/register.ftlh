@@ -42,8 +42,8 @@
                     <div class="form-element mb-4">
                         <label for="account-type" class="my-2">Account Type:</label>
                         <select name="accType" id="account-type" class="form-control" required>
-                            <option value=1>employee</option>
-                            <option value=2>employer</option>
+                            <option value=1>employer</option>
+                            <option value=2>applicant</option>
                         </select>
                     </div>
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"

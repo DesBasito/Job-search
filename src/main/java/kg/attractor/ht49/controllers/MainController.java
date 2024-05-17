@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.CategoryDto;
 import kg.attractor.ht49.dto.RespondedApplicantDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.dto.users.PasswordDto;
 import kg.attractor.ht49.dto.users.UserCreationDto;
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
@@ -105,6 +106,7 @@ public class MainController {
             return "login/register";
         }
         userService.createUser(userCreationDto);
+
         try {
             request.login(userCreationDto.getEmail(), userCreationDto.getPassword());
         } catch (ServletException e) {
@@ -136,8 +138,8 @@ public class MainController {
     @GetMapping("reset_password")
     public String showResetPasswordForm(@RequestParam String token,Model model){
         try {
-            userService.getByResetPasswordToken(token);
-            model.addAttribute("token", token);
+            PasswordDto passwordDto = PasswordDto.builder().token(token).build();
+            model.addAttribute("passwordDto",passwordDto);
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("error", "Invalid token");
         }
@@ -145,12 +147,14 @@ public class MainController {
     }
 
     @PostMapping("/reset_password")
-    public String processResetPassword(HttpServletRequest request, Model model) {
-        String token = request.getParameter("token");
-        String password = request.getParameter("password");
+    public String processResetPassword(@Valid PasswordDto passwordDto,BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()){
+            model.addAttribute("passwordDto", passwordDto);
+            return "login/reset_password_form";
+        }
         try {
-            UserModel user = userService.getByResetPasswordToken(token);
-            userService.updatePassword(user, password);
+            UserModel user = userService.getByResetPasswordToken(passwordDto.getToken());
+            userService.updatePassword(user, passwordDto.getPassword());
             model.addAttribute("message", "You have successfully changed your password.");
         } catch (UsernameNotFoundException ex) {
             model.addAttribute("message", "Invalid Token");
