@@ -92,4 +92,7 @@ public class VacancyController {
         service.updateVacancy(id);
         return ResponseEntity.ok(service.getVacancyById(id));
     }
+
+//    @PutMapping
+//    public ResponseEntity<VacancyDto>
 }

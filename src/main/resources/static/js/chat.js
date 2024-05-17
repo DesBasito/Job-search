@@ -47,6 +47,7 @@ async function sendMessage() {
         if (urlFetch.ok) {
             await fetchMessages();
             messageInput.placeholder = 'Type a message';
+            lastNum++;
         }
     } catch (error) {
         messageInput.placeholder = 'u cannot enter empty message!';
@@ -59,13 +60,17 @@ function displayMessages(messages) {
     const chatBox = document.getElementById('chatMessages');
     const shouldScrollToBottom = chatBox.scrollHeight - chatBox.scrollTop === chatBox.clientHeight;
 
+    let justNum=0;
     messages.forEach(message => {
         const messageElement = document.createElement('div');
         messageElement.classList.add('chat-message');
         messageElement.textContent = `${message.senderEmail}: ${message.content}`;
         chatBox.appendChild(messageElement);
-        lastNum++;
+        justNum++;
     });
+    if (justNum>lastNum){
+        lastNum = justNum;
+    }
 
     if (shouldScrollToBottom) {
         chatBox.scrollTop = chatBox.scrollHeight;
