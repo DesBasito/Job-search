@@ -23,8 +23,8 @@ spring:
       ddl-auto: validate
   mail:
     host: smtp.gmail.com
-    username:
-    password:
+    username: basit.03.kg@gmail.com
+    password: lppl cibr qxsm dmgd
     port: 587
     properties:
       mail:
