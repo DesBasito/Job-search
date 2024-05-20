@@ -9,11 +9,11 @@
         <div class="col-md-4 h-100">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title"><@spring.message 'resume.filter'/></h5>
+                    <h5 class="card-title"><@spring.message 'resume.sort.resumes'/></h5>
                     <#if _csrf??>
                         <form action="/resume/filter" method="get">
                             <div class="mb-3">
-                                <label for="category" class="form-label"><@spring.message 'resume.filter'/>:</label>
+                                <label for="category" class="form-label"><@spring.message 'resume.sort.by.category'/>:</label>
                                 <input type="text" list="datalistOptions" class="form-control" id="category"
                                        name="category"
                                        placeholder="<@spring.message 'main.name.category'/>">

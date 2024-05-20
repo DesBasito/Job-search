@@ -86,10 +86,10 @@
                     </ul>
                 </div>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle bg-orange" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle bg-orange" type="button" id="dropdownMenuButton7" data-bs-toggle="dropdown" aria-expanded="false">
                         <@spring.message 'layout.change.lang'/>
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
                         <li><a class="dropdown-item" href="?lang=ru"><@spring.message 'layout.russian' /></a></li>
                         <li><a class="dropdown-item" href="?lang=en"><@spring.message 'layout.english' /></a></li>
                     </ul>

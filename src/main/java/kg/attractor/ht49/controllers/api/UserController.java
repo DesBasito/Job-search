@@ -11,6 +11,8 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController("restUser")
 @RequestMapping("api/users")
 @RequiredArgsConstructor
@@ -24,15 +26,14 @@ public class UserController {
 
 
     @GetMapping("/phone")
-    public ResponseEntity<UserDto> getUserByPhoneNum(@Valid @Pattern(regexp = "^\\d+$",message = "enter a correct number") @RequestParam(name = "phone") String phone) {
+    public ResponseEntity<UserDto> getUserByPhoneNum(@Valid @Pattern(regexp = "^\\d+$", message = "enter a correct number") @RequestParam(name = "phone") String phone) {
         UserDto user = service.getUserByPhone(phone.strip());
         return ResponseEntity.ok(user);
     }
 
 
-
     @GetMapping("/email")
-    public ResponseEntity<UserDto> getUserByEmail(@Valid@Email @RequestParam(name = "email", defaultValue = "example@example.com") String email) {
+    public ResponseEntity<UserDto> getUserByEmail(@Valid @Email @RequestParam(name = "email", defaultValue = "example@example.com") String email) {
         UserDto user = service.getUserByEmail(email);
         return ResponseEntity.ok(user);
     }
@@ -51,7 +52,13 @@ public class UserController {
     }
 
     @GetMapping(value = "image/{name}")
-    public ResponseEntity<InputStreamResource> get(@PathVariable  String name){
+    public ResponseEntity<InputStreamResource> get(@PathVariable String name) {
         return service.downloadImage(name);
+    }
+
+    @GetMapping(value = "image/username/{name}")
+    public ResponseEntity<InputStreamResource> getByUserName(@PathVariable String name) {
+        String avatar = service.getUserByEmail(name).getAvatar();
+        return service.downloadImage(Objects.requireNonNullElse(avatar, "anon.jpeg"));
     }
 }

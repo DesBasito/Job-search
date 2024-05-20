@@ -24,11 +24,11 @@ async function sendMessage() {
     const message = messageInput.value;
     if (!message) {
         messageInput.placeholder = ''
-        messageInput.placeholder = 'Enter a message!'
+        messageInput.placeholder = type+' !'
         return;
     }else if (/^\s*$/.test(message)) {
         messageInput.value = ''
-        messageInput.placeholder = 'Message cannot be blank!'
+        messageInput.placeholder = empty
         return;
     }
     try {
@@ -46,11 +46,11 @@ async function sendMessage() {
         messageInput.value = '';
         if (urlFetch.ok) {
             await fetchMessages();
-            messageInput.placeholder = 'Type a message';
+            messageInput.placeholder = type;
             lastNum++;
         }
     } catch (error) {
-        messageInput.placeholder = 'u cannot enter empty message!';
+        messageInput.placeholder = empty;
         console.error('Error sending message:', error);
     }
 

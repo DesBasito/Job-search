@@ -1,5 +1,5 @@
 <#import "../layout.ftlh" as main>
-<@main.layout>
+<@main.layout;spring>
     <style>
         body {
             text-align: center;
@@ -46,8 +46,12 @@
     </style>
 </head>
 <body>
+    <#assign known = SPRING_SECURITY_CONTEXT??>
+    <#if known>
+        <#assign authorizedUserEmail = SPRING_SECURITY_CONTEXT.authentication.principal>
+    </#if>
 <div class="container">
-    <h1>Change Your Avatar</h1>
+    <h1><@spring.message 'change.image'/></h1>
     <main>
         <#if _csrf??>
         <#if accType = 'employee'>
@@ -57,15 +61,15 @@
             <form id="avatar-form" action="/employer/uploadImage" method="post" enctype="multipart/form-data">
         </#if>
             <fieldset>
-                <img id="avatar-img" src="default-avatar.jpg" alt="Current Avatar">
+                <img id="avatar-img" src="api/users/image/username/${authorizedUserEmail.username}" alt="Current Avatar">
                 <div class="mb-3">
-                    <label for="avatar-input" class="avatar-input-label">set image</label>
+                    <label for="avatar-input" class="avatar-input-label"><@spring.message 'setImage'/></label>
                     <input name="file" class="avatar-input" type="file" id="avatar-input">
                 </div>
                 <br>
                 <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
                        value="${(_csrf.token)!'--no-token--'}"/>
-                <button type="submit"> change ava</button>
+                <button type="submit"><@spring.message 'change.image'/></button>
             </fieldset>
         </form>
         </#if>

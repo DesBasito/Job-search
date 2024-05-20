@@ -1,5 +1,5 @@
 <#import "layout.ftlh" as main>
-<@main.layout>
+<@main.layout;spring>
     <style>
         main {
             padding: 20px;
@@ -66,8 +66,8 @@
             </div>
         </div>
         <div class="chat-input">
-            <input type="text" id="messageInput" placeholder="Type a message">
-            <button class="btn btn-primary btn-send" type="submit">Send</button>
+            <input type="text" id="messageInput" placeholder="<@spring.message 'chat.type.message'/>">
+            <button class="btn btn-primary btn-send" type="submit"><@spring.message 'chat.send'/></button>
         </div>
     </div>
 </main>
@@ -79,6 +79,8 @@
         crossorigin="anonymous"></script>
 <script>
     let lastMessageNum = ${messages?size};
+    let type = '<@spring.message 'chat.type.message'/>';
+    let empty = '<@spring.message 'chat.input.empty'/>';
     console.log(lastMessageNum)
 </script>
 <script src="/js/chat.js/">

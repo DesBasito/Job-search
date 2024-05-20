@@ -1,5 +1,5 @@
 <#import "../layout.ftlh" as main>
-<@main.layout>
+<@main.layout;spring>
     <style>
         .password-field {
             width: 300px;
@@ -45,7 +45,7 @@
         }
     </style>
     <div class="password-field">
-        <h1>Change Your Password</h1>
+        <h1><@spring.message 'change.password'/></h1>
         <main>
             <#if _csrf??>
             <#if accType == 'employee'>
@@ -53,11 +53,9 @@
                 <#else>
                 <form id="password-form" action="/employer/changePassword" method="post">
                     </#if>
-                    <input type="password" class="form-control" id="current-password" placeholder="Current Password"
+                    <input type="password" class="form-control" id="current-password" placeholder="<@spring.message 'change.old.password'/>"
                            name="oldPassword" required>
-                    <input type="email" class="form-control" id="current-email" placeholder="Current Email" name="email"
-                           required>
-                    <input type="password" class="form-control" id="newPassword" placeholder="New Password"
+                    <input type="password" class="form-control" id="newPassword" placeholder="<@spring.message 'change.new.password'/>"
                            name="newPassword" required>
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
                            value="${(_csrf.token)!'--no-token--'}"/>
