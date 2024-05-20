@@ -22,17 +22,16 @@ public class UserCreationDto {
     @Min(value = 14, message = "The age must be over 13")
     private Integer age;
 
-    @NotBlank
-    @Email
+    @NotBlank @Email
     private String email;
 
     @NotBlank
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).+$", message = "{register.valid.password}")
     private String password;
 
-    @Size(max = 25)
+    @NotBlank @Size(max = 25)
     private String phoneNumber;
 
-    @NotNull
+    @NotNull @NotBlank
     private Long accType;
 }

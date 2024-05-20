@@ -54,44 +54,53 @@
                         data-bs-toggle="tooltip" data-bs-placement="left" title="Profile">
                     <i class="bi bi-person-circle"></i>
                 </button>
-                <#if authorizedUserEmail??>
-                    <form action="/logout" method="post">
-                        <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
-                               value="${(_csrf.token)!'--no-token--'}"/>
-                        <button type="submit" class="btn btn-user bg-orange rounded-1 text-light fs-5 ms-3">logout</button>
-                    </form>
-                </#if>
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav fw-medium mx-auto">
                         <#if role??>
                                 <li class="nav-item" id="userAuthority">
                                     <a class="nav-link active" aria-current="page" href="/"><#if role = 'employer'>
-                                            Резюме
+                                            <@spring.message 'layout.resumes'/>
                                         <#else >
-                                            Вакансии
+                                            <@spring.message 'layout.vacancies'/>
                                         </#if>
                                     </a>
                                 </li>
 
                         <#else >
                             <li class="nav-item" id="userAuthority">
-                                <a class="nav-link active" aria-current="page" href="/">Вакансии
+                                <a class="nav-link active" aria-current="page" href="/"><@spring.message 'layout.vacancies'/>
                                 </a>
                             </li>
                         </#if>
 
                         <li class="mx-2 nav-item">
-                            <a class="nav-link " href="#">Компании</a>
+                            <a class="nav-link " href="#"><@spring.message 'layout.companies'/></a>
                         </li>
                         <li class="mx-2 nav-item">
-                            <a class="nav-link" href="/api/users/image/Prime.jpeg">связатся с тех-поддержкой</a>
+                            <a class="nav-link" href="/api/users/image/Prime.jpeg"><@spring.message 'layout.supports'/></a>
                         </li>
                         <li class="mx-2 nav-item">
-                            <a class="nav-link" href="/register">Регистрироваться</a>
+                            <a class="nav-link" href="/register"><@spring.message 'layout.register'/></a>
                         </li>
                     </ul>
                 </div>
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle bg-orange" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <@spring.message 'layout.change.lang'/>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="?lang=ru"><@spring.message 'layout.russian' /></a></li>
+                        <li><a class="dropdown-item" href="?lang=en"><@spring.message 'layout.english' /></a></li>
+                    </ul>
+                </div>
+                <#if authorizedUserEmail??>
+                    <form action="/logout" method="post">
+                        <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
+                               value="${(_csrf.token)!'--no-token--'}"/>
+                        <button type="submit" class="btn btn-user bg-orange rounded-1 text-light fs-5 ms-3"><@spring.message 'layout.logout'/></button>
+                    </form>
+                </#if>
             </div>
         </nav>
     </header>
@@ -109,8 +118,8 @@
     <footer class="py-5" style="background-color: #5d5d5d;">
         <div class="container footer-container text-dark">
             <div class=" opacity-75">
-                <a href="#" class="text-decoration-none">Соглашение пользователя </a>
-                <p>«Copyright © Название 2023»</p>
+                <a href="#" class="text-decoration-none"><@spring.message 'layout.user.agreement'/></a>
+                <p>«Copyright © <@spring.message 'layout.footer.title'/> 2023»</p>
             </div>
 
             <div class="numbers ms-lg-5 mb-2 ms-md-3 ps-3  ">

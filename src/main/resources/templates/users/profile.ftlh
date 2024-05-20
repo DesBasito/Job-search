@@ -1,21 +1,21 @@
 <#import "../layout.ftlh" as main>
-<@main.layout>
+<@main.layout ; spring>
 
 
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Отклики</h5>
+                    <h5 class="modal-title" id="exampleModalLabel"><@spring.message 'profile.applies'/></h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <table class="table">
                         <thead>
                         <tr class="table-active">
-                            <th scope="col">Resume</th>
-                            <th scope="col">Vacancy</th>
-                            <th scope="col">Chat</th>
+                            <th scope="col"><@spring.message 'profile.modal.resume'/></th>
+                            <th scope="col"><@spring.message 'profile.modal.vacancy'/></th>
+                            <th scope="col"><@spring.message 'profile.modal.chat'/></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -33,7 +33,7 @@
                                 <td>
                                     <button type="button" class="btn btn-success"
                                             onclick="window.location.href='/chat/${respondent.id}'">
-                                        write to employer
+                                        <@spring.message 'profile.chat.to'/>
                                     </button>
                                 </td>
                             </tr>
@@ -43,16 +43,11 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> <@spring.message 'profile.modal.close'/></button>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-
-
 
 
 
@@ -86,12 +81,12 @@
                 <div class="dropend">
                     <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenuButton1"
                             data-bs-toggle="dropdown" aria-expanded="false">
-                        Edit
+                        <@spring.message 'profile.edit'/>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="/applicant/edit">Edit profile</a></li>
-                        <li><a class="dropdown-item" href="/applicant/changePassword">Change password</a></li>
-                        <li><a class="dropdown-item" href="/applicant/uploadImage">Set a new image</a></li>
+                        <li><a class="dropdown-item" href="/applicant/edit"> <@spring.message 'profile.edit.profile'/></a></li>
+                        <li><a class="dropdown-item" href="/applicant/changePassword"> <@spring.message 'profile.change.password'/></a></li>
+                        <li><a class="dropdown-item" href="/applicant/uploadImage"> <@spring.message 'profile.change.image'/></a></li>
                     </ul>
                 </div>
             </div>
@@ -99,14 +94,13 @@
 
         <div class="col-md">
             <div class="card border-0 align-items-center text-align-center">
-                <a href="/resume/create" class="btn btn-danger res-btn text-decoration-none">+ Создать
-                    резюме</a>
+                <a href="/resume/create" class="btn btn-danger res-btn text-decoration-none">+  <@spring.message 'profile.create.resume'/></a>
             </div>
         </div>
         <div class="col-md">
             <div class="card border-0 align-items-center">
                 <button class="btn btn-success res-btn text-decoration-none text-center" data-bs-toggle="modal"
-                        data-bs-target="#exampleModal">Отклики
+                        data-bs-target="#exampleModal"> <@spring.message 'profile.applies'/>
                 </button>
                 <#if respondents??>
                     <span class="badge bg-warning rounded-pill position-absolute top-0 end-0 mt-5 me-2">${respondents?size}</span>
@@ -115,7 +109,7 @@
         </div>
 
         <#if resumes?has_content>
-            <h6 class="mt-5">резюме :</h6>
+            <h6 class="mt-5"><@spring.message 'profile.resume'/> :</h6>
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 <#list resumes.content as resume>
                     <div class="col mb-3">
@@ -125,19 +119,19 @@
                                                           class="text-decoration-none text-dark">${resume.name}</a>
                                 </h5>
                                 <hr>
-                                <p class="card-text">Last update: <span id="${resume.id}_last-update">${resume.updateDate}</span></p>
+                                <p class="card-text"><@spring.message 'profile.last.update'/>: <span id="${resume.id}_last-update">${resume.updateDate}</span></p>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between gx-2 my-2">
                             <div>
-                                <button onclick="updateResume(${resume.id})" class="btn btn-primary" style="width: 150px">update
+                                <button onclick="updateResume(${resume.id})" class="btn btn-primary" style="width: 150px"><@spring.message 'profile.update'/>
                                 </button>
                             </div>
 
                             <div>
                                 <button type="button" class="btn btn-success " style="width: 150px"
                                         onclick="window.location.href='/resume/edit/${resume.id}'">
-                                    Edit
+                                    <@spring.message 'profile.edit'/>
                                 </button>
                             </div>
                         </div>
@@ -148,9 +142,9 @@
         <div class="mb-2" id="pagination-profile">
             <nav class="mb-2" aria-label="Page navigation example" id="applicant-pageButtons">
                 <ul class="pagination">
-                    <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">Previous</a></li>
+                    <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">&laquo;</a></li>
                     <li class="page-item page-link">${page}</li>
-                    <li class="page-item"><a class="page-link" href="/profile?page=${page + 1}">Next</a></li>
+                    <li class="page-item"><a class="page-link" href="/profile?page=${page + 1}">&raquo;</a></li>
                 </ul>
             </nav>
         </div>
