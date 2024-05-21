@@ -43,7 +43,8 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"> <@spring.message 'profile.modal.close'/></button>
+                    <button type="button" class="btn btn-secondary"
+                            data-bs-dismiss="modal"> <@spring.message 'profile.modal.close'/></button>
                 </div>
             </div>
         </div>
@@ -84,9 +85,12 @@
                         <@spring.message 'profile.edit'/>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="/applicant/edit"> <@spring.message 'profile.edit.profile'/></a></li>
-                        <li><a class="dropdown-item" href="/applicant/changePassword"> <@spring.message 'profile.change.password'/></a></li>
-                        <li><a class="dropdown-item" href="/applicant/uploadImage"> <@spring.message 'profile.change.image'/></a></li>
+                        <li><a class="dropdown-item"
+                               href="/applicant/edit"> <@spring.message 'profile.edit.profile'/></a></li>
+                        <li><a class="dropdown-item"
+                               href="/applicant/changePassword"> <@spring.message 'profile.change.password'/></a></li>
+                        <li><a class="dropdown-item"
+                               href="/applicant/uploadImage"> <@spring.message 'profile.change.image'/></a></li>
                     </ul>
                 </div>
             </div>
@@ -94,7 +98,8 @@
 
         <div class="col-md">
             <div class="card border-0 align-items-center text-align-center">
-                <a href="/resume/create" class="btn btn-danger res-btn text-decoration-none">+  <@spring.message 'profile.create.resume'/></a>
+                <a href="/resume/create"
+                   class="btn btn-danger res-btn text-decoration-none">+ <@spring.message 'profile.create.resume'/></a>
             </div>
         </div>
         <div class="col-md">
@@ -119,12 +124,14 @@
                                                           class="text-decoration-none text-dark">${resume.name}</a>
                                 </h5>
                                 <hr>
-                                <p class="card-text"><@spring.message 'profile.last.update'/>: <span id="${resume.id}_last-update">${resume.updateDate}</span></p>
+                                <p class="card-text"><@spring.message 'profile.last.update'/>: <span
+                                            id="${resume.id}_last-update">${resume.updateDate}</span></p>
                             </div>
                         </div>
                         <div class="card-footer d-flex justify-content-between gx-2 my-2">
                             <div>
-                                <button onclick="updateResume(${resume.id})" class="btn btn-primary" style="width: 150px"><@spring.message 'profile.update'/>
+                                <button onclick="updateResume(${resume.id})" class="btn btn-primary"
+                                        style="width: 150px"><@spring.message 'profile.update'/>
                                 </button>
                             </div>
 
@@ -142,10 +149,11 @@
         <div class="mb-2" id="pagination-profile">
             <nav class="mb-2" aria-label="Page navigation example" id="applicant-pageButtons">
                 <ul class="pagination">
-                    <#if page - 1 < 1>
-                        <#assign page = 1>
+                    <#if page - 1 < 0>
+                        <li class="page-item"><a class="page-link" href="/profile?page=0">&laquo;</a></li>
+                    <#else >
+                        <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">&laquo;</a></li>
                     </#if>
-                    <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">&laquo;</a></li>
                     <li class="page-item page-link">${page}</li>
                     <li class="page-item"><a class="page-link" href="/profile?page=${page + 1}">&raquo;</a></li>
                 </ul>
@@ -162,9 +170,9 @@
         };
 
         async function updateResume(id) {
-            const lastUpdateElement = document.getElementById(id+'_last-update');
+            const lastUpdateElement = document.getElementById(id + '_last-update');
             try {
-                const response = await fetch(`/api/resumes/update/`+id, {
+                const response = await fetch(`/api/resumes/update/` + id, {
                     method: 'PUT',
                     headers: headers
                 });
