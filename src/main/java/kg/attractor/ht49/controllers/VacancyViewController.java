@@ -12,6 +12,7 @@ import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -60,14 +61,20 @@ public class VacancyViewController {
     @GetMapping("/create")
     public String getVacancyCreatePage(Model model){
         List<CategoryDto> categories = categoryService.getCategories();
+        VacancyCreateDto vacancyCreateDto = new VacancyCreateDto();
         model.addAttribute("categories",categories);
+        model.addAttribute("vacancyCreateDto",vacancyCreateDto);
         return "vacancy/vacancyCreate";
     }
 
     @PostMapping("/create")
-    public String createVacancy(Model model, @Valid VacancyCreateDto createDto){
+    public String createVacancy(@Valid VacancyCreateDto vacancyCreateDto, BindingResult bindingResult,Model model){
+       if (bindingResult.hasErrors()){
+           model.addAttribute("vacancyCreateDto",vacancyCreateDto);
+           return "vacancy/vacancyCreate";
+       }
        String email = authAdapter.getAuthUser().getEmail();
-        service.createVacancyAndReturnId(createDto,email);
+        service.createVacancyAndReturnId(vacancyCreateDto,email);
         model.addAttribute("user",uService.getUserByEmail(email));
         return "redirect:/profile";
     }

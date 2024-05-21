@@ -19,7 +19,7 @@ public class UserCreationDto {
     @NotBlank @Size(max = 30)
     private String surname;
 
-    @Min(value = 14, message = "The age must be over 13")
+    @Min(value = 14, message = "{register.valid.age}")
     private Integer age;
 
     @NotBlank @Email
@@ -32,6 +32,6 @@ public class UserCreationDto {
     @NotBlank @Size(max = 25)
     private String phoneNumber;
 
-    @NotNull @NotBlank
+    @NotNull
     private Long accType;
 }

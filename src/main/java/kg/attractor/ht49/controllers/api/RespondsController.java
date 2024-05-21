@@ -19,14 +19,14 @@ public class RespondsController {
 
     @GetMapping()
     public ResponseEntity<List<RespondedApplicantDto>> getAllRespondedApplicants() {
-        List<RespondedApplicantDto> dtos = service.getAllRespondents();
-        return ResponseEntity.ok(dtos);
+        List<RespondedApplicantDto> respondents = service.getAllRespondents();
+        return ResponseEntity.ok(respondents);
     }
 
     @GetMapping("/{vacancyId}")
     public ResponseEntity<List<ResumeDto>> getRespondedApplicantsToVacancy(@Valid @PathVariable Long vacancyId) {
-        List<ResumeDto> dtos = service.getRespondedApplicantsByVacancyId(vacancyId);
-        return ResponseEntity.ok(dtos);
+        List<ResumeDto> resumes = service.getRespondedApplicantsByVacancyId(vacancyId);
+        return ResponseEntity.ok(resumes);
     }
 
     @PostMapping("/applyToVacancy/{id}")

@@ -13,12 +13,17 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="vacancyName" class="form-label"><@spring.message 'vacancy.name'/></label>
-                                <input type="text" class="form-control" id="vacancyName" name="name" required>
+                                <@spring.formInput "vacacnyCreateDto.name" 'class="form-control" id="vacancyName" name="name" required'/>
+                                <@spring.showErrors "<br>" "error text-danger"/>
+<#--                                <input type="text" class="form-control" id="vacancyName" name="name" required>-->
                             </div>
                             <div class="col-md-6">
                                 <label for="category" class="form-label"><@spring.message 'category'/>:</label>
-                                <input type="text" list="datalistOptions" class="form-control" id="category"
-                                       name="category">
+                                <@spring.formInput "vacacnyCreateDto.category" 'class="form-control" list="datalistOptions" class="form-control" id="category"
+                                       name="category"'/>
+                                <@spring.showErrors "<br>" "error text-danger"/>
+<#--                                <input type="text" list="datalistOptions" class="form-control" id="category"-->
+<#--                                       name="category">-->
                                 <datalist id="datalistOptions">
                                     <#list categories as category>
                                     <option value=${category.name}>
@@ -27,20 +32,27 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="salary" class="form-label"><@spring.message 'salary'/></label>
-                                <input type="text" class="form-control" id="salary" name="salary" required>
+                                <@spring.formInput "vacacnyCreateDto.salary" 'class="form-control" id="salary" name="salary" required'/>
+                                <@spring.showErrors "<br>" "error text-danger"/>
+<#--                                <input type="text" class="form-control" id="salary" name="salary" required>-->
                             </div>
                             <div class="col-md-6">
                                 <label for="description" class="form-label"><@spring.message 'vacancy.description'/></label>
-                                <textarea class="form-control" id="description" name="description" required></textarea>
+                                <@spring.formTextarea "vacacnyCreateDto.description" 'class="form-control" id="description" name="description" required'/>
+                                <@spring.showErrors "<br>" "error text-danger"/>
+<#--                                <textarea class="form-control" id="description" name="description" required></textarea>-->
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="expFromId" class="form-label"><@spring.message 'vacancy.experience.from'/></label>
-                                    <input type="number" class="form-control" id="expFromId" name="expFrom">
+                                    <@spring.formTextarea "vacacnyCreateDto.expFrom" 'class="form-control" type="number" id="expFromId" name="expFrom"'/>
+                                    <@spring.showErrors "<br>" "error text-danger"/>
+<#--                                    <input type="number" class="form-control" id="expFromId" name="expFrom">-->
                                 </div>
                                 <div class="col-md-6">
                                     <label for="expToId" class="form-label"><@spring.message 'vacancy.experience.to'/></label>
-                                    <input type="number" class="form-control" id="expToId" name="expTo">
+                                    <@spring.formTextarea "vacacnyCreateDto.expTo" 'class="form-control" type="number" id="expFromId" name="expTo"'/>
+                                    <@spring.showErrors "<br>" "error text-danger"/>
                                 </div>
                             </div>
                         </div>
