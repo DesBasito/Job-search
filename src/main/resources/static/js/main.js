@@ -6,13 +6,13 @@ let sortingBy1 = sortingBy
 window.onload = async () => {
     await fetchAndRender(urlVacancies);
     pagingButtons.innerHTML = `
-    <div class="my-2 text-success">page: <span id="pagination-number">${pageNum}</span></div>
+    <div class="my-2 text-success">${vacancyPage}: <span id="pagination-number">${pageNum}</span></div>
        <ul class="pagination">
-            <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(pageNum - 1, sortingBy1, 'previous')">Previous</li>
+            <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(pageNum - 1, sortingBy1, 'previous')">&laquo;</li>
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(1, sortingBy1, '1')">1</a></li>
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(2, sortingBy1, '2')">2</a></li>
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(3, sortingBy1, '3')">3</a></li>
-            <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(pageNum + 1, sortingBy1, 'next')">Next</li>
+            <li class="page-item page-link" style="cursor: pointer" onclick="switchPage(pageNum + 1, sortingBy1, 'next')">&raquo;</li>
         </ul>
     `
 };

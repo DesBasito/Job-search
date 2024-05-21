@@ -52,6 +52,8 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
     <script>
         const resumeSortingBy = '${filter}'
+        const salaryResume = '<@spring.message 'salary'/>'
+        const resumePage = '<@spring.message 'page'/>'
     </script>
     <script src="/js/resumesPage.js"></script>
 </@resumes.layout>

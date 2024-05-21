@@ -7,13 +7,13 @@ let resumeSorting = resumeSortingBy
 window.onload = async() =>{
     await fetchAndRenderResume(urlResumes);
     resPagingButtons.innerHTML = `
-    <div class="my-2 text-success">page: <span id="resume-pagination-number">${resumePageNum}</span></div>
+    <div class="my-2 text-success">${resumePage}: <span id="resume-pagination-number">${resumePageNum}</span></div>
        <ul class="pagination">
-            <li class="page-item page-link" style="cursor: pointer" onclick="switchPageResume(resumePageNum - 1, resumeSorting, 'previous')">Previous</li>
+            <li class="page-item page-link" style="cursor: pointer" onclick="switchPageResume(resumePageNum - 1, resumeSorting, 'previous')">&laquo;</li>
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageResume(1, resumeSorting, '1')">1</a></li>
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageResume(2, resumeSorting, '2')">2</a></li>
             <li class="page-item page-link" style="cursor: pointer" onclick="switchPageResume(3, resumeSorting, '3')">3</a></li>
-            <li class="page-item page-link" style="cursor: pointer" onclick="switchPageResume(resumePageNum + 1, resumeSorting, 'next')">Next</li>
+            <li class="page-item page-link" style="cursor: pointer" onclick="switchPageResume(resumePageNum + 1, resumeSorting, 'next')">&raquo;</li>
         </ul>
     `;
 }
@@ -50,7 +50,7 @@ function createResumeCard(resume) {
             <div class="card-body">
                 <a href="#" class="text-decoration-none text-dark">${resume.userEmail}</a>
                 <h3 class="mt-2 mb-5"><a href="resume/${resume.id}" class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${resume.name}</a></h3>
-                <p class="card-text">Salary: ${resume.salary}</p>
+                <p class="card-text">${salaryResume}: ${resume.salary}</p>
                 <p class="text-end">${resume.updateDate}</p>
             </div>
         </div>
