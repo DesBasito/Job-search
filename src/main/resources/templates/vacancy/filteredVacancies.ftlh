@@ -1,5 +1,5 @@
 <#import "../layout.ftlh" as main>
-<@main.layout>
+<@main.layout;spring>
     <div class="row">
         <div class="col-md-8">
             <#list vacancies as vacancy>
@@ -10,7 +10,7 @@
                                                  class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${vacancy.name}</a>
                         </h3>
                         <h5 class="card-title">${vacancy.description}</h5>
-                        <p class="card-text">salary<br>${vacancy.salary}</p>
+                        <p class="card-text"><@spring.message 'salary'/><br>${vacancy.salary}</p>
                         <p class="text-end">${vacancy.updateTime}</p>
                     </div>
                 </div>
@@ -19,10 +19,10 @@
         <div class="col-md-4 h-100">
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Filter Vacancy</h5>
+                    <h5 class="card-title"><@spring.message 'main.sort.vacancies'/></h5>
                     <form action="/vacancies/filter" method="get">
                         <div class="mb-3">
-                            <label for="category" class="form-label">Category:</label>
+                            <label for="category" class="form-label"><@spring.message 'category'/>:</label>
                             <input type="text" list="datalistOptions" class="form-control" id="category" name="category"
                                    placeholder="name of category">
                             <datalist id="datalistOptions">
@@ -31,7 +31,7 @@
                                     </#list>
                             </datalist>
                         </div>
-                        <button type="submit" class="btn btn-primary">Filter</button>
+                        <button type="submit" class="btn btn-primary"><@spring.message 'main.sort'/></button>
                     </form>
                 </div>
             </div>

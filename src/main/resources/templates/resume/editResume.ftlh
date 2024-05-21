@@ -1,5 +1,5 @@
 <#import "../layout.ftlh" as main>
-<@main.layout>
+<@main.layout;spring>
     <div class="container py-5">
         <div class="row">
             <div class="col-md-4">
@@ -20,8 +20,8 @@
                 </#if>
                 <div class="user-info">
                     <h4>${user.name} ${user.surname}</h4>
-                    <p class="text-muted"><strong>Age:</strong> ${user.age}</p>
-                    <p class="text-muted"><strong>Phone Number:</strong> ${user.phoneNumber}</p>
+                    <p class="text-muted"><strong><@spring.message 'age'/>:</strong> ${user.age}</p>
+                    <p class="text-muted"><strong><@spring.message 'phone.number'/>:</strong> ${user.phoneNumber}</p>
                 </div>
             </div>
             <div class="col-md-8">
@@ -36,13 +36,13 @@
                                                placeholder="Resume Name">
                                     </label></h3>
                                 <p class="card-text text-muted">
-                                    <strong>Category:</strong>
+                                    <strong><@spring.message 'category'/>:</strong>
                                     <label>
                                         <input type="text"
                                                name="categoryName"
                                                list="datalistOptions"
                                                value="${resume.categoryName}"
-                                               placeholder="Category">
+                                               placeholder="<@spring.message 'category'/>">
                                     </label>
                                     <datalist id="datalistOptions">
                                         <#list categories as category>
@@ -50,7 +50,7 @@
                                             </#list>
                                     </datalist>
                                 </p>
-                                <p class="card-text text-muted"><strong>Salary:</strong> <label>
+                                <p class="card-text text-muted"><strong><@spring.message 'salary'/>:</strong> <label>
                                         <input type="text"
                                                name="salary"
                                                value="${resume.salary}"
@@ -60,32 +60,32 @@
 
                                 <hr class="my-4"> <!-- Horizontal line -->
 
-                                <h5 class="card-subtitle mb-3 text-muted">Work Experience</h5>
+                                <h5 class="card-subtitle mb-3 text-muted"><@spring.message 'resume.work.experience'/></h5>
                                 <div class="work-experience">
                                     <#list resume.workExpInfoEdit as work>
                                         <div class="mb-5">
                                             <h6>
                                                 <label>
                                                     <input name="workExpInfoEdit[${work_index}].id" value="${work.id}"
-                                                           placeholder="id" hidden="hidden">
+                                                           hidden="hidden">
                                                 </label>
                                                 <label>
                                                     <input type="text" name="workExpInfoEdit[${work_index}].position" value="${work.position}"
-                                                           placeholder="Position">
+                                                           placeholder="<@spring.message 'resume.position'/>">
                                                 </label> - <label>
                                                     <input type="text" name="workExpInfoEdit[${work_index}].companyName"
                                                            value="${work.companyName}"
-                                                           placeholder="Company Name">
+                                                           placeholder="<@spring.message 'resume.company'/>">
                                                 </label></h6>
                                             <p><label>
                                                     <textarea name="workExpInfoEdit[${work_index}].responsibilities"
-                                                              placeholder="Responsibilities">${work.responsibilities}</textarea>
+                                                              placeholder="<@spring.message 'resume.responsibilities'/>">${work.responsibilities}</textarea>
                                                 </label>
                                             </p>
-                                            <p class="text-muted">Worked: <label>
+                                            <p class="text-muted"><@spring.message 'resume.worked'/>: <label>
                                                     <input type="text" name="workExpInfoEdit[${work_index}].years"
-                                                           placeholder="Years">
-                                                </label> years</p>
+                                                           placeholder="<@spring.message 'edit.resume.years'/>">
+                                                </label> <@spring.message 'resume.years'/></p>
                                         </div>
                                     </#list>
                                     <#assign workExpLastIndex = resume.workExpInfoEdit?size - 1>
@@ -93,12 +93,12 @@
                                 <div id="work">
                                     <div class="d-flex justify-content-center my-4">
                                         <input id="add-work-btn" class="btn btn-success mt-3 mb-1" type="button"
-                                               value="Add work experience">
+                                               value="<@spring.message 'resume.add.work.exp'/>">
                                     </div>
                                 </div>
                                 <hr class="my-4"> <!-- Horizontal line -->
 
-                                <h5 class="card-subtitle mb-3 text-muted">Education</h5>
+                                <h5 class="card-subtitle mb-3 text-muted"><@spring.message 'resume.education'/></h5>
                                 <div class="education">
                                     <#list resume.educationInfo as edu>
                                         <div class="mb-3">
@@ -108,24 +108,24 @@
                                             </label>
                                             <h6><label>
                                                     <input type="text" name="educationInfo[${edu_index}].degree" value="${edu.degree}"
-                                                           placeholder="Degree">
+                                                           placeholder="<@spring.message 'resume.degree'/>">
                                                 </label>, <label>
                                                     <input type="text" name="educationInfo[${edu_index}].institution"
-                                                           placeholder="Institution">
+                                                           placeholder="<@spring.message 'resume.institution'/>">
                                                 </label></h6>
                                             <p><label>
 <textarea name="educationInfo[${edu_index}].program"
-          placeholder="Program">${edu.program}</textarea>
+          placeholder="<@spring.message 'resume.program'/>">${edu.program}</textarea>
                                                 </label></p>
                                             <p class="text-muted"><label>
                                                     <input type="date" name="educationInfo[${edu_index}].startDate"
                                                            value="${edu.startDate}"
-                                                           placeholder="Start Date">
+                                                           placeholder="<@spring.message 'resume.startDate'/>">
                                                 </label> - <label>
                                                     <input type="date"
                                                            name="educationInfo[${edu_index}].endDate"
                                                            value="${edu.endDate}"
-                                                           placeholder="End Date">
+                                                           placeholder="<@spring.message 'resume.endDate'/>">
                                                 </label>
                                         </div>
                                     </#list>
@@ -133,7 +133,7 @@
                                 </div>
                                 <div id="education">
                                     <div id="educationInfo" class="d-flex justify-content-center my-4">
-                                        <input id="add-education-btn" class="btn btn-success my-3" type="button" value="Add education info">
+                                        <input id="add-education-btn" class="btn btn-success my-3" type="button" value="<@spring.message 'resume.add.education'/>">
                                     </div>
                                 </div>
 
@@ -141,7 +141,7 @@
                                 <div class="d-grid gap-2">
                                     <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
                                            value="${(_csrf.token)!'--no-token--'}"/>
-                                    <button type="submit" class="btn btn-primary btn-md">Edit</button>
+                                    <button type="submit" class="btn btn-primary btn-md"><@spring.message 'profile.edit'/></button>
                                 </div>
                             </div>
                         </form>
@@ -157,6 +157,16 @@
     <script>
         const workExpLastIndex = ${workExpLastIndex};
         const eduLastIndex = ${eduLastIndex};
+        let position = '<@spring.message 'resume.position'/>';
+        let years = '<@spring.message 'resume.worked.years'/>';
+        let company = '<@spring.message 'resume.company'/>';
+        let responsibilities = '<@spring.message 'resume.responsibilities'/>';
+        let remove = '<@spring.message 'resume.remove'/>';
+        let degree = '<@spring.message 'resume.degree'/>';
+        let program = '<@spring.message 'resume.program'/>';
+        let institution = '<@spring.message 'resume.institution'/>';
+        let startDate = '<@spring.message 'resume.startDate'/>';
+        let endDate = '<@spring.message 'resume.endDate'/>'
     </script>
     <script src="/js/editResume.js"></script>
 

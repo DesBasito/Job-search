@@ -61,7 +61,7 @@
             <form id="avatar-form" action="/employer/uploadImage" method="post" enctype="multipart/form-data">
         </#if>
             <fieldset>
-                <img id="avatar-img" src="api/users/image/username/${authorizedUserEmail.username}" alt="Current Avatar">
+                <img id="avatar-img" src="/api/users/image/username/${authorizedUserEmail.username}" alt="Current Avatar">
                 <div class="mb-3">
                     <label for="avatar-input" class="avatar-input-label"><@spring.message 'setImage'/></label>
                     <input name="file" class="avatar-input" type="file" id="avatar-input">

@@ -10,33 +10,33 @@ document.addEventListener('DOMContentLoaded', function () {
         cardBody.className = 'card-body';
 
         if (container === workExpContainer) {
-            const workPositionInput = createInputField('text', `workExpInfo[${workExpCounter}].position`,'Position');
+            const workPositionInput = createInputField('text', `workExpInfo[${workExpCounter}].position`,position);
             cardBody.appendChild(workPositionInput);
 
-            const companyNameInput = createInputField('text', `workExpInfo[${workExpCounter}].companyName`,'Company name');
+            const companyNameInput = createInputField('text', `workExpInfo[${workExpCounter}].companyName`,company);
             cardBody.appendChild(companyNameInput);
 
-            const responsibilitiesTextarea = createTextarea(`workExpInfo[${workExpCounter}].responsibilities`,'responsibilities');
+            const responsibilitiesTextarea = createTextarea(`workExpInfo[${workExpCounter}].responsibilities`,responsibilities);
             cardBody.appendChild(responsibilitiesTextarea);
 
-            const yearsOfWorkInput = createInputField('number', `workExpInfo[${workExpCounter}].years`,'years');
+            const yearsOfWorkInput = createInputField('number', `workExpInfo[${workExpCounter}].years`,years);
             cardBody.appendChild(yearsOfWorkInput);
 
             workExpCounter++;
         } else if (container === educationContainer) {
-            const degreeInput = createInputField('text', `educationInfo[${educationCounter}].degree`,'Degree');
+            const degreeInput = createInputField('text', `educationInfo[${educationCounter}].degree`,degree);
             cardBody.appendChild(degreeInput);
 
-            const institutionInput = createInputField('text', `educationInfo[${educationCounter}].institution`,'Institution');
+            const institutionInput = createInputField('text', `educationInfo[${educationCounter}].institution`,institution);
             cardBody.appendChild(institutionInput);
 
-            const programTextarea = createTextarea(`educationInfo[${educationCounter}].program`,'Program');
+            const programTextarea = createTextarea(`educationInfo[${educationCounter}].program`,program);
             cardBody.appendChild(programTextarea);
 
-            const startDateInput = createInputField('date', `educationInfo[${educationCounter}].startDate`,'Starting date');
+            const startDateInput = createInputField('date', `educationInfo[${educationCounter}].startDate`,startDate);
             cardBody.appendChild(startDateInput);
 
-            const endDateInput = createInputField('date', `educationInfo[${educationCounter}].endDate`,'Ending date');
+            const endDateInput = createInputField('date', `educationInfo[${educationCounter}].endDate`,endDate);
             cardBody.appendChild(endDateInput);
 
             educationCounter++;
@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let closeButton = document.createElement('button');
         closeButton.className = 'btn btn-danger'
         closeButton.classList.add('card-close');
-        closeButton.textContent = 'удалить';
+        closeButton.textContent = remove;
         closeButton.addEventListener('click', () => {
             cardBody.remove();
         });
@@ -98,11 +98,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const addEducationBtn = document.getElementById('add-education-btn');
     addEducationBtn.addEventListener('click', function () {
         createCard(educationContainer);
-    });
-
-    const addContactsBtn = document.getElementById('add-contacts-btn');
-    addContactsBtn.addEventListener('click', function () {
-        createCard(contactsContainer);
     });
 
 });

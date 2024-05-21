@@ -1,5 +1,5 @@
 <#import "../layout.ftlh" as main>
-<@main.layout>
+<@main.layout;spring>
     <div class="row row-cols-1 row-cols-md-3 g-4">
         <div class="col-md-9">
             <div class="card my-2" style="max-width: 900px">
@@ -7,9 +7,9 @@
                     <h3 class="mt-2 mb-5"><a href="#"
                                              class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${vacancy.name}</a>
                     </h3>
-                    <a href="#" class="text-decoration-none text-dark">company: ${vacancy.authorEmail}</a>
+                    <a href="#" class="text-decoration-none text-dark"><@spring.message 'resume.company'/>: ${vacancy.authorEmail}</a>
                     <h5 class="card-title">${vacancy.description}</h5>
-                    <p class="card-text">${vacancy.salary}</p>
+                    <p class="card-text"><@spring.message 'salary'/>: ${vacancy.salary}</p>
                     <#if applicant?? && resumes??>
                         <div class="dropend mt-4">
                             <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"

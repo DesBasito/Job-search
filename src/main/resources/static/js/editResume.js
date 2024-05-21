@@ -14,33 +14,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (container === workExpContainer) {
             workCounter++
-            const workPositionInput = createInputField('text', `workExpInfoEdit[` + workCounter + `].position`, 'position');
+            const workPositionInput = createInputField('text', `workExpInfoEdit[` + workCounter + `].position`, position);
             field.appendChild(workPositionInput);
 
-            const companyNameInput = createInputField('text', `workExpInfoEdit[` + workCounter + `].companyName`, 'Company name');
+            const companyNameInput = createInputField('text', `workExpInfoEdit[` + workCounter + `].companyName`, company);
             field.appendChild(companyNameInput);
 
-            const responsibilitiesTextarea = createTextarea(`workExpInfoEdit[` + workCounter + `].responsibilities`, 'responsibilities');
+            const responsibilitiesTextarea = createTextarea(`workExpInfoEdit[` + workCounter + `].responsibilities`, responsibilities);
             field.appendChild(responsibilitiesTextarea);
 
-            const yearsOfWorkInput = createInputField('number', `workExpInfoEdit[` + workCounter + `].years`, 'years');
+            const yearsOfWorkInput = createInputField('number', `workExpInfoEdit[` + workCounter + `].years`, years);
             field.appendChild(yearsOfWorkInput);
 
         } else if (container === educationContainer) {
             educationCounter++;
-            const degreeInput = createInputField('text', `educationInfo[` + educationCounter + `].degree`, 'Degree');
+            const degreeInput = createInputField('text', `educationInfo[` + educationCounter + `].degree`, degree);
             field.appendChild(degreeInput);
 
-            const institutionInput = createInputField('text', `educationInfo[` + educationCounter + `].institution`, 'Institution');
+            const institutionInput = createInputField('text', `educationInfo[` + educationCounter + `].institution`, institution);
             field.appendChild(institutionInput);
 
-            const programTextarea = createTextarea(`educationInfo[` + educationCounter + `].program`, 'Program');
+            const programTextarea = createTextarea(`educationInfo[` + educationCounter + `].program`, program);
             field.appendChild(programTextarea);
 
-            const startDateInput = createInputField('date', `educationInfo[` + educationCounter + `].startDate`, 'Starting date');
+            const startDateInput = createInputField('date', `educationInfo[` + educationCounter + `].startDate`, startDate);
             field.appendChild(startDateInput);
 
-            const endDateInput = createInputField('date', `educationInfo[` + educationCounter + `].endDate`, 'Ending date');
+            const endDateInput = createInputField('date', `educationInfo[` + educationCounter + `].endDate`, endDate);
             field.appendChild(endDateInput);
 
         } else if (container === contactsContainer) {
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
         let closeButton = document.createElement('button');
         closeButton.className = 'btn btn-danger mb-3 mt-2'
         closeButton.classList.add('card-close');
-        closeButton.textContent = 'удалить';
+        closeButton.textContent = remove;
         closeButton.addEventListener('click', () => {
             field.remove();
         });
