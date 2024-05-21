@@ -70,7 +70,9 @@ public class VacancyViewController {
     @PostMapping("/create")
     public String createVacancy(@Valid VacancyCreateDto vacancyCreateDto, BindingResult bindingResult,Model model){
        if (bindingResult.hasErrors()){
+           List<CategoryDto> categories = categoryService.getCategories();
            model.addAttribute("vacancyCreateDto",vacancyCreateDto);
+           model.addAttribute("categories",categories);
            return "vacancy/vacancyCreate";
        }
        String email = authAdapter.getAuthUser().getEmail();

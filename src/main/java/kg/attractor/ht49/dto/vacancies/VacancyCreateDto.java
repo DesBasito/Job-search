@@ -23,6 +23,7 @@ public class VacancyCreateDto {
     private String category;
 
     @NotNull
+    @Min(value = 0)
     private Double salary;
 
     @Max(value = 40)
@@ -33,8 +34,8 @@ public class VacancyCreateDto {
     @Max(value = 50,message = "{valid.vacancy.experience}")
     private Integer expTo;
 
-    @AssertTrue(message = "{valid.vacancy.isGreater}")
-    private boolean isExpToGreaterThanExpFrom() {
-        return expTo > expFrom;
-    }
+//    @AssertTrue(message = "{valid.vacancy.isGreater}")
+//    private boolean isExpToGreaterThanExpFrom() {
+//        return expTo > expFrom;
+//    }
 }

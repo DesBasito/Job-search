@@ -11,27 +11,20 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title"><@spring.message 'main.filter'/></h5>
-                    <#if _csrf??>
                         <form action="/vacancies/filter" method="get">
                         <div class="mb-3">
                             <label for="category" class="form-label"><@spring.message 'main.category'/>:</label>
-                            <input type="text" list="datalistOptions" class="form-control" id="category" name="category"
-                                   placeholder="<@spring.message 'main.name.category'/>">
-                            <datalist id="datalistOptions">
+                            <select name="category" id="category" class="form-control" required>
                                 <#list categories as category>
-                                <option value=${category.name}>
-                                    </#list>
-                            </datalist>
+                                    <option value=${category.name}>${category.name}</option>
+                                </#list>
+                            </select>
                         </div>
-                        <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
-                               value="${(_csrf.token)!'--no-token--'}"/>
                         <button type="submit" class="btn btn-primary"><@spring.message 'main.sort'/></button>
                     </form>
-                    </#if>
                 </div>
             </div>
             <div class="card card-body mt-2">
-                <#if _csrf??>
                     <form action="/" method="get">
                     <h5 class="card-title"><@spring.message 'main.sort.vacancies'/></h5>
                     <div class="my-3">
@@ -42,11 +35,8 @@
                             <option value="descApplies"><@spring.message 'main.applies.descending'/></option>
                         </select>
                     </div>
-                    <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
-                           value="${(_csrf.token)!'--no-token--'}"/>
                     <button type="submit" class="btn btn-primary"><@spring.message 'main.sort'/></button>
                 </form>
-                </#if>
             </div>
         </div>
     </div>

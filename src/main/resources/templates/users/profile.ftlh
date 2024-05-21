@@ -142,6 +142,9 @@
         <div class="mb-2" id="pagination-profile">
             <nav class="mb-2" aria-label="Page navigation example" id="applicant-pageButtons">
                 <ul class="pagination">
+                    <#if page - 1 < 1>
+                        <#assign page = 1>
+                    </#if>
                     <li class="page-item"><a class="page-link" href="/profile?page=${page - 1}">&laquo;</a></li>
                     <li class="page-item page-link">${page}</li>
                     <li class="page-item"><a class="page-link" href="/profile?page=${page + 1}">&raquo;</a></li>

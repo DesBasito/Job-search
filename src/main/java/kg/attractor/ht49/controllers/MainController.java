@@ -66,13 +66,9 @@ public class MainController {
 
     @GetMapping("/profile")
     public String applicantInfo(@RequestParam(name = "page", defaultValue = "0") int page, Model model) {
-        if (page - 1 < 1) {
-            page = 0;
-        }
         String email = adapter.getAuthUser().getEmail();
         UserDto user = userService.getUserByEmail(email);
         model.addAttribute("user", user);
-        model.addAttribute("page", page);
         List<RespondedApplicantDto> respondedApplicants;
 
         if (user.getAccType().equals("employer")) {
@@ -80,12 +76,20 @@ public class MainController {
             model.addAttribute("vacancies", vacancies);
             respondedApplicants = respondedApplicantsService.getRespondentsByEmployer(user.getId());
             model.addAttribute("respondents", respondedApplicants);
+            if (page - 1 < 0) {
+                page = 0;
+            }
+            model.addAttribute("page", page);
             return "/users/companyProfile";
         } else {
             respondedApplicants = respondedApplicantsService.getRespondentsByApplicant(user.getId());
             model.addAttribute("respondents", respondedApplicants);
             Page<ResumeDto> resumes = resumeService.getResumesByAuthorEmail(email, page);
             model.addAttribute("resumes", resumes);
+            if (page - 1 < 0) {
+                page = 0;
+            }
+            model.addAttribute("page", page);
             return "/users/profile";
         }
     }
