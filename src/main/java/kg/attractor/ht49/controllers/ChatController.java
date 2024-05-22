@@ -30,9 +30,7 @@ public class ChatController {
         UserDto sender = adapter.getAuthUser();
         RespondedApplicantDto respondedApplicant = respService.getRespondedApplicantById(respId);
         respService.checkUserByResume(respondedApplicant,sender);
-        List<MessageDto> messages = messageService.getMessages(respId);
 
-        model.addAttribute("messages",messages);
         model.addAttribute("sender", sender);
         model.addAttribute("respApplId",respId);
         return "chat";

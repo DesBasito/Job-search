@@ -42,13 +42,19 @@ function renderVacancies(vacancies) {
 }
 
 function createVacancyCard(vacancy) {
+    let salary;
+    if (vacancy.salary == null || vacancy.salary === 0){
+        salary = negotiable;
+    }else {
+        salary = vacancy.salary;
+    }
     return `
         <div class="card mb-3">
             <div class="card-body">
                 <a href="#" class="text-decoration-none text-dark">${vacancy.authorEmail}</a>
                 <h3 class="mt-2 mb-5"><a href="vacancies/info/${vacancy.id}" class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${vacancy.name}</a></h3>
                 <h5 class="card-title">${vacancy.description}</h5>
-                <p class="card-text">Salary: ${vacancy.salary}</p>
+                <p class="card-text">Salary: ${salary}</p>
                 <p class="text-end">${vacancy.updateTime}</p>
             </div>
         </div>

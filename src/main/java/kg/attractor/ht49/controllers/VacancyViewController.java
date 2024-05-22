@@ -22,80 +22,89 @@ import java.util.Objects;
 @RequestMapping("/vacancies")
 @RequiredArgsConstructor
 public class VacancyViewController {
-   private final VacancyService service;
-   private final UserService uService;
-   private final CategoryService categoryService;
-   private final AuthAdapter authAdapter;
-   private final ResumeService resumeService;
-   private final RespondedApplicantsService respondedApplicantsService;
+    private final VacancyService service;
+    private final UserService uService;
+    private final CategoryService categoryService;
+    private final AuthAdapter authAdapter;
+    private final ResumeService resumeService;
+    private final RespondedApplicantsService respondedApplicantsService;
 
-   @GetMapping("/info/{vacancyId}")
-    public String getVacancyById(@PathVariable Long vacancyId, Model model){
-       String email = authAdapter.getAuthUser().getEmail();
-       VacancyDto vacancy = service.getVacancyById(vacancyId);
-       model.addAttribute("vacancy", vacancy);
-       List<VacancyDto> vacanciesOfAuthor = service.getActiveVacanciesByCompany(vacancy.getAuthorEmail());
-       model.addAttribute("employers", vacanciesOfAuthor);
-       UserDto user = uService.getUserByEmail(email);
+    @GetMapping("/info/{vacancyId}")
+    public String getVacancyById(@PathVariable Long vacancyId, Model model) {
+        String email = authAdapter.getAuthUser().getEmail();
+        VacancyDto vacancy = service.getVacancyById(vacancyId);
+        model.addAttribute("vacancy", vacancy);
+        List<VacancyDto> vacanciesOfAuthor = service.getActiveVacanciesByCompany(vacancy.getAuthorEmail());
+        model.addAttribute("employers", vacanciesOfAuthor);
+        UserDto user = uService.getUserByEmail(email);
 
-       if (Objects.equals(user.getAccType(),"employee")){
-           List<ResumeDto> resumes = resumeService.getResumeByCategory(user.getEmail(),vacancy.getCategory());
-           model.addAttribute("resumes",resumes);
-           model.addAttribute("applicant",user);
+        if (Objects.equals(user.getAccType(), "employee")) {
+            List<ResumeDto> resumes = resumeService.getResumeByCategory(user.getEmail(), vacancy.getCategory());
+            model.addAttribute("resumes", resumes);
+            model.addAttribute("applicant", user);
 
-           Long respId = respondedApplicantsService.ifThereResumeIdAndVacancyId(resumes,vacancyId);
-           model.addAttribute("respId",respId);
-       }
-       return "vacancy/vacancyInfo";
-   }
+            Long respId = respondedApplicantsService.ifThereResumeIdAndVacancyId(resumes, vacancyId);
+            model.addAttribute("respId", respId);
+        }
+        return "vacancy/vacancyInfo";
+    }
 
-   @GetMapping("/filter")
-    public String getVacancyByCategory(@RequestParam String category, Model model){
+    @GetMapping("/filter")
+    public String getVacancyByCategory(@RequestParam String category, Model model) {
         List<VacancyDto> vacancies = service.getVacanciesByCategory(category);
         model.addAttribute("vacancies", vacancies);
-       List<CategoryDto> categories = categoryService.getCategories();
-       model.addAttribute("categories",categories);
+        List<CategoryDto> categories = categoryService.getCategories();
+        model.addAttribute("categories", categories);
         return "vacancy/filteredVacancies";
     }
 
     @GetMapping("/create")
-    public String getVacancyCreatePage(Model model){
+    public String getVacancyCreatePage(Model model) {
         List<CategoryDto> categories = categoryService.getCategories();
         VacancyCreateDto vacancyCreateDto = new VacancyCreateDto();
-        model.addAttribute("categories",categories);
-        model.addAttribute("vacancyCreateDto",vacancyCreateDto);
+        model.addAttribute("categories", categories);
+        model.addAttribute("vacancyCreateDto", vacancyCreateDto);
         return "vacancy/vacancyCreate";
     }
 
     @PostMapping("/create")
-    public String createVacancy(@Valid VacancyCreateDto vacancyCreateDto, BindingResult bindingResult,Model model){
-       if (bindingResult.hasErrors()){
-           List<CategoryDto> categories = categoryService.getCategories();
-           model.addAttribute("vacancyCreateDto",vacancyCreateDto);
-           model.addAttribute("categories",categories);
-           return "vacancy/vacancyCreate";
-       }
-       String email = authAdapter.getAuthUser().getEmail();
-        service.createVacancyAndReturnId(vacancyCreateDto,email);
-        model.addAttribute("user",uService.getUserByEmail(email));
+    public String createVacancy(@Valid VacancyCreateDto vacancyCreateDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            List<CategoryDto> categories = categoryService.getCategories();
+            model.addAttribute("vacancyCreateDto", vacancyCreateDto);
+            model.addAttribute("categories", categories);
+            return "vacancy/vacancyCreate";
+        }
+        String email = authAdapter.getAuthUser().getEmail();
+        service.createVacancyAndReturnId(vacancyCreateDto, email);
+        model.addAttribute("user", uService.getUserByEmail(email));
         return "redirect:/profile";
     }
 
     @GetMapping("/edit")
-    public String getVacancyEditPage(Model model, @RequestParam Long id){
+    public String getVacancyEditPage(Model model, @RequestParam Long id) {
+        VacancyEditDto vacancyEditDto = new VacancyEditDto();
         List<CategoryDto> categories = categoryService.getCategories();
-        model.addAttribute("categories",categories);
+        model.addAttribute("categories", categories);
         VacancyDto dto = service.getVacancyById(id);
-        model.addAttribute("vacancy",dto);
+        model.addAttribute("vacancy", dto);
+        model.addAttribute("vacancyEditDto", vacancyEditDto);
         return "vacancy/editVacancy";
     }
 
     @PostMapping("/edit")
-    public String updateVacancy(@RequestParam Long id,Model model, @Valid VacancyEditDto editDto){
-       String email = authAdapter.getAuthUser().getEmail();
-       editDto.setId(id);
-       service.editVacancy(editDto);
-        model.addAttribute("user",uService.getUserByEmail(email));
+    public String updateVacancy(@RequestParam Long id,@Valid VacancyEditDto vacancyEditDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.getCategories());
+            model.addAttribute("vacancyEditDto", vacancyEditDto);
+            VacancyDto dto = service.getVacancyById(id);
+            model.addAttribute("vacancy", dto);
+            return "vacancy/editVacancy";
+        }
+        String email = authAdapter.getAuthUser().getEmail();
+        vacancyEditDto.setId(id);
+        service.editVacancy(vacancyEditDto);
+        model.addAttribute("user", uService.getUserByEmail(email));
         return "redirect:/profile";
     }
 
@@ -107,8 +116,8 @@ public class VacancyViewController {
 
     @PostMapping("/applyToVacancy/{id}")
     public String applyToVacancy(@RequestParam Long resumeId, @PathVariable Long id) {
-       respondedApplicantsService.applyToVacancy(resumeId, id);
-        return "redirect:/vacancies/info/"+id;
+        respondedApplicantsService.applyToVacancy(resumeId, id);
+        return "redirect:/vacancies/info/" + id;
     }
 
     @PostMapping("/updateVacancy")

@@ -58,18 +58,19 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav fw-medium mx-auto">
                         <#if role??>
-                                <li class="nav-item" id="userAuthority">
-                                    <a class="nav-link active" aria-current="page" href="/"><#if role = 'employer'>
-                                            <@spring.message 'layout.resumes'/>
-                                        <#else >
-                                            <@spring.message 'layout.vacancies'/>
-                                        </#if>
-                                    </a>
-                                </li>
+                            <li class="nav-item" id="userAuthority">
+                                <a class="nav-link active" aria-current="page" href="/"><#if role = 'employer'>
+                                        <@spring.message 'layout.resumes'/>
+                                    <#else >
+                                        <@spring.message 'layout.vacancies'/>
+                                    </#if>
+                                </a>
+                            </li>
 
                         <#else >
                             <li class="nav-item" id="userAuthority">
-                                <a class="nav-link active" aria-current="page" href="/"><@spring.message 'layout.vacancies'/>
+                                <a class="nav-link active" aria-current="page"
+                                   href="/"><@spring.message 'layout.vacancies'/>
                                 </a>
                             </li>
                         </#if>
@@ -78,15 +79,20 @@
                             <a class="nav-link " href="#"><@spring.message 'layout.companies'/></a>
                         </li>
                         <li class="mx-2 nav-item">
-                            <a class="nav-link" href="/api/users/image/Prime.jpeg"><@spring.message 'layout.supports'/></a>
+                            <a class="nav-link"
+                               href="/api/users/image/Prime.jpeg"><@spring.message 'layout.supports'/></a>
                         </li>
-                        <li class="mx-2 nav-item">
-                            <a class="nav-link" href="/register"><@spring.message 'layout.register'/></a>
-                        </li>
+                        <#if authorizedUserEmail??>
+                            <#else >
+                            <li class="mx-2 nav-item">
+                                <a class="nav-link" href="/register"><@spring.message 'layout.register'/></a>
+                            </li>
+                        </#if>
                     </ul>
                 </div>
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle bg-orange" type="button" id="dropdownMenuButton7" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-secondary dropdown-toggle bg-orange" type="button" id="dropdownMenuButton7"
+                            data-bs-toggle="dropdown" aria-expanded="false">
                         <@spring.message 'layout.change.lang'/>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton7">
@@ -98,7 +104,8 @@
                     <form action="/logout" method="post">
                         <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
                                value="${(_csrf.token)!'--no-token--'}"/>
-                        <button type="submit" class="btn btn-user bg-orange rounded-1 text-light fs-5 ms-3"><@spring.message 'layout.logout'/></button>
+                        <button type="submit"
+                                class="btn btn-user bg-orange rounded-1 text-light fs-5 ms-3"><@spring.message 'layout.logout'/></button>
                     </form>
                 </#if>
             </div>

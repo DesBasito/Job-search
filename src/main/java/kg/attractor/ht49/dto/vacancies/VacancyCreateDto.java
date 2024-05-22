@@ -16,14 +16,13 @@ public class VacancyCreateDto {
     @Size(max = 30)
     private String name;
 
-    @NotBlank @Size(max = 245,message = "{valid.vacancy.description}")
+    @NotBlank @NotNull @Size(max = 245,message = "{valid.vacancy.description}")
     private String description;
 
     @NotBlank
     private String category;
 
-    @NotNull
-    @Min(value = 0)
+    @DecimalMin(value = "0",message = "{valid.vacancy.experience}")
     private Double salary;
 
     @Max(value = 40)
@@ -34,8 +33,8 @@ public class VacancyCreateDto {
     @Max(value = 50,message = "{valid.vacancy.experience}")
     private Integer expTo;
 
-//    @AssertTrue(message = "{valid.vacancy.isGreater}")
-//    private boolean isExpToGreaterThanExpFrom() {
-//        return expTo > expFrom;
-//    }
+    @AssertTrue(message = "{valid.vacancy.isGreater}")
+    private boolean isGreater() {
+        return expTo > expFrom;
+    }
 }

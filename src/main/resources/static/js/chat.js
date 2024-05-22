@@ -5,14 +5,18 @@ const csrfHeader = document.querySelector("meta[name='_csrf_header']").content;
 const csrfToken = document.querySelector("meta[name='_csrf_token']").content;
 const headers = {};
 headers[csrfHeader] = csrfToken;
-let lastNum = lastMessageNum;
+let lastId = 0;
 
 async function fetchMessages() {
     try {
         let response;
         const getMessagesUrl = `/api/message/${id}?lastMessageId=`
-        response = await fetch(`${getMessagesUrl}${lastNum}`)
+        response = await fetch(`${getMessagesUrl}${lastId}`)
         const messages = await response.json();
+        let arr = messages[messages.length - 1];
+        if (messages.length !== 0) {
+            lastId = arr.id;
+        }
         displayMessages(messages);
     } catch (error) {
         console.error('Error fetching messages:', error);
@@ -24,9 +28,9 @@ async function sendMessage() {
     const message = messageInput.value;
     if (!message) {
         messageInput.placeholder = ''
-        messageInput.placeholder = type+' !'
+        messageInput.placeholder = type + ' !'
         return;
-    }else if (/^\s*$/.test(message)) {
+    } else if (/^\s*$/.test(message)) {
         messageInput.value = ''
         messageInput.placeholder = empty
         return;
@@ -47,7 +51,6 @@ async function sendMessage() {
         if (urlFetch.ok) {
             await fetchMessages();
             messageInput.placeholder = type;
-            lastNum++;
         }
     } catch (error) {
         messageInput.placeholder = empty;
@@ -60,17 +63,12 @@ function displayMessages(messages) {
     const chatBox = document.getElementById('chatMessages');
     const shouldScrollToBottom = chatBox.scrollHeight - chatBox.scrollTop === chatBox.clientHeight;
 
-    let justNum=0;
     messages.forEach(message => {
         const messageElement = document.createElement('div');
         messageElement.classList.add('chat-message');
         messageElement.textContent = `${message.senderEmail}: ${message.content}`;
         chatBox.appendChild(messageElement);
-        justNum++;
     });
-    if (justNum>lastNum){
-        lastNum = justNum;
-    }
 
     if (shouldScrollToBottom) {
         chatBox.scrollTop = chatBox.scrollHeight;
@@ -79,7 +77,7 @@ function displayMessages(messages) {
 
 window.onload = () => {
     fetchMessages();
-    setInterval(fetchMessages, 7000);
+    setInterval(fetchMessages, 10000);
 };
 
 const sendButton = document.querySelector('.btn-send');

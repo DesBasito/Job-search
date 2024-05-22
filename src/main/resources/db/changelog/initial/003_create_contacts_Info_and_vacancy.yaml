@@ -70,8 +70,7 @@ databaseChangeLog:
               - column:
                   name: salary
                   type: Double
-                  constraints:
-                    nullable: false
+                  defaultValueNumeric: "0"
               - column:
                   name: exp_from
                   type: integer

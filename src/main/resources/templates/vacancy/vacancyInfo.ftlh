@@ -7,38 +7,13 @@
                     <h3 class="mt-2 mb-5"><a href="#"
                                              class="text-decoration-none text-bg-dark rounded-2 px-3 py-1">${vacancy.name}</a>
                     </h3>
-                    <a href="#" class="text-decoration-none text-dark"><@spring.message 'resume.company'/>: ${vacancy.authorEmail}</a>
+                    <a href="#" class="text-decoration-none text-dark"><@spring.message 'resume.company'/>
+                        : ${vacancy.authorEmail}</a>
                     <h5 class="card-title">${vacancy.description}</h5>
-                    <p class="card-text"><@spring.message 'salary'/>: ${vacancy.salary}</p>
-                    <#if applicant?? && resumes??>
-                        <div class="dropend mt-4">
-                            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                Apply to this vacancy
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                <#list resumes as resume>
-                                    <li>
-                                        <#if _csrf??>
-                                        <form action="/vacancies/applyToVacancy/${vacancy.id}?resumeId=${resume.id}"
-                                              method="post">
-                                            <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"
-                                                   value="${(_csrf.token)!'--no-token--'}"/>
-                                            <button type="submit" class="dropdown-item">
-                                                ${resume.name} (${resume.category})
-                                            </button>
-                                        </form>
-                                        </#if>
-                                    </li>
-                                </#list>
-                            </ul>
-                        </div>
-                        <#if respId??>
-                            <button type="button" class="btn btn-success mt-3"
-                                    onclick="window.location.href='/chat/${respId}'">
-                                write a message to company
-                            </button>
-                        </#if>
+                    <#if vacancy.salary = 0>
+                        <p class="card-text"><@spring.message 'salary'/>: <@spring.message 'negotiable'/></p>
+                    <#else >
+                        <p class="card-text"><@spring.message 'salary'/>: ${vacancy.salary}</p>
                     </#if>
                     <p class="text-end">${vacancy.updateTime}</p>
                 </div>
@@ -51,7 +26,11 @@
                     <div class="card-body border-bottom-2">
                         <a href="/vacancies/info/${employer.id}"
                            class="text-decoration-none text-dark">${employer.name}</a>
-                        <p class="card-text">${employer.salary}₽</p>
+                            <#if employer.salary = 0>
+                                <p class="card-text"><@spring.message 'salary'/>: <@spring.message 'negotiable'/></p>
+                            <#else >
+                                <p class="card-text"><@spring.message 'salary'/>: ${employer.salary}₽</p>
+                            </#if>
                     </div>
                 </#list>
             </div>

@@ -92,6 +92,9 @@ public class VacancyServiceImpl implements VacancyService {
                 .createdDate(vacancy1.getCreatedDate())
                 .isActive(true)
                 .build();
+        if (vacancy.getSalary()==null){
+            vacancy.setSalary(0.0);
+        }
         vacancyRepository.save(vac);
     }
 
@@ -146,6 +149,9 @@ public class VacancyServiceImpl implements VacancyService {
                 .createdDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
                 .build();
+        if (vacancy.getSalary()==null){
+            vacancy.setSalary(0.0);
+        }
         return vacancyRepository.save(vacancy).getId();
     }
 

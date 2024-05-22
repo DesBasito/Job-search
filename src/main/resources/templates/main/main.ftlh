@@ -29,6 +29,7 @@
                     <h5 class="card-title"><@spring.message 'main.sort.vacancies'/></h5>
                     <div class="my-3">
                         <select class="form-select" name="filter" aria-label="Default select example">
+                            <option selected value=null><@spring.message 'selected'/></option>
                             <option value="ascDate"><@spring.message 'main.date.ascending'/></option>
                             <option value="descDate"><@spring.message 'main.date.descending'/></option>
                             <option value="ascApplies"><@spring.message 'main.applies.ascending'/></option>
@@ -45,6 +46,7 @@
     <script>
         const sortingBy = '${filter}'
         const vacancyPage = '<@spring.message 'page'/>'
+        const negotiable = '<@spring.message 'negotiable'/>'
     </script>
 
     <script src="/js/main.js"></script>

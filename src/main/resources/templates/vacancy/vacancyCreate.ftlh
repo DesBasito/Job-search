@@ -13,7 +13,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label for="vacancyName" class="form-label"><@spring.message 'vacancy.name'/></label>
-                                <@spring.formInput "vacancyCreateDto.name" 'class="form-control" id="vacancyName" name="name" required'/>
+                                <@spring.formInput "vacancyCreateDto.name" 'class="form-control" id="vacancyName" name="name" '/>
                                 <@spring.showErrors "<br>" "error text-danger"/>
                                 <#--                                <input type="text" class="form-control" id="vacancyName" name="name" required>-->
                             </div>
@@ -30,14 +30,14 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="salary" class="form-label"><@spring.message 'salary'/></label>
-                                <@spring.formInput "vacancyCreateDto.salary" 'class="form-control" id="salary" name="salary" required'/>
+                                <@spring.formInput "vacancyCreateDto.salary" 'class="form-control" id="salary" name="salary" '/>
                                 <@spring.showErrors "<br>" "error text-danger"/>
                                 <#--                                <input type="text" class="form-control" id="salary" name="salary" required>-->
                             </div>
                             <div class="col-md-6">
                                 <label for="description"
                                        class="form-label"><@spring.message 'vacancy.description'/></label>
-                                <@spring.formTextarea "vacancyCreateDto.description" 'class="form-control" id="description" name="description" required'/>
+                                <@spring.formTextarea "vacancyCreateDto.description" 'class="form-control" id="description" name="description" '/>
                                 <@spring.showErrors "<br>" "error text-danger"/>
                                 <#--                                <textarea class="form-control" id="description" name="description" required></textarea>-->
                             </div>
@@ -67,7 +67,5 @@
             </form>
         </#if>
     </main>
-
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </@main.layout>
 

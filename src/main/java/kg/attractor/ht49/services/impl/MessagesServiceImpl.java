@@ -28,8 +28,9 @@ public class MessagesServiceImpl implements MessagesService {
     }
 
     @Override
-    public List<MessageDto> getNewMessagesBylastMessage(Long lastMessageId, Long respId) {
-        return messageRepository.findMessageByIdAndRespApplId(lastMessageId, respId).stream().map(this::getDto).collect(Collectors.toList());
+    public List<MessageDto> getNewMessagesBylastMessage(Long id, Long respApplicantId) {
+        List<Message> messages = messageRepository.findMessageByIdAndRespApplId(id,respApplicantId);
+        return messages.stream().map(this::getDto).collect(Collectors.toList());
     }
 
     @Override
@@ -50,6 +51,7 @@ public class MessagesServiceImpl implements MessagesService {
 
     private MessageDto getDto(Message m) {
         return MessageDto.builder()
+                .id(m.getId())
                 .respApplId(m.getRespApplicant().getId())
                 .senderEmail(m.getSender().getEmail())
                 .content(m.getContent())

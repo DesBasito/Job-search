@@ -58,9 +58,6 @@
             <div class="col-md-8 offset-md-2">
                 <div class="chat-container">
                     <div class="chatBox py-5" id="chatMessages">
-                        <#list  messages as message>
-                            <div class="chat-message">${message.senderEmail}: ${message.content}</div>
-                        </#list>
                     </div>
                 </div>
             </div>
@@ -78,10 +75,8 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
 <script>
-    let lastMessageNum = ${messages?size};
     let type = '<@spring.message 'chat.type.message'/>';
     let empty = '<@spring.message 'chat.input.empty'/>';
-    console.log(lastMessageNum)
 </script>
 <script src="/js/chat.js/">
 </script>
