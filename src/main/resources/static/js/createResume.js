@@ -2,8 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const workExpContainer = document.getElementById('workExp');
     const educationContainer = document.getElementById('education');
 
-    let workExpCounter = 0;
-    let educationCounter = 0;
+    let workExpCounter = lastWorkExpId;
+    let educationCounter = lastEducationId;
 
     function createCard(container) {
         const cardBody = document.createElement('div');

@@ -1,20 +1,21 @@
 package kg.attractor.ht49.dto.educations;
 
 
-import jakarta.validation.Valid;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
+import kg.attractor.ht49.dto.educations.customAnnotations.ValidDateRange;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ValidDateRange(message = "{pastEducation}")
 public class CreateEducationInfoDto {
     @Size(max = 100)
     private String institution;
@@ -22,10 +23,9 @@ public class CreateEducationInfoDto {
     @Size(max = 200)
     private String program;
 
-    @Past
     private LocalDate startDate;
 
-    @Past
+    @Past(message = "{pastEducation}")
     private LocalDate endDate;
 
     @Size(max = 100)

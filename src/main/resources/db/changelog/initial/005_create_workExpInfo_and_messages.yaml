@@ -25,22 +25,22 @@ databaseChangeLog:
                   name: years
                   type: tinyint
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
                   name: company_name
                   type: text
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
                   name: position
                   type: text
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
                   name: responsibilities
                   type: text
                   constraints:
-                    nullable: false
+                    nullable: true
 
   - changeSet:
       id: create-messages-table

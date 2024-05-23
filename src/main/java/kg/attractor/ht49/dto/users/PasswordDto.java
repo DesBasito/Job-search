@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class PasswordDto {
     @NotBlank
     private String token;
-    @NotBlank
-    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).+$", message = "Should contain at least one uppercase letter, one number")
+
+    @NotBlank @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).+$", message = "{valid.register.password}")
     private String password;
 }

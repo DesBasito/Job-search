@@ -53,12 +53,12 @@ databaseChangeLog:
                   name: institution
                   type: text
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
                   name: program
                   type: text
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
                   name: resume_id
                   type: long
@@ -71,14 +71,14 @@ databaseChangeLog:
                   name: start_date
                   type: date
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
                   name: end_date
                   type: date
                   constraints:
-                    nullable: false
+                    nullable: true
               - column:
                   name: degree
                   type: text
                   constraints:
-                    nullable: false
+                    nullable: true

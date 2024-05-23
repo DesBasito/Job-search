@@ -48,8 +48,8 @@
                     <div class="form-element mb-4">
                         <label for="account-type" class="form-label"><@spring.message 'register.role'/></label>
                         <select name="accType" id="account-type" class="form-control" required>
-                            <option value=1>employer</option>
                             <option value=2>applicant</option>
+                            <option value=1>employer</option>
                         </select>
                     </div>
                     <input type="hidden" name="${(_csrf.parameterName)!'csrf'}"

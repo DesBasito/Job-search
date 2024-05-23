@@ -17,16 +17,18 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ResumeCreateDto {
-    @NotBlank @Size(max = 45)
+    @NotBlank @NotNull @Size(max = 45)
     private String title;
 
-    @NotBlank @Size(max = 45)
+    @NotBlank @NotNull @Size(max = 45)
     private String categoryName;
 
-    @PositiveOrZero
+    @DecimalMin(value = "0",message = "{valid.vacancy.experience}")
     private Double salary;
 
     private List<@Valid WorkExpInfoCreateDto> workExpInfo;
     private List<@Valid CreateEducationInfoDto> educationInfo;
+
+    @NotNull(message = "{fill.contacts}")
     private List<@Valid ContactsInfoDto> contacts;
 }

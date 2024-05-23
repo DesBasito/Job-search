@@ -58,12 +58,14 @@ public class ResumeViewController {
     }
 
     @PostMapping("/create")
-    public String createResume(ResumeCreateDto createDto,Model model, BindingResult bindingResult,ResumeCreateDto resumeCreateDto){
+    public String createResume(@Valid  ResumeCreateDto resumeCreateDto,BindingResult bindingResult,Model model){
         if (bindingResult.hasErrors()){
+            model.addAttribute("categories",categoryService.getCategories());
             model.addAttribute("resumeCreateDto",resumeCreateDto);
+            return "resume/resumeCreate";
         }
         String email = adapter.getAuthUser().getEmail();
-        Long id = service.createResume(createDto,email);
+        Long id = service.createResume(resumeCreateDto,email);
         return "redirect:/resume/"+id;
     }
 

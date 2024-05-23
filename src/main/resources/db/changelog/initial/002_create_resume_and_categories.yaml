@@ -63,8 +63,7 @@ databaseChangeLog:
               - column:
                   name: salary
                   type: real
-                  constraints:
-                    nullable: false
+                  defaultValueNumeric: "0"
               - column:
                   name: is_active
                   type: boolean

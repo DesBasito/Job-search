@@ -238,6 +238,9 @@ public class ResumeServiceImpl implements ResumeService {
                 .createdDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
                 .build();
+        if (resume1.getSalary()==null){
+            resume1.setSalary(0.0);
+        }
         Resume resume2 = resumeRepository.save(resume1);
         Long id = resumeRepository.save(resume1).getId();
         if (resume.getEducationInfo() != null) {
