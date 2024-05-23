@@ -23,7 +23,7 @@ public class EditResumeDto {
     private String title;
     @Size(max = 45)
     private String categoryName;
-    @PositiveOrZero
+    @DecimalMin(value = "0")
     private Double salary;
     private List<@Valid WorkExpInfoEditDto> workExpInfoEdit;
     private List<@Valid EducationInfoEditDto> educationInfo;

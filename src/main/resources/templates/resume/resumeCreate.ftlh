@@ -27,7 +27,6 @@
                         </div>
                         <div class="col">
                             <label for="salary" class="form-label"><@spring.message 'salary'/></label>
-                            <#--                            <input type="text" class="form-control" id="salary" name="salary" required>-->
                             <@spring.formInput "resumeCreateDto.salary" 'class="form-control" id="salary" name="salary" '/>
                             <@spring.showErrors "<br>" "error text-danger"/>
                         </div>
@@ -40,7 +39,7 @@
                         <input id="add-work-btn" class="btn btn-success my-3" type="button"
                                value="<@spring.message 'resume.add.work.exp'/>">
                     </div>
-                    <div id="work" class="d-flex justify-content-center">
+                    <div id="work" class="row">
                         <#if resumeCreateDto.workExpInfo??>
                             <#assign w = resumeCreateDto.workExpInfo?size/>
                             <#list resumeCreateDto.workExpInfo as workExpInfo>
@@ -80,7 +79,7 @@
                         <input id="add-education-btn" class="btn btn-success my-3" type="button"
                                value="<@spring.message 'resume.add.education'/>">
                     </div>
-                    <div id="educationInfo" class="d-flex justify-content-center">
+                    <div id="educationInfo" class="row">
                         <#if resumeCreateDto.educationInfo??>
                             <#assign e = resumeCreateDto.educationInfo?size/>
                             <#list resumeCreateDto.educationInfo as educationInfo>
@@ -152,7 +151,7 @@
                             <input type="hidden" value="LinkedIn" name="contacts[3].type">
                             <div class="mb-3">
                                 <label for="link" class="form-label">LinkedIn</label>
-                                <@spring.formInput "resumeCreateDto.contacts[2].infoValue" 'class="form-control"  id="link" name="contacts[3].infoValue"'/>
+                                <@spring.formInput "resumeCreateDto.contacts[3].infoValue" 'class="form-control"  id="link" name="contacts[3].infoValue"'/>
                                 <@spring.showErrors "<br>" "error text-danger"/>
                             </div>
                         </div>

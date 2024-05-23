@@ -4,11 +4,9 @@ import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
-import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.models.Resume;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
 
 import java.util.List;
 

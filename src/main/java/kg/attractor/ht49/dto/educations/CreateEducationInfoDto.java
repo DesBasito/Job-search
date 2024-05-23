@@ -23,9 +23,9 @@ public class CreateEducationInfoDto {
     @Size(max = 200)
     private String program;
 
+    @Past(message = "{pastEducation}")
     private LocalDate startDate;
 
-    @Past(message = "{pastEducation}")
     private LocalDate endDate;
 
     @Size(max = 100)

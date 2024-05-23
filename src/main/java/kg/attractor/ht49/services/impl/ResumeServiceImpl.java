@@ -55,7 +55,7 @@ public class ResumeServiceImpl implements ResumeService {
     public List<ResumeDto> getResumeByCategory(String email, String categoryName) {
         Category category = categoryService.getCategoryByName(categoryName);
         UserModel user = userService.getUserModelByEmail(email);
-        return resumeRepository.findByCategoryAndApplicant(category,user).stream().map(this::getResumeDto).collect(Collectors.toList());
+        return resumeRepository.findByCategoryAndApplicant(category, user).stream().map(this::getResumeDto).collect(Collectors.toList());
     }
 
     @Override
@@ -70,9 +70,9 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public Page<ResumeDto> getResumesByAuthorEmail(String user,int page) {
-        Pageable pageable =PageRequest.of(page,3);
-        Page<Resume> resumes= resumeRepository.findByApplicant_EmailAndIsActive(user,true,pageable);
+    public Page<ResumeDto> getResumesByAuthorEmail(String user, int page) {
+        Pageable pageable = PageRequest.of(page, 3);
+        Page<Resume> resumes = resumeRepository.findByApplicant_EmailAndIsActive(user, true, pageable);
         return resumes.map(this::getResumeDto);
     }
 
@@ -138,9 +138,11 @@ public class ResumeServiceImpl implements ResumeService {
 
 
         if (editDto.getEducationInfo() != null) {
+            editDto.getEducationInfo().removeIf(education -> education.getDelete() != null && education.getDelete());
             editEducation(editDto.getEducationInfo(), editDto.getId());
         }
         if (editDto.getWorkExpInfoEdit() != null) {
+            editDto.getWorkExpInfoEdit().removeIf(work -> work.getDelete() != null && work.getDelete());
             editWorkExperience(editDto.getWorkExpInfoEdit(), editDto.getId());
         }
     }
@@ -149,7 +151,7 @@ public class ResumeServiceImpl implements ResumeService {
         Resume r = resumeRepository.findById(resumeId).orElseThrow(() -> new ResumeNotFoundException("Resume by id " + resumeId + " not found"));
         for (EducationInfoEditDto edit : info) {
             if (edit.getId() != null) {
-                eiService.editInfo(edit,r);
+                eiService.editInfo(edit, r);
             } else {
                 CreateEducationInfoDto education = CreateEducationInfoDto.builder()
                         .degree(edit.getDegree())
@@ -238,7 +240,7 @@ public class ResumeServiceImpl implements ResumeService {
                 .createdDate(LocalDateTime.now())
                 .updateDate(LocalDateTime.now())
                 .build();
-        if (resume1.getSalary()==null){
+        if (resume1.getSalary() == null) {
             resume1.setSalary(0.0);
         }
         Resume resume2 = resumeRepository.save(resume1);
@@ -256,19 +258,18 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
     @Override
-    public Page<ResumeDto> getResumesPage(Integer page,String filter) {
+    public Page<ResumeDto> getResumesPage(Integer page, String filter) {
         final int count = 5;
-        Pageable pageable ;
+        Pageable pageable;
         Page<Resume> resumes;
         if (filter != null) {
-                pageable = getPageableByDate(filter, page);
+            pageable = getPageableByDate(filter, page);
         } else {
-            pageable = PageRequest.of(page,count);
+            pageable = PageRequest.of(page, count);
         }
         resumes = resumeRepository.findAll(pageable);
         return resumes.map(this::getResumeDto);
     }
-
 
 
     private Pageable getPageableByDate(String filter, int pageNumber) {

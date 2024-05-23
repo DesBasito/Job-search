@@ -59,21 +59,8 @@
 
                                 <h6><#if edu.degree?? >${edu.degree}</#if>,<#if edu.institution?? >${edu.institution}</#if></h6>
                                 <p><#if edu.program??>${edu.program}</#if></p>
-                                <#if edu.endDate??>
-                                    <#if edu.startDate??>
-                                        <p class="text-muted">${edu.startDate} - ${edu.endDate}</p>
-                                        <#else >
-                                        <p class="text-muted">... - ${edu.endDate}</p>
-                                    </#if>
-
-                                </#if>
-                                <#if edu.startDate??>
-                                    <#if edu.endDate??>
-                                        <p class="text-muted">${edu.startDate} - ${edu.endDate}</p>
-                                        <#else >
-                                        <p class="text-muted">${edu.startDate} - ...</p>
-                                    </#if>
-                                </#if>
+                                <#if edu.startDate?? >${edu.startDate} -</#if>
+                                <#if edu.endDate?? > ${edu.endDate}</#if>
                             </div>
                         </#list>
                     </div>

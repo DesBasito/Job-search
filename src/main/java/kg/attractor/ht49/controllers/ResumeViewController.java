@@ -34,75 +34,84 @@ public class ResumeViewController {
     private final ContactsInfoService contactsInfoService;
 
     @GetMapping("/{id}")
-    public String getResumeById(@PathVariable Long id, Model model){
+    public String getResumeById(@PathVariable Long id, Model model) {
         Resume resume = service.getResumeModel(id);
         UserDto user = userService.getUserByEmail(resume.getApplicant().getEmail());
         List<WorkExpInfoForFrontDto> workExpInfos = service.getWorkExpInfoByResumeId(id);
         List<EducationInfoForFrontDto> educationInfo = service.getEducationInfoByResumeId(id);
         List<ContactsInfoWithIdDto> contacts = contactsInfoService.getContactsByResumeId(resume);
-        model.addAttribute("user",user);
-        model.addAttribute("resume",resume);
-        model.addAttribute("works",workExpInfos);
-        model.addAttribute("educations",educationInfo);
-        model.addAttribute("contacts",contacts);
+        model.addAttribute("user", user);
+        model.addAttribute("resume", resume);
+        model.addAttribute("works", workExpInfos);
+        model.addAttribute("educations", educationInfo);
+        model.addAttribute("contacts", contacts);
         return "resume/resumesInfo";
     }
 
 
     @GetMapping("/create")
-    public String getResumeCreatePage(Model model ){
-        model.addAttribute("categories",categoryService.getCategories());
+    public String getResumeCreatePage(Model model) {
+        model.addAttribute("categories", categoryService.getCategories());
         ResumeCreateDto resumeCreateDto = new ResumeCreateDto();
-        model.addAttribute("resumeCreateDto",resumeCreateDto);
+        model.addAttribute("resumeCreateDto", resumeCreateDto);
         return "resume/resumeCreate";
     }
 
     @PostMapping("/create")
-    public String createResume(@Valid  ResumeCreateDto resumeCreateDto,BindingResult bindingResult,Model model){
-        if (bindingResult.hasErrors()){
-            model.addAttribute("categories",categoryService.getCategories());
-            model.addAttribute("resumeCreateDto",resumeCreateDto);
+    public String createResume(@Valid ResumeCreateDto resumeCreateDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("categories", categoryService.getCategories());
+            model.addAttribute("resumeCreateDto", resumeCreateDto);
             return "resume/resumeCreate";
         }
         String email = adapter.getAuthUser().getEmail();
-        Long id = service.createResume(resumeCreateDto,email);
-        return "redirect:/resume/"+id;
+        Long id = service.createResume(resumeCreateDto, email);
+        return "redirect:/resume/" + id;
     }
 
 
     @GetMapping("/filter")
-    public String getVacancyByCategory(@RequestParam String category, Model model){
+    public String getVacancyByCategory(@RequestParam String category, Model model) {
         List<ResumeDto> resumes = service.getResumeByCategory(category);
         model.addAttribute("resumes", resumes);
         List<CategoryDto> categories = categoryService.getCategories();
-        model.addAttribute("categories",categories);
+        model.addAttribute("categories", categories);
         return "resume/filteredResumes";
     }
 
     @GetMapping("/edit/{id}")
-    public String getResumeEditPage(Model model, @PathVariable Long id){
+    public String getResumeEditPage(Model model, @PathVariable Long id) {
         String email = adapter.getAuthUser().getEmail();
         List<CategoryDto> categories = categoryService.getCategories();
-        model.addAttribute("categories",categories);
+        model.addAttribute("categories", categories);
         UserDto user = userService.getUserByEmail(email);
-        model.addAttribute("user",user);
-        EditResumeDto resume = service.getResumeForEdit(id);
-        model.addAttribute("resume",resume);
+        model.addAttribute("user", user);
+        EditResumeDto editResumeDto = service.getResumeForEdit(id);
+        model.addAttribute("editResumeDto", editResumeDto);
         return "resume/editResume";
     }
 
 
     @PostMapping("/edit/{id}")
-    public String updateResume(Model model,@PathVariable Long id ,@Valid EditResumeDto editDto){
+    public String updateResume(@PathVariable Long id, @Valid EditResumeDto editResumeDto, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            String email = adapter.getAuthUser().getEmail();
+            List<CategoryDto> categories = categoryService.getCategories();
+            model.addAttribute("categories", categories);
+            UserDto user = userService.getUserByEmail(email);
+            model.addAttribute("user", user);
+            model.addAttribute("editResumeDto", editResumeDto);
+            return "resume/editResume";
+        }
         String email = adapter.getAuthUser().getEmail();
-        editDto.setId(id);
-        service.editResume(editDto,email);
-        model.addAttribute("user",userService.getUserByEmail(email));
-        return "redirect:/resume/"+editDto.getId();
+        editResumeDto.setId(id);
+        service.editResume(editResumeDto, email);
+        model.addAttribute("user", userService.getUserByEmail(email));
+        return "redirect:/resume/" + editResumeDto.getId();
     }
 
     @PostMapping("/changeState")
-    public String changeActivation(@RequestParam Long id){
+    public String changeActivation(@RequestParam Long id) {
         service.changeResumeState(id);
         return "redirect:/profile";
     }

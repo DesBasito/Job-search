@@ -1,6 +1,8 @@
 package kg.attractor.ht49.dto.educations;
 
 import jakarta.validation.constraints.*;
+import kg.attractor.ht49.dto.educations.customAnnotations.ValidDateRange;
+import kg.attractor.ht49.dto.educations.customAnnotations.ValidDateRangeEdition;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,6 +16,7 @@ import java.util.Locale;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ValidDateRangeEdition(message = "{pastEducation}")
 public class EducationInfoEditDto {
     private Long id;
 
@@ -24,12 +27,13 @@ public class EducationInfoEditDto {
     @Size(max = 500)
     private String program;
 
-    @Past
+    @Past(message = "{pastEducation}")
     private LocalDate startDate;
 
-    @Past
     private LocalDate endDate;
 
     @Pattern(regexp = "^[a-zA-Z]+$")
     private String degree;
+
+    private Boolean delete;
 }

@@ -3,15 +3,17 @@ package kg.attractor.ht49.dto.educations.customAnnotations;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import kg.attractor.ht49.dto.educations.CreateEducationInfoDto;
+import kg.attractor.ht49.dto.educations.EducationInfoEditDto;
+import kg.attractor.ht49.dto.educations.customAnnotations.ValidDateRange;
 
-public class DateRangeValidator implements ConstraintValidator<ValidDateRange, CreateEducationInfoDto> {
+public class DateRangeValidatorForEdition implements ConstraintValidator<ValidDateRange, EducationInfoEditDto> {
 
     @Override
     public void initialize(ValidDateRange constraintAnnotation) {
     }
 
     @Override
-    public boolean isValid(CreateEducationInfoDto dto, ConstraintValidatorContext context) {
+    public boolean isValid(EducationInfoEditDto dto, ConstraintValidatorContext context) {
         if (dto.getStartDate() == null || dto.getEndDate() == null) {
             return true;
         }

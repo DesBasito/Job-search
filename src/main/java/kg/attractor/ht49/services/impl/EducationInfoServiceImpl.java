@@ -44,6 +44,13 @@ public class EducationInfoServiceImpl implements EducationInfoService {
 
     @Override
     public void createEducationInfo(CreateEducationInfoDto info, Resume resume) {
+        if (info.getStartDate() == null &&
+            info.getEndDate() == null &&
+            info.getProgram() == null &&
+            info.getDegree() == null &&
+            info.getInstitution() == null){
+            return;
+        }
         EducationInfo educationInfo = EducationInfo.builder()
                 .institution(info.getInstitution())
                 .degree(info.getDegree())

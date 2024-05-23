@@ -32,6 +32,13 @@ public class WorkExpInfoImpl implements WorkExperienceInfoService {
 
     @Override
     public void createWorkExpInfo(WorkExpInfoCreateDto info, Resume resume) {
+        if (info.getYears() == null &&
+            info.getPosition() == null &&
+            info.getResponsibilities() == null &&
+            info.getCompanyName() == null
+            ) {
+            return;
+        }
         WorkExperienceInfo info2 = WorkExperienceInfo.builder()
                 .companyName(info.getCompanyName())
                 .resume(resume)

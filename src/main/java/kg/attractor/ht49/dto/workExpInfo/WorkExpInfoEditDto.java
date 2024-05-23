@@ -26,4 +26,6 @@ public class WorkExpInfoEditDto {
 
     @Size(max = 355)
     private String responsibilities;
+
+    private Boolean delete;
 }
