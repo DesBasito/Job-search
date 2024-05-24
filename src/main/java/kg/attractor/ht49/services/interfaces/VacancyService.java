@@ -44,4 +44,6 @@ public interface VacancyService {
     Vacancy getVacancyModelById(Long vacancyId);
 
     Page<VacancyDto> getActiveVacanciesPageByEmail(Integer page, String email);
+
+    Page<VacancyDto> getVacanciesBySearch(String title,Integer page);
 }

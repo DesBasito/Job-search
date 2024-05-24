@@ -217,6 +217,13 @@ public class VacancyServiceImpl implements VacancyService {
         return vacancies.map(this::getVacancyDto);
     }
 
+    @Override
+    public Page<VacancyDto> getVacanciesBySearch(String title,Integer page) {
+       Pageable pageable = PageRequest.of(page, 5);
+       Page<Vacancy> vacancies = vacancyRepository.findByNameContaining(title,pageable);
+        return vacancies.map(this::getVacancyDto);
+    }
+
     private VacancyDto getVacancyDto(Vacancy e) {
         return VacancyDto.builder()
                 .id(e.getId())

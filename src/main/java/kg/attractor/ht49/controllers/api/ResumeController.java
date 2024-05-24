@@ -5,6 +5,7 @@ import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.AuthAdapter;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.services.interfaces.ResumeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -81,6 +82,12 @@ public class ResumeController {
         service.editResume(resume,email);
         return ResponseEntity.ok(service.getResumeById(resume.getId()));
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<Page<ResumeDto>> getResumesBySearchingName(@Valid @RequestParam(name = "title", defaultValue = "null") String title, @RequestParam(name = "page", defaultValue = "0") Integer page) {
+        return ResponseEntity.ok(service.getResumesBySearch(title,page));
+    }
+
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ResumeDto> changeResumeState(@Valid @PathVariable(name = "id") Long id) {

@@ -1,7 +1,8 @@
 package kg.attractor.ht49.dto.educations;
 
-import jakarta.validation.constraints.*;
-import kg.attractor.ht49.dto.educations.customAnnotations.ValidDateRange;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import kg.attractor.ht49.dto.educations.customAnnotations.ValidDateRangeEdition;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +10,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.util.Date;
-import java.util.Locale;
 
 @Data
 @Builder
@@ -32,7 +31,7 @@ public class EducationInfoEditDto {
 
     private LocalDate endDate;
 
-    @Pattern(regexp = "^[a-zA-Z]+$")
+    @Size(max = 100)
     private String degree;
 
     private Boolean delete;

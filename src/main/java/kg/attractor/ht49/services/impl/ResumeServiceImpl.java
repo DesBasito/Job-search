@@ -7,6 +7,7 @@ import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
@@ -15,6 +16,7 @@ import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.UserModel;
+import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.repositories.ResumeRepository;
 import kg.attractor.ht49.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
@@ -61,6 +63,13 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public List<ResumeDto> getResumes() {
         return resumeRepository.findAll().stream().map(this::getResumeDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public Page<ResumeDto> getResumesBySearch(String title, Integer page) {
+        Pageable pageable = PageRequest.of(page, 5);
+        Page<Resume> resumes = resumeRepository.findByNameContaining(title,pageable);
+        return resumes.map(this::getResumeDto);
     }
 
     @Override

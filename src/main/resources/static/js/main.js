@@ -1,8 +1,33 @@
 const cardElement = document.getElementById('page-list');
 const pagingButtons = document.getElementById('paging-buttons');
 const urlVacancies = `api/vacancies/paging`;
-let pageNum = 1;
+let pageNum = 0;
 let sortingBy1 = sortingBy
+const form = document.getElementById('searchVaca');
+const searchInput = document.querySelector("[data-search]")
+
+
+searchInput.addEventListener("input", (e) => {
+    const value = e.target.value;
+    form.querySelector('input[name="vacancy"]').value = value;
+    if (value !== null) {
+        search(value).then(r => new Error().cause);
+    } else {
+        fetchAndRender(urlVacancies).then(r => new Error().cause)
+    }
+});
+
+async function search(value) {
+    let url = `/api/vacancies/search?title=${value}`
+    const data = await fetch(url)
+    const dataJson = await data.json();
+    if (dataJson && Array.isArray(dataJson.content)) {
+        renderVacancies(dataJson.content);
+    } else {
+        console.error('Invalid data format received from the server');
+    }
+}
+
 window.onload = async () => {
     await fetchAndRender(urlVacancies);
     pagingButtons.innerHTML = `
@@ -43,9 +68,9 @@ function renderVacancies(vacancies) {
 
 function createVacancyCard(vacancy) {
     let salary;
-    if (vacancy.salary == null || vacancy.salary === 0){
+    if (vacancy.salary == null || vacancy.salary === 0) {
         salary = negotiable;
-    }else {
+    } else {
         salary = vacancy.salary;
     }
     return `
@@ -62,10 +87,10 @@ function createVacancyCard(vacancy) {
 }
 
 async function switchPage(pageNumber, sortingBy, pageFunc) {
-    const pag =document.getElementById('pagination-number')
+    const pag = document.getElementById('pagination-number')
     switch (pageFunc) {
         case 'previous':
-            pageNum = Math.max(1, pageNum - 1);
+            pageNum = Math.max(0, pageNum - 1);
             break;
         case 'next':
             pageNum++;
@@ -76,6 +101,13 @@ async function switchPage(pageNumber, sortingBy, pageFunc) {
     }
     pag.innerHTML = ''
     pag.innerHTML = pageNum
-    const url = `${urlVacancies}?page=${pageNum}&filter=${sortingBy}`;
-    await fetchAndRender(url);
+    let vacValue = form.querySelector('input[name="vacancy"]').value;
+    if (vacValue.trim().length !== 0) {
+        console.log(vacValue)
+        let url = `/api/vacancies/search?title=${vacValue}&page=${pageNum}`
+        await fetchAndRender(url);
+    } else {
+        const url = `${urlVacancies}?page=${pageNum}&filter=${sortingBy}`;
+        await fetchAndRender(url);
+    }
 }

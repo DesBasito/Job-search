@@ -2,6 +2,9 @@
 <@resumes.layout; spring>
     <div class="row">
         <div class="col-md-8">
+            <form id="searchResume" class="d-flex my-3">
+                <input class="form-control" type="search" placeholder="<@spring.message 'live.search'/>" aria-label="Search" name="resume" data-resume>
+            </form>
             <div id="resume-pageList"></div>
             <nav aria-label="Page navigation example" id="resume-pageButtons">
             </nav>

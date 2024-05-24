@@ -3,6 +3,32 @@ const resPagingButtons = document.getElementById('resume-pageButtons');
 const urlResumes = `/api/resumes/paging`;
 let resumePageNum = 1;
 let resumeSorting = resumeSortingBy
+const formRes = document.getElementById('searchResume');
+const searchRes = document.querySelector("[data-resume]")
+
+
+searchRes.addEventListener("input", (e) => {
+    const value = e.target.value;
+    formRes.querySelector('input[name="resume"]').value = value;
+    if (value !== null) {
+        searchResumes(value).then(r => new Error().cause);
+    } else {
+        fetchAndRenderResume(urlResumes).then(r => new Error().cause)
+    }
+});
+
+async function searchResumes(value) {
+    let url = `/api/resumes/search?title=${value}`
+    const data = await fetch(url)
+    const dataJson = await data.json();
+    if (dataJson && Array.isArray(dataJson.content)) {
+        renderResume(dataJson.content);
+    } else {
+        console.error('Invalid data format received from the server');
+    }
+}
+
+
 
 window.onload = async() =>{
     await fetchAndRenderResume(urlResumes);
@@ -35,11 +61,11 @@ async function fetchAndRenderResume(url) {
     }
 }
 
-function renderResume(vacancies) {
+function renderResume(resumes) {
     resumeCardElement.innerHTML = '';
-    vacancies.forEach(vacancy => {
-        const card = createResumeCard(vacancy);
-        console.log(vacancy)
+    resumes.forEach(resume => {
+        const card = createResumeCard(resume);
+        console.log(resume)
         resumeCardElement.innerHTML += card;
     });
 }
@@ -61,7 +87,7 @@ async function switchPageResume(pageNumber, sortingBy, pageFunc) {
     const pag =document.getElementById('resume-pagination-number')
     switch (pageFunc) {
         case 'previous':
-            resumePageNum = Math.max(1, resumePageNum - 1);
+            resumePageNum = Math.max(0, resumePageNum - 1);
             break;
         case 'next':
             resumePageNum++;
@@ -72,6 +98,13 @@ async function switchPageResume(pageNumber, sortingBy, pageFunc) {
     }
     pag.innerHTML = ''
     pag.innerHTML = resumePageNum
-    const url = `${urlResumes}?page=${resumePageNum}&filter=${sortingBy}`;
-    await fetchAndRenderResume(url);
+    let resValue = formRes.querySelector('input[name="resume"]').value;
+    if (resValue.trim().length !== 0) {
+        console.log(resValue)
+        let url = `/api/resumes/search?title=${resValue}&page=${resumePageNum}`
+        await fetchAndRenderResume(url);
+    } else {
+        const url = `${urlResumes}?page=${resumePageNum}&filter=${sortingBy}`;
+        await fetchAndRenderResume(url);
+    }
 }

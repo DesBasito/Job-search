@@ -2,6 +2,9 @@
 <@main.layout ; spring>
     <div class="row">
         <div class="col-md-8">
+            <form id="searchVaca" class="d-flex my-3">
+                <input class="form-control" type="search" placeholder="<@spring.message 'live.search'/>" aria-label="Search" name="vacancy" data-search>
+            </form>
             <div id="page-list">
             </div>
             <nav aria-label="Page navigation example" id="paging-buttons">

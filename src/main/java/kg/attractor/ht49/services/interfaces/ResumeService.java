@@ -4,6 +4,7 @@ import kg.attractor.ht49.dto.educations.EducationInfoForFrontDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.models.Resume;
 import org.springframework.data.domain.Page;
@@ -44,5 +45,7 @@ public interface ResumeService {
     Resume getResumeModel(Long id);
 
     List<ResumeDto> getResumes();
+
+    Page<ResumeDto> getResumesBySearch(String title, Integer page);
 }
 

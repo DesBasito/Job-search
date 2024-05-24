@@ -52,4 +52,5 @@ public interface VacancyRepository extends JpaRepository<Vacancy,Long> {
             """)
     void updateVacancyByIdAndUpdateDate(Long id, LocalDateTime updateDate);
 
+    Page<Vacancy> findByNameContaining(String name, Pageable pageable);
 }

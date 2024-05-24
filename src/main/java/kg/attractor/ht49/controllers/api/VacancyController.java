@@ -66,6 +66,11 @@ public class VacancyController {
         return ResponseEntity.ok(service.getVacanciesByCategory(categoryStriped));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<Page<VacancyDto>> getVacanciesBySearchingName(@Valid @RequestParam(name = "title", defaultValue = "null") String title,@RequestParam(name = "page", defaultValue = "0") Integer page) {
+        return ResponseEntity.ok(service.getVacanciesBySearch(title,page));
+    }
+
     @PostMapping()
     public ResponseEntity<VacancyDto> createVacancy(@Valid VacancyCreateDto vacancy) {
         String email = adapter.getAuthUser().getEmail();
