@@ -59,13 +59,6 @@ public class VacancyController {
         Page<VacancyDto> vacancies = service.getActiveVacanciesPageByEmail(page,email);
         return ResponseEntity.ok(vacancies);
     }
-
-    @GetMapping("/category")
-    public ResponseEntity<List<VacancyDto>> getVacanciesByCategory(@Valid @RequestParam(name = "category", defaultValue = "") String category) {
-        String categoryStriped = category.strip();
-        return ResponseEntity.ok(service.getVacanciesByCategory(categoryStriped));
-    }
-
     @GetMapping("/search")
     public ResponseEntity<Page<VacancyDto>> getVacanciesBySearchingName(@Valid @RequestParam(name = "title", defaultValue = "null") String title,@RequestParam(name = "page", defaultValue = "0") Integer page) {
         return ResponseEntity.ok(service.getVacanciesBySearch(title,page));
@@ -97,7 +90,4 @@ public class VacancyController {
         service.updateVacancy(id);
         return ResponseEntity.ok(service.getVacancyById(id));
     }
-
-//    @PutMapping
-//    public ResponseEntity<VacancyDto>
 }

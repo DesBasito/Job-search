@@ -23,6 +23,7 @@ public class ResumeCreateDto {
     @NotBlank @NotNull @Size(max = 45)
     private String categoryName;
 
+    @NotNull
     @DecimalMin(value = "0",message = "{valid.vacancy.experience}")
     private Double salary;
 

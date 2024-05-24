@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,13 +53,13 @@ public class VacancyServiceImpl implements VacancyService {
     }
 
     @Override
-    public List<VacancyDto> getVacanciesByCategory(String strip) {
+    public Page<VacancyDto> getVacanciesByCategory(String strip,int page) {
         Category category = categoryService.getCategoryByName(strip);
-        List<Vacancy> vacancies = vacancyRepository.findByCategory(category);
-        List<VacancyDto> dtos = new ArrayList<>();
-        vacancies.forEach(e -> dtos.add(getVacancyDto(e)));
-        return dtos;
+        Pageable pageable = PageRequest.of(page,5);
+        Page<Vacancy> vacancies = vacancyRepository.findVacanciesByCategory(category,pageable);
+        return vacancies.map(this::getVacancyDto);
     }
+
 
     @Override
     public VacancyDto getVacancyById(Long vacancyId) {

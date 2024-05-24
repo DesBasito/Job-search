@@ -2,7 +2,7 @@
 <@main.layout ; spring>
     <div class="row">
         <div class="col-md-8">
-            <form id="searchVaca" class="d-flex my-3">
+            <form id="searchVaca" class="d-flex mb-3">
                 <input class="form-control" type="search" placeholder="<@spring.message 'live.search'/>" aria-label="Search" name="vacancy" data-search>
             </form>
             <div id="page-list">
@@ -17,9 +17,10 @@
                         <form action="/vacancies/filter" method="get">
                         <div class="mb-3">
                             <label for="category" class="form-label"><@spring.message 'main.category'/>:</label>
-                            <select name="category" id="category" class="form-control" required>
+                            <select name="category" id="category" class="form-control">
+                                <option selected></option>
                                 <#list categories as category>
-                                    <option value=${category.name}>${category.name}</option>
+                                    <option value="${category.name}">${category.name}</option>
                                 </#list>
                             </select>
                         </div>

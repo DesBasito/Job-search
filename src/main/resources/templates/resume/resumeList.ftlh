@@ -2,7 +2,7 @@
 <@resumes.layout; spring>
     <div class="row">
         <div class="col-md-8">
-            <form id="searchResume" class="d-flex my-3">
+            <form id="searchResume" class="d-flex mb-3">
                 <input class="form-control" type="search" placeholder="<@spring.message 'live.search'/>" aria-label="Search" name="resume" data-resume>
             </form>
             <div id="resume-pageList"></div>
@@ -16,9 +16,10 @@
                         <form action="/resume/filter" method="get">
                             <div class="mb-3">
                                 <label for="category" class="form-label"><@spring.message 'resume.sort.by.category'/>:</label>
-                                <select name="category" id="category" class="form-control" required>
+                                <select name="category" id="category" class="form-control">
+                                    <option selected></option>
                                     <#list categories as category>
-                                        <option value=${category.name}>${category.name}</option>
+                                        <option value="${category.name}">${category.name}</option>
                                     </#list>
                                 </select>
                             </div>
@@ -26,7 +27,7 @@
                         </form>
                 </div>
                 <div class="card card-body mt-2">
-                        <form action="/resume" method="get">
+                        <form action="/" method="get">
                             <h5 class="card-title"><@spring.message 'resume.filter'/></h5>
                             <div class="my-3">
                                 <select class="form-select" name="filter" aria-label="Default select example">

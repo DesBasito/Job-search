@@ -34,13 +34,14 @@ public class VacancyEditDto {
     @NotNull
     private Integer expFrom;
 
-    @NotNull
     @Min(value = 0, message = "{valid.vacancy.experience}")
     @Max(value = 50, message = "{valid.vacancy.experience}")
+    @NotNull
     private Integer expTo;
 
     @AssertTrue(message = "{valid.vacancy.isGreater}")
     private boolean isGreater() {
-        return expTo > expFrom;
+        if (expTo != null && expFrom != null) return expTo > expFrom;
+        else return false;
     }
 }

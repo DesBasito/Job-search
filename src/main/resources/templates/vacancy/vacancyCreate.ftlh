@@ -19,13 +19,14 @@
                             </div>
                             <div class="col-md-6">
                                 <label for="category" class="form-label"><@spring.message 'category'/>:</label>
-                                <select name="category" id="category" class="form-control" required>
+                                <select name="category" id="category" class="form-control">
                                     <option selected></option>
                                     <#if categories??>
                                         <#list categories as category>
                                             <option value="${category.name}">${category.name}</option>
                                         </#list>
                                     </#if>
+                                    <@spring.showErrors "<br>" "error text-danger"/>
                                 </select>
                             </div>
                             <div class="col-md-6">

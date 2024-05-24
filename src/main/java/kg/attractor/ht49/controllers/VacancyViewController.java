@@ -10,6 +10,7 @@ import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
 import kg.attractor.ht49.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -50,11 +51,14 @@ public class VacancyViewController {
     }
 
     @GetMapping("/filter")
-    public String getVacancyByCategory(@RequestParam String category, Model model) {
-        List<VacancyDto> vacancies = service.getVacanciesByCategory(category);
+    public String getVacancyByCategory(@RequestParam String category,@RequestParam(name = "page",defaultValue = "0")Integer page, Model model) {
+        if(category.isBlank() || category.isEmpty()) return "redirect:/";
+        Page<VacancyDto> vacancies = service.getVacanciesByCategory(category,page);
         model.addAttribute("vacancies", vacancies);
         List<CategoryDto> categories = categoryService.getCategories();
         model.addAttribute("categories", categories);
+        model.addAttribute("category",category);
+        model.addAttribute("page",page);
         return "vacancy/filteredVacancies";
     }
 

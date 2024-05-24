@@ -34,7 +34,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "resume/create", "resume/update").hasAuthority("employee")
                         .requestMatchers(HttpMethod.GET, "employer/**", "vacancies/create", "vacancies/update").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST, "/register").permitAll()
-                        .requestMatchers( "/api/users/**").permitAll()
+                        .requestMatchers( "/api/users/**","/vacancies/filter").permitAll()
                         .requestMatchers(HttpMethod.POST, "employer/*", "/employer/**").hasAuthority("employer")
                         .requestMatchers(HttpMethod.POST, "employee/*", "/employee/**").hasAuthority("employee")
                         .requestMatchers(HttpMethod.POST, "chat/**","/api/message").authenticated()

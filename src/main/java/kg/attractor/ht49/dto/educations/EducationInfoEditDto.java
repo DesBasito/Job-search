@@ -3,7 +3,6 @@ package kg.attractor.ht49.dto.educations;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
-import kg.attractor.ht49.dto.educations.customAnnotations.ValidDateRangeEdition;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,11 +14,9 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ValidDateRangeEdition(message = "{pastEducation}")
 public class EducationInfoEditDto {
     private Long id;
 
-    @NotBlank
     @Size(max = 200)
     private String institution;
 

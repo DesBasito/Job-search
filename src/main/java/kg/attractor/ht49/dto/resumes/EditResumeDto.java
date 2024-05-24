@@ -19,12 +19,17 @@ import java.util.List;
 public class EditResumeDto {
     @Positive
     private Long id;
+
     @Size(max = 45)
     private String title;
+
     @Size(max = 45)
     private String categoryName;
+
+    @NotNull
     @DecimalMin(value = "0")
     private Double salary;
+
     private List<@Valid WorkExpInfoEditDto> workExpInfoEdit;
     private List<@Valid EducationInfoEditDto> educationInfo;
 }

@@ -47,5 +47,7 @@ public interface ResumeService {
     List<ResumeDto> getResumes();
 
     Page<ResumeDto> getResumesBySearch(String title, Integer page);
+
+    Page<ResumeDto> getResumesByCategory(String categoryStriped, Integer page);
 }
 

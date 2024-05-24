@@ -15,7 +15,7 @@ public interface VacancyService {
 
     List<VacancyDto> getVacanciesByRespondedApplicant(String email) ;
 
-    List<VacancyDto> getVacanciesByCategory(String strip) ;
+    Page<VacancyDto> getVacanciesByCategory(String strip,int page) ;
 
     VacancyDto getVacancyById(Long vacancyId);
 

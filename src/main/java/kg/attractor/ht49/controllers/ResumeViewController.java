@@ -8,6 +8,7 @@ import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.AuthAdapter;
@@ -16,6 +17,7 @@ import kg.attractor.ht49.services.interfaces.ContactsInfoService;
 import kg.attractor.ht49.services.interfaces.ResumeService;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -71,14 +73,16 @@ public class ResumeViewController {
 
 
     @GetMapping("/filter")
-    public String getVacancyByCategory(@RequestParam String category, Model model) {
-        List<ResumeDto> resumes = service.getResumeByCategory(category);
-        model.addAttribute("resumes", resumes);
+    public String getVacancyByCategory(@RequestParam String category, @RequestParam(name = "page",defaultValue = "0")Integer page, Model model) {
+        if(category.isBlank() || category.isEmpty()) return "redirect:/";
+        Page<ResumeDto> vacancies = service.getResumesByCategory(category.strip(),page);
+        model.addAttribute("resumes", vacancies);
         List<CategoryDto> categories = categoryService.getCategories();
         model.addAttribute("categories", categories);
+        model.addAttribute("category",category);
+        model.addAttribute("page",page);
         return "resume/filteredResumes";
     }
-
     @GetMapping("/edit/{id}")
     public String getResumeEditPage(Model model, @PathVariable Long id) {
         String email = adapter.getAuthUser().getEmail();
@@ -90,6 +94,7 @@ public class ResumeViewController {
         model.addAttribute("editResumeDto", editResumeDto);
         return "resume/editResume";
     }
+
 
 
     @PostMapping("/edit/{id}")

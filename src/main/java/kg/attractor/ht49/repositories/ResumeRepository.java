@@ -41,4 +41,6 @@ public interface ResumeRepository extends JpaRepository<Resume,Long> {
     Page<Resume> findByApplicant_EmailAndIsActive(String applicant_email, boolean b, Pageable pageable);
 
     Page<Resume> findByNameContaining(String title, Pageable pageable);
+
+    Page<Resume> findResumesByCategory(Category category, Pageable pageable);
 }

@@ -1,5 +1,6 @@
 package kg.attractor.ht49.repositories;
 
+import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.RespondedApplicant;
 import kg.attractor.ht49.models.UserModel;
@@ -26,7 +27,7 @@ public interface VacancyRepository extends JpaRepository<Vacancy,Long> {
             """)
     List<Vacancy> findVacanciesByRespondedApplicantsId(Long id);
 
-    List<Vacancy> findByCategory(Category category);
+    Page<Vacancy> findVacanciesByCategory(Category category, Pageable pageable);
 
     List<Vacancy> findByAuthor_EmailAndIsActive(String author_email, Boolean isActive);
     Page<Vacancy> findByAuthor_EmailAndIsActive(String author_email, Boolean isActive, Pageable pageable);
@@ -53,4 +54,6 @@ public interface VacancyRepository extends JpaRepository<Vacancy,Long> {
     void updateVacancyByIdAndUpdateDate(Long id, LocalDateTime updateDate);
 
     Page<Vacancy> findByNameContaining(String name, Pageable pageable);
+
+
 }
