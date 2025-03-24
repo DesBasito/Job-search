@@ -24,6 +24,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.NoSuchElementException;
 import java.util.Objects;
@@ -37,7 +38,6 @@ public class UserServiceImpl implements UserService {
     private final AuthorityRepository authorityRepository;
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
-    private final FileUtil util;
 
     @Override
     public UserDto getUser(String email) {
@@ -104,7 +104,7 @@ public class UserServiceImpl implements UserService {
             if (Objects.requireNonNull(avatar.getContentType()).matches("png|jpeg|jpg")) {
                 throw new IllegalArgumentException("Unsupported img types (should be: \"png|jpeg|jpg\")");
             }
-            String fileName = util.saveUploadedFile(avatar, "/images");
+            String fileName = FileUtil.saveUploadedFile(avatar, "/images");
             UserModel user = userModelRepository.findByEmail(email).orElseThrow(() -> new UserNotFoundException("User by email " + email + " not found"));
             user.setAvatar(fileName);
             userModelRepository.save(user);
@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public ResponseEntity<InputStreamResource> downloadImage(String name) {
-        return util.getOutputFile(name, "/images");
+        return FileUtil.getOutputFile(name, "/images");
     }
 
 

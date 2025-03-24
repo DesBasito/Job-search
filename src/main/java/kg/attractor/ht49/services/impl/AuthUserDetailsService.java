@@ -4,6 +4,7 @@ import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.UserModel;
 import kg.attractor.ht49.repositories.UserModelRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,9 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
-public class AuthUserDetailsServiceImpl implements UserDetailsService {
-    private final UserModelRepository userModelRepository;
+public class AuthUserDetailsService implements UserDetailsService {
+
+    @Autowired
+    private  UserModelRepository userModelRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

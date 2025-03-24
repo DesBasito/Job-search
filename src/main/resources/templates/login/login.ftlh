@@ -22,6 +22,11 @@
                                        name="password"/>
                                 <label class="form-label" for="password"><@spring.message 'register.userPassword' /></label>
                             </div>
+                            <div class="form-outline form-black mb-4">
+                                <input type="checkbox" id="remember-me" class="checkbox"
+                                       name="remember-me"/>
+                                <label class="form-label" for="remember-me">Remember me?</label>
+                            </div>
                             <#if _csrf??>
                                 <input type="hidden" name="${(_csrf.parameterName)!'csrf-param-name'}"
                                        value="${(_csrf.token)!'csrf-token'}"/>

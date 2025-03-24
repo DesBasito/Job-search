@@ -44,7 +44,8 @@ public class MainController {
 
     @GetMapping("/login")
     public String login() {
-        return "login/login";
+        if (adapter.getAuthUser() == null) return "login/login";
+        else return "users/profile";
     }
 
     @GetMapping()

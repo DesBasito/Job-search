@@ -1,9 +1,10 @@
 package kg.attractor.ht49.utils;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.experimental.UtilityClass;
 
+@UtilityClass
 public class Utility {
-    private Utility(){}
 
     public static String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();

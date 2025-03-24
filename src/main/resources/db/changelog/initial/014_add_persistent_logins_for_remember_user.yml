@@ -1,0 +1,28 @@
+databaseChangeLog:
+  - changeSet:
+      id: create persistent_login
+      author: admin
+      changes:
+        - createTable:
+            tableName: persistent_logins
+            columns:
+              - column:
+                  name: username
+                  type: varchar(64)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: series
+                  type: varchar(64)
+                  constraints:
+                      primaryKey: true
+              - column:
+                  name: token
+                  type: varchar
+                  constraints:
+                    nullable: false
+              - column:
+                  name: last_used
+                  type: timestamp
+                  constraints:
+                    nullable: false

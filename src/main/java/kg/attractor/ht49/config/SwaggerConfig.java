@@ -12,6 +12,6 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .info(new Info()
                         .title("Job_Search")
-                        .version("1.0.0"));
+                        .version("2.1.0"));
     }
 }
