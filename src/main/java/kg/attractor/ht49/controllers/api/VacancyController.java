@@ -2,15 +2,13 @@ package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
-import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
-import kg.attractor.ht49.AuthAdapter;
+import kg.attractor.ht49.services.Components.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.VacancyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,7 +71,7 @@ public class VacancyController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteVacancyById(@PathVariable(name = "id") Long id) {
-        if (service.deleteVacancyById(id)) {
+        if (Boolean.TRUE.equals(service.deleteVacancyById(id))) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.notFound().build();

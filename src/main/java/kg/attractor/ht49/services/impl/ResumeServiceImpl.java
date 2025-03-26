@@ -7,7 +7,6 @@ import kg.attractor.ht49.dto.resumes.EditResumeDto;
 import kg.attractor.ht49.dto.resumes.ResumeCreateDto;
 import kg.attractor.ht49.dto.resumes.ResumeDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoCreateDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoEditDto;
 import kg.attractor.ht49.dto.workExpInfo.WorkExpInfoForFrontDto;
@@ -16,9 +15,8 @@ import kg.attractor.ht49.exceptions.ResumeNotFoundException;
 import kg.attractor.ht49.models.Category;
 import kg.attractor.ht49.models.Resume;
 import kg.attractor.ht49.models.UserModel;
-import kg.attractor.ht49.models.Vacancy;
 import kg.attractor.ht49.repositories.ResumeRepository;
-import kg.attractor.ht49.AuthAdapter;
+import kg.attractor.ht49.services.Components.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -50,19 +48,19 @@ public class ResumeServiceImpl implements ResumeService {
         if (categoryId == null) {
             throw new CategoryNotFoundException("Category: " + categoryName + " not found");
         }
-        return resumeRepository.findByCategory(categoryId).stream().map(this::getResumeDto).collect(Collectors.toList());
+        return resumeRepository.findByCategory(categoryId).stream().map(this::getResumeDto).toList();
     }
 
     @Override
     public List<ResumeDto> getResumeByCategory(String email, String categoryName) {
         Category category = categoryService.getCategoryByName(categoryName);
         UserModel user = userService.getUserModelByEmail(email);
-        return resumeRepository.findByCategoryAndApplicant(category, user).stream().map(this::getResumeDto).collect(Collectors.toList());
+        return resumeRepository.findByCategoryAndApplicant(category, user).stream().map(this::getResumeDto).toList();
     }
 
     @Override
     public List<ResumeDto> getResumes() {
-        return resumeRepository.findAll().stream().map(this::getResumeDto).collect(Collectors.toList());
+        return resumeRepository.findAll().stream().map(this::getResumeDto).toList();
     }
 
     @Override
@@ -83,7 +81,7 @@ public class ResumeServiceImpl implements ResumeService {
     @Override
     public List<ResumeDto> getResumesByUserEmail(String email) {
         Long id = userService.getUserId(email);
-        return resumeRepository.findByApplicant_Id(id).stream().map(this::getResumeDto).collect(Collectors.toList());
+        return resumeRepository.findByApplicant_Id(id).stream().map(this::getResumeDto).toList();
     }
 
     @Override
@@ -202,7 +200,7 @@ public class ResumeServiceImpl implements ResumeService {
 
     @Override
     public List<ResumeDto> getResumeByName(String rName) {
-        return resumeRepository.findByName(rName).stream().map(this::getResumeDto).collect(Collectors.toList());
+        return resumeRepository.findByName(rName).stream().map(this::getResumeDto).toList();
     }
 
 
@@ -224,7 +222,7 @@ public class ResumeServiceImpl implements ResumeService {
                 .position(workExp.getPosition())
                 .years(workExp.getYears())
                 .responsibilities(workExp.getResponsibilities())
-                .build()).collect(Collectors.toList());
+                .build()).toList();
     }
 
     @Override
@@ -237,7 +235,7 @@ public class ResumeServiceImpl implements ResumeService {
                 .degree(edu.getDegree())
                 .startDate(edu.getStartDate())
                 .endDate(edu.getEndDate())
-                .build()).collect(Collectors.toList());
+                .build()).toList();
     }
 
 

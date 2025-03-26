@@ -7,7 +7,7 @@ import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.dto.vacancies.VacancyCreateDto;
 import kg.attractor.ht49.dto.vacancies.VacancyDto;
 import kg.attractor.ht49.dto.vacancies.VacancyEditDto;
-import kg.attractor.ht49.AuthAdapter;
+import kg.attractor.ht49.services.Components.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

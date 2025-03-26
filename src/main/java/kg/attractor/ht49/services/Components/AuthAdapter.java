@@ -1,4 +1,4 @@
-package kg.attractor.ht49;
+package kg.attractor.ht49.services.Components;
 
 import kg.attractor.ht49.dto.users.UserDto;
 import kg.attractor.ht49.exceptions.UserNotFoundException;

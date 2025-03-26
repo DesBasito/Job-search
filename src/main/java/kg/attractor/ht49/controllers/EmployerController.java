@@ -2,7 +2,7 @@ package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.AuthAdapter;
+import kg.attractor.ht49.services.Components.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

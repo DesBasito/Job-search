@@ -2,7 +2,7 @@ package kg.attractor.ht49.controllers;
 
 import kg.attractor.ht49.dto.users.EditUserDto;
 import kg.attractor.ht49.dto.users.UserDto;
-import kg.attractor.ht49.AuthAdapter;
+import kg.attractor.ht49.services.Components.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -63,7 +63,7 @@ public class ApplicantController {
 
     @PreAuthorize("hasAuthority('employee')")
     @PostMapping("/changePassword")
-    public String SetNewPassword(Model model, String oldPassword, String newPassword) {
+    public String setNewPassword(Model model, String oldPassword, String newPassword) {
         String email = adapter.getAuthUser().getEmail();
         UserDto user = service.getUserByEmail(email);
         service.changePassword(oldPassword,newPassword,email);

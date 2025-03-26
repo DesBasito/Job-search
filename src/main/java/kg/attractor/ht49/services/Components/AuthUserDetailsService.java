@@ -1,4 +1,4 @@
-package kg.attractor.ht49.services.impl;
+package kg.attractor.ht49.services.Components;
 
 import kg.attractor.ht49.exceptions.UserNotFoundException;
 import kg.attractor.ht49.models.UserModel;

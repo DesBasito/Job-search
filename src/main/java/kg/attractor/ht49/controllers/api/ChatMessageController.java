@@ -2,10 +2,9 @@ package kg.attractor.ht49.controllers.api;
 
 import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.MessageDto;
-import kg.attractor.ht49.AuthAdapter;
+import kg.attractor.ht49.services.Components.AuthAdapter;
 import kg.attractor.ht49.services.interfaces.MessagesService;
 import lombok.RequiredArgsConstructor;
-import lombok.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

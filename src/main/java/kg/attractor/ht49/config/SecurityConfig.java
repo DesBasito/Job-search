@@ -1,8 +1,8 @@
 package kg.attractor.ht49.config;
 
-import kg.attractor.ht49.services.impl.AuthUserDetailsService;
+import kg.attractor.ht49.services.Components.AuthUserDetailsService;
+import kg.attractor.ht49.services.Components.RedirectIfAuthenticatedFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -10,10 +10,10 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -24,10 +24,10 @@ import javax.sql.DataSource;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-    private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final DataSource dataSource;
     private final PasswordEncoder encoder;
     private final AuthUserDetailsService userDetailsService;
+
     @Bean
     public DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
@@ -48,7 +48,7 @@ public class SecurityConfig {
                         .permitAll())
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-                        .permitAll())
+                        .permitAll()).addFilterBefore(new RedirectIfAuthenticatedFilter(), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.GET, "/","api/vacancies/paging").permitAll()
                         .requestMatchers(HttpMethod.GET, "resume/create", "resume/update").hasAuthority("employee")
