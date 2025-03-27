@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers;
+package kg.attractor.ht49.controllers.mvc;
 
 import jakarta.validation.Valid;
 import kg.attractor.ht49.dto.CategoryDto;

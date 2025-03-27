@@ -1,4 +1,4 @@
-package kg.attractor.ht49.controllers;
+package kg.attractor.ht49.controllers.mvc;
 
 import jakarta.mail.MessagingException;
 import jakarta.servlet.ServletException;
@@ -44,8 +44,7 @@ public class MainController {
 
     @GetMapping("/login")
     public String login() {
-        if (adapter.getAuthUser() == null) return "login/login";
-        else return "users/profile";
+        return "login/login";
     }
 
     @GetMapping()
