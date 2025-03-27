@@ -37,7 +37,7 @@
     <header>
         <nav class="navbar navbar-expand-md bg-dark " data-bs-theme="dark">
             <div class="container">
-                <a class="navbar-brand" href="/"><img src="/api/users/image/logo.png" width="100px"
+                <a class="navbar-brand" href="/"><img src="/api/users/image/logo2.png" width="100px"
                                                       alt="Job search"></a>
                 <button class="navbar-toggler text-light bg-orange btn-user ms-auto" type="button"
                         data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav"
